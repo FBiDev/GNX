@@ -165,6 +165,13 @@ namespace GNX
                 }
             }
 
+            else if (ExType == typeof(DllNotFoundException))
+            {
+                Error = ((DllNotFoundException)ex);
+
+                CustomMessage = "Arquivo DLL não encontrado";
+            }
+
             else if (ExType == typeof(OleDbException))
             {
                 OleDb = true;

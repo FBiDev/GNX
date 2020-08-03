@@ -36,6 +36,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\System.Data.SQLite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,12 +45,81 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cException.cs" />
+    <Compile Include="Controls\CheckBoxBlue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CheckBoxBlue.Designer.cs">
+      <DependentUpon>CheckBoxBlue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ComboBoxBlue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ComboBoxBlue.Designer.cs">
+      <DependentUpon>ComboBoxBlue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataGridViewPink.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\DataGridViewPink.Designer.cs">
+      <DependentUpon>DataGridViewPink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextBoxBlue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TextBoxBlue.Designer.cs">
+      <DependentUpon>TextBoxBlue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MenuBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MenuBar.Designer.cs">
+      <DependentUpon>MenuBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Test\PanelResizable.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Test\PanelResizable.Designer.cs">
+      <DependentUpon>PanelResizable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\SortableBindingList.cs" />
+    <Compile Include="Util\BindingListExtensions.cs" />
+    <Compile Include="Class\cDataBase.cs" />
+    <Compile Include="Class\cEnums.cs" />
+    <Compile Include="Class\cForms.cs" />
+    <Compile Include="Class\cClone.cs" />
+    <Compile Include="Class\cException.cs" />
+    <Compile Include="Class\cDataBaseConfig.cs" />
+    <Compile Include="Util\ListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DLL\SQLite.Interop.dll" />
+    <Content Include="DLL\DLL.txt" />
+    <ContentWithTargetPath Include="DLL\SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>SQLite.Interop.dll</TargetPath>
+    </ContentWithTargetPath>
     <Content Include="DLL\System.Data.SQLite.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\CheckBoxBlue.resx">
+      <DependentUpon>CheckBoxBlue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ComboBoxBlue.resx">
+      <DependentUpon>ComboBoxBlue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DataGridViewPink.resx">
+      <DependentUpon>DataGridViewPink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TextBoxBlue.resx">
+      <DependentUpon>TextBoxBlue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MenuBar.resx">
+      <DependentUpon>MenuBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Test\PanelResizable.resx">
+      <DependentUpon>PanelResizable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -20,6 +20,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\cConvert.cs" />
+    <Compile Include="Class\cApp.cs" />
+    <Compile Include="Class\cExcel.cs" />
     <Compile Include="Controls\CheckBoxBlue.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -81,6 +87,16 @@
     <Compile Include="Controls\Test\PanelResizable.Designer.cs">
       <DependentUpon>PanelResizable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Util\SortableBindingList.cs" />
     <Compile Include="Util\BindingListExtensions.cs" />
     <Compile Include="Class\cDataBase.cs" />
@@ -100,7 +116,12 @@
     </ContentWithTargetPath>
     <Content Include="DLL\System.Data.SQLite.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\CheckBoxBlue.resx">
       <DependentUpon>CheckBoxBlue.cs</DependentUpon>
@@ -119,6 +140,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Test\PanelResizable.resx">
       <DependentUpon>PanelResizable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

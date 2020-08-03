@@ -1,4 +1,5 @@
 ﻿using System;
+//
 
 namespace GNX
 {
@@ -39,5 +40,12 @@ namespace GNX
         Consulta,
         Inclusão,
         Edição
+    }
+
+    public enum CultureID
+    {
+        UnitedStates_English = 1033,
+        Brazil_Portuguese = 1046,
+        Czech_CzechRepublic = 1029
     }
 }

@@ -8,6 +8,7 @@ namespace GNX
 {
     public class cExcel
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public static DataTable Import(string ExcelTab, int IgnoreRowsCount = 0)
         {
             DataTable data = new DataTable();
@@ -21,17 +22,17 @@ namespace GNX
                 {
                     if (ofd.ShowDialog() == DialogResult.OK)
                     {
-                        string name = ExcelTab;
-                        string constr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                                        ofd.FileName +
-                                        ";Extended Properties='Excel 12.0 XML;HDR=YES;';";
+                        string constr = "Provider=Microsoft.ACE.OLEDB.12.0;" +
+                                        "Data Source=" + ofd.FileName + ";" +
+                                        "Extended Properties='Excel 12.0 XML;HDR=YES;';";
 
                         OleDbConnection con = new OleDbConnection(constr);
-                        OleDbCommand oconn = new OleDbCommand("Select * From [" + name + "$]", con);
-                        con.Open();
+
+                        OleDbCommand oconn = new OleDbCommand();
+                        oconn.Connection = con;
+                        oconn.CommandText = "SELECT * FROM [" + ExcelTab + "$]";
 
                         OleDbDataAdapter sda = new OleDbDataAdapter(oconn);
-
                         sda.Fill(data);
 
                         sda.Dispose();

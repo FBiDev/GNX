@@ -5,6 +5,7 @@ using System.Data;
 using System.IO;
 using System.Windows.Forms;
 using System.Data.SQLite;
+using System.Data.SqlClient;
 
 namespace GNX
 {
@@ -36,9 +37,9 @@ namespace GNX
                 }
             }
 
-            SetCommand(aSQL);
+            SetCommand();
 
-            string select = ExecuteScalar();
+            string select = ExecuteScalar(aSQL);
             return Convert.ToInt32(0 + select);
         }
 
@@ -92,19 +93,19 @@ namespace GNX
             }
         }
 
-        public static void SetSQL(string aSQl)
+        public static void Open()
         {
             _databaseName = DatabaseName.DB_SOLUTION;
-            SetCommand(aSQl);
+            SetCommand();
         }
 
-        public static void SetSQLGeral(string aSQl)
+        public static void OpenGeral()
         {
             _databaseName = DatabaseName.DB_GERAL;
-            SetCommand(aSQl);
+            SetCommand();
         }
 
-        private static void SetCommand(string aSQl)
+        private static void SetCommand()
         {
             try
             {
@@ -112,7 +113,7 @@ namespace GNX
                 {
                     if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
                     {
-                        cmd = new SQLiteCommand(aSQl);
+                        cmd = new SQLiteCommand();
                     }
                 }
 
@@ -141,7 +142,8 @@ namespace GNX
             }
         }
 
-        public static DataTable ExecuteReader()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public static DataTable ExecuteReader(string aSQL)
         {
             DataTable data = new DataTable();
             DataSet ds = new DataSet();
@@ -150,6 +152,13 @@ namespace GNX
             {
                 try
                 {
+                    cmd.CommandText = aSQL;
+
+                    if (cmd.Parameters.Count > 0)
+                    {
+                        cmd.Prepare();
+                    }
+
                     using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
                         IDataAdapter da = default(IDataAdapter);
@@ -167,7 +176,6 @@ namespace GNX
                             da.Fill(ds);
                             data = ds.Tables[0];
                         }
-                        rdr.Close();
                     }
                 }
                 catch (Exception ex)
@@ -179,7 +187,8 @@ namespace GNX
             return data;
         }
 
-        public static int ExecuteNonQuery()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public static int ExecuteNonQuery(string aSQL)
         {
             int affectedRows = 0;
 
@@ -187,7 +196,11 @@ namespace GNX
             {
                 try
                 {
-                    if (cmd.Parameters.Count > 0) { cmd.Prepare(); }
+                    cmd.CommandText = aSQL;
+                    if (cmd.Parameters.Count > 0)
+                    {
+                        cmd.Prepare();
+                    }
                     affectedRows = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -198,7 +211,8 @@ namespace GNX
             return affectedRows;
         }
 
-        public static string ExecuteScalar()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        public static string ExecuteScalar(string aSQL)
         {
             if (cmd != null)
             {
@@ -206,7 +220,11 @@ namespace GNX
 
                 try
                 {
-                    if (cmd.Parameters.Count > 0) { cmd.Prepare(); }
+                    cmd.CommandText = aSQL;
+                    if (cmd.Parameters.Count > 0)
+                    {
+                        cmd.Prepare();
+                    }
                     select = cmd.ExecuteScalar();
                 }
                 catch (Exception ex)

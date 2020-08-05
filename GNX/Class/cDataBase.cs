@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 //
 using System.Data;
-using System.Data.SQLite;
 using System.IO;
 using System.Windows.Forms;
+using System.Data.SQLite;
 
 namespace GNX
 {
@@ -182,35 +182,42 @@ namespace GNX
         public static int ExecuteNonQuery()
         {
             int affectedRows = 0;
-            try
-            {
-                if (cmd.Parameters.Count > 0) { cmd.Prepare(); }
-                affectedRows = cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                GNX.cException.ShowBox(ex, cmd.CommandText);
-            }
 
+            if (cmd != null)
+            {
+                try
+                {
+                    if (cmd.Parameters.Count > 0) { cmd.Prepare(); }
+                    affectedRows = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    GNX.cException.ShowBox(ex, cmd.CommandText);
+                }
+            }
             return affectedRows;
         }
 
         public static string ExecuteScalar()
         {
-            object select = string.Empty;
-            try
+            if (cmd != null)
             {
-                if (cmd.Parameters.Count > 0) { cmd.Prepare(); }
-                select = cmd.ExecuteScalar();
-            }
-            catch (Exception ex)
-            {
-                GNX.cException.ShowBox(ex, cmd.CommandText);
-            }
+                object select = string.Empty;
 
-            if (select != null)
-            {
-                return select.ToString();
+                try
+                {
+                    if (cmd.Parameters.Count > 0) { cmd.Prepare(); }
+                    select = cmd.ExecuteScalar();
+                }
+                catch (Exception ex)
+                {
+                    GNX.cException.ShowBox(ex, cmd.CommandText);
+                }
+
+                if (select != null)
+                {
+                    return select.ToString();
+                }
             }
             return string.Empty;
         }

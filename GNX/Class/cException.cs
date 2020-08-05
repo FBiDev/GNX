@@ -58,6 +58,15 @@ namespace GNX
                         CustomMessage = "Falha na conexão com o Banco de Dados";
                     }
                 }
+
+                else if (Error.TargetSite.Module.Name == "System.Data.SQLite.dll")
+                {
+                    //Database is not Open
+                    if (Error.TargetSite.Name == "InitializeForReader")
+                    {
+                        CustomMessage = "Banco de dados não está aberto";
+                    }
+                }
             }
 
             else if (ExType == typeof(ArgumentException))
@@ -218,6 +227,7 @@ namespace GNX
             else
             {
                 MessageBox.Show(CustomMessage + errorLineBreak + Error.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //throw new Exception(CustomMessage + errorLineBreak + Error.Message);
             }
         }
     }

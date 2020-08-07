@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 //
 using System.Linq;
+using System.Drawing;
 
 namespace GNX
 {
@@ -98,6 +99,12 @@ namespace GNX
             }
 
             return null;
+        }
+
+        public static Point GetControlLocation(Control c)
+        {
+            Point locationOnForm = c.FindForm().PointToClient(c.Parent.PointToScreen(c.Location));
+            return locationOnForm;
         }
     }
 }

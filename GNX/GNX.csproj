@@ -51,6 +51,7 @@
     <Compile Include="Class\cConvert.cs" />
     <Compile Include="Class\cApp.cs" />
     <Compile Include="Class\cExcel.cs" />
+    <Compile Include="Class\cObject.cs" />
     <Compile Include="Controls\CheckBoxBlue.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Windows.Forms;
 //
+using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace GNX
 {
     public partial class DataGridViewPink : DataGridView
     {
+        private string DefaultColumn;
+        private ListSortDirection DefaultColumnDirection;
+        private List<string> ColumnsTrueFalseNames;
+
         public DataGridViewPink()
         {
             InitializeComponent();
@@ -84,6 +90,14 @@ namespace GNX
             ColumnHeadersStyle.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             ColumnHeadersStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             ColumnHeadersDefaultCellStyle = ColumnHeadersStyle;
+
+            //
+            ColumnHeaderMouseClick += dgv_ColumnHeaderMouseClick;
+        }
+
+        private void dgv_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            SortImageColumns(sender, e);
         }
 
         public void AddTextBoxColumn(Type ValueType, string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
@@ -107,5 +121,79 @@ namespace GNX
             ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             ColumnHeadersHeight = 30;
         }
+
+        #region SortColumns
+        public void SetDefaultColumn(string ColumnName, bool Ascending)
+        {
+            DefaultColumn = ColumnName;
+            DefaultColumnDirection = Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending;
+        }
+
+        public void SortDefaultColumn()
+        {
+            this.Sort(this.Columns[DefaultColumn], DefaultColumnDirection);
+        }
+
+        public void SortImageColumns(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string HeaderText = this.Columns[e.ColumnIndex].Name;
+            string HeaderTextSort = HeaderText.Substring(0, HeaderText.Length - 3);
+
+            List<string> BooleanColumns = GetBooleanColumns();
+
+            if (BooleanColumns.Exists(s => s.EndsWith(HeaderTextSort)))
+            {
+                dataGridViewSortColumn(this.Columns[HeaderTextSort], this.Columns[HeaderText], e);
+            }
+
+            LoadBooleanImages();
+        }
+
+        private void dataGridViewSortColumn(DataGridViewColumn ColumnSort, DataGridViewColumn ColumnClicked, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridView dgv = ColumnClicked.DataGridView;
+
+            if (dgv.Columns[e.ColumnIndex].Name == ColumnClicked.Name)
+            {
+                if (dgv.SortOrder == SortOrder.Descending)
+                {
+                    dgv.Sort(ColumnSort, ListSortDirection.Ascending);
+                    ColumnClicked.HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+                }
+                else
+                {
+                    dgv.Sort(ColumnSort, ListSortDirection.Descending);
+                    ColumnClicked.HeaderCell.SortGlyphDirection = SortOrder.Descending;
+                }
+            }
+        }
+        #endregion
+
+        #region ImageColumns
+        public void SetBooleanColumns(List<string> ColumnsTrueFalse)
+        {
+            ColumnsTrueFalseNames = ColumnsTrueFalse;
+        }
+
+        public List<string> GetBooleanColumns()
+        {
+            return ColumnsTrueFalseNames;
+        }
+
+        public void LoadBooleanImages()
+        {
+            List<string> BooleanColumns = GetBooleanColumns();
+
+            foreach (DataGridViewRow row in this.Rows)
+            {
+                foreach (string BooleanColumn in BooleanColumns)
+                {
+                    string CellValue = row.Cells[BooleanColumn].Value.ToString();
+
+                    row.Cells[BooleanColumn + "Bol"].Value = (CellValue == "True") ? Properties.Resources.img_true_ico : Properties.Resources.img_false_ico;
+                }
+            }
+        }
+        #endregion
     }
 }

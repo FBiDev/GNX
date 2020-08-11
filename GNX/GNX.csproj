@@ -112,6 +112,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DLL\DLL.txt" />
+    <None Include="Resources\IMG\img_true_ico.png" />
+    <None Include="Resources\IMG\img_false_ico.png" />
     <ContentWithTargetPath Include="Resources\DLL\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>SQLite.Interop.dll</TargetPath>

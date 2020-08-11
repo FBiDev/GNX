@@ -66,7 +66,7 @@ namespace GNX
             return icon;
         }
 
-        public static bool ToBooleanSim(string value)
+        public static bool ToBoolean(string value)
         {
             if (value == "Sim")
             {

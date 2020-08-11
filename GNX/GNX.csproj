@@ -111,12 +111,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DLL\DLL.txt" />
-    <ContentWithTargetPath Include="DLL\SQLite.Interop.dll">
+    <Content Include="Resources\DLL\DLL.txt" />
+    <ContentWithTargetPath Include="Resources\DLL\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>SQLite.Interop.dll</TargetPath>
     </ContentWithTargetPath>
-    <Content Include="DLL\System.Data.SQLite.dll" />
+    <Content Include="Resources\DLL\System.Data.SQLite.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

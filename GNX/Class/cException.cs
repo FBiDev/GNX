@@ -194,6 +194,7 @@ namespace GNX
                 //Opened File
                 else if (ErrorDb.NativeError == -67568648)
                 {
+                    CustomMessage = "Arquivo já esta aberto em outro programa";
                 }
 
                 //Excel Tab Wrong Name
@@ -222,7 +223,7 @@ namespace GNX
             }
             else if (OleDb)
             {
-                MessageBox.Show(ErrorDb.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(CustomMessage + errorLineBreak + ErrorDb.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

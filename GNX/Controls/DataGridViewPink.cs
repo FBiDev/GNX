@@ -3,6 +3,7 @@ using System.Windows.Forms;
 //
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace GNX
 {
@@ -10,7 +11,7 @@ namespace GNX
     {
         private string DefaultColumn;
         private ListSortDirection DefaultColumnDirection;
-        private List<string> ColumnsTrueFalseNames;
+        private List<string> ColumnsBooleanNames;
 
         public DataGridViewPink()
         {
@@ -93,6 +94,7 @@ namespace GNX
 
             //
             ColumnHeaderMouseClick += dgv_ColumnHeaderMouseClick;
+            Sorted += dgv_OnSorted;
         }
 
         private void dgv_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -100,18 +102,50 @@ namespace GNX
             SortImageColumns(sender, e);
         }
 
-        public void AddTextBoxColumn(Type ValueType, string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
+        private void dgv_OnSorted(object sender, EventArgs e)
         {
-            DataGridViewTextBoxColumn c = new DataGridViewTextBoxColumn();
+            LoadBooleanImages();
+        }
 
-            c.ValueType = ValueType;
+        public void Reload()
+        {
+            Refresh();
+            SortDefaultColumn();
+        }
+
+        public void AddColumnText(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
+        {
+            AddColumn(typeof(string), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
+        }
+
+        public void AddColumnImage(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
+        {
+            AddColumn(typeof(Bitmap), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
+        }
+
+        private void AddColumn(Type _Type, string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
+        {
+            DataGridViewColumn c = new DataGridViewColumn();
+
+            string TypeName = _Type.Name;
+
+            switch (TypeName)
+            {
+                case "String":
+                    c = new DataGridViewTextBoxColumn();
+                    c.CellTemplate = new DataGridViewTextBoxCell();
+                    break;
+                case "Bitmap":
+                    c = new DataGridViewImageColumn();
+                    c.CellTemplate = new DataGridViewImageCell();
+                    break;
+            }
 
             c.Name = ColumnName;
             c.HeaderText = ColumnHeaderText;
             c.DataPropertyName = ColumnDataPropertyName;
             c.AutoSizeMode = ColumnAutoSizeMode;
-
-            c.CellTemplate = new DataGridViewTextBoxCell();
+            c.SortMode = DataGridViewColumnSortMode.Automatic;
 
             Columns.Add(c);
         }
@@ -131,7 +165,10 @@ namespace GNX
 
         public void SortDefaultColumn()
         {
-            this.Sort(this.Columns[DefaultColumn], DefaultColumnDirection);
+            if (DefaultColumn != null)
+            {
+                this.Sort(this.Columns[DefaultColumn], DefaultColumnDirection);
+            }
         }
 
         public void SortImageColumns(object sender, DataGridViewCellMouseEventArgs e)
@@ -141,15 +178,13 @@ namespace GNX
 
             List<string> BooleanColumns = GetBooleanColumns();
 
-            if (BooleanColumns.Exists(s => s.EndsWith(HeaderTextSort)))
+            if (BooleanColumns != null && BooleanColumns.Exists(s => s.EndsWith(HeaderTextSort)))
             {
-                dataGridViewSortColumn(this.Columns[HeaderTextSort], this.Columns[HeaderText], e);
+                SortColumn(this.Columns[HeaderTextSort], this.Columns[HeaderText], e);
             }
-
-            LoadBooleanImages();
         }
 
-        private void dataGridViewSortColumn(DataGridViewColumn ColumnSort, DataGridViewColumn ColumnClicked, DataGridViewCellMouseEventArgs e)
+        private void SortColumn(DataGridViewColumn ColumnSort, DataGridViewColumn ColumnClicked, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dgv = ColumnClicked.DataGridView;
 
@@ -170,27 +205,35 @@ namespace GNX
         #endregion
 
         #region ImageColumns
-        public void SetBooleanColumns(List<string> ColumnsTrueFalse)
+        public void SetBooleanColumns(List<string> ColumnsBoolean)
         {
-            ColumnsTrueFalseNames = ColumnsTrueFalse;
+            ColumnsBooleanNames = ColumnsBoolean;
+
+            foreach (string ColumnsBooleanName in ColumnsBooleanNames)
+            {
+                Columns[ColumnsBooleanName].Visible = false;
+            }
         }
 
         public List<string> GetBooleanColumns()
         {
-            return ColumnsTrueFalseNames;
+            return ColumnsBooleanNames;
         }
 
         public void LoadBooleanImages()
         {
             List<string> BooleanColumns = GetBooleanColumns();
 
-            foreach (DataGridViewRow row in this.Rows)
+            if (BooleanColumns != null)
             {
-                foreach (string BooleanColumn in BooleanColumns)
+                foreach (DataGridViewRow row in this.Rows)
                 {
-                    string CellValue = row.Cells[BooleanColumn].Value.ToString();
+                    foreach (string BooleanColumn in BooleanColumns)
+                    {
+                        string CellValue = row.Cells[BooleanColumn].Value != null ? row.Cells[BooleanColumn].Value.ToString() : string.Empty;
 
-                    row.Cells[BooleanColumn + "Bol"].Value = (CellValue == "True") ? Properties.Resources.img_true_ico : Properties.Resources.img_false_ico;
+                        row.Cells[BooleanColumn + "Bol"].Value = (CellValue == "True") ? Properties.Resources.img_true_ico : Properties.Resources.img_false_ico;
+                    }
                 }
             }
         }

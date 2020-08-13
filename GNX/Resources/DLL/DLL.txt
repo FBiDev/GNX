@@ -2,5 +2,8 @@
 URL = https://system.data.sqlite.org/index.html/doc/trunk/www/downloads.wiki
 Title = Precompiled Binaries for 32-bit Windows (.NET Framework 4.5)
 Version = sqlite-netFx45-binary-Win32-2012-1.0.113.0
-DLL = System.Data.SQLite.dll
-DLL = SQLite.Interop.dll
+DLL
+	Referenced
+		System.Data.SQLite.dll
+	Unmanaged
+		SQLite.Interop.dll

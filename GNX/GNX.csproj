@@ -114,11 +114,11 @@
     <Content Include="Resources\DLL\DLL.txt" />
     <None Include="Resources\IMG\img_true_ico.png" />
     <None Include="Resources\IMG\img_false_ico.png" />
-    <ContentWithTargetPath Include="Resources\DLL\SQLite.Interop.dll">
+    <ContentWithTargetPath Include="Resources\DLL\Unmanaged\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>SQLite.Interop.dll</TargetPath>
     </ContentWithTargetPath>
-    <Content Include="Resources\DLL\System.Data.SQLite.dll" />
+    <Content Include="Resources\DLL\Referenced\System.Data.SQLite.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">
@@ -150,6 +150,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -70,11 +70,17 @@
     <Compile Include="Controls\DataGridViewPink.Designer.cs">
       <DependentUpon>DataGridViewPink.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TextBoxBlue.cs">
+    <Compile Include="Controls\MaskedTextBoxBlue.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TextBoxBlue.Designer.cs">
-      <DependentUpon>TextBoxBlue.cs</DependentUpon>
+    <Compile Include="Controls\MaskedTextBoxBlue.Designer.cs">
+      <DependentUpon>MaskedTextBoxBlue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextBoxBaseBlue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TextBoxBaseBlue.Designer.cs">
+      <DependentUpon>TextBoxBaseBlue.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\MenuBar.cs">
       <SubType>UserControl</SubType>
@@ -87,6 +93,18 @@
     </Compile>
     <Compile Include="Controls\Test\PanelResizable.Designer.cs">
       <DependentUpon>PanelResizable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextBoxBlue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TextBoxBlue.Designer.cs">
+      <DependentUpon>TextBoxBlue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UserControl1.Designer.cs">
+      <DependentUpon>UserControl1.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -136,14 +154,23 @@
     <EmbeddedResource Include="Controls\DataGridViewPink.resx">
       <DependentUpon>DataGridViewPink.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TextBoxBlue.resx">
-      <DependentUpon>TextBoxBlue.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\MaskedTextBoxBlue.resx">
+      <DependentUpon>MaskedTextBoxBlue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TextBoxBaseBlue.resx">
+      <DependentUpon>TextBoxBaseBlue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MenuBar.resx">
       <DependentUpon>MenuBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Test\PanelResizable.resx">
       <DependentUpon>PanelResizable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TextBoxBlue.resx">
+      <DependentUpon>TextBoxBlue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UserControl1.resx">
+      <DependentUpon>UserControl1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

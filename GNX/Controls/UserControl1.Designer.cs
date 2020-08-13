@@ -1,6 +1,6 @@
-﻿namespace GNX
+﻿namespace GNX.Controls
 {
-    partial class TextBoxBlue
+    partial class UserControl1
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,25 +29,7 @@
         private void InitializeComponent()
         {
             this.txtBlue = new System.Windows.Forms.TextBox();
-            this.pnlBgWhite.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lblPlaceholder
-            // 
-            this.lblPlaceholder.Click += new System.EventHandler(this.lblPlaceholder_Click);
-            // 
-            // pnlBgWhite
-            // 
-            this.pnlBgWhite.Controls.Add(this.txtBlue);
-            this.pnlBgWhite.Click += new System.EventHandler(this.pnlBgWhite_Click);
-            this.pnlBgWhite.MouseLeave += new System.EventHandler(this.pnlBgWhite_MouseLeave);
-            this.pnlBgWhite.Controls.SetChildIndex(this.txtBlue, 0);
-            this.pnlBgWhite.Controls.SetChildIndex(this.lblPlaceholder, 0);
-            this.pnlBgWhite.Controls.SetChildIndex(this.lblLegend, 0);
-            // 
-            // lblLegend
-            // 
-            this.lblLegend.Click += new System.EventHandler(this.lblLegend_Click);
             // 
             // txtBlue
             // 
@@ -58,30 +40,25 @@
             this.txtBlue.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtBlue.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBlue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(87)))), ((int)(((byte)(87)))), ((int)(((byte)(85)))));
-            this.txtBlue.Location = new System.Drawing.Point(8, 18);
+            this.txtBlue.Location = new System.Drawing.Point(0, 55);
             this.txtBlue.Margin = new System.Windows.Forms.Padding(0);
             this.txtBlue.Name = "txtBlue";
             this.txtBlue.Size = new System.Drawing.Size(188, 18);
-            this.txtBlue.TabIndex = 3;
-            this.txtBlue.TextChanged += new System.EventHandler(this.txtBlue_TextChanged);
-            this.txtBlue.Enter += new System.EventHandler(this.txtBlue_Enter);
-            this.txtBlue.Leave += new System.EventHandler(this.txtBlue_Leave);
+            this.txtBlue.TabIndex = 2;
             // 
-            // TextBoxBlue
+            // UserControl1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.MaximumSize = new System.Drawing.Size(549, 43);
-            this.Name = "TextBoxBlue";
-            this.pnlBgWhite.ResumeLayout(false);
-            this.pnlBgWhite.PerformLayout();
+            this.Controls.Add(this.txtBlue);
+            this.Name = "UserControl1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         protected System.Windows.Forms.TextBox txtBlue;
-
     }
 }

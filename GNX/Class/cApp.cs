@@ -34,6 +34,11 @@ namespace GNX
             get { return Language.NumberFormat.CurrencyDecimalSeparator; }
         }
 
+        public static string NumberDecimalSeparator
+        {
+            get { return Language.NumberFormat.NumberDecimalSeparator; }
+        }
+
         public static string CurrencyGroupSeparator
         {
             get { return Language.NumberFormat.CurrencyGroupSeparator; }

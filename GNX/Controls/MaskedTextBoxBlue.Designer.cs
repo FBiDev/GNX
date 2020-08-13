@@ -1,6 +1,6 @@
 ﻿namespace GNX
 {
-    partial class TextBoxBlue
+    partial class MaskedTextBoxBlue
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtBlue = new System.Windows.Forms.TextBox();
+            this.txtBlue = new System.Windows.Forms.MaskedTextBox();
             this.pnlBgWhite.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,14 +65,16 @@
             this.txtBlue.TabIndex = 3;
             this.txtBlue.TextChanged += new System.EventHandler(this.txtBlue_TextChanged);
             this.txtBlue.Enter += new System.EventHandler(this.txtBlue_Enter);
+            this.txtBlue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBlue_KeyPress);
+            this.txtBlue.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBlue_KeyUp);
             this.txtBlue.Leave += new System.EventHandler(this.txtBlue_Leave);
             // 
-            // TextBoxBlue
+            // MaskedTextBoxBlue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.MaximumSize = new System.Drawing.Size(549, 43);
-            this.Name = "TextBoxBlue";
+            this.Name = "MaskedTextBoxBlue";
             this.pnlBgWhite.ResumeLayout(false);
             this.pnlBgWhite.PerformLayout();
             this.ResumeLayout(false);
@@ -81,7 +83,6 @@
 
         #endregion
 
-        protected System.Windows.Forms.TextBox txtBlue;
-
+        protected System.Windows.Forms.MaskedTextBox txtBlue;
     }
 }

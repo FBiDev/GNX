@@ -23,8 +23,6 @@ namespace GNX
             {
                 _Mask_ = value;
 
-                string dot = cApp.NumberDecimalSeparator;
-
                 if (_Mask_ == TextMask.None)
                 {
                     txtBlue.Mask = "";
@@ -33,22 +31,22 @@ namespace GNX
                 }
                 else if (_Mask_ == TextMask.CPF)
                 {
-                    txtBlue.Mask = "000" + dot + "000" + dot + "000-00";
+                    txtBlue.Mask = "000.000.000-00";
                     txtBlue.PromptChar = '_';
-                    lblPlaceholder.Text = "000" + dot + "000" + dot + "000-00";
+                    lblPlaceholder.Text = "000.000.000-00";
                 }
                 else if (_Mask_ == TextMask.CNPJ)
                 {
-                    txtBlue.Mask = "00" + dot + "000" + dot + "000/0000-00";
+                    txtBlue.Mask = "00.000.000/0000-00";
                     txtBlue.PromptChar = '_';
-                    lblPlaceholder.Text = "00" + dot + "000" + dot + "000/0000-00";
+                    lblPlaceholder.Text = "00.000.000/0000-00";
                 }
                 else if (_Mask_ == TextMask.DATA)
                 {
                     txtBlue.Mask = "00/00/0000";
                     txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "00/00/0000";
-                    lblPlaceholder.Left += 10;
+                    lblPlaceholder.Left = 10;
                     txtBlue.TextMaskFormat = MaskFormat.IncludeLiterals;
                     txtBlue.TextAlign = HorizontalAlignment.Center;
                 }
@@ -57,7 +55,8 @@ namespace GNX
                     txtBlue.Mask = "00:00";
                     txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "00:00";
-                    lblPlaceholder.Left += 25;
+                    //lblPlaceholder.Left += 25;
+                    lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
                     txtBlue.TextAlign = HorizontalAlignment.Center;
                 }
                 else if (_Mask_ == TextMask.CELULAR)
@@ -71,7 +70,8 @@ namespace GNX
                     txtBlue.Mask = "";
                     txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "999";
-                    lblPlaceholder.Left += 30;
+                    lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
+                    //lblPlaceholder.Left += 30;
                     txtBlue.TextAlign = HorizontalAlignment.Center;
                     MaxLength = 10;
                 }
@@ -81,7 +81,8 @@ namespace GNX
                     txtBlue.PromptChar = '_';
                     //MaxLength = 10;
                     lblPlaceholder.Text = "999,00";
-                    lblPlaceholder.Left += 30;
+                    lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
+                    //lblPlaceholder.Left += 30;
                     txtBlue.TextAlign = HorizontalAlignment.Center;
                 }
             }
@@ -96,6 +97,9 @@ namespace GNX
         public MaskedTextBoxBlue()
         {
             InitializeComponent();
+
+            TextBox.Culture = System.Globalization.CultureInfo.InvariantCulture;
+            TextBox.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
 
             TxtTextChanged += txtBlue_event;
         }
@@ -219,7 +223,7 @@ namespace GNX
 
         private void txtBlue_TextChanged(object sender, EventArgs e)
         {
-            lblPlaceholder.Visible = !(txtBlue.Text.Length > 0);
+            //lblPlaceholder.Visible = !(txtBlue.Text.Length > 0);
 
             if (_Mask_ == TextMask.NUMERO)
             {
@@ -282,7 +286,18 @@ namespace GNX
         protected void txtBlue_Leave(object sender, EventArgs e)
         {
             _MouseLeave();
-            if (txtBlue.Text.Length == 0)
+
+            string txt = txtBlue.Text;
+
+            //DATA
+            if (_Mask == TextMask.DATA)
+            {
+                txt = txt.Replace("/", "");
+            }
+            
+            txt = txt.Trim();
+
+            if (txt.Length == 0)
             {
                 lblPlaceholder.Visible = true;
             }

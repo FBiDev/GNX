@@ -82,6 +82,7 @@ namespace GNX
                 if (f.GetType() == typeof(T))
                 {
                     return (T)f;
+                    //return (T)(object)f;
                 }
             }
 

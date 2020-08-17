@@ -42,8 +42,8 @@ namespace GNX
         {
             InitializeComponent();
 
-            //_Legend = "Legend";
-            //_Placeholder = "Placeholder";
+            _Legend = "Legend";
+            _Placeholder = "Placeholder";
             _BorderColor = Color.FromArgb(213, 223, 229);
             _BorderColorFocus = Color.FromArgb(108, 132, 199);
             //LegendColor

@@ -113,9 +113,9 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlBg;
-        protected System.Windows.Forms.Label lblPlaceholder;
         protected System.Windows.Forms.Panel pnlBgWhite;
         protected System.Windows.Forms.Label lblLegend;
+        protected System.Windows.Forms.Label lblPlaceholder;
 
 
     }

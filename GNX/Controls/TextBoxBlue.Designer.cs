@@ -32,10 +32,6 @@
             this.pnlBgWhite.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lblPlaceholder
-            // 
-            this.lblPlaceholder.Click += new System.EventHandler(this.lblPlaceholder_Click);
-            // 
             // pnlBgWhite
             // 
             this.pnlBgWhite.Controls.Add(this.txtBlue);
@@ -48,6 +44,10 @@
             // lblLegend
             // 
             this.lblLegend.Click += new System.EventHandler(this.lblLegend_Click);
+            // 
+            // lblPlaceholder
+            // 
+            this.lblPlaceholder.Click += new System.EventHandler(this.lblPlaceholder_Click);
             // 
             // txtBlue
             // 
@@ -69,9 +69,8 @@
             // 
             // TextBoxBlue
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.MaximumSize = new System.Drawing.Size(549, 43);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.MaximumSize = new System.Drawing.Size(758, 43);
             this.Name = "TextBoxBlue";
             this.pnlBgWhite.ResumeLayout(false);
             this.pnlBgWhite.PerformLayout();

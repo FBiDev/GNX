@@ -8,7 +8,7 @@ namespace GNX
 {
     public partial class MaskedTextBoxBlue : TextBoxBaseBlue
     {
-        private int MaxLength = 50;
+        private int MaxLength;
 
         #region Properties
         [Category("_Data")]
@@ -23,67 +23,58 @@ namespace GNX
             {
                 _Mask_ = value;
 
+                lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
+
+                TextBox.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+                txtBlue.TextAlign = HorizontalAlignment.Center;
+                txtBlue.Mask = "";
+                txtBlue.PromptChar = '_';
+
+                MaxLength = 50;
+
                 if (_Mask_ == TextMask.None)
                 {
-                    txtBlue.Mask = "";
-                    txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "Placeholder";
                 }
                 else if (_Mask_ == TextMask.CPF)
                 {
                     txtBlue.Mask = "000.000.000-00";
-                    txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "000.000.000-00";
                 }
                 else if (_Mask_ == TextMask.CNPJ)
                 {
                     txtBlue.Mask = "00.000.000/0000-00";
-                    txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "00.000.000/0000-00";
                 }
                 else if (_Mask_ == TextMask.DATA)
                 {
                     txtBlue.Mask = "00/00/0000";
-                    txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "00/00/0000";
-                    lblPlaceholder.Left = 10;
                     txtBlue.TextMaskFormat = MaskFormat.IncludeLiterals;
-                    txtBlue.TextAlign = HorizontalAlignment.Center;
                 }
                 else if (_Mask_ == TextMask.HORA)
                 {
                     txtBlue.Mask = "00:00";
-                    txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "00:00";
-                    //lblPlaceholder.Left += 25;
-                    lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
-                    txtBlue.TextAlign = HorizontalAlignment.Center;
                 }
                 else if (_Mask_ == TextMask.CELULAR)
                 {
                     txtBlue.Mask = "(00) 00000-0009";
-                    txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "(00) 00000-0000";
                 }
                 else if (_Mask_ == TextMask.NUMERO)
                 {
-                    txtBlue.Mask = "";
-                    txtBlue.PromptChar = '_';
                     lblPlaceholder.Text = "999";
-                    lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
-                    //lblPlaceholder.Left += 30;
-                    txtBlue.TextAlign = HorizontalAlignment.Center;
                     MaxLength = 10;
                 }
                 else if (_Mask_ == TextMask.DINHEIRO)
                 {
-                    txtBlue.Mask = "";
-                    txtBlue.PromptChar = '_';
-                    //MaxLength = 10;
                     lblPlaceholder.Text = "999,00";
-                    lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
-                    //lblPlaceholder.Left += 30;
-                    txtBlue.TextAlign = HorizontalAlignment.Center;
+                }
+                else if (_Mask_ == TextMask.CEP)
+                {
+                    txtBlue.Mask = "00000-000";
+                    lblPlaceholder.Text = "80000-100";
                 }
             }
         }
@@ -99,7 +90,6 @@ namespace GNX
             InitializeComponent();
 
             TextBox.Culture = System.Globalization.CultureInfo.InvariantCulture;
-            TextBox.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
 
             TxtTextChanged += txtBlue_event;
         }
@@ -246,6 +236,20 @@ namespace GNX
             }
 
             TxtTextChanged(sender, e);
+
+            //
+            if (txtBlue.Focused)
+            {
+                lblPlaceholder.Visible = false;
+            }
+            else if (txtBlue.Text.Length == 0)
+            {
+                lblPlaceholder.Visible = true;
+            }
+            else
+            {
+                lblPlaceholder.Visible = false;
+            }
         }
 
         private void txtBlue_event(object sender, EventArgs e)
@@ -294,7 +298,7 @@ namespace GNX
             {
                 txt = txt.Replace("/", "");
             }
-            
+
             txt = txt.Trim();
 
             if (txt.Length == 0)

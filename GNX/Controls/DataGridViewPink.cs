@@ -118,6 +118,16 @@ namespace GNX
             AddColumn(typeof(string), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
         }
 
+        public void AddColumnInt(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
+        {
+            AddColumn(typeof(int), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
+        }
+
+        public void AddColumnDateTime(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
+        {
+            AddColumn(typeof(DateTime), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
+        }
+
         public void AddColumnImage(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
         {
             AddColumn(typeof(Bitmap), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
@@ -134,6 +144,19 @@ namespace GNX
                 case "String":
                     c = new DataGridViewTextBoxColumn();
                     c.CellTemplate = new DataGridViewTextBoxCell();
+                    break;
+                case "Int32":
+                    c = new DataGridViewTextBoxColumn();
+                    c.CellTemplate = new DataGridViewTextBoxCell();
+                    c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    c.DefaultCellStyle.Format = "N0";
+                    c.DefaultCellStyle.NullValue = null;
+                    break;
+                case "DateTime":
+                    c = new DataGridViewTextBoxColumn();
+                    c.CellTemplate = new DataGridViewTextBoxCell();
+                    c.DefaultCellStyle.Format = "G";
+                    c.DefaultCellStyle.NullValue = null;
                     break;
                 case "Bitmap":
                     c = new DataGridViewImageColumn();

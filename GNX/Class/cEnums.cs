@@ -26,13 +26,14 @@ namespace GNX
     public enum TextMask
     {
         None,
-        CPF,
-        CNPJ,
-        DATA,
-        HORA,
         CELULAR,
-        NUMERO,
-        DINHEIRO
+        CEP,
+        CNPJ,
+        CPF,
+        DATA,
+        DINHEIRO,
+        HORA,
+        NUMERO
     }
 
     public enum MenuMode

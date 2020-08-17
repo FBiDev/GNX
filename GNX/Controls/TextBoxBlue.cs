@@ -60,7 +60,18 @@ namespace GNX
 
         protected void txtBlue_TextChanged(object sender, EventArgs e)
         {
-            lblPlaceholder.Visible = !(txtBlue.Text.Length > 0);
+            if (txtBlue.Focused)
+            {
+                lblPlaceholder.Visible = false;
+            }
+            else if (txtBlue.Text.Length == 0)
+            {
+                lblPlaceholder.Visible = true;
+            }
+            else
+            {
+                lblPlaceholder.Visible = false;
+            }
         }
     }
 }

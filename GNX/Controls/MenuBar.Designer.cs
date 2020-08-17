@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuBar));
             this.pnlMenuBar = new System.Windows.Forms.Panel();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -36,7 +37,7 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.pnlModo = new System.Windows.Forms.Panel();
             this.lblModo = new System.Windows.Forms.Label();
-            this.toolTip = new System.Windows.Forms.ToolTip();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.pnlMenuBar.SuspendLayout();
             this.pnlModo.SuspendLayout();
             this.SuspendLayout();

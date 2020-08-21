@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 //
 using System.Data;
-using System.IO;
-using System.Windows.Forms;
-using System.Data.SQLite;
-using System.Data.SqlClient;
 
 namespace GNX
 {
@@ -13,8 +8,7 @@ namespace GNX
     {
         private static string error = String.Empty;
 
-        private static DatabaseName _databaseName;
-        private static DatabaseName DatabaseName { get { return _databaseName; } }
+        private static DatabaseName DatabaseName;
 
         private static IDbCommand cmd { get; set; }
         private static IDbConnection conn { get; set; }
@@ -29,7 +23,7 @@ namespace GNX
         public static int GetLastID()
         {
             string aSQL = string.Empty;
-            if (_databaseName == DatabaseName.DB_SOLUTION)
+            if (DatabaseName == DatabaseName.DB_SOLUTION)
             {
                 if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
                 {
@@ -45,19 +39,22 @@ namespace GNX
 
         private static IDbConnection CreateConnection()
         {
-            if (_databaseName == DatabaseName.DB_SOLUTION)
+            if (DatabaseName == DatabaseName.DB_SOLUTION)
             {
-                if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
-                {
-                    if (File.Exists(cDataBaseConfig.SolutionFile))
-                    {
-                        conn = new SQLiteConnection(cDataBaseConfig.SolutionDataSource);
-                    }
-                    else
-                    {
-                        throw new Exception(cDataBaseConfig.SolutionFile);
-                    }
-                }
+                conn = cDataBaseConfig.SolutionConnection;
+                conn.ConnectionString = cDataBaseConfig.SolutionDataSource;
+
+                //if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
+                //{
+                //    if (cDataBaseConfig.SQLiteEnable && File.Exists(cDataBaseConfig.SolutionFile))
+                //    {
+                //        conn = cDataBaseSQLite.CreateConnection(cDataBaseConfig.SolutionDataSource);
+                //    }
+                //    else
+                //    {
+                //        throw new Exception(cDataBaseConfig.SolutionFile);
+                //    }
+                //}
             }
 
             return conn;
@@ -95,13 +92,21 @@ namespace GNX
 
         public static void Open()
         {
-            _databaseName = DatabaseName.DB_SOLUTION;
+            if (DatabaseName != DatabaseName.DB_SOLUTION)
+            {
+                DatabaseName = DatabaseName.DB_SOLUTION;
+                conn = null;
+            }
             SetCommand();
         }
 
         public static void OpenGeral()
         {
-            _databaseName = DatabaseName.DB_GERAL;
+            if (DatabaseName != DatabaseName.DB_GERAL)
+            {
+                DatabaseName = DatabaseName.DB_GERAL;
+                conn = null;
+            }
             SetCommand();
         }
 
@@ -109,14 +114,6 @@ namespace GNX
         {
             try
             {
-                if (_databaseName == DatabaseName.DB_SOLUTION)
-                {
-                    if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
-                    {
-                        cmd = new SQLiteCommand();
-                    }
-                }
-
                 if (conn == null)
                 {
                     conn = CreateConnection();
@@ -124,7 +121,19 @@ namespace GNX
 
                 OpenConnection();
 
+                cmd = conn.CreateCommand();
                 cmd.Connection = conn;
+
+                //if (_databaseName == DatabaseName.DB_SOLUTION)
+                //{
+                //    if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
+                //    {
+                //        if (cDataBaseConfig.SQLiteEnable)
+                //        {
+                //            cmd = cDataBaseSQLite.SetCommand();
+                //        }
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -161,20 +170,47 @@ namespace GNX
 
                     using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
-                        IDataAdapter da = default(IDataAdapter);
+                        //IDataAdapter da = default(IDataAdapter);
 
-                        if (_databaseName == DatabaseName.DB_SOLUTION)
+                        //if (_databaseName == DatabaseName.DB_SOLUTION)
+                        //{
+                        //    if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
+                        //    {
+                        //        if (cDataBaseConfig.SQLiteEnable)
+                        //        {
+                        //            da = cDataBaseSQLite.ExecuteReader(cmd.CommandText, cmd.Connection.ConnectionString);
+                        //        }
+                        //    }
+                        //}
+
+                        //if (da != null)
+                        //{
+                        //    da.Fill(ds);
+                        //    data = ds.Tables[0];
+                        //}
+
+                        DataTable schemaTabela = rdr.GetSchemaTable();
+
+                        foreach (DataRow dataRow in schemaTabela.Rows)
                         {
-                            if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
-                            {
-                                da = new SQLiteDataAdapter(cmd.CommandText, cmd.Connection.ConnectionString);
-                            }
+                            DataColumn dataColumn = new DataColumn();
+                            dataColumn.ColumnName = dataRow["ColumnName"].ToString();
+                            dataColumn.DataType = Type.GetType(dataRow["DataType"].ToString());
+                            dataColumn.ReadOnly = (bool)dataRow["IsReadOnly"];
+                            dataColumn.AutoIncrement = (bool)dataRow["IsAutoIncrement"];
+                            dataColumn.Unique = (bool)dataRow["IsUnique"];
+                            data.Columns.Add(dataColumn);
                         }
 
-                        if (da != null)
+                        DataRow dt;
+                        while (rdr.Read())
                         {
-                            da.Fill(ds);
-                            data = ds.Tables[0];
+                            dt = data.NewRow();
+                            for (int i = 0; i < data.Columns.Count - 1; i++)
+                            {
+                                dt[i] = rdr[i];
+                            }
+                            data.Rows.Add(dt);
                         }
                     }
                 }

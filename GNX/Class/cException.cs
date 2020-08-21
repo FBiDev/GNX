@@ -2,9 +2,9 @@
 //
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
 using System.Data;
 using System.Data.OleDb;
-using System.Data.SQLite;
 
 namespace GNX
 {
@@ -25,6 +25,8 @@ namespace GNX
             bool link = false;
             string linkStr = string.Empty;
 
+            bool externalDLL = false;
+
             if (ExType == typeof(Exception))
             {
                 if (Error.TargetSite.Module.Name == "ControleCasamentos.exe")
@@ -33,6 +35,10 @@ namespace GNX
                     if (Error.TargetSite.Name == "CreateConnection")
                     {
                         CustomMessage = "Arquivo de Banco de dados não encontrado";
+                    }
+                    else
+                    {
+                        CustomMessage = "";
                     }
                 }
             }
@@ -160,18 +166,11 @@ namespace GNX
                 }
             }
 
-            else if (ExType == typeof(SQLiteException))
+            else if (ExType == typeof(FileNotFoundException))
             {
-                Error = ((SQLiteException)ex);
+                Error = ((FileNotFoundException)ex);
 
-                if (Error.TargetSite.Module.Name == "System.Data.SQLite.dll")
-                {
-                    //SQL Syntax
-                    if (Error.TargetSite.Name == "Prepare")
-                    {
-                        CustomMessage = "Sintaxe do SQL errada:\r\n" + ArgumentString;
-                    }
-                }
+                CustomMessage = "Arquivo não encontrado";
             }
 
             else if (ExType == typeof(DllNotFoundException))
@@ -203,6 +202,11 @@ namespace GNX
                 }
             }
 
+            else if (cDataBaseConfig.SQLiteEnable)
+            {
+                externalDLL = cExceptionSQLite.ShowBox(ex, ArgumentString);
+            }
+
             else
             {
                 string ExTypeStr = "ExType  : " + ExType.ToString();
@@ -225,7 +229,7 @@ namespace GNX
             {
                 MessageBox.Show(CustomMessage + errorLineBreak + ErrorDb.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else
+            else if (!externalDLL)
             {
                 MessageBox.Show(CustomMessage + errorLineBreak + Error.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //throw new Exception(CustomMessage + errorLineBreak + Error.Message);

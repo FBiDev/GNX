@@ -82,6 +82,8 @@
             // 
             // cboBlue
             // 
+            this.cboBlue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboBlue.BackColor = System.Drawing.Color.White;
             this.cboBlue.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cboBlue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;

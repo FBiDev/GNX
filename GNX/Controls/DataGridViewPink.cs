@@ -199,14 +199,14 @@ namespace GNX
             string HeaderText = this.Columns[e.ColumnIndex].Name;
             string HeaderTextSort = string.Empty;
 
-            if (HeaderText.Length > 3)
+            if (HeaderText.Length > 2)
             {
                 HeaderTextSort = HeaderText.Substring(0, HeaderText.Length - 3);
             }
 
             List<string> BooleanColumns = GetBooleanColumns();
 
-            if (BooleanColumns != null && HeaderTextSort.Length > 0 && BooleanColumns.Exists(s => s.EndsWith(HeaderTextSort)))
+            if (BooleanColumns != null && HeaderTextSort != string.Empty && BooleanColumns.Exists(s => s.EndsWith(HeaderTextSort)))
             {
                 SortColumn(this.Columns[HeaderTextSort], this.Columns[HeaderText], e);
             }

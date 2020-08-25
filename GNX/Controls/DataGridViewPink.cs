@@ -198,10 +198,10 @@ namespace GNX
         {
             string HeaderText = this.Columns[e.ColumnIndex].Name;
             string HeaderTextSort = string.Empty;
-            
-            if (HeaderText.Length > 2)
+
+            if (HeaderText.Length > 3)
             {
-                HeaderText.Substring(0, HeaderText.Length - 3);
+                HeaderTextSort = HeaderText.Substring(0, HeaderText.Length - 3);
             }
 
             List<string> BooleanColumns = GetBooleanColumns();

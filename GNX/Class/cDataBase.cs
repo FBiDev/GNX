@@ -206,7 +206,7 @@ namespace GNX
                         while (rdr.Read())
                         {
                             dt = data.NewRow();
-                            for (int i = 0; i < data.Columns.Count - 1; i++)
+                            for (int i = 0; i < data.Columns.Count; i++)
                             {
                                 dt[i] = rdr[i];
                             }

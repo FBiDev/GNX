@@ -23,6 +23,15 @@ namespace GNX
             else { return null; }
         }
 
+        public static int? ToIntNull(object obj)
+        {
+            if (obj != null)
+            {
+                return ToIntNull(obj.ToString());
+            }
+            return null;
+        }
+
         public static short? ToShortNull(string value)
         {
             if (value != string.Empty)

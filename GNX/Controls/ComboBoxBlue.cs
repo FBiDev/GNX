@@ -16,21 +16,23 @@ namespace GNX
 
         private BindingList<ListItem> lstItem = new BindingList<ListItem>();
 
-        [Category("_Data")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public BindingList<ListItem> Items
-        {
-            get { return lstItem; }
-            set
-            {
-                lstItem.Clear();
-                lstItem = (BindingList<ListItem>)value;
-            }
-        }
+        //[Category("_Data")]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public BindingList<ListItem> Items
+        //{
+        //    get { return lstItem; }
+        //    set
+        //    {
+        //        lstItem.Clear();
+        //        lstItem = (BindingList<ListItem>)value;
+        //    }
+        //}
 
         public ComboBoxBlue()
         {
             InitializeComponent();
+
+            //ComboBox.DataSourceChanged += ComboBox_DataSourceChanged;
 
             //BindingSource bindingSource = new BindingSource();
             //bindingSource.DataSource = Items;
@@ -40,14 +42,43 @@ namespace GNX
             //cboBlue.ValueMember = "ID";
         }
 
+        public void SetValueId(int Id)
+        {
+            if (Id > 0)
+            {
+                ComboBox.SelectedValue = Id;
+            }
+            else if (ComboBox.Items.Count > 0)
+            {
+                ComboBox.SelectedIndex = 0;
+            }
+        }
+
+        public void SetValueIdNull(int? Id)
+        {
+            if (Id > 0)
+            {
+                ComboBox.SelectedValue = Id;
+
+                if (ComboBox.SelectedValue == null && ComboBox.Items.Count > 0)
+                {
+                    ComboBox.SelectedIndex = 0;
+                }
+                else if (ComboBox.SelectedValue == null)
+                {
+                    ComboBox.SelectedIndex = -1;
+                }
+            }
+        }
+
         public void Add(string _key, string _value)
         {
-            Items.Add(new ListItem { ID = _key, Text = _value });
+            //Items.Add(new ListItem { ID = _key, Text = _value });
         }
 
         public void AddRange(List<ListItem> newList)
         {
-            Items.AddRange(newList);
+            //Items.AddRange(newList);
         }
 
         private void cboBlue_Enter(object sender, EventArgs e)

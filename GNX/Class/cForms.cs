@@ -9,7 +9,7 @@ namespace GNX
 {
     public class cForms
     {
-        public static void OpenOnce<T>(Form parent = null) where T : new()
+        public static T OpenOnce<T>(Form parent = null) where T : new()
         {
             T frmG = default(T);
             var FormGeneric = ((Form)(object)frmG);
@@ -42,6 +42,7 @@ namespace GNX
 
             FormGeneric.Show();
             FormGeneric.Focus();
+            return (T)(object)FormGeneric;
         }
 
         public static T GetForm<T>() where T : Form

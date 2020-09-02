@@ -103,9 +103,29 @@ namespace GNX
             SortImageColumns(sender, e);
         }
 
+        private void DataGridViewPink_LocationChanged(object sender, EventArgs e)
+        {
+            ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            ColumnHeadersHeight = 30;
+        }
+
         private void dgv_OnSorted(object sender, EventArgs e)
         {
             LoadBooleanImages();
+        }
+
+        public void ChangeForeColor(bool Value, DataGridViewCell Cell)
+        {
+            if (!Value)
+            {
+                Cell.Style.SelectionForeColor = Color.Red;
+                Cell.Style.ForeColor = Color.Red;
+            }
+            else
+            {
+                Cell.Style.SelectionForeColor = this.DefaultCellStyle.SelectionForeColor;
+                Cell.Style.ForeColor = this.DefaultCellStyle.ForeColor;
+            }
         }
 
         public void Reload()
@@ -114,33 +134,13 @@ namespace GNX
             SortDefaultColumn();
         }
 
-        public void AddColumnText(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
-        {
-            AddColumn(typeof(string), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
-        }
-
-        public void AddColumnInt(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
-        {
-            AddColumn(typeof(int), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
-        }
-
-        public void AddColumnDateTime(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
-        {
-            AddColumn(typeof(DateTime), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
-        }
-
-        public void AddColumnImage(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
-        {
-            AddColumn(typeof(Bitmap), ColumnName, ColumnHeaderText, ColumnDataPropertyName, ColumnAutoSizeMode);
-        }
-
-        private void AddColumn(Type _Type, string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells)
+        public void AddColumn<T>(string ColumnName, string ColumnHeaderText, string ColumnDataPropertyName, DataGridViewAutoSizeColumnMode ColumnAutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells, bool visible = true)
         {
             DataGridViewColumn c = new DataGridViewColumn();
 
-            string TypeName = _Type.Name;
+            Type _Type = typeof(T);
 
-            switch (TypeName)
+            switch (_Type.Name)
             {
                 case "String":
                     c = new DataGridViewTextBoxColumn();
@@ -165,19 +165,15 @@ namespace GNX
                     break;
             }
 
+            //c.ValueType = _Type;
             c.Name = ColumnName;
             c.HeaderText = ColumnHeaderText;
             c.DataPropertyName = ColumnDataPropertyName;
             c.AutoSizeMode = ColumnAutoSizeMode;
+            c.Visible = visible;
             c.SortMode = DataGridViewColumnSortMode.Automatic;
 
             Columns.Add(c);
-        }
-
-        private void DataGridViewPink_LocationChanged(object sender, EventArgs e)
-        {
-            ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            ColumnHeadersHeight = 30;
         }
 
         #region SortColumns

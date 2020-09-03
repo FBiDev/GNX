@@ -6,6 +6,8 @@ namespace GNX
 {
     public class cDataBase
     {
+        public static SortableBindingList<cLog> Log = new SortableBindingList<cLog>();
+
         private static string error = String.Empty;
 
         private static DatabaseName DatabaseName;
@@ -168,6 +170,8 @@ namespace GNX
                         cmd.Prepare();
                     }
 
+                    Log.Add(new cLog(cmd));
+
                     using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
                         //IDataAdapter da = default(IDataAdapter);
@@ -237,6 +241,8 @@ namespace GNX
                     {
                         cmd.Prepare();
                     }
+
+                    Log.Add(new cLog(cmd));
                     affectedRows = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -261,6 +267,8 @@ namespace GNX
                     {
                         cmd.Prepare();
                     }
+
+                    Log.Add(new cLog(cmd));
                     select = cmd.ExecuteScalar();
                 }
                 catch (Exception ex)

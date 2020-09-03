@@ -9,6 +9,29 @@ namespace GNX
 {
     public class cConvert
     {
+        public static int ToInt(string value)
+        {
+            if (value != string.Empty)
+            {
+                int ValidInt;
+                if (int.TryParse(value, out ValidInt))
+                {
+                    return ValidInt;
+                }
+                else { return 0; }
+            }
+            else { return 0; }
+        }
+
+        public static int ToInt(object obj)
+        {
+            if (obj != null)
+            {
+                return ToInt(obj.ToString());
+            }
+            return 0;
+        }
+
         public static int? ToIntNull(string value)
         {
             if (value != string.Empty)
@@ -143,6 +166,15 @@ namespace GNX
             else { return null; }
 
             return time;
+        }
+
+        public static T ToObject<T>(object obj) where T : new()
+        {
+            if (obj != null)
+            {
+                return (T)obj;
+            }
+            return new T();
         }
 
         public static Icon ToIco(Image img, Size size)

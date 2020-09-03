@@ -14,6 +14,9 @@ namespace GNX
         private ListSortDirection DefaultColumnDirection;
         private List<string> ColumnsBooleanNames;
 
+        private string LastSortedColumn;
+        private ListSortDirection LastSortedColumnDirection;
+
         public DataGridViewPink()
         {
             InitializeComponent();
@@ -97,9 +100,20 @@ namespace GNX
             ColumnHeaderMouseClick += dgv_ColumnHeaderMouseClick;
             Sorted += dgv_OnSorted;
         }
-
+        
         private void dgv_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            LastSortedColumn = this.Columns[e.ColumnIndex].Name;
+
+            if (this.SortOrder == SortOrder.Descending)
+            {
+                LastSortedColumnDirection = ListSortDirection.Ascending;
+            }
+            else
+            {
+                LastSortedColumnDirection = ListSortDirection.Descending;
+            }
+
             SortImageColumns(sender, e);
         }
 
@@ -112,6 +126,34 @@ namespace GNX
         private void dgv_OnSorted(object sender, EventArgs e)
         {
             LoadBooleanImages();
+        }
+
+        public void ReSort()
+        {
+            this.Sort(this.Columns[LastSortedColumn], LastSortedColumnDirection);
+            this.Refresh();
+        }
+
+        public void RefreshForeColor(string ColumnName, bool Value, string CellValue)
+        {
+            foreach (DataGridViewRow Row in this.Rows)
+            {
+                if (Row.Cells[ColumnName].Value.ToString() == CellValue)
+                {
+                    ChangeForeColor(Value, Row.Cells[ColumnName]);
+                }
+            }
+        }
+
+        public void RefreshBooleanImage(string ColumnName, bool Value, string CellValue, string BooleanColumn)
+        {
+            foreach (DataGridViewRow Row in this.Rows)
+            {
+                if (Row.Cells[ColumnName].Value.ToString() == CellValue)
+                {
+                    Row.Cells[BooleanColumn + "Bol"].Value = (Value == true) ? Properties.Resources.img_true_ico : Properties.Resources.img_false_ico;
+                }
+            }
         }
 
         public void ChangeForeColor(bool Value, DataGridViewCell Cell)
@@ -181,6 +223,9 @@ namespace GNX
         {
             DefaultColumn = ColumnName;
             DefaultColumnDirection = Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending;
+
+            LastSortedColumn = DefaultColumn;
+            LastSortedColumnDirection = DefaultColumnDirection;
         }
 
         public void SortDefaultColumn()

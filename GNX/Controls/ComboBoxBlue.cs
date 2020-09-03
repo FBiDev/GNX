@@ -44,14 +44,15 @@ namespace GNX
 
         public void SetValueId(int Id)
         {
-            if (Id > 0)
-            {
-                ComboBox.SelectedValue = Id;
-            }
-            else if (ComboBox.Items.Count > 0)
-            {
-                ComboBox.SelectedIndex = 0;
-            }
+            ComboBox.SelectedValue = Id;
+            //if (Id > 0)
+            //{
+            //    ComboBox.SelectedValue = Id;
+            //}
+            //else if (ComboBox.Items.Count > 0)
+            //{
+            //    ComboBox.SelectedIndex = -1;
+            //}
         }
 
         public void SetValueIdNull(int? Id)
@@ -62,7 +63,7 @@ namespace GNX
 
                 if (ComboBox.SelectedValue == null && ComboBox.Items.Count > 0)
                 {
-                    ComboBox.SelectedIndex = 0;
+                    //ComboBox.SelectedIndex = 0;
                 }
                 else if (ComboBox.SelectedValue == null)
                 {

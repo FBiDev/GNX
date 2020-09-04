@@ -3,6 +3,15 @@
 
 namespace GNX
 {
+    public enum DbMovement
+    {
+        Null,
+        Select,
+        Insert,
+        Update,
+        Delete
+    }
+
     public enum DatabaseType
     {
         SQLite,

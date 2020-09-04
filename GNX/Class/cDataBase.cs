@@ -29,7 +29,8 @@ namespace GNX
             {
                 if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
                 {
-                    aSQL = "SELECT last_insert_rowid();";
+                    aSQL = "-- DB : " + Environment.NewLine +
+                        "SELECT LAST_INSERT_ROWID();";
                 }
             }
 
@@ -77,7 +78,7 @@ namespace GNX
             }
         }
 
-        public static void AddSQLParameter(string ParameterName, DbType DbType, object Value, int Size = 0, byte Precision = 0, byte Scale = 0)
+        public static IDbDataParameter AddSQLParameter(string ParameterName, DbType DbType, object Value, int Size = 0, byte Precision = 0, byte Scale = 0)
         {
             if (cmd != null)
             {
@@ -89,7 +90,30 @@ namespace GNX
                 p.Precision = Precision;
                 p.Scale = Scale;
                 cmd.Parameters.Add(p);
+
+                return p;
             }
+
+            return null;
+        }
+
+        public static IDbDataParameter AddSQLParameter(cSqlParameter Param)
+        {
+            if (cmd != null)
+            {
+                IDbDataParameter p = cmd.CreateParameter();
+                p.ParameterName = Param.ParameterName;
+                p.DbType = Param.DbType;
+                p.Value = Param.Value;
+                p.Size = Param.Size;
+                p.Precision = Param.Precision;
+                p.Scale = Param.Scale;
+                cmd.Parameters.Add(p);
+
+                return p;
+            }
+
+            return null;
         }
 
         public static void Open()
@@ -154,7 +178,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static DataTable ExecuteReader(string aSQL)
+        public static DataTable ExecuteReader(string aSQL, string Method = default(string))
         {
             DataTable data = new DataTable();
             DataSet ds = new DataSet();
@@ -170,7 +194,7 @@ namespace GNX
                         cmd.Prepare();
                     }
 
-                    Log.Add(new cLog(cmd));
+                    Log.Add(new cLog(cmd, DbMovement.Select, Method));
 
                     using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
@@ -207,7 +231,7 @@ namespace GNX
                         }
 
                         DataRow dt;
-                        while (rdr.Read())
+                        while (rdr.FieldCount > 0 && rdr.Read())
                         {
                             dt = data.NewRow();
                             for (int i = 0; i < data.Columns.Count; i++)
@@ -228,7 +252,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static int ExecuteNonQuery(string aSQL)
+        public static int ExecuteNonQuery(string aSQL, DbMovement Movement = DbMovement.Null, string Method = default(string))
         {
             int affectedRows = 0;
 
@@ -242,7 +266,7 @@ namespace GNX
                         cmd.Prepare();
                     }
 
-                    Log.Add(new cLog(cmd));
+                    Log.Add(new cLog(cmd, Movement, Method));
                     affectedRows = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)

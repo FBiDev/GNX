@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 //
 using System.Data;
 
@@ -29,8 +31,7 @@ namespace GNX
             {
                 if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
                 {
-                    aSQL = "-- DB : " + Environment.NewLine +
-                        "SELECT LAST_INSERT_ROWID();";
+                    aSQL = "SELECT LAST_INSERT_ROWID();";
                 }
             }
 
@@ -178,7 +179,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static DataTable ExecuteReader(string aSQL, string Method = default(string))
+        public static DataTable ExecuteReader(string aSQL)
         {
             DataTable data = new DataTable();
             DataSet ds = new DataSet();
@@ -194,7 +195,7 @@ namespace GNX
                         cmd.Prepare();
                     }
 
-                    Log.Add(new cLog(cmd, DbMovement.Select, Method));
+                    Log.Add(new cLog(cmd, DbMovement.Select, cObject.GetDaoClassAndMethod()));
 
                     using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
@@ -252,7 +253,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static int ExecuteNonQuery(string aSQL, DbMovement Movement = DbMovement.Null, string Method = default(string))
+        public static int ExecuteNonQuery(string aSQL, DbMovement Movement = DbMovement.Null)
         {
             int affectedRows = 0;
 
@@ -266,7 +267,7 @@ namespace GNX
                         cmd.Prepare();
                     }
 
-                    Log.Add(new cLog(cmd, Movement, Method));
+                    Log.Add(new cLog(cmd, Movement, cObject.GetDaoClassAndMethod()));
                     affectedRows = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -306,6 +307,60 @@ namespace GNX
                 }
             }
             return string.Empty;
+        }
+
+        public static DataRowCollection ExecuteSelect(string Sql, List<cSqlParameter> Params = null)
+        {
+            cDataBase.Open();
+
+            if (Params != null)
+            {
+                foreach (cSqlParameter P in Params)
+                {
+                    cDataBase.AddSQLParameter(P);
+                }
+            }
+
+            DataTable Table = cDataBase.ExecuteReader(Sql);
+            cDataBase.Close();
+
+            return Table.Rows;
+
+            //T ListObjects = new T();
+            //foreach (DataRow Row in Table.Rows)
+            //{
+            //    ListObjects.Add(BaseDAO. obj. SetObject(Row));
+            //}
+
+            //return ListObjects;
+        }
+
+        public static cSqlResult Execute(string Sql, List<cSqlParameter> Params, DbMovement Movement)
+        {
+            cDataBase.Open();
+
+            if (Params != null)
+            {
+                foreach (cSqlParameter p in Params)
+                {
+                    cDataBase.AddSQLParameter(p);
+                }
+            }
+
+            cSqlResult result = new cSqlResult();
+            result.AffectedRows = cDataBase.ExecuteNonQuery(Sql, Movement);
+
+            if (Movement == DbMovement.Insert)
+            {
+                if (result.AffectedRows > 0)
+                {
+                    result.LastId = cDataBase.GetLastID();
+                }
+            }
+
+            cDataBase.Close();
+
+            return result;
         }
     }
 }

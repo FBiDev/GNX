@@ -20,17 +20,20 @@ namespace GNX
             this.ParameterName = ParameterName;
             this.Value = Value;
 
-            Type ValueType = Value.GetType();
-
-            switch (ValueType.Name)
+            if (this.Value != null)
             {
-                case "String": this.DbType = DbType.String; break;
-                case "Int32": this.DbType = DbType.Int32; break;
-                case "DateTime":
-                    this.DbType = DbType.DateTime2;
-                    this.Value = cConvert.ToDateTimeDB((DateTime?)Value);
-                    break;
-                case "Boolean": this.DbType = DbType.Boolean; break;
+                Type ValueType = Value.GetType();
+
+                switch (ValueType.Name)
+                {
+                    case "String": this.DbType = DbType.String; break;
+                    case "Int32": this.DbType = DbType.Int32; break;
+                    case "DateTime":
+                        this.DbType = DbType.DateTime2;
+                        this.Value = cConvert.ToDateTimeDB((DateTime?)Value);
+                        break;
+                    case "Boolean": this.DbType = DbType.Boolean; break;
+                }
             }
 
             this.Size = Size;

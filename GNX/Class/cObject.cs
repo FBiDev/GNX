@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Data;
 
 namespace GNX
 {
@@ -23,12 +24,69 @@ namespace GNX
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static string GetCurrentMethod()
+        public static string GetDaoClassAndMethod()
         {
             var st = new StackTrace();
-            var sf = st.GetFrame(1);
+            var sf = st.GetFrame(3);
 
-            return sf.GetMethod().Name;
+            return sf.GetMethod().DeclaringType.Name + "." + sf.GetMethod().Name;
+        }
+
+        private static object ConvertValueFromRow<T>(DataRow row, string ColumnName)
+        {
+            object result = null;
+
+            Type _type = typeof(T);
+            if (row.Table.Columns.Contains(ColumnName))
+            {
+                switch (_type.Name)
+                {
+                    case "Int32":
+                        result = cConvert.ToInt(row[ColumnName].ToString());
+                        break;
+                    case "String":
+                        result = row[ColumnName].ToString();
+                        break;
+                    case "Boolean":
+                        result = cConvert.ToBoolean(row[ColumnName].ToString());
+                        break;
+                    case "DateTime":
+                        result = cConvert.ToDateTimeNull(row[ColumnName].ToString());
+                        break;
+                    //Single = float
+                    //Int16 = short
+                    //Byte = byte
+                }
+            }
+            return result;
+        }
+
+        public static T SetPropertie<T>(DataRow row, string ColumnName)
+        {
+            object result = ConvertValueFromRow<T>(row, ColumnName);
+
+            if (result != null)
+            {
+                return (T)result;
+            }
+            else
+            {
+                return default(T);
+            }
+        }
+
+        public static Nullable<T> SetPropertieNullable<T>(DataRow row, string ColumnName) where T : struct
+        {
+            object result = ConvertValueFromRow<T>(row, ColumnName);
+
+            if (result != null)
+            {
+                return (T)result;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

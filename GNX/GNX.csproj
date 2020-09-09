@@ -51,6 +51,7 @@
     <Compile Include="Class\cExceptionSQLite.cs" />
     <Compile Include="Class\cLog.cs" />
     <Compile Include="Class\cObject.cs" />
+    <Compile Include="Class\cSqlResult.cs" />
     <Compile Include="Controls\CheckBoxBlue.cs">
       <SubType>UserControl</SubType>
     </Compile>

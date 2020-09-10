@@ -46,6 +46,13 @@
   <ItemGroup>
     <Compile Include="Class\cConvert.cs" />
     <Compile Include="Class\cApp.cs" />
+    <Compile Include="Controls\ComboBoxNew.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Util\DataRowExtension.cs" />
+    <Compile Include="Class\cDataTable.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Class\cSqlParameter.cs" />
     <Compile Include="Class\cExcel.cs" />
     <Compile Include="Class\cExceptionSQLite.cs" />

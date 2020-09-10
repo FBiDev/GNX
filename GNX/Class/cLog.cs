@@ -25,7 +25,8 @@ namespace GNX
 
             foreach (IDbDataParameter p in cmd.Parameters)
             {
-                query = query.Replace(p.ParameterName, p.Value.ToString());
+                string val = p.Value == null ? "NULL" : p.Value.ToString();
+                query = query.Replace(p.ParameterName, val);
             }
 
             Command = query;

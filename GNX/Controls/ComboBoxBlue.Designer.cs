@@ -31,7 +31,7 @@
             this.pnlBg = new System.Windows.Forms.Panel();
             this.pnlBgWhite = new System.Windows.Forms.Panel();
             this.lblLegend = new System.Windows.Forms.Label();
-            this.cboBlue = new System.Windows.Forms.ComboBox();
+            this.cboBlue = new ComboBoxNew();
             this.pnlBg.SuspendLayout();
             this.pnlBgWhite.SuspendLayout();
             this.SuspendLayout();
@@ -116,7 +116,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblLegend;
-        private System.Windows.Forms.ComboBox cboBlue;
+        private ComboBoxNew cboBlue;
         private System.Windows.Forms.Panel pnlBg;
         private System.Windows.Forms.Panel pnlBgWhite;
     }

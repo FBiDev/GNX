@@ -9,7 +9,7 @@ namespace GNX
 {
     public partial class ComboBoxBlue : UserControl
     {
-        public ComboBox ComboBox { get { return cboBlue; } }
+        public ComboBoxNew ComboBox { get { return cboBlue; } }
 
         [Category("_Data")]
         public string _Legend { get { return lblLegend.Text; } set { lblLegend.Text = value; } }

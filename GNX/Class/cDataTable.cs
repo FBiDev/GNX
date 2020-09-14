@@ -2,12 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Runtime.Serialization;
 //
 
 namespace GNX
 {
+    [Serializable]
     public class cDataTable : DataTable
     {
+        protected cDataTable(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+
         public cDataTable()
             : base()
         {

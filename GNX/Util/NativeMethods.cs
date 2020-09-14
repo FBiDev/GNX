@@ -29,6 +29,10 @@ namespace GNX
         }
 
         #region Tests
+        [DllImport("user32.dll")]
+        private static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
+
+
         //int SPI_SETDRAGFULLWINDOWS = 0x0025;
         //[System.Runtime.InteropServices.DllImport("user32.dll")]
         //private static extern int SystemParametersInfo(int uAction, int uParam, int lpvParam, int fuWinIni);

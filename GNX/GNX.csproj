@@ -134,6 +134,7 @@
     <Compile Include="Class\cDataBaseConfig.cs" />
     <Compile Include="Util\ListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\StringExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DLL\DLL.txt" />

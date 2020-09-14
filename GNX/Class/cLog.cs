@@ -26,8 +26,22 @@ namespace GNX
             foreach (IDbDataParameter p in cmd.Parameters)
             {
                 string val = p.Value == null ? "NULL" : p.Value.ToString();
+                val = val.Replace("'", "''");
+
+                switch (p.DbType)
+                {
+                    case DbType.String: val = "'" + val + "'"; break;
+                    case DbType.DateTime2: val = "'" + val + "'"; break;
+                    case DbType.DateTime: val = "'" + val + "'"; break;
+                }
+
                 query = query.Replace(p.ParameterName, val);
             }
+
+            query = query.Replace("  ", "\t ");
+            query = query.Replace("\t", "\t ");
+
+            query = query.RemoveWhiteSpaces();
 
             Command = query;
         }

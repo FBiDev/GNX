@@ -42,35 +42,35 @@ namespace GNX
             //cboBlue.ValueMember = "ID";
         }
 
-        public void SetValueId(int Id)
-        {
-            ComboBox.SelectedValue = Id;
-            //if (Id > 0)
-            //{
-            //    ComboBox.SelectedValue = Id;
-            //}
-            //else if (ComboBox.Items.Count > 0)
-            //{
-            //    ComboBox.SelectedIndex = -1;
-            //}
-        }
+        //public void SetValueId(int Id)
+        //{
+        //    ComboBox.SelectedValue = Id;
+        //    //if (Id > 0)
+        //    //{
+        //    //    ComboBox.SelectedValue = Id;
+        //    //}
+        //    //else if (ComboBox.Items.Count > 0)
+        //    //{
+        //    //    ComboBox.SelectedIndex = -1;
+        //    //}
+        //}
 
-        public void SetValueIdNull(int? Id)
-        {
-            if (Id > 0)
-            {
-                ComboBox.SelectedValue = Id;
+        //public void SetValueIdNull(int? Id)
+        //{
+        //    if (Id > 0)
+        //    {
+        //        ComboBox.SelectedValue = Id;
 
-                if (ComboBox.SelectedValue == null && ComboBox.Items.Count > 0)
-                {
-                    //ComboBox.SelectedIndex = 0;
-                }
-                else if (ComboBox.SelectedValue == null)
-                {
-                    ComboBox.SelectedIndex = -1;
-                }
-            }
-        }
+        //        if (ComboBox.SelectedValue == null && ComboBox.Items.Count > 0)
+        //        {
+        //            //ComboBox.SelectedIndex = 0;
+        //        }
+        //        else if (ComboBox.SelectedValue == null)
+        //        {
+        //            //ComboBox.SelectedIndex = -1;
+        //        }
+        //    }
+        //}
 
         public void Add(string _key, string _value)
         {

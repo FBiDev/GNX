@@ -100,7 +100,7 @@ namespace GNX
             ColumnHeaderMouseClick += dgv_ColumnHeaderMouseClick;
             Sorted += dgv_OnSorted;
         }
-        
+
         private void dgv_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             LastSortedColumn = this.Columns[e.ColumnIndex].Name;
@@ -134,39 +134,43 @@ namespace GNX
             this.Refresh();
         }
 
-        public void RefreshForeColor(string ColumnName, bool Value, string CellValue)
+        public void RefreshBooleanImage(string columnName, string cellValue, string booleanColumn, bool value)
         {
             foreach (DataGridViewRow Row in this.Rows)
             {
-                if (Row.Cells[ColumnName].Value.ToString() == CellValue)
+                if (Row.Cells[columnName].Value.ToString() == cellValue)
                 {
-                    ChangeForeColor(Value, Row.Cells[ColumnName]);
+                    Row.Cells[booleanColumn + "Bol"].Value = (value == true) ? Properties.Resources.img_true_ico : Properties.Resources.img_false_ico;
                 }
             }
         }
 
-        public void RefreshBooleanImage(string ColumnName, bool Value, string CellValue, string BooleanColumn)
+        public void RefreshCellsForeColor(string columnId, string valueId, string columnName, bool change, Color? c = null)
         {
             foreach (DataGridViewRow Row in this.Rows)
             {
-                if (Row.Cells[ColumnName].Value.ToString() == CellValue)
+                if (Row.Cells[columnId].Value.ToString() == valueId)
                 {
-                    Row.Cells[BooleanColumn + "Bol"].Value = (Value == true) ? Properties.Resources.img_true_ico : Properties.Resources.img_false_ico;
+                    ChangeCellForeColor(Row.Cells[columnName], change, c);
                 }
             }
         }
 
-        public void ChangeForeColor(bool Value, DataGridViewCell Cell)
+        public void ChangeCellForeColor(DataGridViewCell cell, bool change, Color? c = null)
         {
-            if (!Value)
+            Color color = Color.Red;
+
+            if (c != null) { color = (Color)c; }
+
+            if (!change)
             {
-                Cell.Style.SelectionForeColor = Color.Red;
-                Cell.Style.ForeColor = Color.Red;
+                cell.Style.SelectionForeColor = color;
+                cell.Style.ForeColor = color;
             }
             else
             {
-                Cell.Style.SelectionForeColor = this.DefaultCellStyle.SelectionForeColor;
-                Cell.Style.ForeColor = this.DefaultCellStyle.ForeColor;
+                cell.Style.SelectionForeColor = this.DefaultCellStyle.SelectionForeColor;
+                cell.Style.ForeColor = this.DefaultCellStyle.ForeColor;
             }
         }
 

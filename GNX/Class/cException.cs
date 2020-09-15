@@ -231,7 +231,7 @@ namespace GNX
             }
             else if (!externalDLL)
             {
-                MessageBox.Show(CustomMessage + errorLineBreak + Error.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(CustomMessage + errorLineBreak + Error.Message + errorLineBreak + Error.StackTrace, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //throw new Exception(CustomMessage + errorLineBreak + Error.Message);
             }
         }

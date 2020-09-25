@@ -124,6 +124,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Util\NativeMethods.cs" />
+    <Compile Include="Util\ObjectExtesion.cs" />
     <Compile Include="Util\SortableBindingList.cs" />
     <Compile Include="Util\BindingListExtensions.cs" />
     <Compile Include="Class\cDataBase.cs" />

@@ -17,10 +17,125 @@ namespace GNX
         private string LastSortedColumn;
         private ListSortDirection LastSortedColumnDirection;
 
+        private DataGridViewCellStyle AlternatingRowsStyle = new DataGridViewCellStyle();
+        private DataGridViewCellStyle RowHeadersStyle = new DataGridViewCellStyle();
+        private DataGridViewCellStyle CellStyle = new DataGridViewCellStyle();
+        private DataGridViewCellStyle ColumnHeadersStyle = new DataGridViewCellStyle();
+
+        private Color _DgvColor;
+        public Color DgvColor { get { return _DgvColor; } set { _DgvColor = BackgroundColor = value; } }
+        private Color _DgvGridColor;
+        public Color DgvGridColor { get { return _DgvGridColor; } set { _DgvGridColor = GridColor = value; } }
+
+        private Color _RowAlternateColor;
+        public Color RowAlternateColor
+        {
+            get
+            {   //return _RowAlternateColor; 
+                return AlternatingRowsDefaultCellStyle.BackColor;
+            }
+            set
+            {
+                //_RowAlternateColor = AlternatingRowsDefaultCellStyle.BackColor = AlternatingRowsStyle.BackColor = value;
+                AlternatingRowsDefaultCellStyle.BackColor = value;
+            }
+        }
+
+        public Color RowMouseHoverColor { get; set; }
+
+        private Color _RowHeaderColor;
+        public Color RowHeaderColor
+        {
+            get { return _RowHeaderColor; }
+            set
+            {
+                _RowHeaderColor = RowHeadersDefaultCellStyle.BackColor = RowHeadersStyle.BackColor = value;
+            }
+        }
+
+        private Color _RowHeaderSelectionColor;
+        public Color RowHeaderSelectionColor
+        {
+            get { return _RowHeaderSelectionColor; }
+            set
+            {
+                _RowHeaderSelectionColor = RowHeadersDefaultCellStyle.SelectionBackColor = RowHeadersStyle.SelectionBackColor = value;
+            }
+        }
+
+        private Color _CellColor;
+        public Color CellColor
+        {
+            get { return _CellColor; }
+            set
+            {
+                _CellColor = DefaultCellStyle.BackColor = CellStyle.BackColor = value;
+            }
+        }
+
+        private Color _CellSelectionColor;
+        public Color CellSelectionColor
+        {
+            get { return _CellSelectionColor; }
+            set
+            {
+                _CellSelectionColor = DefaultCellStyle.SelectionBackColor = CellStyle.SelectionBackColor = value;
+            }
+        }
+
+        private Color _ColumnHeaderColor;
+        public Color ColumnHeaderColor
+        {
+            get { return _ColumnHeaderColor; }
+            set
+            {
+                _ColumnHeaderColor = ColumnHeadersDefaultCellStyle.BackColor = ColumnHeadersStyle.BackColor = value;
+            }
+        }
+
+        private Color _ColumnSelectionColor;
+        public Color ColumnSelectionColor
+        {
+            get { return _ColumnSelectionColor; }
+            set
+            {
+                _ColumnSelectionColor = ColumnHeadersDefaultCellStyle.SelectionBackColor = ColumnHeadersStyle.SelectionBackColor = value;
+
+            }
+        }
+
         public DataGridViewPink()
         {
             InitializeComponent();
 
+            #region COLORS
+            DoubleBuffered = true;
+
+            DgvColor = Color.White;
+            DgvGridColor = Color.Silver;
+
+            RowAlternateColor = Color.White;
+            RowMouseHoverColor = Color.FromArgb(163, 228, 196);
+
+            RowHeaderColor = Color.White;
+            RowHeaderSelectionColor = SystemColors.Highlight;
+
+            CellColor = Color.White;
+            CellSelectionColor = Color.FromArgb(229, 226, 244);
+
+            ColumnHeaderColor = Color.FromArgb(109, 122, 224);
+            ColumnSelectionColor = SystemColors.Highlight;
+            #endregion
+
+            SetStyles();
+
+            ColumnHeaderMouseClick += dgv_ColumnHeaderMouseClick;
+            Sorted += dgv_OnSorted;
+            //RowPostPaint += OnRowPostPaint;
+        }
+
+        private void SetStyles()
+        {
             //MAIN
             Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
@@ -31,9 +146,9 @@ namespace GNX
             AllowUserToAddRows = false;
             AllowUserToDeleteRows = false;
 
-            BackgroundColor = System.Drawing.Color.White;
+            BackgroundColor = DgvColor;
             BorderStyle = System.Windows.Forms.BorderStyle.None;
-            GridColor = System.Drawing.Color.Silver;
+            GridColor = DgvGridColor;
             Margin = new System.Windows.Forms.Padding(0);
             MultiSelect = false;
             SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -45,17 +160,17 @@ namespace GNX
             RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 
             //Alternate Rows
-            System.Windows.Forms.DataGridViewCellStyle AlternatingRowsStyle = new System.Windows.Forms.DataGridViewCellStyle();
-            AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
+            //System.Windows.Forms.DataGridViewCellStyle AlternatingRowsStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            AlternatingRowsStyle.BackColor = RowAlternateColor;
             AlternatingRowsDefaultCellStyle = AlternatingRowsStyle;
 
             //ROWS_HEADERS
-            System.Windows.Forms.DataGridViewCellStyle RowHeadersStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            //System.Windows.Forms.DataGridViewCellStyle RowHeadersStyle = new System.Windows.Forms.DataGridViewCellStyle();
             RowHeadersStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            RowHeadersStyle.BackColor = System.Drawing.Color.White;
+            RowHeadersStyle.BackColor = RowHeaderColor;
             RowHeadersStyle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             RowHeadersStyle.ForeColor = System.Drawing.Color.White;
-            RowHeadersStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            RowHeadersStyle.SelectionBackColor = RowHeaderSelectionColor;
             RowHeadersStyle.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             RowHeadersStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             RowHeadersDefaultCellStyle = RowHeadersStyle;
@@ -65,12 +180,12 @@ namespace GNX
             RowHeadersVisible = false;
 
             //CELLS
-            System.Windows.Forms.DataGridViewCellStyle CellStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            //System.Windows.Forms.DataGridViewCellStyle CellStyle = new System.Windows.Forms.DataGridViewCellStyle();
             CellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            CellStyle.BackColor = System.Drawing.Color.White;
+            CellStyle.BackColor = CellColor;
             CellStyle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             CellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            CellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(226)))), ((int)(((byte)(244)))));
+            CellStyle.SelectionBackColor = CellSelectionColor;
             CellStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             CellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             DefaultCellStyle = CellStyle;
@@ -87,18 +202,70 @@ namespace GNX
 
             EnableHeadersVisualStyles = false;
 
-            System.Windows.Forms.DataGridViewCellStyle ColumnHeadersStyle = new System.Windows.Forms.DataGridViewCellStyle();
-            ColumnHeadersStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(122)))), ((int)(((byte)(224)))));
+            //System.Windows.Forms.DataGridViewCellStyle ColumnHeadersStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            ColumnHeadersStyle.BackColor = ColumnHeaderColor;
             ColumnHeadersStyle.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             ColumnHeadersStyle.ForeColor = System.Drawing.Color.White;
-            ColumnHeadersStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            ColumnHeadersStyle.SelectionBackColor = ColumnSelectionColor;
             ColumnHeadersStyle.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             ColumnHeadersStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             ColumnHeadersDefaultCellStyle = ColumnHeadersStyle;
+        }
 
-            //
-            ColumnHeaderMouseClick += dgv_ColumnHeaderMouseClick;
-            Sorted += dgv_OnSorted;
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e); this.Invalidate();
+        }
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e); this.Invalidate();
+
+        }
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e); this.Invalidate();
+        }
+        protected override void OnScroll(ScrollEventArgs e)
+        {
+            base.OnScroll(e); this.Invalidate();
+        }
+
+        //MouseHoverChangeRowColor
+        protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
+        {
+            base.OnRowPostPaint(e);
+
+            DataGridViewRow row = ((DataGridView)this).Rows[e.RowIndex];
+
+            if (this.RectangleToScreen(e.RowBounds).Contains(MousePosition))
+            {
+                row.DefaultCellStyle.BackColor = RowMouseHoverColor;
+                row.DefaultCellStyle.SelectionBackColor = RowMouseHoverColor;
+
+                //Color c = Color.FromArgb(50, Color.Blue);
+                //using (var b = new SolidBrush(RowMouseHoverColor))
+                //using (var p = new Pen(RowMouseHoverColor))
+                //{
+                //    var r = e.RowBounds;
+                //    r.Width -= 1;
+                //    r.Height -= 1;
+                //    e.Graphics.FillRectangle(b, r);
+                //    e.Graphics.DrawRectangle(p, r);
+                //}
+            }
+            else
+            {
+                row.DefaultCellStyle.SelectionBackColor = CellSelectionColor;
+
+                if (e.RowIndex % 2 == 0)
+                {
+                    row.DefaultCellStyle.BackColor = CellColor;
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = RowAlternateColor;
+                }
+            }
         }
 
         private void dgv_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)

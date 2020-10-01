@@ -49,6 +49,12 @@
     <Compile Include="Controls\ComboBoxNew.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\DataGridViewBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\DataGridViewBase.Designer.cs">
+      <DependentUpon>DataGridViewBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util\DataRowExtension.cs" />
     <Compile Include="Class\cDataTable.cs">
       <SubType>Component</SubType>
@@ -158,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ComboBoxBlue.resx">
       <DependentUpon>ComboBoxBlue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DataGridViewBase.resx">
+      <DependentUpon>DataGridViewBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DataGridViewPink.resx">
       <DependentUpon>DataGridViewPink.cs</DependentUpon>

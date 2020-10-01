@@ -1,6 +1,6 @@
 ﻿namespace GNX
 {
-    partial class DataGridViewPink
+    partial class DataGridViewBase
     {
         /// <summary> 
         /// Required designer variable.

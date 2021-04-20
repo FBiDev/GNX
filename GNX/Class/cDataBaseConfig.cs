@@ -13,6 +13,8 @@ namespace GNX
         public static IDbConnection SolutionConnection { get; set; }
         public static string SolutionFile { get; set; }
         public static string SolutionDataSource { get; set; }
+        public static string SolutionDatabase { get; set; }
+        public static string SolutionBaseDatabase { get; set; }
 
         //DB_GERAL
         public static DatabaseType GeralType { get; set; }

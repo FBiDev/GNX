@@ -14,6 +14,11 @@ namespace GNX
 
         private static DatabaseName DatabaseName;
 
+        public static DatabaseType DatabaseType;
+        public static IDbConnection Connection;
+        public static string DataSource { get; set; }
+        public static string DataFile { get; set; }
+
         private static IDbCommand cmd { get; set; }
         private static IDbConnection conn { get; set; }
 
@@ -45,8 +50,8 @@ namespace GNX
         {
             if (DatabaseName == DatabaseName.DB_SOLUTION)
             {
-                conn = cDataBaseConfig.SolutionConnection;
-                conn.ConnectionString = cDataBaseConfig.SolutionDataSource;
+                conn = Connection;
+                conn.ConnectionString = DataSource;
 
                 //if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
                 //{

@@ -44,6 +44,11 @@ namespace GNX
             get { return Language.NumberFormat.CurrencyGroupSeparator; }
         }
 
+        public static string ApplicationStartupPath()
+        {
+            return AppDomain.CurrentDomain.BaseDirectory;
+        }
+
         public static void Exit()
         {
             Application.Exit();

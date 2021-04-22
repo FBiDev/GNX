@@ -3,7 +3,7 @@
 
 namespace GNX
 {
-    public enum DbMovement
+    public enum DbAction
     {
         Null,
         Select,
@@ -12,7 +12,7 @@ namespace GNX
         Delete
     }
 
-    public enum DatabaseType
+    public enum DbSystem
     {
         SQLite,
         SQLiteODBC,
@@ -24,12 +24,6 @@ namespace GNX
         Oracle,
         Access,
         Undefined
-    }
-
-    public enum DatabaseName
-    {
-        DB_SOLUTION,
-        DB_GERAL
     }
 
     public enum TextMask

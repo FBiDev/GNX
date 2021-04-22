@@ -12,15 +12,31 @@ namespace GNX
 
         private static string error = String.Empty;
 
-        private static DatabaseName DatabaseName;
+        protected static DbSystem DatabaseSystem;
+        protected static IDbConnection Connection;
 
-        public static DatabaseType DatabaseType;
-        public static IDbConnection Connection;
-        public static string DataSource { get; set; }
-        public static string DataFile { get; set; }
+        protected static string ServerAddress { get; set; }
+        protected static string DatabaseName { get; set; }
+        protected static string DataBaseFile { get; set; }
+
+        protected static string Username { get; set; }
+        protected static string Password { get; set; }
+
+        protected static string ConnectionString { get; set; }
 
         private static IDbCommand cmd { get; set; }
         private static IDbConnection conn { get; set; }
+
+        protected static string DefaultConnectionString()
+        {
+            switch (DatabaseSystem)
+            {
+                case DbSystem.SQLServer: return "User ID=" + Username + ";Password=" + Password + ";Data Source=" + ServerAddress + ";Initial Catalog=" + DatabaseName + ";Persist Security Info=False;Packet Size=4096";
+                case DbSystem.SQLite: return "Data Source=" + DataBaseFile + ";Version=3;";
+                case DbSystem.SQLiteODBC: return "Driver = SQLite3 ODBC Driver; Datasource = " + DataBaseFile + ";Version = 3;New=True;Compress=True;";
+            }
+            return null;
+        }
 
         public static string GetError()
         {
@@ -32,12 +48,9 @@ namespace GNX
         public static int GetLastID()
         {
             string aSQL = string.Empty;
-            if (DatabaseName == DatabaseName.DB_SOLUTION)
+            if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
             {
-                if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
-                {
-                    aSQL = "SELECT LAST_INSERT_ROWID();";
-                }
+                aSQL = "SELECT LAST_INSERT_ROWID();";
             }
 
             SetCommand();
@@ -48,22 +61,14 @@ namespace GNX
 
         private static IDbConnection CreateConnection()
         {
-            if (DatabaseName == DatabaseName.DB_SOLUTION)
+            conn = Connection;
+            if (string.IsNullOrEmpty(ConnectionString))
             {
-                conn = Connection;
-                conn.ConnectionString = DataSource;
-
-                //if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
-                //{
-                //    if (cDataBaseConfig.SQLiteEnable && File.Exists(cDataBaseConfig.SolutionFile))
-                //    {
-                //        conn = cDataBaseSQLite.CreateConnection(cDataBaseConfig.SolutionDataSource);
-                //    }
-                //    else
-                //    {
-                //        throw new Exception(cDataBaseConfig.SolutionFile);
-                //    }
-                //}
+                conn.ConnectionString = DefaultConnectionString();
+            }
+            else
+            {
+                conn.ConnectionString = ConnectionString;
             }
 
             return conn;
@@ -124,21 +129,6 @@ namespace GNX
 
         public static void Open()
         {
-            if (DatabaseName != DatabaseName.DB_SOLUTION)
-            {
-                DatabaseName = DatabaseName.DB_SOLUTION;
-                conn = null;
-            }
-            SetCommand();
-        }
-
-        public static void OpenGeral()
-        {
-            if (DatabaseName != DatabaseName.DB_GERAL)
-            {
-                DatabaseName = DatabaseName.DB_GERAL;
-                conn = null;
-            }
             SetCommand();
         }
 
@@ -155,17 +145,6 @@ namespace GNX
 
                 cmd = conn.CreateCommand();
                 cmd.Connection = conn;
-
-                //if (_databaseName == DatabaseName.DB_SOLUTION)
-                //{
-                //    if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
-                //    {
-                //        if (cDataBaseConfig.SQLiteEnable)
-                //        {
-                //            cmd = cDataBaseSQLite.SetCommand();
-                //        }
-                //    }
-                //}
             }
             catch (Exception ex)
             {
@@ -200,29 +179,10 @@ namespace GNX
                         cmd.Prepare();
                     }
 
-                    Log.Add(new cLog(cmd, DbMovement.Select, cObject.GetDaoClassAndMethod()));
+                    Log.Add(new cLog(cmd, DbAction.Select, cObject.GetDaoClassAndMethod()));
 
                     using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
-                        //IDataAdapter da = default(IDataAdapter);
-
-                        //if (_databaseName == DatabaseName.DB_SOLUTION)
-                        //{
-                        //    if (cDataBaseConfig.SolutionType == DatabaseType.SQLite || cDataBaseConfig.SolutionType == DatabaseType.SQLiteODBC)
-                        //    {
-                        //        if (cDataBaseConfig.SQLiteEnable)
-                        //        {
-                        //            da = cDataBaseSQLite.ExecuteReader(cmd.CommandText, cmd.Connection.ConnectionString);
-                        //        }
-                        //    }
-                        //}
-
-                        //if (da != null)
-                        //{
-                        //    da.Fill(ds);
-                        //    data = ds.Tables[0];
-                        //}
-
                         DataTable schemaTabela = rdr.GetSchemaTable();
 
                         foreach (DataRow dataRow in schemaTabela.Rows)
@@ -258,7 +218,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        public static int ExecuteNonQuery(string aSQL, DbMovement Movement = DbMovement.Null)
+        public static int ExecuteNonQuery(string aSQL, DbAction act = DbAction.Null)
         {
             int affectedRows = 0;
 
@@ -272,7 +232,7 @@ namespace GNX
                         cmd.Prepare();
                     }
 
-                    Log.Add(new cLog(cmd, Movement, cObject.GetDaoClassAndMethod()));
+                    Log.Add(new cLog(cmd, act, cObject.GetDaoClassAndMethod()));
                     affectedRows = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -316,54 +276,47 @@ namespace GNX
 
         public static DataRowCollection ExecuteSelect(string Sql, List<cSqlParameter> Params = null)
         {
-            cDataBase.Open();
+            Open();
 
             if (Params != null)
             {
                 foreach (cSqlParameter P in Params)
                 {
-                    cDataBase.AddSQLParameter(P);
+                    AddSQLParameter(P);
                 }
             }
 
-            DataTable Table = cDataBase.ExecuteReader(Sql);
-            cDataBase.Close();
+            DataTable Table = ExecuteReader(Sql);
+
+            Close();
 
             return Table.Rows;
-
-            //T ListObjects = new T();
-            //foreach (DataRow Row in Table.Rows)
-            //{
-            //    ListObjects.Add(BaseDAO. obj. SetObject(Row));
-            //}
-
-            //return ListObjects;
         }
 
-        public static cSqlResult Execute(string Sql, List<cSqlParameter> Params, DbMovement Movement)
+        public static cSqlResult Execute(string sql, List<cSqlParameter> Params, DbAction act)
         {
-            cDataBase.Open();
+            Open();
 
             if (Params != null)
             {
                 foreach (cSqlParameter p in Params)
                 {
-                    cDataBase.AddSQLParameter(p);
+                    AddSQLParameter(p);
                 }
             }
 
             cSqlResult result = new cSqlResult();
-            result.AffectedRows = cDataBase.ExecuteNonQuery(Sql, Movement);
+            result.AffectedRows = ExecuteNonQuery(sql, act);
 
-            if (Movement == DbMovement.Insert)
+            if (act == DbAction.Insert)
             {
                 if (result.AffectedRows > 0)
                 {
-                    result.LastId = cDataBase.GetLastID();
+                    result.LastId = GetLastID();
                 }
             }
 
-            cDataBase.Close();
+            Close();
 
             return result;
         }

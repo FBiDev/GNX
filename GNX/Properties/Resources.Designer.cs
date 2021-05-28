@@ -63,6 +63,26 @@ namespace GNX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap img_drop_arrow {
+            get {
+                object obj = ResourceManager.GetObject("img_drop_arrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap img_drop_arrow_focus {
+            get {
+                object obj = ResourceManager.GetObject("img_drop_arrow_focus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap img_false_ico {
             get {
                 object obj = ResourceManager.GetObject("img_false_ico", resourceCulture);

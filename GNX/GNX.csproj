@@ -66,6 +66,12 @@
     <Compile Include="CustomControls\FlatComboBox.designer.cs">
       <DependentUpon>FlatComboBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\FlatStatusBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\FlatStatusBar.Designer.cs">
+      <DependentUpon>FlatStatusBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\FlatTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -178,6 +184,9 @@
   <ItemGroup>
     <EmbeddedResource Include="CustomControls\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\FlatStatusBar.resx">
+      <DependentUpon>FlatStatusBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\Test\CheckBoxBlue.resx">
       <DependentUpon>CheckBoxBlue.cs</DependentUpon>

@@ -57,6 +57,15 @@ namespace GNX
         NUMERO
     }
 
+    public enum Movimento
+    {
+        Nenhum,
+        Consulta,
+        Inclusão,
+        Alteração,
+        Exclusão
+    }
+
     public enum MenuMode
     {
         Consulta,

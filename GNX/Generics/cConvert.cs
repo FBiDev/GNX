@@ -117,6 +117,7 @@ namespace GNX
 
         public static bool ToBoolean(string value)
         {
+			value = value.Trim();
             if (value == "Sim" || value == "1" || value == "True" || value == "S" || value == "Y")
             {
                 return true;

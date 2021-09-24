@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\DB.cs" />
+    <Compile Include="cTest.cs" />
     <Compile Include="CustomControls\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>

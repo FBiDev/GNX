@@ -3,6 +3,19 @@
 
 namespace GNX
 {
+	public enum eType
+    {
+        String = 1755194596,
+        Int32 = 1755202216,
+        Int16 = 1755220012,
+        Single = 1755220172,
+        Double = 1755190860,
+		Decimal = 1755210720,
+        Boolean = 1755219852,
+        DateTime = 1755210548,
+        ByteArray = 1755126214
+    }
+	
     public enum OSVersion
     {
         Unknown = 0,

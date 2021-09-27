@@ -12,42 +12,48 @@ namespace GNX
             object result = null;
 
             Type _type = typeof(T);
+            eType typeName = (eType)_type.TypeHandle.Value;
+            if (typeName == eType.String) { result = string.Empty; }
+
+            List<string> cols = dRow.Table.Rows.Cast<DataRow>().Select(row => row["ColumnName"] as string).ToList();
+            if (!cols.Contains(ColumnName)) { return result; }
+			
             try
             {
-                if (dRow[ColumnName] != null && !(string.IsNullOrEmpty(dRow[ColumnName].ToString().Trim())))
+				object column = dRow[ColumnName];
+                string columnValue = column.ToString().Trim();
+				
+                if (!Convert.IsDBNull(column) && !(string.IsNullOrEmpty(columnValue)))
                 {
-                    object column = dRow[ColumnName];
-                    string columnValue = column.ToString().Trim();
-
                     switch (_type.Name)
                     {
-                        case "Int32":
+                        case eType.Int32:
                             result = cConvert.ToIntNull(columnValue);
                             break;
                         //Short
-                        case "Int16":
+                        case eType.Int16:
                             result = cConvert.ToShortNull(columnValue);
                             break;
                         //Float
-                        case "Single":
+                        case eType.Single:
                             result = cConvert.ToFloatNull(columnValue);
                             break;
-                        case "Double":
+                        case eType.Double:
                             result = cConvert.ToDoubleNull(columnValue);
                             break;
                         case "Decimal":
                             result = cConvert.ToDecimalNull(columnValue);
                             break;
-                        case "String":
+                        case eType.String:
                             result = columnValue;
                             break;
-                        case "Boolean":
+                        case eType.Boolean:
                             result = cConvert.ToBoolean(columnValue);
                             break;
-                        case "DateTime":
+                        case eType.DateTime:
                             result = cConvert.ToDateTimeNull(columnValue);
                             break;
-                        case "Byte[]":
+                        case eType.ByteArray:
                             result = column;
                             break;
                         default:

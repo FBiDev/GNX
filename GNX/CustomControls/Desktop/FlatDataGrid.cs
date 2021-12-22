@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace GNX
 {
@@ -13,9 +14,20 @@ namespace GNX
         public new Color GridColor { get { return base.GridColor; } set { base.GridColor = value; } }
         #endregion
 
+        public StatusStrip _Statusbar = new StatusStrip();
+        public StatusStrip Statusbar { get { return _Statusbar; } set { _Statusbar = value; } }
+
         public FlatDataGrid()
         {
             InitializeComponent();
+
+            DataSourceChanged += Dg_DataSourceChanged;
+        }
+
+        protected new void Dg_DataSourceChanged(object sender, EventArgs e)
+        {
+            base.Dg_DataSourceChanged(null, null);
+            RefreshRows();
         }
 
         protected override void OnHandleCreated(EventArgs e)
@@ -47,6 +59,15 @@ namespace GNX
             #endregion
 
             SetStyles();
+        }
+
+        public new void RefreshRows()
+        {
+            base.RefreshRows();
+            if (Statusbar.Items.Count > 0)
+            {
+                Statusbar.Items[0].Text = (Rows.Count + " Registro(s)");
+            }
         }
     }
 }

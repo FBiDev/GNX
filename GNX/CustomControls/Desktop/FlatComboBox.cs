@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
 using GNX.Properties;
+using System.Collections.Generic;
+using System.Data;
 
 namespace GNX
 {
@@ -76,6 +78,10 @@ namespace GNX
         public FlatComboBoxNew Combo { get { return cboFlat; } }
         public new string Text { get { return cboFlat.Text; } set { cboFlat.Text = value; } }
 
+        public event EventHandler SelectedIndexChanged;
+        public event EventHandler SelectionChangeCommitted;
+        //public delegate void EventHandler(object sender, EventArgs e);
+
         private string _DisplayMember;
         [DefaultValue("")]
         public string DisplayMember
@@ -103,21 +109,29 @@ namespace GNX
             {
                 cboFlat.DataSource = value;
                 cboFlat.DisplayMember = _DisplayMember;
-                SelectedIndexReset();
+                ResetIndex();
             }
         }
-
-        public event System.EventHandler SelectedIndexChanged;
-        private delegate void EventHandler(object sender, EventArgs e);
 
         [DefaultValue(-1)]
         public int SelectedIndex { get { return cboFlat.SelectedIndex; } set { cboFlat.SelectedIndex = value; } }
 
         [DefaultValue("")]
-        public string SelectedValue { get { if (cboFlat.SelectedValue != null) { return cboFlat.SelectedValue.ToString(); } return string.Empty; } set { cboFlat.SelectedValue = value; } }
+        public object SelectedValue
+        {
+            get { if (cboFlat.SelectedValue.NotNull()) { return cboFlat.SelectedValue; } return string.Empty; }
+            set
+            {
+                if (value.NotNull() && !value.ToString().Equals(string.Empty)) { cboFlat.SelectedValue = value; } else { ResetIndex(); }
+            }
+        }
+
+        public int SelectedValueInt { get { return GNX.cConvert.ToInt(cboFlat.SelectedValue); } }
 
         [DefaultValue(null)]
         public object SelectedItem { get { return cboFlat.SelectedItem; } set { cboFlat.SelectedItem = value; } }
+
+        public T SelectedObject<T>() where T : new() { return cConvert.ToObject<T>(cboFlat.SelectedItem); }
         #endregion
 
         public FlatComboBox()
@@ -135,12 +149,15 @@ namespace GNX
             Combo.DropDownClosed += Combo_DropDownClosed;
             Combo.MouseWheel += new MouseEventHandler(Combo_MouseWheel);
             Combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
+            Combo.SelectionChangeCommitted += Combo_SelectionChangeCommitted;
 
             Cursor = Cursors.Hand;
             Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
             Size = new Size(206, 34);
             MaximumSize = new Size(800, 34);
             MinimumSize = new Size(100, 34);
+
+            Combo.Sorted = false;
         }
 
         protected override void OnHandleCreated(EventArgs e)
@@ -150,8 +167,8 @@ namespace GNX
             pnlBg.BackColor = BackgroundColor;
             lblSubtitle.BackColor = BackgroundColor;
             lblSubtitle.ForeColor = LabelTextColor;
-            Combo.BackColor = BackgroundColor;
 
+            Combo.BackColor = BackgroundColor;
             Combo.ForeColor = ItemTextColor;
         }
 
@@ -161,14 +178,46 @@ namespace GNX
             Combo.DroppedDown = true;
         }
 
-        public void SelectedIndexReset()
+        public void Reload<T>(GNX.ListBind<T> listSource)
         {
-            Combo.SelectedIndexReset();
+            object previousValue = SelectedValue;
+
+            DataSource = listSource;
+
+            //cbo1.SelectedValue = IdAntigo;
+            SelectedValue = previousValue;
+        }
+
+        public void Reload<T>(List<T> listSource)
+        {
+
+            object previousValue = SelectedValue;
+
+            DataSource = listSource;
+
+            //cbo1.SelectedValue = IdAntigo;
+            SelectedValue = previousValue;
+        }
+
+        public void ResetIndex()
+        {
+            Combo.ResetIndex();
         }
 
         private void Combo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectedIndexChanged(sender, e);
+            if (SelectedIndexChanged.NotNull())
+            {
+                SelectedIndexChanged(sender, e);
+            }
+        }
+
+        private void Combo_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (SelectionChangeCommitted.NotNull())
+            {
+                SelectionChangeCommitted(sender, e);
+            }
         }
 
         private void Combo_GotFocus(object sender, EventArgs e)
@@ -194,7 +243,10 @@ namespace GNX
 
         private void Combo_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index == -1) { return; }
+            if (e.Index == -1)
+            {
+                return;
+            }
 
             //BackgroundColor
             //var combo = sender as ComboBox;

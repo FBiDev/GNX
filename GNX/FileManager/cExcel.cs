@@ -47,7 +47,7 @@ namespace GNX
             }
             catch (Exception ex)
             {
-                GNX.cException.ShowBox(ex);
+                cException.ShowBox(ex);
             }
 
             return data;

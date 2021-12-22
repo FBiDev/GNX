@@ -19,13 +19,15 @@ namespace GNX
             }
         }
 
+        public bool Checked { get { return CheckBox.Checked; } set { CheckBox.Checked = value; } }
+
         public CheckBoxBlue()
         {
             InitializeComponent();
             AlignControl();
         }
 
-        public CheckBox CheckBox
+        private CheckBox CheckBox
         {
             get
             {

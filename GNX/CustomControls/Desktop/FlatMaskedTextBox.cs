@@ -120,7 +120,7 @@ namespace GNX
         }
         #endregion
 
-        public MaskedTextBox TextBox { get { return txtMain; } }
+        private MaskedTextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
         public FlatMaskedTextBox()

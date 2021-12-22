@@ -91,5 +91,13 @@ namespace GNX
         {
             get { return isSortedValue; }
         }
+
+        public void AddRange(IEnumerable<T> itemsToAdd)
+        {
+            foreach (T item in itemsToAdd)
+            {
+                this.Add(item);
+            }
+        }
     }
 }

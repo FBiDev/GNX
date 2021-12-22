@@ -8,6 +8,7 @@ namespace GNX
     {
         private int? _registros;
         private Movimento _movimento;
+        private bool _BorderEnable = true;
 
         public int? Registros
         {
@@ -50,16 +51,30 @@ namespace GNX
             }
         }
 
+        public bool BorderEnable
+        {
+            get { return _BorderEnable; }
+            set
+            {
+                _BorderEnable = value;
+                pnlBorder.Visible = _BorderEnable;
+            }
+        }
+
         public FlatStatusBar()
         {
             InitializeComponent();
 
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
             Load += FlatStatusBar_Load;
+            lblStatus1.TextChanged += lblStatus1_TextChanged;
             lblStatus2.TextChanged += lblStatus2_TextChanged;
         }
 
         private void FlatStatusBar_Load(object sender, EventArgs e)
         {
+            lblStatus1_TextChanged(null, null);
             lblStatus2_TextChanged(null, null);
         }
 
@@ -71,6 +86,24 @@ namespace GNX
                 return;
             }
             pnlStatus2.Visible = true;
+        }
+
+        private void lblStatus1_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(lblStatus1.Text.Trim()))
+            {
+                pnlStatus1.Visible = false;
+                if (BorderEnable)
+                {
+                    //pnlBorder.Visible = false;
+                }
+                return;
+            }
+            pnlStatus1.Visible = true;
+            if (BorderEnable)
+            {
+                //pnlBorder.Visible = true;
+            }
         }
     }
 }

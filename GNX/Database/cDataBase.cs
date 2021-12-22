@@ -8,7 +8,7 @@ namespace GNX
 {
     public class cDataBase
     {
-        public ListBind<cLog> Log = new ListBind<cLog>();
+        public ListBind<cLogSQL> Log = new ListBind<cLogSQL>();
 
         private string error = String.Empty;
 
@@ -38,6 +38,11 @@ namespace GNX
             return null;
         }
 
+        public void AddLog(IDbCommand cmd, DbAction action = DbAction.Null, string method = default(string))
+        {
+            Log.Insert(0, new cLogSQL(Log.Count, cmd, action, cObject.GetDaoClassAndMethod(5)));
+        }
+
         public string GetError()
         {
             string newError = error;
@@ -47,7 +52,11 @@ namespace GNX
 
         public DateTime DataServidor()
         {
-            string sql = "SELECT GETDATE() AS DataServ";
+            string sql = "SELECT GETDATE() AS DataServ;";
+            if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
+            {
+                sql = "SELECT strftime('%Y-%m-%d %H:%M:%f','now', 'localtime') AS DataServ;";
+            }
             SetCommand();
 
             string select = ExecuteScalar(sql);
@@ -56,10 +65,10 @@ namespace GNX
 
         public int GetLastID()
         {
-            string sql = string.Empty;
+            string sql = "SELECT SCOPE_IDENTITY() AS LastID;";
             if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
             {
-                sql = "SELECT LAST_INSERT_ROWID();";
+                sql = "SELECT LAST_INSERT_ROWID() AS LastID;";
             }
 
             SetCommand();
@@ -188,8 +197,7 @@ namespace GNX
                         cmd.Prepare();
                     }
 
-                    Log.Add(new cLog(Log.Count, cmd, DbAction.Select, cObject.GetDaoClassAndMethod()));
-
+                    AddLog(cmd, DbAction.Select);
                     using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
                         DataTable schemaTabela = rdr.GetSchemaTable();
@@ -241,7 +249,7 @@ namespace GNX
                         cmd.Prepare();
                     }
 
-                    Log.Add(new cLog(Log.Count, cmd, action, cObject.GetDaoClassAndMethod()));
+                    AddLog(cmd, action);
                     affectedRows = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -267,7 +275,7 @@ namespace GNX
                         cmd.Prepare();
                     }
 
-                    Log.Add(new cLog(Log.Count, cmd));
+                    AddLog(cmd);
                     select = cmd.ExecuteScalar();
                 }
                 catch (Exception ex)

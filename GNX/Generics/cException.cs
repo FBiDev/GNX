@@ -202,11 +202,6 @@ namespace GNX
                 }
             }
 
-            else if (Config.SQLiteEnable)
-            {
-                externalDLL = cExceptionSQLite.ShowBox(ex, ArgumentString);
-            }
-
             else
             {
                 string ExTypeStr = "ExType  : " + ExType.ToString();

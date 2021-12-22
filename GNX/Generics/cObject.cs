@@ -22,10 +22,10 @@ namespace GNX
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static string GetDaoClassAndMethod()
+        public static string GetDaoClassAndMethod(int frameIndex = 0)
         {
             var st = new StackTrace();
-            var sf = st.GetFrame(3);
+            var sf = st.GetFrame(frameIndex);
 
             return sf.GetMethod().DeclaringType.Name + "." + sf.GetMethod().Name;
         }

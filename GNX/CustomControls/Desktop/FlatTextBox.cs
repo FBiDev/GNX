@@ -46,15 +46,22 @@ namespace GNX
 
         [Category("_Properties")]
         [DefaultValue(typeof(string), "")]
-        public string _Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
+        public string DefaultText { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
         [Category("_Properties")]
         [DefaultValue(typeof(string), "")]
         public string PlaceholderText { get { return lblPlaceholder.Text; } set { lblPlaceholder.Text = value; } }
         #endregion
 
-        public TextBox TextBox { get { return txtMain; } }
+        #region TextBox
+        private TextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
+
+        public new EventHandler TextChanged;
+        public new EventHandler Enter;
+        public new EventHandler Leave;
+        public new KeyPressEventHandler KeyPress;
+        #endregion
 
         public FlatTextBox()
         {
@@ -72,6 +79,9 @@ namespace GNX
             TextBox.GotFocus += TextBox_GotFocus;
             TextBox.LostFocus += TextBox_LostFocus;
             TextBox.TextChanged += TextBox_TextChanged;
+
+            TextBox.Enter += TextBox_Enter;
+            TextBox.Leave += TextBox_Leave;
 
             Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
             Size = new Size(206, 34);
@@ -111,8 +121,16 @@ namespace GNX
             TextBox.Focus();
         }
 
+        private void TextBox_Enter(object sender, EventArgs e) { if (Enter.NotNull()) { Enter(sender, e); } }
+        private void TextBox_Leave(object sender, EventArgs e) { if (Leave.NotNull()) { Leave(sender, e); } }
+
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (KeyPress.NotNull())
+            {
+                KeyPress(sender, e);
+            }
+
             OnKeyPress(e);
         }
 
@@ -147,6 +165,11 @@ namespace GNX
 
         protected void TextBox_TextChanged(object sender, EventArgs e)
         {
+            if (TextChanged.NotNull())
+            {
+                TextChanged(sender, e);
+            }
+
             if (TextBox.Focused)
             {
                 lblPlaceholder.Visible = false;

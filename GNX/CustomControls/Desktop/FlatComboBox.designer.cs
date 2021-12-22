@@ -32,7 +32,7 @@
             this.pnlBg = new System.Windows.Forms.Panel();
             this.picDrop = new System.Windows.Forms.PictureBox();
             this.lblSubtitle = new System.Windows.Forms.Label();
-            this.cboFlat = new FlatComboBoxNew();
+            this.cboFlat = new GNX.FlatComboBoxNew();
             this.pnlBorder.SuspendLayout();
             this.pnlBg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picDrop)).BeginInit();

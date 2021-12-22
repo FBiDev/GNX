@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using GNX.Properties;
 
 namespace GNX
 {
@@ -19,33 +18,22 @@ namespace GNX
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 
             Load += FormBase_Load;
+            Shown += FormBase_Shown;
             Resize += FormBase_Resize;
-            lblStatus2.TextChanged += lblStatus2_TextChanged;
         }
+
+        private void FormBase_Load(object sender, EventArgs e) { }
+
+        private void FormBase_Shown(object sender, EventArgs e) { }
 
         protected override void OnHandleCreated(EventArgs e)
         {
             ResizeMargins();
         }
 
-        private void FormBase_Load(object sender, EventArgs e)
-        {
-            lblStatus2_TextChanged(null, null);
-        }
-
         private void FormBase_Resize(object sender, EventArgs e)
         {
             ResizeMargins();
-        }
-
-        private void lblStatus2_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(lblStatus2.Text.Trim()))
-            {
-                pnlStatus2.Visible = false;
-                return;
-            }
-            pnlStatus2.Visible = true;
         }
 
         public void ResizeMargins()
@@ -63,20 +51,38 @@ namespace GNX
             pnlContent.Location = new Point(0, 0);
             pnlContent.Size = new Size(
                 pnlBorder2.Width - (pnlContent.Location.X * 2),
-                pnlBorder2.Height - (pnlContent.Location.Y * 2) - pnlStatus.Height - 1);
+                pnlBorder2.Height - (pnlContent.Location.Y * 2) - pnlStatus.Height - 0);
 
-            pnlMargin.Location = new Point(11, 11);
+            pnlMargin.Location = new Point(6, 6);
             pnlMargin.Size = new Size(
                 pnlContent.Width - (pnlMargin.Location.X * 2),
                 pnlContent.Height - (pnlMargin.Location.Y * 2));
 
-            lblCenter.Location = new Point(11, 0);
-            lblCenter.Size = new Size(pnlContent.Width / 2 - 11, 11);
+            lblCenter.Location = new Point(6, 0);
+            lblCenter.Size = new Size(pnlContent.Width / 2 - 6, 6);
 
-            pnlStatus.Location = new Point(0, pnlContent.Height + 1);
+            pnlStatus.Location = new Point(0, pnlContent.Height + 0);
             pnlStatus.Size = new Size(
                 pnlBorder2.Width - (pnlStatus.Location.X * 2),
-                22);
+                23);
+
+            staStatus.Location = new Point(0, 0);
+            staStatus.Size = new Size(pnlStatus.Width, 23);
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.F1))
+            {
+                cDebug.Open().Show();
+            }
+
+            //if (keyData == (Keys.Escape))
+            //{
+            //    Close();
+            //    return true;
+            //}
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         //#region ResizeGrip

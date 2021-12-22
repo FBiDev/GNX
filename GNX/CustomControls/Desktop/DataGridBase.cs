@@ -173,7 +173,12 @@ namespace GNX
         //    SortDefaultColumn();
         //}
 
-        public void AddColumn<T>(string ColumnName, string ColumnHeaderText = "", string ColumnDataPropertyName = "", int? index = null, bool visible = true, int ColumnWidth = 100)
+        public void AddColumnInvisible<T>(string ColumnName, string ColumnHeaderText = "", string ColumnDataPropertyName = "")
+        {
+            AddColumn<int>(ColumnName, ColumnHeaderText, ColumnDataPropertyName, "", DataGridViewContentAlignment.NotSet, null, false);
+        }
+
+        public void AddColumn<T>(string ColumnName, string ColumnHeaderText = "", string ColumnDataPropertyName = "", string ColumnFormat = "", DataGridViewContentAlignment ColumnAlignment = 0, int? index = null, bool visible = true, int ColumnWidth = 100)
         {
             DataGridViewColumn c = new DataGridViewColumn();
 
@@ -185,18 +190,37 @@ namespace GNX
                     c = new DataGridViewTextBoxColumn();
                     c.CellTemplate = new DataGridViewTextBoxCell();
                     //c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-                    c.Width = ColumnWidth;
+                    if (ColumnWidth != 0) { c.Width = ColumnWidth; }
                     //c.AutoSizeMode = ColumnAutoSizeMode;
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                    c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+                    c.DefaultCellStyle.Alignment = ColumnAlignment == 0 ? DataGridViewContentAlignment.MiddleLeft : ColumnAlignment;
+                    c.DefaultCellStyle.Format = string.IsNullOrEmpty(ColumnFormat) ? "" : ColumnFormat;
                     break;
                 case "Int32":
                     c = new DataGridViewTextBoxColumn();
                     c.CellTemplate = new DataGridViewTextBoxCell();
-                    c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                    //c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                    if (ColumnWidth != 0) { c.Width = ColumnWidth; }
+                    c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    c.DefaultCellStyle.Alignment = ColumnAlignment == 0 ? DataGridViewContentAlignment.MiddleRight : ColumnAlignment;
+                    c.DefaultCellStyle.Format = string.IsNullOrEmpty(ColumnFormat) ? "" : ColumnFormat;
+                    c.DefaultCellStyle.NullValue = null;
+                    break;
+                case "Single":
+                    c = new DataGridViewTextBoxColumn();
+                    c.CellTemplate = new DataGridViewTextBoxCell();
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                    c.DefaultCellStyle.Format = "N0";
+                    c.DefaultCellStyle.Format = string.IsNullOrEmpty(ColumnFormat) ? "N0" : ColumnFormat;
+                    c.DefaultCellStyle.NullValue = null;
+                    break;
+                case "TimeSpan":
+                    c = new DataGridViewTextBoxColumn();
+                    c.CellTemplate = new DataGridViewTextBoxCell();
+                    c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    c.DefaultCellStyle.Format = "hh\\:mm";
                     c.DefaultCellStyle.NullValue = null;
                     break;
                 case "Boolean":
@@ -210,10 +234,11 @@ namespace GNX
                 case "DateTime":
                     c = new DataGridViewTextBoxColumn();
                     c.CellTemplate = new DataGridViewTextBoxCell();
-                    c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                    //c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                    if (ColumnWidth != 100) { c.Width = ColumnWidth; } else { c.Width = 110; }
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    c.DefaultCellStyle.Format = "G";
+                    c.DefaultCellStyle.Format = "d";
                     c.DefaultCellStyle.NullValue = null;
                     break;
                 case "Bitmap":
@@ -380,20 +405,44 @@ namespace GNX
             SortImageColumns(sender, e);
         }
 
-        public void SetDefaultColumn(string ColumnName, bool Ascending = true)
+        public void OrderBy(string columnName, bool ascending = true)
         {
-            DefaultColumn = ColumnName;
-            DefaultColumnDirection = Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending;
+            DefaultColumn = columnName;
+            DefaultColumnDirection = ascending ? ListSortDirection.Ascending : ListSortDirection.Descending;
 
             LastSortedColumn = DefaultColumn;
             LastSortedColumnDirection = DefaultColumnDirection;
         }
 
-        public void SortDefaultColumn()
+        public void SortDefaultColumn(bool lastSortedDirection = false)
         {
             if (Columns.Contains(DefaultColumn))
             {
-                this.Sort(this.Columns[DefaultColumn], DefaultColumnDirection);
+                if (!lastSortedDirection)
+                {
+                    this.Sort(this.Columns[DefaultColumn], DefaultColumnDirection);
+                }
+                else
+                {
+                    //Maintain sort direction after refresh
+                    if (this.Columns[LastSortedColumn] is DataGridViewImageColumn)
+                    {
+                        var a = new DataGridViewCellMouseEventArgs(Columns[LastSortedColumn].Index, 0, 0, 0, new MouseEventArgs(System.Windows.Forms.MouseButtons.Left, 1, 0, 0, 0));
+                        SortImageColumns(null, a);
+                        SortImageColumns(null, a);
+                    }
+                    else
+                    {
+                        if (this.SortOrder == SortOrder.Descending)
+                        {
+                            this.Sort(this.Columns[LastSortedColumn], ListSortDirection.Descending);
+                        }
+                        else
+                        {
+                            this.Sort(this.Columns[LastSortedColumn], ListSortDirection.Ascending);
+                        }
+                    }
+                }
             }
         }
 
@@ -439,7 +488,6 @@ namespace GNX
         protected void Dg_DataSourceChanged(object sender, EventArgs e)
         {
             SetBooleanColumns(GetBooleanColumns());
-            LoadBooleanImages();
             SortDefaultColumn();
         }
 
@@ -458,7 +506,7 @@ namespace GNX
                     //Add Image Columns
                     if (!Columns.Contains(newColumn))
                     {
-                        AddColumn<Bitmap>(newColumn, ColumnsBooleanName, "", Columns[ColumnsBooleanName].Index);
+                        AddColumn<Bitmap>(newColumn, ColumnsBooleanName, "", "", DataGridViewContentAlignment.NotSet, Columns[ColumnsBooleanName].Index);
                     }
 
                     Columns[ColumnsBooleanName].Visible = false;
@@ -492,11 +540,18 @@ namespace GNX
             }
         }
 
-        //public void RefreshBooleanImage(string columnName, string cellValue, string booleanColumn, bool value)
+        public void RefreshRows()
+        {
+            //SortDefaultColumn(true);
+            LoadBooleanImages();
+            Refresh();
+        }
+
+        //public void RefreshBooleanImage(string column, string cellValue, string booleanColumn, bool value)
         //{
         //    foreach (DataGridViewRow Row in this.Rows)
         //    {
-        //        if (Row.Cells[columnName].Value.ToString() == cellValue)
+        //        if (Row.Cells[column].Value.ToString() == cellValue)
         //        {
         //            Row.Cells[booleanColumn + boolColumnSufix].Value = (value == true) ? imgtrue : imgfalse;
         //        }

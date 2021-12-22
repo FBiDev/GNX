@@ -7,14 +7,14 @@ using System.Drawing;
 
 namespace GNX
 {
-    public class cForms
+    public class cForm
     {
-        public static T OpenOnce<T>(Form parent = null) where T : new()
+        public static T Open<T>(Form parent = null, bool once = true) where T : new()
         {
             T frmG = default(T);
             var FormGeneric = ((Form)(object)frmG);
 
-            if (Application.OpenForms.OfType<T>().Count() == 0)
+            if (once && Application.OpenForms.OfType<T>().Count() == 0)
             {
                 if (FormGeneric == null || FormGeneric.IsDisposed)
                 {
@@ -45,7 +45,7 @@ namespace GNX
             return (T)(object)FormGeneric;
         }
 
-        public static T GetForm<T>() where T : Form
+        public static T Get<T>() where T : Form
         {
             foreach (Form f in Application.OpenForms)
             {
@@ -59,7 +59,7 @@ namespace GNX
             return default(T);
         }
 
-        public static Point GetControlLocation(Control c)
+        public static Point ControlLocation(Control c)
         {
             Point locationOnForm = c.FindForm().PointToClient(c.Parent.PointToScreen(c.Location));
             return locationOnForm;

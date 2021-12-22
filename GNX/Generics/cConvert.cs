@@ -117,8 +117,12 @@ namespace GNX
 
         public static bool ToBoolean(string value)
         {
-			value = value.Trim();
-            if (value == "Sim" || value == "1" || value == "True" || value == "S" || value == "Y")
+            value = value.Trim().ToLower();
+
+            if (value == "1" || value == "true" ||
+                value == "y" || value == "yes" ||
+                value == "s" || value == "sim"
+               )
             {
                 return true;
             }
@@ -178,6 +182,7 @@ namespace GNX
             {
                 return (T)obj;
             }
+            //return default(T);
             return new T();
         }
 

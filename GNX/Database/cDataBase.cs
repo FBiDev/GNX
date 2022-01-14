@@ -10,8 +10,6 @@ namespace GNX
     {
         public ListBind<cLogSQL> Log = new ListBind<cLogSQL>();
 
-        private string error = String.Empty;
-
         public DbSystem DatabaseSystem;
         public IDbConnection Connection;
 
@@ -43,14 +41,7 @@ namespace GNX
             Log.Insert(0, new cLogSQL(Log.Count, cmd, action, cObject.GetDaoClassAndMethod(5)));
         }
 
-        public string GetError()
-        {
-            string newError = error;
-            error = string.Empty;
-            return newError;
-        }
-
-        public DateTime DataServidor()
+        public DateTime DateTimeServer()
         {
             string sql = "SELECT GETDATE() AS DataServ;";
             if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
@@ -107,24 +98,24 @@ namespace GNX
             }
         }
 
-        private IDbDataParameter AddSQLParameter(string parameterName, DbType dbType, object value, int size = 0, byte precision = 0, byte scale = 0)
-        {
-            if (cmd != null)
-            {
-                IDbDataParameter p = cmd.CreateParameter();
-                p.ParameterName = parameterName;
-                p.DbType = dbType;
-                p.Value = value;
-                p.Size = size;
-                p.Precision = precision;
-                p.Scale = scale;
-                cmd.Parameters.Add(p);
+        //private IDbDataParameter AddSQLParameter(string parameterName, DbType dbType, object value, int size = 0, byte precision = 0, byte scale = 0)
+        //{
+        //    if (cmd != null)
+        //    {
+        //        IDbDataParameter p = cmd.CreateParameter();
+        //        p.ParameterName = parameterName;
+        //        p.DbType = dbType;
+        //        p.Value = value;
+        //        p.Size = size;
+        //        p.Precision = precision;
+        //        p.Scale = scale;
+        //        cmd.Parameters.Add(p);
 
-                return p;
-            }
+        //        return p;
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         private IDbDataParameter AddSQLParameter(cSqlParameter parameter)
         {
@@ -310,7 +301,7 @@ namespace GNX
             return table;
         }
 
-        public cSqlResult Execute(string sql, List<cSqlParameter> parameters, DbAction action)
+        public cSqlResult Execute(string sql, DbAction action, List<cSqlParameter> parameters)
         {
             Open();
 

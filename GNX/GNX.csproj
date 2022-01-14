@@ -126,6 +126,7 @@
     <Compile Include="CustomControls\Desktop\Test\PanelResizable.Designer.cs">
       <DependentUpon>PanelResizable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\ContainersExtension.cs" />
     <Compile Include="Extensions\ListBind.cs" />
     <Compile Include="Generics\cConvert.cs" />
     <Compile Include="Generics\cApp.cs" />

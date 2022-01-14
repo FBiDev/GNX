@@ -148,7 +148,7 @@ namespace GNX
             TextBox.BackColor = BackgroundColorFocus;
             TextBox.ForeColor = TextColorFocus;
 
-            TextBox_TextChanged(null, null);
+            lblPlaceholder.Visible = false;
         }
 
         private void TextBox_LostFocus(object sender, EventArgs e)
@@ -160,7 +160,7 @@ namespace GNX
             TextBox.BackColor = BackgroundColor;
             TextBox.ForeColor = TextColor;
 
-            TextBox_TextChanged(null, null);
+            lblPlaceholder.Visible = TextBox.Text.Length == 0;
         }
 
         protected void TextBox_TextChanged(object sender, EventArgs e)
@@ -170,17 +170,9 @@ namespace GNX
                 TextChanged(sender, e);
             }
 
-            if (TextBox.Focused)
+            if(!TextBox.Focused)
             {
-                lblPlaceholder.Visible = false;
-            }
-            else if (TextBox.Text.Length == 0)
-            {
-                lblPlaceholder.Visible = true;
-            }
-            else
-            {
-                lblPlaceholder.Visible = false;
+                lblPlaceholder.Visible = TextBox.Text.Length == 0;
             }
         }
     }

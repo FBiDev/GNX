@@ -64,6 +64,11 @@ namespace GNX
         public new void RefreshRows()
         {
             base.RefreshRows();
+            RefreshStatusBar();
+        }
+
+        public void RefreshStatusBar()
+        {
             if (Statusbar.Items.Count > 0)
             {
                 Statusbar.Items[0].Text = (Rows.Count + " Registro(s)");

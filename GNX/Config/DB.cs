@@ -32,9 +32,9 @@ namespace GNX
             return new DataTable();
         }
 
-        public static cSqlResult Execute(string sql, List<cSqlParameter> parameters, DbAction action)
+        public static cSqlResult Execute(string sql, DbAction action, List<cSqlParameter> parameters)
         {
-            if (ConfigLoaded) { return Database.Execute(sql, parameters, action); }
+            if (ConfigLoaded) { return Database.Execute(sql, action, parameters); }
             return new cSqlResult();
         }
 
@@ -46,7 +46,7 @@ namespace GNX
 
         public static DateTime DataServidor()
         {
-            if (ConfigLoaded) { return Database.DataServidor(); }
+            if (ConfigLoaded) { return Database.DateTimeServer(); }
             return DateTime.MinValue;
         }
     }

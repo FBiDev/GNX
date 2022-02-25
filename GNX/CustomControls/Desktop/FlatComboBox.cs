@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 //
 using System.Drawing;
 using System.ComponentModel;
-using GNX.Properties;
-using System.Collections.Generic;
 using System.Data;
+using GNX.Properties;
 
 namespace GNX
 {
@@ -126,7 +126,7 @@ namespace GNX
             }
         }
 
-        public int SelectedValueInt { get { return GNX.cConvert.ToInt(cboFlat.SelectedValue); } }
+        public int SelectedValueInt { get { return cConvert.ToInt(cboFlat.SelectedValue); } }
 
         [DefaultValue(null)]
         public object SelectedItem { get { return cboFlat.SelectedItem; } set { cboFlat.SelectedItem = value; } }
@@ -178,7 +178,7 @@ namespace GNX
             Combo.DroppedDown = true;
         }
 
-        public void Reload<T>(GNX.ListBind<T> listSource)
+        public void Reload<T>(ListBind<T> listSource)
         {
             object previousValue = SelectedValue;
 

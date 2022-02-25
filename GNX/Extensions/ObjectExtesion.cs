@@ -24,11 +24,14 @@ namespace GNX
 
         public static void Clone(this object origin, object from)
         {
-            foreach (PropertyInfo property in from.GetType().GetProperties())
+            if (from.NotNull())
             {
-                if (property.CanWrite)
+                foreach (PropertyInfo property in from.GetType().GetProperties())
                 {
-                    property.SetValue(origin, property.GetValue(from, null), null);
+                    if (property.CanWrite && !property.Name.Equals("Cloned"))
+                    {
+                        property.SetValue(origin, property.GetValue(from, null), null);
+                    }
                 }
             }
         }

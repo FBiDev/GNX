@@ -18,25 +18,33 @@ namespace GNX
         public cSqlParameter(string ParameterName, object Value, int Size = 0)
         {
             this.ParameterName = ParameterName;
-            this.Value = Value;
 
-            if (this.Value != null)
+            this.Value = Value ?? DBNull.Value;
+            if (this.Value == DBNull.Value) Size = 1;
+
+            if (this.Value != null && this.Value != DBNull.Value)
             {
                 Type ValueType = Value.GetType();
 
                 switch (ValueType.Name)
                 {
-                    case "String": this.DbType = DbType.String; break;
+                    case "String":
+                        this.DbType = DbType.String;
+                        if (Size == 0) Size = -1;
+                        break;
                     case "Int32": this.DbType = DbType.Int32; break;
                     case "DateTime":
                         this.DbType = DbType.DateTime2;
                         this.Value = cConvert.ToDateTimeDB((DateTime?)Value);
                         break;
-                    case "Boolean": this.DbType = DbType.Boolean; break;
+                    case "Boolean":
+                        this.DbType = DbType.Boolean;
+                        this.Value = cConvert.ToIntNull(Value);
+                        break;
                 }
             }
 
-            this.Size = Size;
+            if (Size > 0 || Size == -1) this.Size = Size;
         }
 
         public cSqlParameter(string ParameterName, DbType DbType, object Value, int Size = 0, byte Precision = 0, byte Scale = 0)

@@ -20,6 +20,12 @@ namespace GNX
         Windows_10 = 100
     }
 
+    public enum DbServer
+    {
+        Producao,
+        Desenvolvimento,
+    }
+
     public enum DbAction
     {
         Null,

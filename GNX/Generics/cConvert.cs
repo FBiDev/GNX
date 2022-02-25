@@ -25,7 +25,14 @@ namespace GNX
         public static int? ToIntNull(string value)
         {
             int result = default(int);
-            if (string.IsNullOrEmpty(value) || !int.TryParse(value, out result)) { return null; }
+
+            if (string.IsNullOrEmpty(value)) { return null; }
+            value = value.Trim().ToLower();
+
+            if (value == "true") { return 1; }
+            else if (value == "false") { return 0; }
+
+            if (!int.TryParse(value, out result)) { return null; }
             return result;
         }
 

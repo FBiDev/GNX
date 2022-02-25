@@ -63,7 +63,7 @@ namespace GNX
             return result;
         }
 
-        public static T FieldValue<T>(this DataRow row, string column)
+        public static T Value<T>(this DataRow row, string column)
         {
             object result = ConvertFieldValue<T>(row, column);
 
@@ -77,7 +77,7 @@ namespace GNX
             }
         }
 
-        public static Nullable<T> FieldValueNull<T>(this DataRow row, string column) where T : struct
+        public static Nullable<T> ValueNullable<T>(this DataRow row, string column) where T : struct
         {
             object result = ConvertFieldValue<T>(row, column);
 

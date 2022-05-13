@@ -124,6 +124,8 @@ namespace GNX
 
         public static bool ToBoolean(string value)
         {
+            if (string.IsNullOrWhiteSpace(value)) return false;
+
             value = value.Trim().ToLower();
 
             if (value == "1" || value == "true" ||
@@ -193,7 +195,7 @@ namespace GNX
             return new T();
         }
 
-        public static Icon ToIco(Image img, Size size)
+        public static Icon ToIco(System.Drawing.Image img, Size size)
         {
             Icon icon;
             using (var msImg = new MemoryStream())

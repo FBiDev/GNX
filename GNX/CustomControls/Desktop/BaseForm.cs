@@ -12,7 +12,7 @@ namespace GNX
             ResizeRedraw = true;
             lblCenter.Enabled = false;
 
-            //Icon = GNX.cConvert.ToIco(Resources.img_form, new System.Drawing.Size(16,16));
+            //Icon = cConvert.ToIco(Resources.img_form, new System.Drawing.Size(16,16));
             //Icon = Resources.ico_app;
 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;

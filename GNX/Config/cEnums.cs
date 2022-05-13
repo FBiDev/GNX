@@ -2,39 +2,6 @@
 
 namespace GNX
 {
-    public enum OSVersion
-    {
-        Unknown = 0,
-        Windows_95 = 40,
-        Windows_98 = 410,
-        Windows_98SE = 411,
-        Windows_ME = 490,
-        Windows_NT3 = 300,
-        Windows_NT4 = 400,
-        Windows_2000 = 50,
-        Windows_XP = 51,
-        Windows_Vista = 60,
-        Windows_7 = 61,
-        Windows_8 = 62,
-        Windows_8_1 = 63,
-        Windows_10 = 100
-    }
-
-    public enum DbServer
-    {
-        Producao,
-        Desenvolvimento,
-    }
-
-    public enum DbAction
-    {
-        Null,
-        Select,
-        Insert,
-        Update,
-        Delete
-    }
-
     public enum DbSystem
     {
         Undefined,
@@ -49,17 +16,35 @@ namespace GNX
         SyBase,
     }
 
-    public enum TextMask
+    public enum DbServer
     {
-        None,
-        CELULAR,
-        CEP,
-        CNPJ,
-        CPF,
-        DATA,
-        DINHEIRO,
-        HORA,
-        NUMERO
+        Producao,
+        Desenvolvimento,
+    }
+
+    public enum DbAction
+    {
+        Null = -1,
+        Update = 0,
+        Delete = 1,
+        Select = 3,
+        Insert = 4,
+    }
+
+    public enum GravarLog
+    {
+        Nao = 0,
+        Sim = 1,
+    }
+
+    public enum MovimentoLog
+    {
+        Alteração = 0,
+        Exclusão = 1,
+        Gravação = 2,
+        Impressão = 3,
+        Inclusão = 4,
+        Todos = 5,
     }
 
     public enum Movimento
@@ -78,11 +63,42 @@ namespace GNX
         Edição
     }
 
+    public enum TextMask
+    {
+        None,
+        CELULAR,
+        CEP,
+        CNPJ,
+        CPF,
+        DATA,
+        DINHEIRO,
+        HORA,
+        NUMERO
+    }
+
     public enum CultureID
     {
         UnitedStates_English = 1033,
         Brazil_Portuguese = 1046,
         Czech_CzechRepublic = 1029
+    }
+
+    public enum OSVersion
+    {
+        Unknown = 0,
+        Windows_95 = 40,
+        Windows_98 = 410,
+        Windows_98SE = 411,
+        Windows_ME = 490,
+        Windows_NT3 = 300,
+        Windows_NT4 = 400,
+        Windows_2000 = 50,
+        Windows_XP = 51,
+        Windows_Vista = 60,
+        Windows_7 = 61,
+        Windows_8 = 62,
+        Windows_8_1 = 63,
+        Windows_10 = 100
     }
 
     public enum WindowsMessage

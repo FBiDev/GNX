@@ -48,7 +48,7 @@ namespace GNX
 
             ColorColumnHeader = Color.FromArgb(108, 132, 199);////109, 122, 224
 
-            ColorColumnSelection = SystemColors.Highlight;
+            ColorColumnSelection = ColorColumnHeader;
 
             ColorFontRowHeader = Color.White;
             ColorFontRowHeaderSelection = SystemColors.HighlightText;

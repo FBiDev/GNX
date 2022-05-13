@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GNX</RootNamespace>
     <AssemblyName>GNX</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,6 +37,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -126,8 +127,12 @@
     <Compile Include="CustomControls\Desktop\Test\PanelResizable.Designer.cs">
       <DependentUpon>PanelResizable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\BoolExtension.cs" />
     <Compile Include="Extensions\ContainersExtension.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\GridViewExtension.cs" />
     <Compile Include="Extensions\ListBind.cs" />
+    <Compile Include="Extensions\ListExtension.cs" />
     <Compile Include="Generics\cConvert.cs" />
     <Compile Include="Generics\cApp.cs" />
     <Compile Include="Debug\cDebug.cs" />

@@ -71,7 +71,7 @@ namespace GNX
         private IDbConnection CreateConnection()
         {
             conn = Connection;
-            if (string.IsNullOrEmpty(ConnectionString))
+            if (string.IsNullOrWhiteSpace(ConnectionString))
             {
                 conn.ConnectionString = DefaultConnectionString();
             }
@@ -172,7 +172,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private DataTable ExecuteReader(string sql)
+        private DataTable ExecuteReader(string sql, string storedProcedure)
         {
             DataTable data = new DataTable();
             DataSet ds = new DataSet();
@@ -182,6 +182,12 @@ namespace GNX
                 try
                 {
                     cmd.CommandText = sql;
+
+                    if (!string.IsNullOrWhiteSpace(storedProcedure))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = storedProcedure;
+                    }
 
                     if (cmd.Parameters.Count > 0)
                     {
@@ -282,7 +288,7 @@ namespace GNX
             return string.Empty;
         }
 
-        public DataTable ExecuteSelect(string sql, List<cSqlParameter> parameters = null)
+        public DataTable ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
         {
             Open();
 
@@ -294,7 +300,7 @@ namespace GNX
                 }
             }
 
-            DataTable table = ExecuteReader(sql);
+            DataTable table = ExecuteReader(sql, storedProcedure);
 
             Close();
 

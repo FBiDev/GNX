@@ -97,10 +97,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomControls\Desktop\Test\Win32.cs" />
-    <Compile Include="Debug\DebugForm.cs">
+    <Compile Include="DebugLayer\DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Debug\DebugForm.designer.cs">
+    <Compile Include="DebugLayer\DebugForm.designer.cs">
       <DependentUpon>DebugForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\Desktop\Test\CheckBoxBlue.cs">
@@ -135,7 +135,7 @@
     <Compile Include="Extensions\ListExtension.cs" />
     <Compile Include="Generics\cConvert.cs" />
     <Compile Include="Generics\cApp.cs" />
-    <Compile Include="Debug\cDebug.cs" />
+    <Compile Include="DebugLayer\cDebug.cs" />
     <Compile Include="FileManager\cXML.cs" />
     <Compile Include="CustomControls\Desktop\FlatComboBoxNew.cs">
       <SubType>Component</SubType>
@@ -150,7 +150,7 @@
     <Compile Include="Database\cSqlParameter.cs" />
     <Compile Include="FileManager\cExcel.cs" />
     <Compile Include="Generics\cExceptionSQLite.cs" />
-    <Compile Include="Debug\cLogSQL.cs" />
+    <Compile Include="DebugLayer\cLogSQL.cs" />
     <Compile Include="Generics\cObject.cs" />
     <Compile Include="Database\cSqlResult.cs" />
     <Compile Include="CustomControls\Desktop\FlatDataGrid.cs">
@@ -169,7 +169,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Debug\Messages.cs" />
+    <Compile Include="DebugLayer\Messages.cs" />
     <Compile Include="Utils\NativeMethods.cs" />
     <Compile Include="Extensions\ObjectExtesion.cs" />
     <Compile Include="Extensions\ListBind_old.cs" />
@@ -219,7 +219,7 @@
     <EmbeddedResource Include="CustomControls\Desktop\FlatStatusBar.resx">
       <DependentUpon>FlatStatusBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Debug\DebugForm.resx">
+    <EmbeddedResource Include="DebugLayer\DebugForm.resx">
       <DependentUpon>DebugForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\Desktop\Test\CheckBoxBlue.resx">

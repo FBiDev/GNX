@@ -17,6 +17,11 @@ namespace GNX
         public StatusStrip _Statusbar = new StatusStrip();
         public StatusStrip Statusbar { get { return _Statusbar; } set { _Statusbar = value; } }
 
+        protected override bool ShowFocusCues
+        {
+            get { return false; }
+        }
+
         public FlatDataGrid()
         {
             InitializeComponent();
@@ -28,6 +33,12 @@ namespace GNX
         {
             base.Dg_DataSourceChanged(null, null);
             RefreshRows();
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            //e.Handled = (e.KeyData == Keys.Tab);
+            base.OnKeyDown(e);
         }
 
         protected override void OnHandleCreated(EventArgs e)

@@ -188,6 +188,18 @@ namespace GNX
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandText = storedProcedure;
                     }
+                    else
+                    {
+                        if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
+                        {
+                            //Concat in SQLite = ||
+                            cmd.CommandText = cmd.CommandText.Replace("'%'+", "'%'||");
+                            cmd.CommandText = cmd.CommandText.Replace("+'%'", "||'%'");
+
+                            cmd.CommandText = cmd.CommandText.Replace("'%' +", "'%' ||");
+                            cmd.CommandText = cmd.CommandText.Replace("+ '%'", "|| '%'");
+                        }
+                    }
 
                     if (cmd.Parameters.Count > 0)
                     {

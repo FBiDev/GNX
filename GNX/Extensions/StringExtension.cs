@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web;
-//
 
 namespace GNX
 {
@@ -62,6 +61,26 @@ namespace GNX
         public static int ToInt(this string s)
         {
             return cConvert.ToInt(s);
+        }
+
+        public static string GetBetween(this string s, string start, string end, bool inclusive = false, bool firstMatch = true, bool singleLine = true)
+        {
+            RegexOptions opt = 0;
+            string first = "?";
+
+            if (singleLine) { opt = RegexOptions.Singleline; }
+            if (firstMatch) { first = ""; }
+
+            Regex rg = new Regex(@"" + Regex.Escape(start) + "(.*" + first + ")" + Regex.Escape(end) + "", opt | RegexOptions.IgnoreCase);
+
+            Match match = rg.Match(s);
+            if (match.Success)
+            {
+                if (inclusive) { return match.Groups[0].Value; }
+
+                return match.Groups[1].Value;
+            }
+            return string.Empty;
         }
     }
 }

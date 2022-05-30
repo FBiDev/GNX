@@ -133,6 +133,7 @@
     <Compile Include="Extensions\GridViewExtension.cs" />
     <Compile Include="Extensions\ListBind.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="FileManager\CRC32.cs" />
     <Compile Include="Generics\cConvert.cs" />
     <Compile Include="Generics\cApp.cs" />
     <Compile Include="DebugLayer\cDebug.cs" />

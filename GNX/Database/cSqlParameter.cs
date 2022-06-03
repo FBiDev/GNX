@@ -35,7 +35,7 @@ namespace GNX
                     case "Int32": this.DbType = DbType.Int32; break;
                     case "DateTime":
                         this.DbType = DbType.DateTime2;
-                        this.Value = cConvert.ToDateTimeDB((DateTime?)Value);
+                        this.Value = ((DateTime?)Value).ToDBFormat();
                         break;
                     case "Boolean":
                         this.DbType = DbType.Boolean;

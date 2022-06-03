@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
@@ -113,7 +114,14 @@ namespace GNX
         public static void SetLanguage(CultureID name)
         {
             int CultureName = Convert.ToInt32(name);
-            Language = CultureInfo.GetCultureInfo(CultureName);
+            //Language = CultureInfo.GetCultureInfo(CultureName);
+
+            Language = new CultureInfo(CultureName);
+
+            //Change Culture Info Month names.
+            Language.DateTimeFormat.MonthNames = Language.DateTimeFormat.MonthNames.Select(m => Language.TextInfo.ToTitleCase(m)).ToArray();
+            Language.DateTimeFormat.MonthGenitiveNames = Language.DateTimeFormat.MonthGenitiveNames.Select(m => Language.TextInfo.ToTitleCase(m)).ToArray();
+            Language.DateTimeFormat.AbbreviatedMonthNames = Language.DateTimeFormat.AbbreviatedMonthNames.Select(m => Language.TextInfo.ToTitleCase(m)).ToArray();
 
             //Culture for any thread
             CultureInfo.DefaultThreadCurrentCulture = Language;

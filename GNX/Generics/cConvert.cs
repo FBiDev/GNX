@@ -155,15 +155,6 @@ namespace GNX
             return result;
         }
 
-        public static string ToDateTimeDB(DateTime? date)
-        {
-            if (date != null && date.Value != null)
-            {
-                return date.Value.ToString("yyyy-MM-dd HH:mm:ss");
-            }
-            return null;
-        }
-
         public static TimeSpan? ToTimeSpanNull(string value)
         {
             TimeSpan time = default(TimeSpan);

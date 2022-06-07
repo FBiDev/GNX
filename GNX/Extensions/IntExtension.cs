@@ -6,13 +6,13 @@ namespace GNX
 {
     public static class IntExtension
     {
-        public static string ToDBFormat(this int? value)
+        public static string ToDB(this int? value)
         {
-            if (value == null)
+            if (value.HasValue)
             {
-                return "null";
+                return value.ToString();
             }
-            return value.ToString();
+            return "NULL";
         }
     }
 }

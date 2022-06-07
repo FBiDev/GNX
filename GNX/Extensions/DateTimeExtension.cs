@@ -11,13 +11,13 @@ namespace GNX
             return dt == null ? null : ((DateTime)dt).ToString(format);
         }
 
-        public static string ToDBFormat(this DateTime? dt)
+        public static string ToDB(this DateTime? dt)
         {
-            if (dt != null && dt.Value != null)
+            if (dt != null && dt.HasValue)
             {
                 return "'" + dt.Value.ToString("yyyy-MM-dd HH:mm:ss") + "'";
             }
-            return "null";
+            return "NULL";
         }
     }
 }

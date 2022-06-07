@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web.UI.WebControls;
 
-namespace GNX
+namespace System
 {
     public static class EnumExtension
     {
@@ -12,10 +12,10 @@ namespace GNX
             return s == SortDirection.Ascending ? " ASC " : " DESC ";
         }
 
-        public static string HexToString(this Enum e)
+        public static string ToStringHex(this Enum e)
         {
-            int i = (int)(object)e;
-            byte[] data = FromHex(i.ToString("X"));
+            string value = ((int)(object)e).ToString("X");
+            byte[] data = FromHex(value);
             string s = Encoding.UTF8.GetString(data);
             return s;
         }

@@ -135,6 +135,7 @@
     <Compile Include="Extensions\IntExtension.cs" />
     <Compile Include="Extensions\ListBind.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="FileManager\Cmd.cs" />
     <Compile Include="FileManager\CRC32.cs" />
     <Compile Include="Generics\cConvert.cs" />
     <Compile Include="Generics\cApp.cs" />

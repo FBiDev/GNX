@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace System
 {
-    public static class Cmd
+    public static class CMD
     {
         public static string Execute(string exeCmd)
         {

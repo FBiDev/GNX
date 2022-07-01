@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -61,6 +62,16 @@ namespace GNX
         public static int ToInt(this string s)
         {
             return cConvert.ToInt(s);
+        }
+
+        public static bool Contains(this string[] source, string toCheck, StringComparison comp)
+        {
+            if (source == null) return false;
+            foreach (var item in source)
+            {
+                if (item.IndexOf(toCheck, comp) >= 0) return true;
+            }
+            return false;
         }
 
         public static string GetBetween(this string s, string start, string end, bool inclusive = false, bool firstMatch = true, bool singleLine = true)

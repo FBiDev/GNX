@@ -31,6 +31,7 @@ namespace FlatTabControl
         private ImageList leftRightImages = null;
         private const int nMargin = 5;
         private Color mBackColor = Color.FromArgb(240, 240, 240);
+        private Color mBorderColor = ColorTranslator.FromHtml("#A0A0A0");
 
         public FlatTabControl()
         {
@@ -110,6 +111,7 @@ namespace FlatTabControl
             int nDelta = SystemInformation.Border3DSize.Width;
 
             Pen border = new Pen(Color.FromArgb(160, 160, 160));
+            border = new Pen(myBorderColor);
             TabArea.Inflate(nDelta, nDelta);
             g.DrawRectangle(border, TabArea);
             border.Dispose();
@@ -216,7 +218,8 @@ namespace FlatTabControl
             //----------------------------
             // draw border
             //g.DrawRectangle(SystemPens.ControlDark, recBounds);
-            g.DrawPolygon(new Pen(Color.FromArgb(160, 160, 160)), pt);
+            //g.DrawPolygon(new Pen(Color.FromArgb(160, 160, 160)), pt);
+            g.DrawPolygon(new Pen(myBorderColor), pt);
 
             if (bSelected)
             {
@@ -515,6 +518,13 @@ namespace FlatTabControl
         {
             get { return mBackColor; }
             set { mBackColor = value; this.Invalidate(); }
+        }
+
+        [Browsable(true)]
+        public Color myBorderColor
+        {
+            get { return mBorderColor; }
+            set { mBorderColor = value; this.Invalidate(); }
         }
 
         #endregion

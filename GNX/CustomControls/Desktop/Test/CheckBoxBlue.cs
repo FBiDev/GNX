@@ -20,10 +20,15 @@ namespace GNX
         }
 
         public bool Checked { get { return CheckBox.Checked; } set { CheckBox.Checked = value; } }
+        public EventHandler CheckedChanged;
+
 
         public CheckBoxBlue()
         {
             InitializeComponent();
+
+            CheckBox.CheckedChanged += chkBox_CheckedChanged;
+
             AlignControl();
         }
 
@@ -72,6 +77,11 @@ namespace GNX
 
         private void chkBox_CheckedChanged(object sender, EventArgs e)
         {
+            if (CheckedChanged.NotNull())
+            {
+                CheckedChanged(sender, e);
+            }
+
             if (chkBox.Checked)
             {
                 chkBox.BackColor = Color.LightGreen;

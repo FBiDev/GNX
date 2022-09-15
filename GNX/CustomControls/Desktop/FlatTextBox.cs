@@ -57,6 +57,8 @@ namespace GNX
         private TextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
+        public new bool Focused { get; set; }
+
         public new EventHandler TextChanged;
         public new EventHandler Enter;
         public new EventHandler Leave;
@@ -149,6 +151,7 @@ namespace GNX
             TextBox.ForeColor = TextColorFocus;
 
             lblPlaceholder.Visible = false;
+            Focused = true;
         }
 
         private void TextBox_LostFocus(object sender, EventArgs e)
@@ -161,6 +164,7 @@ namespace GNX
             TextBox.ForeColor = TextColor;
 
             lblPlaceholder.Visible = TextBox.Text.Length == 0;
+            Focused = false;
         }
 
         protected void TextBox_TextChanged(object sender, EventArgs e)
@@ -170,7 +174,7 @@ namespace GNX
                 TextChanged(sender, e);
             }
 
-            if(!TextBox.Focused)
+            if (!TextBox.Focused)
             {
                 lblPlaceholder.Visible = TextBox.Text.Length == 0;
             }

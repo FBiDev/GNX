@@ -17,10 +17,12 @@ namespace GNX
 
         public static Size MaxSize(this Bitmap Bitmap, Size maxSize)
         {
-            float factor = Bitmap.Width >= Bitmap.Height ? (float)Bitmap.Height / (float)Bitmap.Width : (float)Bitmap.Width / (float)Bitmap.Height;
-
             int width = Bitmap.Width;
             int height = Bitmap.Height;
+
+            if (maxSize.Width == 0 && maxSize.Height == 0) { return new Size(width, height); }
+
+            float factor = Bitmap.Width >= Bitmap.Height ? (float)Bitmap.Height / (float)Bitmap.Width : (float)Bitmap.Width / (float)Bitmap.Height;
 
             if (width >= height)
             {

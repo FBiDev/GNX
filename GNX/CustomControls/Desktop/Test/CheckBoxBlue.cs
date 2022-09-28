@@ -20,8 +20,7 @@ namespace GNX
         }
 
         public bool Checked { get { return CheckBox.Checked; } set { CheckBox.Checked = value; } }
-        public EventHandler CheckedChanged;
-
+        public event EventHandler CheckedChanged;
 
         public CheckBoxBlue()
         {
@@ -42,8 +41,8 @@ namespace GNX
 
         private void AlignControl()
         {
-            Point newLocation = new Point((pnlBgWhite.Width / 2) - (chkBox.Width / 2), chkBox.Location.Y);
-            chkBox.Location = newLocation;
+            Point newLocation = new Point((pnlBgWhite.Width / 2) - (CheckBox.Width / 2), CheckBox.Location.Y);
+            CheckBox.Location = newLocation;
 
             newLocation = new Point((pnlBgWhite.Width / 2) - (lblLegend.Width / 2), lblLegend.Location.Y);
             lblLegend.Location = newLocation;
@@ -56,8 +55,8 @@ namespace GNX
 
         private void pnlBgWhite_Click(object sender, EventArgs e)
         {
-            chkBox.Focus();
-            chkBox.Checked = !chkBox.Checked;
+            CheckBox.Focus();
+            Checked = !CheckBox.Checked;
         }
 
         private void pnlBgWhite_DoubleClick(object sender, EventArgs e)
@@ -79,16 +78,16 @@ namespace GNX
         {
             if (CheckedChanged.NotNull())
             {
-                CheckedChanged(sender, e);
+                CheckedChanged(null, null);
             }
 
-            if (chkBox.Checked)
+            if (CheckBox.Checked)
             {
-                chkBox.BackColor = Color.LightGreen;
+                CheckBox.BackColor = Color.LightGreen;
             }
             else
             {
-                chkBox.BackColor = Color.LightCoral;
+                CheckBox.BackColor = Color.LightCoral;
             }
         }
 

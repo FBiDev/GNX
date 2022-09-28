@@ -76,7 +76,6 @@
             this.chkBox.Size = new System.Drawing.Size(11, 11);
             this.chkBox.TabIndex = 1;
             this.chkBox.UseVisualStyleBackColor = false;
-            this.chkBox.CheckedChanged += new System.EventHandler(this.chkBox_CheckedChanged);
             this.chkBox.Enter += new System.EventHandler(this.chkBox_Enter);
             // 
             // CheckBoxBlue

@@ -69,6 +69,11 @@ namespace GNX
             pnlBgWhite_Click(null, null);
         }
 
+        private void lblLegend_DoubleClick(object sender, EventArgs e)
+        {
+            pnlBgWhite_Click(null, null);
+        }
+
         private void pnlBgWhite_MouseEnter(object sender, EventArgs e)
         {
             Cursor = Cursors.Hand;

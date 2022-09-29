@@ -64,6 +64,7 @@
             this.lblLegend.TabIndex = 2;
             this.lblLegend.Text = "Legend";
             this.lblLegend.Click += new System.EventHandler(this.lblLegend_Click);
+            this.lblLegend.DoubleClick += new System.EventHandler(this.lblLegend_DoubleClick);
             // 
             // chkBox
             // 

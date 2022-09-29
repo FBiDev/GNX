@@ -291,9 +291,9 @@ namespace GNX
             }
         }
 
-        protected override void OnMouseMove(MouseEventArgs e)
+        protected override void OnScroll(ScrollEventArgs e)
         {
-            base.OnMouseMove(e); this.Invalidate();
+            base.OnScroll(e); this.Invalidate();
         }
         protected override void OnMouseEnter(EventArgs e)
         {
@@ -303,23 +303,33 @@ namespace GNX
         {
             base.OnMouseLeave(e); this.Invalidate();
         }
-        protected override void OnScroll(ScrollEventArgs e)
-        {
-            base.OnScroll(e); this.Invalidate();
-        }
 
         #region Paint
-        //MouseHoverChangeRowColor
+        //MouseMoveChangeRowColor
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            int index = this.HitTest(e.X, e.Y).RowIndex;
+
+            if (index > -1)
+            {
+                var row = ((DataGridView)this).Rows[index];
+                row.DefaultCellStyle.BackColor = ColorRowMouseHover;
+                row.DefaultCellStyle.SelectionBackColor = ColorRowMouseHover;
+            }
+        }
+        //ChangeRowColorBackToNormal
         protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
         {
             base.OnRowPostPaint(e);
 
-            DataGridViewRow row = ((DataGridView)this).Rows[e.RowIndex];
+            var row = ((DataGridView)this).Rows[e.RowIndex];
 
             if (this.RectangleToScreen(e.RowBounds).Contains(MousePosition))
             {
-                row.DefaultCellStyle.BackColor = ColorRowMouseHover;
-                row.DefaultCellStyle.SelectionBackColor = ColorRowMouseHover;
+                //row.DefaultCellStyle.BackColor = ColorRowMouseHover;
+                //row.DefaultCellStyle.SelectionBackColor = ColorRowMouseHover;
 
                 //Color c = Color.FromArgb(50, Color.Blue);
                 //using (var b = new SolidBrush(RowMouseHoverColor))

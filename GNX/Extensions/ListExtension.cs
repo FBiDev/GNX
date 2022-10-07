@@ -17,5 +17,12 @@ namespace GNX
 
             return list[0];
         }
+
+        public static T FirstOrNew<T>(this List<T> list) where T : class, new()
+        {
+            if (list.Count == 0) { return new T(); }
+
+            return list[0];
+        }
     }
 }

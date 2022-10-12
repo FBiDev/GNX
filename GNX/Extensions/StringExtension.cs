@@ -80,7 +80,7 @@ namespace GNX
             string first = "?";
 
             if (singleLine) { opt = RegexOptions.Singleline; }
-            if (firstMatch) { first = ""; }
+            if (firstMatch == false) { first = ""; }
 
             Regex rg = new Regex(@"" + Regex.Escape(start) + "(.*" + first + ")" + Regex.Escape(end) + "", opt | RegexOptions.IgnoreCase);
 

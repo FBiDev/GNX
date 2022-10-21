@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+//
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -76,22 +81,31 @@ namespace GNX
 
         public static string GetBetween(this string s, string start, string end, bool inclusive = false, bool firstMatch = true, bool singleLine = true)
         {
-            RegexOptions opt = 0;
-            string first = "?";
+            RegexOptions opt = singleLine ? RegexOptions.Singleline : 0;
+            string first = firstMatch ? "?" : "";
 
-            if (singleLine) { opt = RegexOptions.Singleline; }
-            if (firstMatch == false) { first = ""; }
+            string pattern = @"" + Regex.Escape(start) + "(.*" + first + ")" + Regex.Escape(end);
+            Regex rgx = new Regex(pattern, opt | RegexOptions.IgnoreCase);
 
-            Regex rg = new Regex(@"" + Regex.Escape(start) + "(.*" + first + ")" + Regex.Escape(end) + "", opt | RegexOptions.IgnoreCase);
-
-            Match match = rg.Match(s);
+            Match match = rgx.Match(s);
             if (match.Success)
             {
-                if (inclusive) { return match.Groups[0].Value; }
-
-                return match.Groups[1].Value;
+                return match.Groups[inclusive ? 0 : 1].Value;
             }
             return string.Empty;
+        }
+
+        public static List<string> GetBetweenList(this string s, string start, string end, bool inclusive = false, bool firstMatch = true, bool singleLine = true)
+        {
+            RegexOptions opt = singleLine ? RegexOptions.Singleline : 0;
+            string first = firstMatch ? "?" : "";
+
+            string pattern = @"" + Regex.Escape(start) + "(.*" + first + ")" + Regex.Escape(end);
+            Regex rgx = new Regex(pattern, opt | RegexOptions.IgnoreCase);
+
+            MatchCollection matchList = rgx.Matches(s);
+            var list = matchList.Cast<Match>().Select(match => match.Groups[inclusive ? 0 : 1].Value).ToList();
+            return list;
         }
     }
 }

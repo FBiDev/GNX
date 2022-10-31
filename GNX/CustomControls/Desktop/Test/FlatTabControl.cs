@@ -31,6 +31,7 @@ namespace FlatTabControl
         private ImageList leftRightImages = null;
         private const int nMargin = 5;
         private Color mBackColor = Color.FromArgb(240, 240, 240);
+        private Color mBackColor2 = Color.FromArgb(212, 208, 200);
         private Color mBorderColor = ColorTranslator.FromHtml("#A0A0A0");
 
         public FlatTabControl()
@@ -209,7 +210,7 @@ namespace FlatTabControl
             Brush br = new SolidBrush(tabPage.BackColor);
             if (!bSelected)
             {
-                br = new SolidBrush(Color.FromArgb(212, 208, 200));
+                br = new SolidBrush(mBackColor2);
             }
             g.FillPolygon(br, pt);
             br.Dispose();
@@ -518,6 +519,13 @@ namespace FlatTabControl
         {
             get { return mBackColor; }
             set { mBackColor = value; this.Invalidate(); }
+        }
+
+        [Browsable(true)]
+        public Color myBackColor2
+        {
+            get { return mBackColor2; }
+            set { mBackColor2 = value; this.Invalidate(); }
         }
 
         [Browsable(true)]

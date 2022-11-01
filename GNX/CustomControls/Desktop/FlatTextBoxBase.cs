@@ -45,6 +45,7 @@ namespace GNX
         {
             pnlBorder.BackColor = BorderColor;
             pnlBg.BackColor = BackgroundColor;
+            BackColor = BackgroundColor;
 
             lblSubtitle.BackColor = BackgroundColor;
             lblSubtitle.ForeColor = LabelTextColor;

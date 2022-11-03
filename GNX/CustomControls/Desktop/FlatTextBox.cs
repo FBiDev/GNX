@@ -55,7 +55,6 @@ namespace GNX
 
         #region TextBox
         private TextBox TextBox { get { return txtMain; } }
-        public Color TextBoxColor { get { return TextBox.BackColor; } set { TextBox.BackColor = value; lblPlaceholder.BackColor = value; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
         public new bool Focused { get; set; }
@@ -75,8 +74,6 @@ namespace GNX
             pnlBg.Click += pnlBg_Click;
             lblSubtitle.Click += lblSubtitle_Click;
             lblPlaceholder.Click += lblPlaceholder_Click;
-
-            lblPlaceholder.BackColor = BackgroundColor;
 
             TextBox.KeyPress += TextBox_KeyPress;
             TextBox.KeyDown += TextBox_KeyDown;
@@ -101,6 +98,8 @@ namespace GNX
 
             lblSubtitle.BackColor = BackgroundColor;
             lblSubtitle.ForeColor = LabelTextColor;
+
+            lblPlaceholder.BackColor = BackgroundColor;
 
             TextBox.BackColor = BackgroundColor;
             TextBox.ForeColor = TextColor;

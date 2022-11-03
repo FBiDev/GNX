@@ -138,6 +138,7 @@
     <Compile Include="Extensions\ContainersExtension.cs" />
     <Compile Include="Extensions\DateTimeExtension.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\GraphicsExtension.cs" />
     <Compile Include="Extensions\GridViewExtension.cs" />
     <Compile Include="Extensions\IntExtension.cs" />
     <Compile Include="Extensions\ListBind.cs" />

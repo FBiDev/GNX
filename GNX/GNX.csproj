@@ -143,6 +143,7 @@
     <Compile Include="Extensions\IntExtension.cs" />
     <Compile Include="Extensions\ListBind.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="Extensions\RichTextBoxExtension.cs" />
     <Compile Include="FileManager\CMD.cs" />
     <Compile Include="FileManager\CRC32.cs" />
     <Compile Include="Generics\cConvert.cs" />

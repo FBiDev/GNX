@@ -107,6 +107,9 @@ namespace GNX
             TabStop = false;
             EnableHeadersVisualStyles = false;
 
+            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
             //ROWS
             RowTemplate.Height = 30;
             RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -244,7 +247,7 @@ namespace GNX
                 case "Bitmap":
                     c = new DataGridViewImageColumn();
                     c.CellTemplate = new DataGridViewImageCell();
-                    c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                    c.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                     c.Resizable = DataGridViewTriState.False;
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;

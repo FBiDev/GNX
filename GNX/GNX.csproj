@@ -93,11 +93,11 @@
     <Compile Include="CustomControls\Desktop\FlatTextBoxBase.designer.cs">
       <DependentUpon>FlatTextBoxBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\Desktop\PanelBorder.cs">
+    <Compile Include="CustomControls\Desktop\FlatPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomControls\Desktop\PanelBorder.Designer.cs">
-      <DependentUpon>PanelBorder.cs</DependentUpon>
+    <Compile Include="CustomControls\Desktop\FlatPanel.Designer.cs">
+      <DependentUpon>FlatPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\Desktop\Test\FlatTabControl.cs">
       <SubType>Component</SubType>
@@ -232,8 +232,8 @@
     <EmbeddedResource Include="CustomControls\Desktop\FlatStatusBar.resx">
       <DependentUpon>FlatStatusBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\Desktop\PanelBorder.resx">
-      <DependentUpon>PanelBorder.cs</DependentUpon>
+    <EmbeddedResource Include="CustomControls\Desktop\FlatPanel.resx">
+      <DependentUpon>FlatPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DebugLayer\DebugForm.resx">
       <DependentUpon>DebugForm.cs</DependentUpon>

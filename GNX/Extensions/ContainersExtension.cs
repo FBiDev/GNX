@@ -27,5 +27,10 @@ namespace GNX
         {
             return e.RowIndex == -1;
         }
+
+        public static bool RowHeader(this DataGridViewCellPaintingEventArgs e)
+        {
+            return e.RowIndex == -1;
+        }
     }
 }

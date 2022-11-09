@@ -1,6 +1,6 @@
 ﻿namespace GNX
 {
-    partial class PanelBorder
+    partial class FlatPanel
     {
         /// <summary> 
         /// Required designer variable.

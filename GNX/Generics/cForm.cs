@@ -64,5 +64,11 @@ namespace GNX
             Point locationOnForm = c.FindForm().PointToClient(c.Parent.PointToScreen(c.Location));
             return locationOnForm;
         }
+
+        public static IEnumerable<T> GetControls<T>(Control rootControl)
+        {
+            return rootControl.Controls.OfType<T>().
+                   Concat(rootControl.Controls.OfType<Control>().SelectMany(GetControls<T>));
+        }
     }
 }

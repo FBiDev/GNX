@@ -10,22 +10,31 @@ namespace GNX
 {
     public static class GraphicsExtension
     {
-        public static void DrawRoundBorder(this Graphics g, Control ctl, Color color, bool groupBox = false)
+        public static void DrawRoundBorder(this Graphics g, Control control, Color borderColor, int borderSize = 1, bool borderRound = true)
         {
-            Rectangle recInner = ctl.ClientRectangle;
-            if (groupBox) recInner = new Rectangle(0, 6, ctl.Width, ctl.Height - 6);
+            if (borderSize <= 0) { return; }
 
-            ControlPaint.DrawBorder(g, recInner, color, ButtonBorderStyle.Solid);
+            Rectangle recInner = control.ClientRectangle;
+            if (control is GroupBox) recInner = new Rectangle(0, 6, control.Width, control.Height - 6);
 
-            Pen pBorder = new Pen(color);
-            Pen pBlank = new Pen(ctl.Parent.BackColor);
-            if (pBlank.Color == Color.Transparent) pBlank = new Pen(ctl.BackColor);
+            //ControlPaint.DrawBorder(g, recInner, borderColor, ButtonBorderStyle.Solid);
+            ControlPaint.DrawBorder(g, recInner,
+                borderColor, borderSize, ButtonBorderStyle.Solid,
+                borderColor, borderSize, ButtonBorderStyle.Solid,
+                borderColor, borderSize, ButtonBorderStyle.Solid,
+                borderColor, borderSize, ButtonBorderStyle.Solid);
 
-            int WidthB = ctl.Width - 1;
-            int HeightB = ctl.Height - 1;
+            if (!borderRound) { return; }
+
+            Pen pBorder = new Pen(borderColor);
+            Pen pBlank = new Pen(control.Parent.BackColor);
+            if (pBlank.Color == Color.Transparent) pBlank = new Pen(control.BackColor);
+
+            int WidthB = control.Width - 1;
+            int HeightB = control.Height - 1;
             int Height0 = 0;
 
-            if (groupBox) Height0 = 6;
+            if (control is GroupBox) Height0 = 6;
 
             //TopL
             g.DrawLine(pBlank, 0, Height0, 2, Height0);

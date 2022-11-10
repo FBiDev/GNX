@@ -37,7 +37,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtErrors = new System.Windows.Forms.TextBox();
-            this.tabControl = new FlatTabControl.FlatTabControl();
+            this.tabControl = new FlatTabControl();
             this.tabMessage = new System.Windows.Forms.TabPage();
             this.txtMessages = new System.Windows.Forms.TextBox();
             this.tabError = new System.Windows.Forms.TabPage();
@@ -241,7 +241,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox txtErrors;
-        private FlatTabControl.FlatTabControl tabControl;
+        private FlatTabControl tabControl;
         private System.Windows.Forms.TabPage tabError;
         private System.Windows.Forms.TabPage tabSQLSistema;
         private System.Windows.Forms.TabPage tabSQLBase;

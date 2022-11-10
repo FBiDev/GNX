@@ -1,6 +1,6 @@
 ﻿namespace GNX
 {
-    partial class CheckBoxBlue
+    partial class FlatCheckBox
     {
         /// <summary> 
         /// Required designer variable.
@@ -50,7 +50,9 @@
             this.pnlBgWhite.TabIndex = 0;
             this.pnlBgWhite.Click += new System.EventHandler(this.pnlBgWhite_Click);
             this.pnlBgWhite.DoubleClick += new System.EventHandler(this.pnlBgWhite_DoubleClick);
+            this.pnlBgWhite.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlBgWhite_MouseDown);
             this.pnlBgWhite.MouseEnter += new System.EventHandler(this.pnlBgWhite_MouseEnter);
+            this.pnlBgWhite.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlBgWhite_MouseUp);
             // 
             // lblLegend
             // 
@@ -65,6 +67,8 @@
             this.lblLegend.Text = "Legend";
             this.lblLegend.Click += new System.EventHandler(this.lblLegend_Click);
             this.lblLegend.DoubleClick += new System.EventHandler(this.lblLegend_DoubleClick);
+            this.lblLegend.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblLegend_MouseDown);
+            this.lblLegend.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lblLegend_MouseUp);
             // 
             // chkBox
             // 
@@ -79,13 +83,13 @@
             this.chkBox.UseVisualStyleBackColor = false;
             this.chkBox.Enter += new System.EventHandler(this.chkBox_Enter);
             // 
-            // CheckBoxBlue
+            // FlatCheckBox
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(223)))), ((int)(((byte)(229)))));
             this.Controls.Add(this.pnlBgWhite);
-            this.Name = "CheckBoxBlue";
+            this.Name = "FlatCheckBox";
             this.Size = new System.Drawing.Size(100, 34);
             this.SizeChanged += new System.EventHandler(this.CheckBoxBlue_SizeChanged);
             this.Leave += new System.EventHandler(this.CheckBoxBlue_Leave);

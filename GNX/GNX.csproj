@@ -87,10 +87,10 @@
     <Compile Include="CustomControls\Desktop\FlatTextBox.designer.cs">
       <DependentUpon>FlatTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\Desktop\FlatTextBoxBase.cs">
+    <Compile Include="CustomControls\Desktop\Base\FlatTextBoxBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CustomControls\Desktop\FlatTextBoxBase.designer.cs">
+    <Compile Include="CustomControls\Desktop\Base\FlatTextBoxBase.designer.cs">
       <DependentUpon>FlatTextBoxBase.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\Desktop\FlatPanel.cs">
@@ -99,7 +99,7 @@
     <Compile Include="CustomControls\Desktop\FlatPanel.Designer.cs">
       <DependentUpon>FlatPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\Desktop\Test\FlatTabControl.cs">
+    <Compile Include="CustomControls\Desktop\FlatTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomControls\Desktop\Test\Win32.cs" />
@@ -109,11 +109,11 @@
     <Compile Include="DebugLayer\DebugForm.designer.cs">
       <DependentUpon>DebugForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\Desktop\Test\CheckBoxBlue.cs">
+    <Compile Include="CustomControls\Desktop\FlatCheckBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CustomControls\Desktop\Test\CheckBoxBlue.Designer.cs">
-      <DependentUpon>CheckBoxBlue.cs</DependentUpon>
+    <Compile Include="CustomControls\Desktop\FlatCheckBox.Designer.cs">
+      <DependentUpon>FlatCheckBox.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\Desktop\Test\MaskedTextBoxBlue.cs">
       <SubType>UserControl</SubType>
@@ -138,6 +138,7 @@
     <Compile Include="Extensions\ContainersExtension.cs" />
     <Compile Include="Extensions\DateTimeExtension.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\FormExtension.cs" />
     <Compile Include="Extensions\GraphicsExtension.cs" />
     <Compile Include="Extensions\GridViewExtension.cs" />
     <Compile Include="Extensions\IntExtension.cs" />
@@ -150,13 +151,13 @@
     <Compile Include="Generics\cApp.cs" />
     <Compile Include="DebugLayer\cDebug.cs" />
     <Compile Include="FileManager\cXML.cs" />
-    <Compile Include="CustomControls\Desktop\FlatComboBoxNew.cs">
+    <Compile Include="CustomControls\Desktop\Base\FlatComboBoxNew.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomControls\Desktop\DataGridBase.cs">
+    <Compile Include="CustomControls\Desktop\Base\DataGridBase.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomControls\Desktop\DataGridBase.Designer.cs">
+    <Compile Include="CustomControls\Desktop\Base\DataGridBase.Designer.cs">
       <DependentUpon>DataGridBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\DataRowExtension.cs" />
@@ -189,7 +190,7 @@
     <Compile Include="Extensions\BindingListExtensions.cs" />
     <Compile Include="Database\cDataBase.cs" />
     <Compile Include="Config\cEnums.cs" />
-    <Compile Include="Generics\cForm.cs" />
+    <Compile Include="Generics\Forms.cs" />
     <Compile Include="Generics\cException.cs" />
     <Compile Include="Config\ConfigBase.cs" />
     <Compile Include="Utils\ListItem.cs" />
@@ -226,7 +227,7 @@
     <EmbeddedResource Include="CustomControls\Desktop\BaseForm2.resx">
       <DependentUpon>BaseForm2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\Desktop\FlatComboBoxNew.resx">
+    <EmbeddedResource Include="CustomControls\Desktop\Base\FlatComboBoxNew.resx">
       <DependentUpon>FlatComboBoxNew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\Desktop\FlatStatusBar.resx">
@@ -238,8 +239,8 @@
     <EmbeddedResource Include="DebugLayer\DebugForm.resx">
       <DependentUpon>DebugForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\Desktop\Test\CheckBoxBlue.resx">
-      <DependentUpon>CheckBoxBlue.cs</DependentUpon>
+    <EmbeddedResource Include="CustomControls\Desktop\FlatCheckBox.resx">
+      <DependentUpon>FlatCheckBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\Desktop\Test\MaskedTextBoxBlue.resx">
       <DependentUpon>MaskedTextBoxBlue.cs</DependentUpon>
@@ -253,7 +254,7 @@
     <EmbeddedResource Include="CustomControls\Desktop\FlatMaskedTextBox.resx">
       <DependentUpon>FlatMaskedTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\Desktop\DataGridBase.resx">
+    <EmbeddedResource Include="CustomControls\Desktop\Base\DataGridBase.resx">
       <DependentUpon>DataGridBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\Desktop\FlatComboBox.resx">
@@ -265,7 +266,7 @@
     <EmbeddedResource Include="CustomControls\Desktop\FlatTextBox.resx">
       <DependentUpon>FlatTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\Desktop\FlatTextBoxBase.resx">
+    <EmbeddedResource Include="CustomControls\Desktop\Base\FlatTextBoxBase.resx">
       <DependentUpon>FlatTextBoxBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

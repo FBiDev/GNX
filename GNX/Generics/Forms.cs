@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Collections;
 using System.Collections.Generic;
-//
 using System.Linq;
-using System.Drawing;
+//
+using System.Windows.Forms;
 
 namespace GNX
 {
-    public class cForm
+    public class Forms
     {
         public static T Open<T>(Form parent = null, bool once = true) where T : new()
         {
@@ -57,18 +57,6 @@ namespace GNX
             }
 
             return default(T);
-        }
-
-        public static Point ControlLocation(Control c)
-        {
-            Point locationOnForm = c.FindForm().PointToClient(c.Parent.PointToScreen(c.Location));
-            return locationOnForm;
-        }
-
-        public static IEnumerable<T> GetControls<T>(Control rootControl)
-        {
-            return rootControl.Controls.OfType<T>().
-                   Concat(rootControl.Controls.OfType<Control>().SelectMany(GetControls<T>));
         }
     }
 }

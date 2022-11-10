@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+//
+using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
-//
 
 namespace GNX
 {
-    public partial class CheckBoxBlue : UserControl
+    public partial class FlatCheckBox : UserControl
     {
         [Category("_Data")]
         public string _Legend
@@ -22,21 +25,55 @@ namespace GNX
         public bool Checked { get { return CheckBox.Checked; } set { CheckBox.Checked = value; } }
         public event EventHandler CheckedChanged;
 
-        public CheckBoxBlue()
+        public new Color BackColor
+        {
+            get { return pnlBgWhite.BackColor; }
+            set { pnlBgWhite.BackColor = value; }
+        }
+
+        public Color BorderColor
+        {
+            get { return base.BackColor; }
+            set { base.BackColor = value; }
+        }
+
+        public Color BorderColorFocus { get; set; }
+        Color BorderColorLeave { get; set; }
+
+        public FlatCheckBox()
         {
             InitializeComponent();
 
             CheckBox.CheckedChanged += chkBox_CheckedChanged;
 
             AlignControl();
+
+            LightMode();
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            BorderColorLeave = BorderColor;
+        }
+
+        public void LightMode()
+        {
+            BorderColor = Color.FromArgb(213, 223, 229);
+            BorderColorFocus = Color.FromArgb(108, 132, 199);
+            BackColor = ColorTranslator.FromHtml("#FFFFFF");
+        }
+
+        public void DarkMode()
+        {
+            BorderColor = ColorTranslator.FromHtml("#424242");
+            BorderColorFocus = Color.FromArgb(108, 132, 199);
+            BackColor = ColorTranslator.FromHtml("#191919");
         }
 
         private CheckBox CheckBox
         {
-            get
-            {
-                return chkBox;
-            }
+            get { return chkBox; }
         }
 
         private void AlignControl()
@@ -98,12 +135,32 @@ namespace GNX
 
         private void chkBox_Enter(object sender, EventArgs e)
         {
-            this.BackColor = Color.FromArgb(108, 132, 199);
+            base.BackColor = BorderColorFocus;
         }
 
         private void CheckBoxBlue_Leave(object sender, EventArgs e)
         {
-            this.BackColor = Color.FromArgb(213, 223, 229);
+            base.BackColor = BorderColorLeave;
+        }
+
+        private void pnlBgWhite_MouseDown(object sender, MouseEventArgs e)
+        {
+            chkBox_Enter(null, null);
+        }
+
+        private void pnlBgWhite_MouseUp(object sender, MouseEventArgs e)
+        {
+            CheckBoxBlue_Leave(null, null);
+        }
+
+        private void lblLegend_MouseDown(object sender, MouseEventArgs e)
+        {
+            chkBox_Enter(null, null);
+        }
+
+        private void lblLegend_MouseUp(object sender, MouseEventArgs e)
+        {
+            CheckBoxBlue_Leave(null, null);
         }
     }
 }

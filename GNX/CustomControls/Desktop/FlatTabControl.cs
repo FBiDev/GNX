@@ -1,31 +1,30 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+//
+using System.Windows.Forms;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Data;
-using System.Windows.Forms;
 using System.Drawing.Design;
-using System.ComponentModel.Design;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
-using System.IO;
+using FlatTabControl;
 
-namespace FlatTabControl
+namespace GNX
 {
     /// <summary>
     /// Summary description for FlatTabControl.
     /// </summary>
-    [ToolboxBitmap(typeof(System.Windows.Forms.TabControl))] //,
+    [ToolboxBitmap(typeof(TabControl))] //,
     //Designer(typeof(Designers.FlatTabControlDesigner))]
 
-    public class FlatTabControl : System.Windows.Forms.TabControl
+    public class FlatTabControl : TabControl
     {
-
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.Container components = null;
+        private Container components = null;
         private SubClass scUpDown = null;
         private bool bUpDown; // true when the button UpDown is required
         private ImageList leftRightImages = null;

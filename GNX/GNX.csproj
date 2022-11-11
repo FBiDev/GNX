@@ -60,6 +60,12 @@
     <Compile Include="CustomControls\Desktop\BaseForm2.Designer.cs">
       <DependentUpon>BaseForm2.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\Desktop\FlatGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\FlatGroupBox.Designer.cs">
+      <DependentUpon>FlatGroupBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\Desktop\FlatMaskedTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -74,6 +80,9 @@
     </Compile>
     <Compile Include="CustomControls\Desktop\FlatComboBox.designer.cs">
       <DependentUpon>FlatComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\FlatPictureBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomControls\Desktop\FlatStatusBar.cs">
       <SubType>UserControl</SubType>

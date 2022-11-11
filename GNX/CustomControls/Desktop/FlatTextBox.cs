@@ -93,6 +93,8 @@ namespace GNX
 
         protected override void OnHandleCreated(EventArgs e)
         {
+            base.OnHandleCreated(e);
+
             pnlBorder.BackColor = BorderColor;
             pnlBg.BackColor = BackgroundColor;
 

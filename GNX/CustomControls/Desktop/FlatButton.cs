@@ -30,7 +30,7 @@ namespace GNX
             set { base.Font = value; }
         }
 
-        [DefaultValue(typeof(Size), "80, 34")]
+        [DefaultValue(typeof(Size), "82, 34")]
         public new Size Size
         {
             get { return base.Size; }
@@ -100,7 +100,9 @@ namespace GNX
             Anchor = AnchorStyles.Top;
             ImageAlign = ContentAlignment.MiddleLeft;
             Font = new Font("Segoe UI", 9);
-            Size = new Size(80, 34);
+
+            MinimumSize = new Size(24, 24);
+            Size = new Size(82, 34);
 
             base.UseVisualStyleBackColor = false;
             FlatStyle = System.Windows.Forms.FlatStyle.Flat;

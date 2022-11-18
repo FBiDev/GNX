@@ -66,6 +66,12 @@
     <Compile Include="CustomControls\Desktop\FlatGroupBox.Designer.cs">
       <DependentUpon>FlatGroupBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\Desktop\FlatLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\FlatLabel.Designer.cs">
+      <DependentUpon>FlatLabel.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\Desktop\FlatMaskedTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -83,6 +89,12 @@
     </Compile>
     <Compile Include="CustomControls\Desktop\FlatPictureBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\FlatProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\FlatProgressBar.Designer.cs">
+      <DependentUpon>FlatProgressBar.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\Desktop\FlatStatusBar.cs">
       <SubType>UserControl</SubType>

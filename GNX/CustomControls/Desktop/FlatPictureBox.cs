@@ -38,24 +38,6 @@ namespace GNX
         }
         #endregion
 
-        #region PixelOffset Property
-        private PixelOffsetMode pixelOffset = PixelOffsetMode.Half;
-
-        [DefaultValue(typeof(PixelOffsetMode), "Half")]
-        public PixelOffsetMode PixelOffset
-        {
-            get { return pixelOffset; }
-            set
-            {
-                if (value == PixelOffsetMode.Invalid)
-                    throw new ArgumentException("\"Invalid\" is not a valid value.");
-
-                pixelOffset = value;
-                Invalidate();
-            }
-        }
-        #endregion
-
         /// <summary>
         /// Overridden to modify rendering behavior.
         /// </summary>
@@ -69,7 +51,10 @@ namespace GNX
             pe.Graphics.InterpolationMode = interpolation;
             // Certain interpolation modes (such as nearest neighbor) need
             // to be offset by half a pixel to render correctly.
-            pe.Graphics.PixelOffsetMode = pixelOffset;
+            if (interpolation == InterpolationMode.NearestNeighbor)
+                pe.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
+            else
+                pe.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
             // Allow the PictureBox to draw.
             base.OnPaint(pe);

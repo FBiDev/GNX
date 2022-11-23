@@ -57,6 +57,10 @@ namespace GNX
         private TextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
+        public string previousText { get; set; }
+        string previousTextBackup { get; set; }
+        bool previousTextChanged { get; set; }
+
         public new bool Focused { get; set; }
 
         public new EventHandler TextChanged;
@@ -77,6 +81,8 @@ namespace GNX
 
             TextBox.KeyPress += TextBox_KeyPress;
             TextBox.KeyDown += TextBox_KeyDown;
+            TextBox.KeyUp += TextBox_KeyUp;
+            TextBox.MouseUp += TextBox_MouseUp;
 
             TextBox.GotFocus += TextBox_GotFocus;
             TextBox.LostFocus += TextBox_LostFocus;
@@ -105,6 +111,9 @@ namespace GNX
 
             TextBox.BackColor = BackgroundColor;
             TextBox.ForeColor = TextColor;
+
+            previousText = TextBox.Text;
+            previousTextBackup = TextBox.Text;
         }
 
         protected void lblPlaceholder_MouseEnter(object sender, EventArgs e)
@@ -145,6 +154,16 @@ namespace GNX
             OnKeyDown(e);
         }
 
+        void TextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            OnKeyUp(e);
+        }
+
+        void TextBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            OnMouseUp(e);
+        }
+
         private void TextBox_GotFocus(object sender, EventArgs e)
         {
             pnlBorder.BackColor = BorderColorFocus;
@@ -175,6 +194,19 @@ namespace GNX
         {
             if (TextChanged.NotNull())
             {
+                if (previousTextBackup != TextBox.Text)
+                {
+                    previousTextChanged = !previousTextChanged;
+
+                    if (previousTextChanged)
+                    {
+                        previousTextChanged = false;
+                        previousText = previousTextBackup;
+                    }
+
+                    previousTextBackup = TextBox.Text;
+                }
+
                 TextChanged(sender, e);
             }
 

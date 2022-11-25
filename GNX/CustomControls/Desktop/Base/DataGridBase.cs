@@ -115,14 +115,10 @@ namespace GNX
             RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 
             //Alternate Rows
-            System.Windows.Forms.DataGridViewCellStyle AlternatingRowsStyle = new System.Windows.Forms.DataGridViewCellStyle()
-            {
-                BackColor = ColorRowAlternate,
-            };
-            AlternatingRowsDefaultCellStyle = AlternatingRowsStyle;
+            AlternatingRowsDefaultCellStyle.BackColor = ColorRowAlternate;
 
             //ROWS_HEADERS
-            System.Windows.Forms.DataGridViewCellStyle RowHeadersStyle = new System.Windows.Forms.DataGridViewCellStyle()
+            var RowHeadersStyle = new DataGridViewCellStyle()
             {
                 Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft,
                 BackColor = ColorRowHeader,

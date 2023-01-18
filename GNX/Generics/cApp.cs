@@ -111,6 +111,13 @@ namespace GNX
         private static CultureInfo Language;
         private static RegionInfo Country;
 
+        public static CultureInfo LanguageNumbers;
+
+        public static void SetLanguageNumbers(CultureID name)
+        {
+            LanguageNumbers = new CultureInfo(Convert.ToInt32(name));
+        }
+
         public static void SetLanguage(CultureID name)
         {
             int CultureName = Convert.ToInt32(name);

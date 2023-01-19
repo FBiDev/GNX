@@ -11,12 +11,12 @@ namespace GNX
     {
         public static bool Empty<TSource>(this IEnumerable<TSource> source)
         {
-            return source.Count() == 0;
+            return source == null || source.Count() == 0;
         }
 
-        public static T First<T>(this List<T> list) where T : class
+        public static T First<T>(this List<T> list) where T : class, new()
         {
-            if (list.Count == 0) { return null; }
+            if (list.Count == 0) { return new T(); }
 
             return list[0];
         }

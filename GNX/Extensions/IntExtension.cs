@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace GNX
@@ -15,22 +16,19 @@ namespace GNX
             return "NULL";
         }
 
-        public static string ToNumber(this float value, bool languageNumber = false, int decimals = 2)
+        public static string ToNumber(this float value, int decimals = 2, bool customLanguage = false)
         {
-            if (languageNumber)
-                return string.Format(cApp.LanguageNumbers, "{0:N" + decimals + "}", value);
-            else
-                return string.Format("{0:N" + decimals + "}", value);
+            return string.Format(customLanguage ? cApp.LanguageNumbers : CultureInfo.CurrentCulture, "{0:N" + decimals + "}", value);
         }
 
-        public static string ToNumber(this int? value, bool languageNumber = false)
+        public static string ToNumber(this int? value, bool customLanguage = false)
         {
-            return ToNumber((float)value, languageNumber, 0);
+            return ToNumber((float)value, 0, customLanguage);
         }
 
-        public static string ToNumber(this int value, bool languageNumber = false)
+        public static string ToNumber(this int value, bool customLanguage = false)
         {
-            return ToNumber((float)value, languageNumber, 0);
+            return ToNumber((float)value, 0, customLanguage);
         }
     }
 }

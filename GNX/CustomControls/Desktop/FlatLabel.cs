@@ -96,5 +96,29 @@ namespace GNX
         {
             base.OnHandleCreated(e);
         }
+
+        [DefaultValue(false)]
+        public bool DoubleClickBlockCopy { get; set; }
+        int WM_LBUTTONDBLCLK = 0x203;
+        private string sSaved;
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == WM_LBUTTONDBLCLK && DoubleClickBlockCopy)
+            {
+                sSaved = Clipboard.GetText();
+
+                base.WndProc(ref m);
+
+                if (!string.IsNullOrEmpty(sSaved))
+                    Clipboard.SetText(sSaved);
+                else
+                    Clipboard.Clear();
+            }
+            else
+            {
+                base.WndProc(ref m);
+            }
+        }
     }
 }

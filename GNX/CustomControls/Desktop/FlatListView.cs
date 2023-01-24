@@ -13,30 +13,7 @@ namespace GNX
     public partial class FlatListView : ListView
     {
         public int ImagePadding = 6;
-        public List<Bitmap> images = new List<Bitmap>();
-
-        #region Interpolation Property
-        /// <summary>Backing Field</summary>
-        private InterpolationMode interpolation = InterpolationMode.HighQualityBicubic;
-
-        /// <summary>
-        /// The interpolation used to render the image.
-        /// </summary>
-        [DefaultValue(typeof(InterpolationMode), "NearestNeighbor"),
-        Description("The interpolation used to render the image.")]
-        public InterpolationMode Interpolation
-        {
-            get { return interpolation; }
-            set
-            {
-                if (value == InterpolationMode.Invalid)
-                    throw new ArgumentException("\"Invalid\" is not a valid value."); // (Duh!)
-
-                interpolation = value;
-                Invalidate(); // Image should be redrawn when a different interpolation is selected
-            }
-        }
-        #endregion
+        public List<Image> images = new List<Image>();
 
         public FlatListView()
         {
@@ -54,30 +31,13 @@ namespace GNX
             //Items[0].Position = new Point(0, 0);
         }
 
-        protected override void OnPaint(PaintEventArgs pe)
-        {
-            // Before the PictureBox renders the image, we modify the
-            // graphics object to change the interpolation.
-
-            // Set the selected interpolation.
-            pe.Graphics.InterpolationMode = interpolation;
-            // Certain interpolation modes (such as nearest neighbor) need
-            // to be offset by half a pixel to render correctly.
-            if (interpolation == InterpolationMode.NearestNeighbor)
-                pe.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
-            else
-                pe.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-            // Allow the PictureBox to draw.
-            base.OnPaint(pe);
-        }
-
         void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
-            int x = (e.Bounds.Left) + 2;
-            int y = (e.Bounds.Top - 2) + 2;
+            int x = (e.Bounds.Left) + 2 + 4;
+            int y = (e.Bounds.Top - 2) + 2 + 4;
             Image imageNewSize = LargeImageList.Images[e.Item.ImageIndex];
             var rect = new Rectangle(x, y, imageNewSize.Width, imageNewSize.Height);
+            var rectImage = new Rectangle(x + 2, y + 2, imageNewSize.Width - 4, imageNewSize.Height - 4);
 
             //Bitmap imageResized = new Bitmap(imageNewSize.Width, imageNewSize.Height);
             e.Graphics.DrawImage(imageNewSize, rect);
@@ -116,7 +76,8 @@ namespace GNX
                 if (Focused)
                 {
                     textColor = SystemColors.HighlightText;
-                    e.Graphics.FillRectangle(SystemBrushes.Highlight, rect);
+                    Brush brush = new SolidBrush(Color.FromArgb(120, 0, 120, 215));
+                    e.Graphics.FillRectangle(brush, rectImage);
                 }
                 else if (!HideSelection)
                 {
@@ -140,15 +101,15 @@ namespace GNX
 
         void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
         {
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            //e.DrawDefault = true;
+            //e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            e.DrawDefault = true;
         }
 
         void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            //if (e.ColumnIndex > 0)
-            //e.DrawDefault = true;
+            //e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            if (e.ColumnIndex > 0)
+                e.DrawDefault = true;
         }
 
         public Padding getPadding()
@@ -164,13 +125,17 @@ namespace GNX
             //}
             Items.Clear();
             images.Clear();
+            AutoScrollOffset = Point.Empty;
 
             //Convert Images
             foreach (var img in imageList)
             {
-                var newImage = new Bitmap(imagesSize.Width, imagesSize.Height);
+                var newImage = new Bitmap(imagesSize.Width, imagesSize.Height, PixelFormat.Format24bppRgb);
+
                 using (Graphics g = Graphics.FromImage(newImage))
                 {
+                    g.Clear(Color.Gold);
+
                     //copy in High Quality
                     g.CompositingMode = CompositingMode.SourceCopy;
                     g.CompositingQuality = CompositingQuality.HighQuality;
@@ -183,15 +148,15 @@ namespace GNX
                     g.InterpolationMode = (img.Height > imagesSize.Height) || (img.Width > imagesSize.Width) ? InterpolationMode.HighQualityBicubic : InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = (img.Height > imagesSize.Height) || (img.Width > imagesSize.Width) ? PixelOffsetMode.HighQuality : PixelOffsetMode.Half;
 
-                    //g.DrawImage(image, rect, 0, 0, imageResized.Width, imageResized.Height, GraphicsUnit.Pixel, wrapMode);
+                    var rectAll = new Rectangle(0, 0, imagesSize.Width, imagesSize.Height);
+                    var rectImage = new Rectangle(2, 2, imagesSize.Width - 4, imagesSize.Height - 4);
 
-                    //g.DrawImage(img, rect);
-                    var rect = new Rectangle(0, 0, imagesSize.Width, imagesSize.Height);
-                    g.DrawImage(img, rect, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, wrapMode);
+                    g.DrawImage(img, rectImage, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, wrapMode);
 
-                    DrawToBitmap(img, rect);
+                    DrawToBitmap(img, rectAll);
                     images.Add(newImage);
                 }
+
             }
 
             //images = imageList;
@@ -204,6 +169,7 @@ namespace GNX
             var pics = new ImageList()
             {
                 ImageSize = imagesSize,
+                ColorDepth = ColorDepth.Depth24Bit,
             };
 
             pics.Images.AddRange(images.ToArray());

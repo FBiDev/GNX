@@ -28,13 +28,19 @@ namespace GNX
             DrawSubItem += ListView_DrawSubItem;
             DrawColumnHeader += ListView_DrawColumnHeader;
             AutoArrange = true;
-            //Items[0].Position = new Point(0, 0);
         }
 
         void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
             int x = (e.Bounds.Left) + 2 + 4;
-            int y = (e.Bounds.Top - 2) + 2 + 4;
+            int y = (e.Bounds.Top - 2) + 2;
+
+            if (e.ItemIndex >= Items.Count + 1 - 5)
+            {
+                TileSize = new System.Drawing.Size(54, 54);
+            }
+
+
             Image imageNewSize = LargeImageList.Images[e.Item.ImageIndex];
             var rect = new Rectangle(x, y, imageNewSize.Width, imageNewSize.Height);
             var rectImage = new Rectangle(x + 2, y + 2, imageNewSize.Width - 4, imageNewSize.Height - 4);
@@ -117,54 +123,49 @@ namespace GNX
             return Padding;
         }
 
-        public void AddImageList(List<Bitmap> imageList, Size imagesSize)
+        public async Task AddImageList(List<Bitmap> imageList, Size imagesSize)
         {
-            //for (int i = LargeImageList.Images.Count - 1; i >= 0; i--)
-            //{
-            //    LargeImageList.Images[i].Dispose();
-            //}
             Items.Clear();
             images.Clear();
             AutoScrollOffset = Point.Empty;
 
-            //Convert Images
-            foreach (var img in imageList)
+            await Task.Run(() =>
             {
-                var newImage = new Bitmap(imagesSize.Width, imagesSize.Height, PixelFormat.Format24bppRgb);
-
-                using (Graphics g = Graphics.FromImage(newImage))
+                //Convert Images
+                foreach (var img in imageList)
                 {
-                    g.Clear(Color.Gold);
+                    var newImage = new Bitmap(imagesSize.Width, imagesSize.Height, PixelFormat.Format24bppRgb);
 
-                    //copy in High Quality
-                    g.CompositingMode = CompositingMode.SourceCopy;
-                    g.CompositingQuality = CompositingQuality.HighQuality;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    using (Graphics g = Graphics.FromImage(newImage))
+                    {
+                        g.Clear(Color.Gold);
 
-                    //prevents ghosting around the image borders
-                    var wrapMode = new ImageAttributes();
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                        //copy in High Quality
+                        g.CompositingMode = CompositingMode.SourceCopy;
+                        g.CompositingQuality = CompositingQuality.HighQuality;
+                        g.SmoothingMode = SmoothingMode.HighQuality;
 
-                    g.InterpolationMode = (img.Height > imagesSize.Height) || (img.Width > imagesSize.Width) ? InterpolationMode.HighQualityBicubic : InterpolationMode.NearestNeighbor;
-                    g.PixelOffsetMode = (img.Height > imagesSize.Height) || (img.Width > imagesSize.Width) ? PixelOffsetMode.HighQuality : PixelOffsetMode.Half;
+                        //prevents ghosting around the image borders
+                        var wrapMode = new ImageAttributes();
+                        wrapMode.SetWrapMode(WrapMode.TileFlipXY);
 
-                    var rectAll = new Rectangle(0, 0, imagesSize.Width, imagesSize.Height);
-                    var rectImage = new Rectangle(2, 2, imagesSize.Width - 4, imagesSize.Height - 4);
+                        g.InterpolationMode = (img.Height > imagesSize.Height) || (img.Width > imagesSize.Width) ? InterpolationMode.HighQualityBicubic : InterpolationMode.NearestNeighbor;
+                        g.PixelOffsetMode = (img.Height > imagesSize.Height) || (img.Width > imagesSize.Width) ? PixelOffsetMode.HighQuality : PixelOffsetMode.Half;
 
-                    g.DrawImage(img, rectImage, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, wrapMode);
+                        var rectAll = new Rectangle(0, 0, imagesSize.Width, imagesSize.Height);
+                        var rectImage = new Rectangle(2, 2, imagesSize.Width - 4, imagesSize.Height - 4);
 
-                    DrawToBitmap(img, rectAll);
-                    images.Add(newImage);
+                        g.DrawImage(img, rectImage, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, wrapMode);
+
+                        //DrawToBitmap(img, rectAll);
+                        images.Add(newImage);
+                    }
                 }
+                //images = imageList;
 
-            }
-
-            //images = imageList;
-
-
-
-            //if (size.IsEmpty) size = new Size(32, 32);
-            //if (ImagePadding < 6) ImagePadding = 6;
+                //if (size.IsEmpty) size = new Size(32, 32);
+                //if (ImagePadding < 6) ImagePadding = 6;
+            });
 
             var pics = new ImageList()
             {

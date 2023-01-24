@@ -12,22 +12,52 @@ namespace GNX
 {
     public partial class FlatListView : ListView
     {
-        public int ImagePadding = 6;
-        public List<Image> images = new List<Image>();
+        public List<Image> Images = new List<Image>();
+        public List<string> Titles = new List<string>();
+        public Size ImagesSize = new Size(32, 32);
+        public int ImagesBorder = 2;
+        public Color ImagesBorderColor = Color.Gold;
+        public int ImagesPerRow = 5;
+        public int ImagesMargin = 6;
+
+        //public new List<FlatListViewItem> Items { get; set; }
+
 
         public FlatListView()
         {
             DoubleBuffered = true;
 
             View = View.Tile;
-            TileSize = new Size(52, 52);
+            TileSize = new Size(32, 32);
+            AutoArrange = true;
+
             BackColor = SystemColors.Control;
 
             OwnerDraw = true;
             DrawItem += ListView_DrawItem;
             DrawSubItem += ListView_DrawSubItem;
             DrawColumnHeader += ListView_DrawColumnHeader;
-            AutoArrange = true;
+
+            ItemMouseHover += FlatListView_ItemMouseHover;
+        }
+
+        void FlatListView_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
+        {
+            var item = (FlatListViewItem)e.Item;
+            item.Hover = true;
+            //int x = e.Item.ImageIndex * ImagesSize.Width;
+            //int y = e.Item.ImageIndex * ImagesSize.Height;
+
+            //Image currentImage = Images[e.Item.ImageIndex];
+
+            //var rectImage = new Rectangle(x + ImagesBorder, y + ImagesBorder, currentImage.Width - (ImagesBorder * 2), currentImage.Height - (ImagesBorder * 2));
+
+            //Brush brush = new SolidBrush(Color.FromArgb(120, 0, 120, 215));
+
+            //using (Graphics g = Graphics.FromImage(currentImage))
+            //{
+            //    g.FillRectangle(brush, rectImage);
+            //}
         }
 
         void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
@@ -35,18 +65,35 @@ namespace GNX
             int x = (e.Bounds.Left) + 2 + 4;
             int y = (e.Bounds.Top - 2) + 2;
 
-            if (e.ItemIndex >= Items.Count + 1 - 5)
+            if (e.ItemIndex >= Items.Count + 1 - ImagesPerRow)
             {
-                TileSize = new System.Drawing.Size(54, 54);
+                //TileSize = new Size((ImagesSize.Width + ImagesMargin) - 4, (ImagesSize.Height + ImagesMargin) - 4);
             }
 
 
-            Image imageNewSize = LargeImageList.Images[e.Item.ImageIndex];
-            var rect = new Rectangle(x, y, imageNewSize.Width, imageNewSize.Height);
-            var rectImage = new Rectangle(x + 2, y + 2, imageNewSize.Width - 4, imageNewSize.Height - 4);
+            Image currentImage = Images[e.Item.ImageIndex];
+            var rectAll = new Rectangle(x, y, currentImage.Width, currentImage.Height);
+            var rectImage = new Rectangle(x + ImagesBorder, y + ImagesBorder, currentImage.Width - (ImagesBorder * 2), currentImage.Height - (ImagesBorder * 2));
 
             //Bitmap imageResized = new Bitmap(imageNewSize.Width, imageNewSize.Height);
-            e.Graphics.DrawImage(imageNewSize, rect);
+
+            e.Graphics.DrawImage(currentImage, rectAll);
+
+            var i = (FlatListViewItem)e.Item;
+            if (i.Hover)
+            {
+                //var rectAll = new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height);
+                Brush brush = new SolidBrush(Color.FromArgb(120, 0, 120, 215));
+
+                //e.Graphics.FillRectangle(brush, rectAll);
+
+                //using (Graphics g = Graphics.FromImage(Images[i.ImageIndex]))
+                //{
+                //    g.FillRectangle(brush, rectAll);
+                //}
+            }
+            else { }
+
             //var g = e.Graphics;
             //using (Graphics g = Graphics.FromImage(imageNewSize))
             //{
@@ -99,7 +146,6 @@ namespace GNX
                 }
             }
 
-            //e.Graphics.DrawRectangle(Pens.Red, e.Bounds);
             //TextRenderer.DrawText(e.Graphics, e.Item.Text, Font, e.Bounds,
             //                      textColor, Color.Empty,
             //                      TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
@@ -107,38 +153,41 @@ namespace GNX
 
         void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
         {
-            //e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.DrawDefault = true;
         }
 
         void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
-            //e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             if (e.ColumnIndex > 0)
                 e.DrawDefault = true;
         }
 
-        public Padding getPadding()
-        {
-            return Padding;
-        }
-
-        public async Task AddImageList(List<Bitmap> imageList, Size imagesSize)
+        public async Task AddImageList(List<Bitmap> imageList, Size newImagesSize, List<string> titles = null)
         {
             Items.Clear();
-            images.Clear();
+            Images.Clear();
             AutoScrollOffset = Point.Empty;
+
+            if (newImagesSize.IsEmpty || newImagesSize.Width == 1 && newImagesSize.Height == 1) newImagesSize = new Size(2, 2);
+            if (ImagesBorder < 0) ImagesBorder = 0;
+            if (ImagesMargin < 0) ImagesMargin = 0;
+            if (ImagesPerRow <= 0) ImagesPerRow = 1;
+
+            ImagesSize = newImagesSize;
+            Titles = titles;
 
             await Task.Run(() =>
             {
                 //Convert Images
                 foreach (var img in imageList)
                 {
-                    var newImage = new Bitmap(imagesSize.Width, imagesSize.Height, PixelFormat.Format24bppRgb);
+                    var newImage = new Bitmap(ImagesSize.Width, ImagesSize.Height, PixelFormat.Format24bppRgb);
+                    newImage.MakeTransparent();
 
                     using (Graphics g = Graphics.FromImage(newImage))
                     {
-                        g.Clear(Color.Gold);
+                        if (ImagesBorderColor != Color.Transparent)
+                            g.Clear(ImagesBorderColor);
 
                         //copy in High Quality
                         g.CompositingMode = CompositingMode.SourceCopy;
@@ -149,16 +198,16 @@ namespace GNX
                         var wrapMode = new ImageAttributes();
                         wrapMode.SetWrapMode(WrapMode.TileFlipXY);
 
-                        g.InterpolationMode = (img.Height > imagesSize.Height) || (img.Width > imagesSize.Width) ? InterpolationMode.HighQualityBicubic : InterpolationMode.NearestNeighbor;
-                        g.PixelOffsetMode = (img.Height > imagesSize.Height) || (img.Width > imagesSize.Width) ? PixelOffsetMode.HighQuality : PixelOffsetMode.Half;
+                        g.InterpolationMode = (img.Height > ImagesSize.Height) || (img.Width > ImagesSize.Width) ? InterpolationMode.HighQualityBicubic : InterpolationMode.NearestNeighbor;
+                        g.PixelOffsetMode = (img.Height > ImagesSize.Height) || (img.Width > ImagesSize.Width) ? PixelOffsetMode.HighQuality : PixelOffsetMode.Half;
 
-                        var rectAll = new Rectangle(0, 0, imagesSize.Width, imagesSize.Height);
-                        var rectImage = new Rectangle(2, 2, imagesSize.Width - 4, imagesSize.Height - 4);
+                        //var rectAll = new Rectangle(0, 0, newImagesSize.Width, newImagesSize.Height);
+                        var rectImage = new Rectangle(ImagesBorder, ImagesBorder, ImagesSize.Width - (ImagesBorder * 2), ImagesSize.Height - (ImagesBorder * 2));
 
                         g.DrawImage(img, rectImage, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, wrapMode);
 
                         //DrawToBitmap(img, rectAll);
-                        images.Add(newImage);
+                        Images.Add(newImage);
                     }
                 }
                 //images = imageList;
@@ -169,16 +218,16 @@ namespace GNX
 
             var pics = new ImageList()
             {
-                ImageSize = imagesSize,
+                ImageSize = ImagesSize,
                 ColorDepth = ColorDepth.Depth24Bit,
             };
 
-            pics.Images.AddRange(images.ToArray());
+            pics.Images.AddRange(Images.ToArray());
 
             int index = 0;
-            foreach (var imageItem in images)
+            foreach (var imageItem in Images)
             {
-                var viewItem = new ListViewItem()
+                var viewItem = new FlatListViewItem()
                 {
                     ImageIndex = index,
                     //Text = "X",
@@ -188,7 +237,7 @@ namespace GNX
                 Items.Add(viewItem);
             }
 
-            //TileSize = new Size(size.Width + ImagePadding, size.Height + ImagePadding);
+            TileSize = new Size(ImagesSize.Width + ImagesMargin, ImagesSize.Height + ImagesMargin);
             LargeImageList = pics;
             SmallImageList = pics;
         }

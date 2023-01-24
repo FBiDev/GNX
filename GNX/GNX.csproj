@@ -78,6 +78,7 @@
     <Compile Include="CustomControls\Desktop\FlatListView.Designer.cs">
       <DependentUpon>FlatListView.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\Desktop\FlatListViewItem.cs" />
     <Compile Include="CustomControls\Desktop\FlatMaskedTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>

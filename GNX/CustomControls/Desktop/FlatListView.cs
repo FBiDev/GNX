@@ -12,16 +12,16 @@ namespace GNX
 {
     public partial class FlatListView : ListView
     {
+        public List<Bitmap> ImagesOriginal = new List<Bitmap>();
         public List<Image> Images = new List<Image>();
         public List<string> Titles = new List<string>();
+        public List<string> Descriptions = new List<string>();
+
         public Size ImagesSize = new Size(32, 32);
         public int ImagesBorder = 2;
         public Color ImagesBorderColor = Color.Gold;
         public int ImagesPerRow = 5;
         public int ImagesMargin = 6;
-
-        //public new List<FlatListViewItem> Items { get; set; }
-
 
         public FlatListView()
         {
@@ -45,19 +45,6 @@ namespace GNX
         {
             var item = (FlatListViewItem)e.Item;
             item.Hover = true;
-            //int x = e.Item.ImageIndex * ImagesSize.Width;
-            //int y = e.Item.ImageIndex * ImagesSize.Height;
-
-            //Image currentImage = Images[e.Item.ImageIndex];
-
-            //var rectImage = new Rectangle(x + ImagesBorder, y + ImagesBorder, currentImage.Width - (ImagesBorder * 2), currentImage.Height - (ImagesBorder * 2));
-
-            //Brush brush = new SolidBrush(Color.FromArgb(120, 0, 120, 215));
-
-            //using (Graphics g = Graphics.FromImage(currentImage))
-            //{
-            //    g.FillRectangle(brush, rectImage);
-            //}
         }
 
         void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
@@ -70,39 +57,11 @@ namespace GNX
                 //TileSize = new Size((ImagesSize.Width + ImagesMargin) - 4, (ImagesSize.Height + ImagesMargin) - 4);
             }
 
-
             Image currentImage = Images[e.Item.ImageIndex];
             var rectAll = new Rectangle(x, y, currentImage.Width, currentImage.Height);
             var rectImage = new Rectangle(x + ImagesBorder, y + ImagesBorder, currentImage.Width - (ImagesBorder * 2), currentImage.Height - (ImagesBorder * 2));
 
-            //Bitmap imageResized = new Bitmap(imageNewSize.Width, imageNewSize.Height);
-
             e.Graphics.DrawImage(currentImage, rectAll);
-
-            var i = (FlatListViewItem)e.Item;
-            if (i.Hover)
-            {
-                //var rectAll = new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height);
-                Brush brush = new SolidBrush(Color.FromArgb(120, 0, 120, 215));
-
-                //e.Graphics.FillRectangle(brush, rectAll);
-
-                //using (Graphics g = Graphics.FromImage(Images[i.ImageIndex]))
-                //{
-                //    g.FillRectangle(brush, rectAll);
-                //}
-            }
-            else { }
-
-            //var g = e.Graphics;
-            //using (Graphics g = Graphics.FromImage(imageNewSize))
-            //{
-            //    //Bitmap image = FromFile(imageFile);
-            //var image = images[e.Item.Index];
-
-            //}
-
-
 
             //using srcImg As Image = Image.FromFile(fn)
 
@@ -123,27 +82,27 @@ namespace GNX
             //using (Brush brush = new SolidBrush((e.State.HasFlag(ListViewItemStates.Focused)) ? SystemColors.Highlight : e.Item.BackColor))
             //    e.Graphics.FillRectangle(brush, e.Bounds);
 
-            Color textColor = SystemColors.WindowText;
+            //Color textColor = SystemColors.WindowText;
             if (e.Item.Selected)
             {
                 if (Focused)
                 {
-                    textColor = SystemColors.HighlightText;
+                    //textColor = SystemColors.HighlightText;
                     Brush brush = new SolidBrush(Color.FromArgb(120, 0, 120, 215));
                     e.Graphics.FillRectangle(brush, rectImage);
                 }
                 else if (!HideSelection)
                 {
-                    textColor = SystemColors.ControlText;
+                    //textColor = SystemColors.ControlText;
                     //e.Graphics.FillRectangle(SystemBrushes.Control, e.Bounds);
                 }
             }
             else
             {
-                using (SolidBrush br = new SolidBrush(BackColor))
-                {
-                    //e.Graphics.FillRectangle(br, e.Bounds);
-                }
+                //using (SolidBrush br = new SolidBrush(BackColor))
+                //{
+                //e.Graphics.FillRectangle(br, e.Bounds);
+                //}
             }
 
             //TextRenderer.DrawText(e.Graphics, e.Item.Text, Font, e.Bounds,
@@ -162,8 +121,10 @@ namespace GNX
                 e.DrawDefault = true;
         }
 
-        public async Task AddImageList(List<Bitmap> imageList, Size newImagesSize, List<string> titles = null)
+        public async Task AddImageList(List<Bitmap> imageList, Size newImagesSize, List<string> titles = null, List<string> descriptions = null)
         {
+            ImagesOriginal = imageList;
+
             Items.Clear();
             Images.Clear();
             AutoScrollOffset = Point.Empty;
@@ -175,6 +136,7 @@ namespace GNX
 
             ImagesSize = newImagesSize;
             Titles = titles;
+            Descriptions = descriptions;
 
             await Task.Run(() =>
             {

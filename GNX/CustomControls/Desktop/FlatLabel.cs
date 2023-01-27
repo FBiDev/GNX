@@ -98,6 +98,50 @@ namespace GNX
         }
 
         [DefaultValue(false)]
+        public bool FirstLineBold { get; set; }
+
+        //protected override void OnPaint(PaintEventArgs e)
+        //{
+        //    Point drawPoint = new Point(0, 0);
+
+        //    var split = new string[1] { "\r\n" };
+        //    string[] ary = Text.Split(split, StringSplitOptions.RemoveEmptyEntries);
+        //    if (ary.Length > 1)
+        //    {
+        //        Font normalFont = Font;
+        //        Font boldFont = new Font(normalFont, FontStyle.Bold);
+        //        Font reducedFont = new Font(normalFont.Name, 8.75f);
+
+        //        Size boldSize = TextRenderer.MeasureText(ary[0], boldFont);
+        //        Size normalSize = TextRenderer.MeasureText(ary[1], normalFont);
+
+        //        var firstText = Text.Substring(0, Text.IndexOf("\r\n"));
+        //        var LastText = Text.Substring(Text.IndexOf("\r\n"));
+
+        //        Size allSize = TextRenderer.MeasureText(Text, boldFont);
+
+        //        if (boldSize.Width >= 290)
+        //            LastText = "\r\n" + LastText;
+
+        //        Rectangle alldRect = new Rectangle(drawPoint, allSize);
+
+        //        using (Brush cellForeBrush = new SolidBrush(this.ForeColor))
+        //            e.Graphics.DrawString(firstText, boldFont, cellForeBrush, alldRect);
+
+        //        using (Brush cellForeBrush = new SolidBrush(this.ForeColor))
+        //            e.Graphics.DrawString(LastText, reducedFont, cellForeBrush, alldRect);
+
+        //        //Size = PreferredSize;
+        //        //TextRenderer.DrawText(e.Graphics, firstText, boldFont, boldRect, ForeColor);
+        //        //TextRenderer.DrawText(e.Graphics, firstText, normalFont, boldRect, ForeColor);
+        //    }
+        //    else
+        //    {
+        //        TextRenderer.DrawText(e.Graphics, Text, Font, drawPoint, ForeColor);
+        //    }
+        //}
+
+        [DefaultValue(false)]
         public bool DoubleClickBlockCopy { get; set; }
         int WM_LBUTTONDBLCLK = 0x203;
         private string sSaved;

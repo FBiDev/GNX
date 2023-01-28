@@ -41,6 +41,24 @@ namespace GNX
             ItemMouseHover += FlatListView_ItemMouseHover;
         }
 
+        public event ScrollEventHandler Scroll;
+        protected virtual void OnScroll(ScrollEventArgs e)
+        {
+            ScrollEventHandler handler = this.Scroll;
+            if (handler != null) handler(this, e);
+        }
+
+        private const uint WM_MOUSEWHEEL = 0x020A;
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+            if (m.Msg == WM_MOUSEWHEEL)
+            { // Trap WM_VSCROLL
+                //OnScroll(new ScrollEventArgs((ScrollEventType)(m.WParam.ToInt32() & 0xffff), 0));
+                OnScroll(new ScrollEventArgs((ScrollEventType)1, 0));
+            }
+        }
+
         void FlatListView_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
         {
             var item = (FlatListViewItem)e.Item;

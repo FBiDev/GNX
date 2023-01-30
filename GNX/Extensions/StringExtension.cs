@@ -79,6 +79,25 @@ namespace GNX
             return false;
         }
 
+        public static bool Contains(this string source, string toFind)
+        {
+            return source.IndexOf(toFind, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        public static bool NotContains(this string source, string toFind)
+        {
+            return source.IndexOf(toFind, StringComparison.OrdinalIgnoreCase) < 0;
+        }
+
+        public static bool NotContains(this string source, string[] toFind)
+        {
+            foreach (var item in toFind)
+            {
+                if (source.IndexOf(item, StringComparison.OrdinalIgnoreCase) >= 0) { return false; }
+            }
+            return true;
+        }
+
         public static string GetBetween(this string s, string start, string end, bool inclusive = false, bool firstMatch = true, bool singleLine = true)
         {
             RegexOptions opt = singleLine ? RegexOptions.Singleline : 0;

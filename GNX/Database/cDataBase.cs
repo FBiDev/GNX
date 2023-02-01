@@ -11,7 +11,6 @@ namespace GNX
         public ListBind<cLogSQL> Log = new ListBind<cLogSQL>();
 
         public DbSystem DatabaseSystem;
-        public IDbConnection Connection;
 
         public string ServerAddress { get; set; }
         public string DatabaseName { get; set; }
@@ -22,8 +21,12 @@ namespace GNX
 
         public string ConnectionString { get; set; }
 
-        private IDbCommand cmd { get; set; }
-        private IDbConnection conn { get; set; }
+        public IDbConnection Connection;
+        //private IDbConnection conn { get; set; }
+        //private IDbCommand cmd { get; set; }
+
+        public List<IDbConnection> connList = new List<IDbConnection>();
+        public List<IDbCommand> cmdList = new List<IDbCommand>();
 
         private string DefaultConnectionString()
         {
@@ -48,13 +51,15 @@ namespace GNX
             {
                 sql = "SELECT strftime('%Y-%m-%d %H:%M:%f','now', 'localtime') AS DataServ;";
             }
-            SetCommand();
 
-            string select = ExecuteScalar(sql);
+            int connIndex = newConnection();
+            Open(connIndex);
+
+            string select = ExecuteScalar(connIndex, sql);
             return Convert.ToDateTime(select);
         }
 
-        public int GetLastID()
+        public int GetLastID(int connIndex = -1)
         {
             string sql = "SELECT SCOPE_IDENTITY() AS LastID;";
             if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
@@ -62,28 +67,31 @@ namespace GNX
                 sql = "SELECT LAST_INSERT_ROWID() AS LastID;";
             }
 
-            SetCommand();
+            if (connIndex == -1)
+                connIndex = newConnection();
+            Open(connIndex);
 
-            string select = ExecuteScalar(sql);
+            string select = ExecuteScalar(connIndex, sql);
             return Convert.ToInt32(0 + select);
         }
 
-        private IDbConnection CreateConnection()
+        private void CreateConnection(IDbConnection conn)
         {
-            conn = Connection;
-            if (string.IsNullOrWhiteSpace(ConnectionString))
+            //conn = Connection;
+            if (conn != null && conn.ConnectionString.Empty())
             {
-                conn.ConnectionString = DefaultConnectionString();
+                if (ConnectionString.Empty())
+                {
+                    conn.ConnectionString = DefaultConnectionString();
+                }
+                else
+                {
+                    conn.ConnectionString = ConnectionString;
+                }
             }
-            else
-            {
-                conn.ConnectionString = ConnectionString;
-            }
-
-            return conn;
         }
 
-        private void OpenConnection()
+        private void OpenConnection(IDbConnection conn)
         {
             if (conn.State == ConnectionState.Closed)
             {
@@ -95,6 +103,50 @@ namespace GNX
                 {
                     cException.ShowBox(ex);
                 }
+            }
+        }
+
+        int newConnection()
+        {
+            IDbConnection conn = (IDbConnection)Connection.Clone();
+            connList.Add(conn);
+            cmdList.Add(conn.CreateCommand());
+
+            return connList.Count - 1;
+        }
+
+        private void Open(int connIndex)
+        {
+            try
+            {
+                var conn = connList[connIndex];
+                var cmd = cmdList[connIndex];
+
+                CreateConnection(conn);
+
+                OpenConnection(conn);
+
+                if (cmd == null)
+                    cmd = conn.CreateCommand();
+
+                cmd.Connection = conn;
+            }
+            catch (Exception ex)
+            {
+                cException.ShowBox(ex);
+            }
+        }
+
+        private void Close(int connIndex)
+        {
+            var conn = connList[connIndex];
+            var cmd = cmdList[connIndex];
+
+            if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
+            {
+                cmd.Connection.Close();
+                cmd.Parameters.Clear();
+                conn.Close();
             }
         }
 
@@ -117,8 +169,10 @@ namespace GNX
         //    return null;
         //}
 
-        private IDbDataParameter AddSQLParameter(cSqlParameter parameter)
+        private IDbDataParameter AddSQLParameter(int connIndex, cSqlParameter parameter)
         {
+            var cmd = cmdList[connIndex];
+
             if (cmd != null)
             {
                 IDbDataParameter p = cmd.CreateParameter();
@@ -136,46 +190,13 @@ namespace GNX
             return null;
         }
 
-        private void Open()
-        {
-            SetCommand();
-        }
-
-        private void SetCommand()
-        {
-            try
-            {
-                if (conn == null)
-                {
-                    conn = CreateConnection();
-                }
-
-                OpenConnection();
-
-                cmd = conn.CreateCommand();
-                cmd.Connection = conn;
-            }
-            catch (Exception ex)
-            {
-                cException.ShowBox(ex);
-            }
-        }
-
-        private void Close()
-        {
-            if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
-            {
-                cmd.Connection.Close();
-                cmd.Parameters.Clear();
-                conn.Close();
-            }
-        }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private DataTable ExecuteReader(string sql, string storedProcedure)
+        private DataTable ExecuteReader(int connIndex, string sql, string storedProcedure)
         {
             DataTable data = new DataTable();
             DataSet ds = new DataSet();
+
+            var cmd = cmdList[connIndex];
 
             if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
             {
@@ -244,8 +265,10 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private int ExecuteNonQuery(string sql, DbAction action = DbAction.Null)
+        private int ExecuteNonQuery(int connIndex, string sql, DbAction action = DbAction.Null)
         {
+            var cmd = cmdList[connIndex];
+
             int affectedRows = 0;
 
             if (cmd != null)
@@ -260,6 +283,8 @@ namespace GNX
 
                     AddLog(cmd, action);
                     affectedRows = cmd.ExecuteNonQuery();
+
+                    cmdList[connIndex] = cmd;
                 }
                 catch (Exception ex)
                 {
@@ -270,8 +295,10 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private string ExecuteScalar(string sql)
+        private string ExecuteScalar(int connIndex, string sql)
         {
+            var cmd = cmdList[connIndex];
+
             if (cmd != null)
             {
                 object select = string.Empty;
@@ -286,6 +313,8 @@ namespace GNX
 
                     AddLog(cmd);
                     select = cmd.ExecuteScalar();
+
+                    cmdList[connIndex] = cmd;
                 }
                 catch (Exception ex)
                 {
@@ -302,47 +331,49 @@ namespace GNX
 
         public DataTable ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
         {
-            Open();
+            int connIndex = newConnection();
+            Open(connIndex);
 
             if (parameters != null)
             {
                 foreach (cSqlParameter p in parameters)
                 {
-                    AddSQLParameter(p);
+                    AddSQLParameter(connIndex, p);
                 }
             }
 
-            DataTable table = ExecuteReader(sql, storedProcedure);
+            DataTable table = ExecuteReader(connIndex, sql, storedProcedure);
 
-            Close();
+            Close(connIndex);
 
             return table;
         }
 
         public cSqlResult Execute(string sql, DbAction action, List<cSqlParameter> parameters)
         {
-            Open();
+            int connIndex = newConnection();
+            Open(connIndex);
 
             if (parameters != null)
             {
                 foreach (cSqlParameter p in parameters)
                 {
-                    AddSQLParameter(p);
+                    AddSQLParameter(connIndex, p);
                 }
             }
 
             cSqlResult result = new cSqlResult();
-            result.AffectedRows = ExecuteNonQuery(sql, action);
+            result.AffectedRows = ExecuteNonQuery(connIndex, sql, action);
 
             if (action == DbAction.Insert)
             {
                 if (result.AffectedRows > 0)
                 {
-                    result.LastId = GetLastID();
+                    result.LastId = GetLastID(connIndex);
                 }
             }
 
-            Close();
+            Close(connIndex);
 
             return result;
         }

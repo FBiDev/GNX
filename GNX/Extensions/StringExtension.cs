@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 //
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -79,21 +80,25 @@ namespace GNX
             return false;
         }
 
-        public static bool Contains(this string source, string toFind)
+        public static bool ContainsExtend(this string source, string value)
         {
-            return source.IndexOf(toFind, StringComparison.OrdinalIgnoreCase) >= 0;
+            var index = CultureInfo.InvariantCulture.CompareInfo.IndexOf(source, value,
+                CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace);
+            //| CompareOptions.IgnoreSymbols
+
+            return index != -1;
         }
 
-        public static bool NotContains(this string source, string toFind)
+        public static bool NotContains(this string source, string value)
         {
-            return source.IndexOf(toFind, StringComparison.OrdinalIgnoreCase) < 0;
+            return source.ContainsExtend(value) == false;
         }
 
-        public static bool NotContains(this string source, string[] toFind)
+        public static bool NotContains(this string source, string[] valueArray)
         {
-            foreach (var item in toFind)
+            foreach (var value in valueArray)
             {
-                if (source.IndexOf(item, StringComparison.OrdinalIgnoreCase) >= 0) { return false; }
+                if (source.ContainsExtend(value)) { return false; }
             }
             return true;
         }

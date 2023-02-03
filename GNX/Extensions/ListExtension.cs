@@ -14,6 +14,11 @@ namespace GNX
             return source == null || source.Count() == 0;
         }
 
+        public static bool HasValue<TSource>(this IEnumerable<TSource> source)
+        {
+            return source.Empty() == false;
+        }
+
         public static T First<T>(this List<T> list) where T : class, new()
         {
             if (list.Count == 0) { return new T(); }

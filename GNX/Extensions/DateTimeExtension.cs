@@ -11,6 +11,26 @@ namespace GNX
             return dt == null ? null : ((DateTime)dt).ToString(format);
         }
 
+        public static string ToDMY(this DateTime dt)
+        {
+            return dt.ToString("dd/MM/yyyy");
+        }
+
+        public static string ToDMY_TimeShort(this DateTime dt)
+        {
+            return dt.ToString("dd/MM/yyyy HH:mm");
+        }
+
+        public static string ToDMY_TimeLong(this DateTime dt)
+        {
+            return dt.ToString("dd/MM/yyyy HH:mm:ss");
+        }
+
+        public static string ToTimeLong(this DateTime dt)
+        {
+            return dt.ToString("HH:mm:ss");
+        }
+
         public static string ToDB(this DateTime? dt)
         {
             if (dt != null && dt.HasValue)

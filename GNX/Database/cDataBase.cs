@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 //
 using System.Data;
+using System.Threading.Tasks;
 
 namespace GNX
 {
@@ -44,7 +45,7 @@ namespace GNX
             Log.Insert(0, new cLogSQL(Log.Count, cmd, action, cObject.GetDaoClassAndMethod(5)));
         }
 
-        public DateTime DateTimeServer()
+        public async Task<DateTime> DateTimeServer()
         {
             string sql = "SELECT GETDATE() AS DataServ;";
             if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
@@ -52,14 +53,14 @@ namespace GNX
                 sql = "SELECT strftime('%Y-%m-%d %H:%M:%f','now', 'localtime') AS DataServ;";
             }
 
-            int connIndex = newConnection();
-            Open(connIndex);
+            int connIndex = await NewConnection();
+            await Open(connIndex);
 
-            string select = ExecuteScalar(connIndex, sql);
+            string select = await ExecuteScalar(connIndex, sql);
             return Convert.ToDateTime(select);
         }
 
-        public int GetLastID(int connIndex = -1)
+        public async Task<int> GetLastID(int connIndex = -1)
         {
             string sql = "SELECT SCOPE_IDENTITY() AS LastID;";
             if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
@@ -68,10 +69,10 @@ namespace GNX
             }
 
             if (connIndex == -1)
-                connIndex = newConnection();
-            Open(connIndex);
+                connIndex = await NewConnection();
+            await Open(connIndex);
 
-            string select = ExecuteScalar(connIndex, sql);
+            string select = await ExecuteScalar(connIndex, sql);
             return Convert.ToInt32(0 + select);
         }
 
@@ -106,48 +107,57 @@ namespace GNX
             }
         }
 
-        int newConnection()
+        async Task<int> NewConnection()
         {
-            IDbConnection conn = (IDbConnection)Connection.Clone();
-            connList.Add(conn);
-            cmdList.Add(conn.CreateCommand());
+            return await Task.Run(() =>
+            {
+                IDbConnection conn = (IDbConnection)Connection.Clone();
+                connList.Add(conn);
+                cmdList.Add(conn.CreateCommand());
 
-            return connList.Count - 1;
+                return connList.Count - 1;
+            });
         }
 
-        private void Open(int connIndex)
+        private async Task Open(int connIndex)
         {
-            try
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var conn = connList[connIndex];
+                    var cmd = cmdList[connIndex];
+
+                    CreateConnection(conn);
+
+                    OpenConnection(conn);
+
+                    if (cmd == null)
+                        cmd = conn.CreateCommand();
+
+                    cmd.Connection = conn;
+                }
+                catch (Exception ex)
+                {
+                    cException.ShowBox(ex);
+                }
+            });
+        }
+
+        private async Task Close(int connIndex)
+        {
+            await Task.Run(() =>
             {
                 var conn = connList[connIndex];
                 var cmd = cmdList[connIndex];
 
-                CreateConnection(conn);
-
-                OpenConnection(conn);
-
-                if (cmd == null)
-                    cmd = conn.CreateCommand();
-
-                cmd.Connection = conn;
-            }
-            catch (Exception ex)
-            {
-                cException.ShowBox(ex);
-            }
-        }
-
-        private void Close(int connIndex)
-        {
-            var conn = connList[connIndex];
-            var cmd = cmdList[connIndex];
-
-            if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
-            {
-                cmd.Connection.Close();
-                cmd.Parameters.Clear();
-                conn.Close();
-            }
+                if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
+                {
+                    cmd.Connection.Close();
+                    cmd.Parameters.Clear();
+                    conn.Close();
+                }
+            });
         }
 
         //private IDbDataParameter AddSQLParameter(string parameterName, DbType dbType, object value, int size = 0, byte precision = 0, byte scale = 0)
@@ -265,74 +275,80 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private int ExecuteNonQuery(int connIndex, string sql, DbAction action = DbAction.Null)
+        private async Task<int> ExecuteNonQuery(int connIndex, string sql, DbAction action = DbAction.Null)
         {
-            var cmd = cmdList[connIndex];
-
-            int affectedRows = 0;
-
-            if (cmd != null)
+            return await Task.Run(() =>
             {
-                try
+                var cmd = cmdList[connIndex];
+
+                int affectedRows = 0;
+
+                if (cmd != null)
                 {
-                    cmd.CommandText = sql;
-                    if (cmd.Parameters.Count > 0)
+                    try
                     {
-                        cmd.Prepare();
+                        cmd.CommandText = sql;
+                        if (cmd.Parameters.Count > 0)
+                        {
+                            cmd.Prepare();
+                        }
+
+                        AddLog(cmd, action);
+                        affectedRows = cmd.ExecuteNonQuery();
+
+                        cmdList[connIndex] = cmd;
                     }
-
-                    AddLog(cmd, action);
-                    affectedRows = cmd.ExecuteNonQuery();
-
-                    cmdList[connIndex] = cmd;
+                    catch (Exception ex)
+                    {
+                        cException.ShowBox(ex, cmd.CommandText);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    cException.ShowBox(ex, cmd.CommandText);
-                }
-            }
-            return affectedRows;
+                return affectedRows;
+            });
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private string ExecuteScalar(int connIndex, string sql)
+        private async Task<string> ExecuteScalar(int connIndex, string sql)
         {
-            var cmd = cmdList[connIndex];
-
-            if (cmd != null)
+            return await Task.Run(() =>
             {
-                object select = string.Empty;
+                var cmd = cmdList[connIndex];
 
-                try
+                if (cmd != null)
                 {
-                    cmd.CommandText = sql;
-                    if (cmd.Parameters.Count > 0)
+                    object select = string.Empty;
+
+                    try
                     {
-                        cmd.Prepare();
+                        cmd.CommandText = sql;
+                        if (cmd.Parameters.Count > 0)
+                        {
+                            cmd.Prepare();
+                        }
+
+                        AddLog(cmd);
+                        select = cmd.ExecuteScalar();
+
+                        cmdList[connIndex] = cmd;
+                    }
+                    catch (Exception ex)
+                    {
+                        cException.ShowBox(ex, cmd.CommandText);
                     }
 
-                    AddLog(cmd);
-                    select = cmd.ExecuteScalar();
-
-                    cmdList[connIndex] = cmd;
+                    if (select != null)
+                    {
+                        return select.ToString();
+                    }
                 }
-                catch (Exception ex)
-                {
-                    cException.ShowBox(ex, cmd.CommandText);
-                }
-
-                if (select != null)
-                {
-                    return select.ToString();
-                }
-            }
-            return string.Empty;
+                return string.Empty;
+            });
         }
 
-        public DataTable ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
+        public async Task<DataTable> ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
         {
-            int connIndex = newConnection();
-            Open(connIndex);
+            int connIndex = await NewConnection();
+            await Open(connIndex);
 
             if (parameters != null)
             {
@@ -344,15 +360,15 @@ namespace GNX
 
             DataTable table = ExecuteReader(connIndex, sql, storedProcedure);
 
-            Close(connIndex);
+            await Close(connIndex);
 
             return table;
         }
 
-        public cSqlResult Execute(string sql, DbAction action, List<cSqlParameter> parameters)
+        public async Task<cSqlResult> Execute(string sql, DbAction action, List<cSqlParameter> parameters)
         {
-            int connIndex = newConnection();
-            Open(connIndex);
+            int connIndex = await NewConnection();
+            await Open(connIndex);
 
             if (parameters != null)
             {
@@ -363,17 +379,17 @@ namespace GNX
             }
 
             cSqlResult result = new cSqlResult();
-            result.AffectedRows = ExecuteNonQuery(connIndex, sql, action);
+            result.AffectedRows = await ExecuteNonQuery(connIndex, sql, action);
 
             if (action == DbAction.Insert)
             {
                 if (result.AffectedRows > 0)
                 {
-                    result.LastId = GetLastID(connIndex);
+                    result.LastId = await GetLastID(connIndex);
                 }
             }
 
-            Close(connIndex);
+            await Close(connIndex);
 
             return result;
         }

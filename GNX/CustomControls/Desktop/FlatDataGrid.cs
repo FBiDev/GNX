@@ -85,5 +85,24 @@ namespace GNX
                 Statusbar.Items[0].Text = (Rows.Count + " Registro(s)");
             }
         }
+
+        bool HandleRightClick(MouseEventArgs e)
+        {
+            int clickedRowIndex = HitTest(e.X, e.Y).RowIndex;
+
+            if (clickedRowIndex != -1 && e.Button == MouseButtons.Right)
+            {
+                ClearSelection();
+                CurrentCell = Rows[clickedRowIndex].Cells[0];
+                return true;
+            }
+            return false;
+        }
+
+        public void ShowContextMenu(MouseEventArgs e, ContextMenuStrip menu)
+        {
+            if (HandleRightClick(e))
+                menu.Show(Cursor.Position);
+        }
     }
 }

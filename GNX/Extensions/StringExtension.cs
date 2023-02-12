@@ -82,6 +82,13 @@ namespace GNX
 
         public static bool ContainsExtend(this string source, string value)
         {
+            string[] IgnoreSymbols = { ", The:", " ", ":", "'", "-", ",", "." };
+            foreach (string symbol in IgnoreSymbols)
+            {
+                source = source.Replace(symbol, "");
+                value = value.Replace(symbol, "");
+            }
+
             var index = CultureInfo.InvariantCulture.CompareInfo.IndexOf(source, value,
                 CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace);
             //| CompareOptions.IgnoreSymbols

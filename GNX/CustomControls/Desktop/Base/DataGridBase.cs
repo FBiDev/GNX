@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace GNX
 {
@@ -304,6 +305,36 @@ namespace GNX
         }
 
         #region Paint
+        //AdjustImageQuality
+        protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
+        {
+            base.OnCellPainting(e);
+
+            e.Graphics.InterpolationMode = InterpolationMode.Bilinear;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.Default;
+
+            if (e.RowHeader()) { return; }
+
+            var dgv = this as DataGridView;
+            var row = dgv.Rows[e.RowIndex];
+            var cell = row.Cells[e.ColumnIndex];
+
+            if (cell.ValueType == typeof(Bitmap))
+            {
+                var image = cell.Value as Bitmap;
+                if (image.Width > cell.Size.Width || image.Height > cell.Size.Height)
+                {
+                    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                }
+                else
+                {
+                    e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
+                }
+            }
+        }
+
         //MouseMoveChangeRowColor
         protected override void OnMouseMove(MouseEventArgs e)
         {

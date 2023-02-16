@@ -104,5 +104,13 @@ namespace GNX
             if (HandleRightClick(e))
                 menu.Show(Cursor.Position);
         }
+
+        public T GetSelectedItem<T>() where T : class
+        {
+            var dgv = this as DataGridView;
+            if (dgv.CurrentRow.NotNull() && dgv.CurrentRow.Index != -1)
+                return dgv.CurrentRow.DataBoundItem as T;
+            return null;
+        }
     }
 }

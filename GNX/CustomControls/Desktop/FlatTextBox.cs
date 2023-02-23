@@ -149,13 +149,16 @@ namespace GNX
             OnKeyPress(e);
         }
 
+        bool prevent = false;
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
+            //e.SuppressKeyPress = prevent;
             OnKeyDown(e);
         }
 
         void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
+            prevent = false;
             OnKeyUp(e);
         }
 
@@ -194,6 +197,7 @@ namespace GNX
         {
             if (TextChanged.NotNull())
             {
+                prevent = true;
                 if (previousTextBackup != TextBox.Text)
                 {
                     previousTextChanged = !previousTextChanged;

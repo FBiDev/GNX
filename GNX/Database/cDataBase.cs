@@ -53,8 +53,8 @@ namespace GNX
                 sql = "SELECT strftime('%Y-%m-%d %H:%M:%f','now', 'localtime') AS DataServ;";
             }
 
-            int connIndex = await NewConnection();
-            await Open(connIndex);
+            int connIndex = NewConnection();
+            Open(connIndex);
 
             string select = await ExecuteScalar(connIndex, sql);
             return Convert.ToDateTime(select);
@@ -69,8 +69,8 @@ namespace GNX
             }
 
             if (connIndex == -1)
-                connIndex = await NewConnection();
-            await Open(connIndex);
+                connIndex = NewConnection();
+            Open(connIndex);
 
             string select = await ExecuteScalar(connIndex, sql);
             return Convert.ToInt32(0 + select);
@@ -107,57 +107,48 @@ namespace GNX
             }
         }
 
-        async Task<int> NewConnection()
+        int NewConnection()
         {
-            return await Task.Run(() =>
-            {
-                IDbConnection conn = (IDbConnection)Connection.Clone();
-                connList.Add(conn);
-                cmdList.Add(conn.CreateCommand());
+            IDbConnection conn = (IDbConnection)Connection.Clone();
+            connList.Add(conn);
+            cmdList.Add(conn.CreateCommand());
 
-                return connList.Count - 1;
-            });
+            return connList.Count - 1;
         }
 
-        private async Task Open(int connIndex)
+        private void Open(int connIndex)
         {
-            await Task.Run(() =>
-            {
-                try
-                {
-                    var conn = connList[connIndex];
-                    var cmd = cmdList[connIndex];
-
-                    CreateConnection(conn);
-
-                    OpenConnection(conn);
-
-                    if (cmd == null)
-                        cmd = conn.CreateCommand();
-
-                    cmd.Connection = conn;
-                }
-                catch (Exception ex)
-                {
-                    cException.ShowBox(ex);
-                }
-            });
-        }
-
-        private async Task Close(int connIndex)
-        {
-            await Task.Run(() =>
+            try
             {
                 var conn = connList[connIndex];
                 var cmd = cmdList[connIndex];
 
-                if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
-                {
-                    cmd.Connection.Close();
-                    cmd.Parameters.Clear();
-                    conn.Close();
-                }
-            });
+                CreateConnection(conn);
+
+                OpenConnection(conn);
+
+                if (cmd == null)
+                    cmd = conn.CreateCommand();
+
+                cmd.Connection = conn;
+            }
+            catch (Exception ex)
+            {
+                cException.ShowBox(ex);
+            }
+        }
+
+        private void Close(int connIndex)
+        {
+            var conn = connList[connIndex];
+            var cmd = cmdList[connIndex];
+
+            if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
+            {
+                cmd.Connection.Close();
+                cmd.Parameters.Clear();
+                conn.Close();
+            }
         }
 
         //private IDbDataParameter AddSQLParameter(string parameterName, DbType dbType, object value, int size = 0, byte precision = 0, byte scale = 0)
@@ -201,7 +192,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private DataTable ExecuteReader(int connIndex, string sql, string storedProcedure)
+        private Task<DataTable> ExecuteReader(int connIndex, string sql, string storedProcedure)
         {
             DataTable data = new DataTable();
             DataSet ds = new DataSet();
@@ -271,7 +262,7 @@ namespace GNX
                 }
             }
 
-            return data;
+            return Task.FromResult(data);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
@@ -347,8 +338,8 @@ namespace GNX
 
         public async Task<DataTable> ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
         {
-            int connIndex = await NewConnection();
-            await Open(connIndex);
+            int connIndex = NewConnection();
+            Open(connIndex);
 
             if (parameters != null)
             {
@@ -358,17 +349,17 @@ namespace GNX
                 }
             }
 
-            DataTable table = ExecuteReader(connIndex, sql, storedProcedure);
+            DataTable table = await ExecuteReader(connIndex, sql, storedProcedure);
 
-            await Close(connIndex);
+            Close(connIndex);
 
             return table;
         }
 
         public async Task<cSqlResult> Execute(string sql, DbAction action, List<cSqlParameter> parameters)
         {
-            int connIndex = await NewConnection();
-            await Open(connIndex);
+            int connIndex = NewConnection();
+            Open(connIndex);
 
             if (parameters != null)
             {
@@ -389,7 +380,7 @@ namespace GNX
                 }
             }
 
-            await Close(connIndex);
+            Close(connIndex);
 
             return result;
         }

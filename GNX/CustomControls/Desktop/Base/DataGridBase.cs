@@ -325,7 +325,7 @@ namespace GNX
                 if (image.Width > cell.Size.Width || image.Height > cell.Size.Height)
                 {
                     e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    //e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 }
                 else
                 {

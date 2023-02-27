@@ -9,14 +9,14 @@ namespace GNX
 {
     public static class ListExtension
     {
-        public static bool Empty<TSource>(this IEnumerable<TSource> source)
+        public static bool IsEmpty<TSource>(this IEnumerable<TSource> source)
         {
             return source == null || source.Count() == 0;
         }
 
         public static bool HasValue<TSource>(this IEnumerable<TSource> source)
         {
-            return source.Empty() == false;
+            return source.IsEmpty() == false;
         }
 
         public static T First<T>(this List<T> list) where T : class, new()

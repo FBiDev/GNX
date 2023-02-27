@@ -79,9 +79,9 @@ namespace GNX
         private void CreateConnection(IDbConnection conn)
         {
             //conn = Connection;
-            if (conn != null && conn.ConnectionString.Empty())
+            if (conn != null && conn.ConnectionString.IsEmpty())
             {
-                if (ConnectionString.Empty())
+                if (ConnectionString.IsEmpty())
                 {
                     conn.ConnectionString = DefaultConnectionString();
                 }

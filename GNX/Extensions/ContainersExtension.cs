@@ -83,7 +83,7 @@ namespace GNX
         }
 
         //Rows
-        public static bool Empty(this DataGridViewRowCollection source)
+        public static bool IsEmpty(this DataGridViewRowCollection source)
         {
             return source.Count == 0;
         }

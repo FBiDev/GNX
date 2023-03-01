@@ -57,6 +57,9 @@ namespace GNX
         private TextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
+        public int SelectionStart { get { return TextBox.SelectionStart; } set { TextBox.SelectionStart = value; } }
+        public int SelectionLength { get { return TextBox.SelectionLength; } set { TextBox.SelectionLength = value; } }
+
         public string previousText { get; set; }
         string previousTextBackup { get; set; }
         bool previousTextChanged { get; set; }

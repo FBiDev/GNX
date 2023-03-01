@@ -70,6 +70,16 @@ namespace GNX
             return cConvert.ToInt(s);
         }
 
+        public static bool IsEmpty(this string source)
+        {
+            return source == null || string.IsNullOrWhiteSpace(source);
+        }
+
+        public static bool HasValue(this string source)
+        {
+            return source.IsEmpty() == false;
+        }
+
         public static bool Contains(this string[] source, string toCheck, StringComparison comp)
         {
             if (source == null) return false;

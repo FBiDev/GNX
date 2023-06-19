@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-//
 using System.Drawing;
 using System.ComponentModel;
 
@@ -54,7 +53,7 @@ namespace GNX
         #endregion
 
         #region TextBox
-        private TextBox TextBox { get { return txtMain; } }
+        TextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
         public int SelectionStart { get { return TextBox.SelectionStart; } set { TextBox.SelectionStart = value; } }
@@ -139,10 +138,10 @@ namespace GNX
             TextBox.Focus();
         }
 
-        private void TextBox_Enter(object sender, EventArgs e) { if (Enter.NotNull()) { Enter(sender, e); } }
-        private void TextBox_Leave(object sender, EventArgs e) { if (Leave.NotNull()) { Leave(sender, e); } }
+        void TextBox_Enter(object sender, EventArgs e) { if (Enter.NotNull()) { Enter(sender, e); } }
+        void TextBox_Leave(object sender, EventArgs e) { if (Leave.NotNull()) { Leave(sender, e); } }
 
-        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (KeyPress.NotNull())
             {
@@ -152,8 +151,8 @@ namespace GNX
             OnKeyPress(e);
         }
 
-        bool prevent = false;
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        //bool prevent;
+        void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             //e.SuppressKeyPress = prevent;
             OnKeyDown(e);
@@ -161,7 +160,7 @@ namespace GNX
 
         void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            prevent = false;
+            //prevent = false;
             OnKeyUp(e);
         }
 
@@ -170,7 +169,7 @@ namespace GNX
             OnMouseUp(e);
         }
 
-        private void TextBox_GotFocus(object sender, EventArgs e)
+        void TextBox_GotFocus(object sender, EventArgs e)
         {
             pnlBorder.BackColor = BorderColorFocus;
             pnlBg.BackColor = BackgroundColorFocus;
@@ -183,7 +182,7 @@ namespace GNX
             Focused = true;
         }
 
-        private void TextBox_LostFocus(object sender, EventArgs e)
+        void TextBox_LostFocus(object sender, EventArgs e)
         {
             pnlBorder.BackColor = BorderColor;
             pnlBg.BackColor = BackgroundColor;
@@ -198,29 +197,29 @@ namespace GNX
 
         protected void TextBox_TextChanged(object sender, EventArgs e)
         {
-            if (TextChanged.NotNull())
-            {
-                prevent = true;
-                if (previousTextBackup != TextBox.Text)
-                {
-                    previousTextChanged = !previousTextChanged;
-
-                    if (previousTextChanged)
-                    {
-                        previousTextChanged = false;
-                        previousText = previousTextBackup;
-                    }
-
-                    previousTextBackup = TextBox.Text;
-                }
-
-                TextChanged(sender, e);
-            }
-
             if (!TextBox.Focused)
             {
                 lblPlaceholder.Visible = TextBox.Text.Length == 0;
             }
+
+            if (TextChanged.IsNull()) { return; }
+
+            //prevent = true;
+
+            if (previousTextBackup != TextBox.Text)
+            {
+                previousTextChanged = !previousTextChanged;
+
+                if (previousTextChanged)
+                {
+                    previousTextChanged = false;
+                    previousText = previousTextBackup;
+                }
+
+                previousTextBackup = TextBox.Text;
+            }
+
+            TextChanged(sender, e);
         }
     }
 }

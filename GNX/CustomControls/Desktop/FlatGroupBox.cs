@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-//
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
 
@@ -23,7 +18,7 @@ namespace GNX
 
         [Browsable(true)]
         [DefaultValue(typeof(Color), "0xF4F4F4")]
-        public override Color BackColor { get; set; }
+        public sealed override Color BackColor { get; set; }
 
         public FlatGroupBox()
         {
@@ -40,8 +35,8 @@ namespace GNX
         {
             e.Graphics.Clear(BackColor);
 
-            SizeF strSize = e.Graphics.MeasureString(Text, Font);
-            Rectangle RecLegend = new Rectangle(7, 6, (int)strSize.Width, 6);
+            var strSize = e.Graphics.MeasureString(Text, Font);
+            var RecLegend = new Rectangle(7, 6, (int)strSize.Width, 6);
 
             e.Graphics.DrawRoundBorder(this, BorderColor, BorderSize, BorderRound);
 

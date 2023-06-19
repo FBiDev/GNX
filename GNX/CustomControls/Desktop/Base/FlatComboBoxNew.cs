@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Runtime.InteropServices;
 
 namespace GNX
 {
@@ -46,15 +44,15 @@ namespace GNX
             SelectedIndex = -1;
         }
 
-        private void InitializeComponent()
+        void InitializeComponent()
         {
-            this.SuspendLayout();
-            this.ResumeLayout(false);
+            SuspendLayout();
+            ResumeLayout(false);
         }
 
         #region Border color when disabled
-        private const int WM_PAINT = 0xF;
-        private int buttonWidth = SystemInformation.HorizontalScrollBarArrowWidth;
+        const int WM_PAINT = 0xF;
+        readonly int buttonWidth = SystemInformation.HorizontalScrollBarArrowWidth;
         //Color borderColor = Color.Blue;
         //public Color BorderColor
         //{

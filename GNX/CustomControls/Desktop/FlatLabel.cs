@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-//
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
@@ -100,7 +96,7 @@ namespace GNX
         [DefaultValue(false)]
         public bool DoubleClickBlockCopy { get; set; }
         int WM_LBUTTONDBLCLK = 0x203;
-        private string sSaved;
+        string sSaved;
 
         protected override void WndProc(ref Message m)
         {

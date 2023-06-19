@@ -6,11 +6,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-//
 
 namespace GNX
 {
-    public class cApp
+    public static class cApp
     {
         public static string Name { get { return Assembly.GetExecutingAssembly().GetName().Name; } }
         public static string Version { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
@@ -23,7 +22,7 @@ namespace GNX
         {
             get
             {
-                Assembly assembly = Assembly.GetExecutingAssembly();
+                var assembly = Assembly.GetExecutingAssembly();
                 PortableExecutableKinds p;
                 ImageFileMachine machineInfo;
                 assembly.ManifestModule.GetPEKind(out p, out machineInfo);
@@ -35,61 +34,46 @@ namespace GNX
         public static OSVersion GetOSVersion()
         {
             //var versionString = (string)Microsoft.Win32.Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Windows NT\\CurrentVersion").GetValue("productName");
-            OperatingSystem os = System.Environment.OSVersion;
+            OperatingSystem os = Environment.OSVersion;
             Version vs = os.Version;
             OSVersion operatingSystem = OSVersion.Unknown;
 
             if (os.Platform == PlatformID.Win32Windows)
             {
-                //This is a pre-NT version of Windows
                 switch (vs.Minor)
                 {
-                    case 0:
-                        operatingSystem = OSVersion.Windows_95;
-                        break;
+                    case 0: operatingSystem = OSVersion.Windows_95; break;
                     case 10:
                         if (vs.Revision.ToString() == "2222A")
                             operatingSystem = OSVersion.Windows_98SE;
                         else
                             operatingSystem = OSVersion.Windows_98;
                         break;
-                    case 90:
-                        operatingSystem = OSVersion.Windows_ME;
-                        break;
-                    default:
-                        break;
+                    case 90: operatingSystem = OSVersion.Windows_ME; break;
                 }
             }
             else if (os.Platform == PlatformID.Win32NT)
             {
                 switch (vs.Major)
                 {
-                    case 3:
-                        operatingSystem = OSVersion.Windows_NT3;
-                        break;
-                    case 4:
-                        operatingSystem = OSVersion.Windows_NT4;
-                        break;
+                    case 3: operatingSystem = OSVersion.Windows_NT3; break;
+                    case 4: operatingSystem = OSVersion.Windows_NT4; break;
                     case 5:
                         if (vs.Minor == 0)
                             operatingSystem = OSVersion.Windows_2000;
                         else
-                            operatingSystem = OSVersion.Windows_XP;
-                        break;
+                            operatingSystem = OSVersion.Windows_XP; break;
                     case 6:
-                        if (vs.Minor == 0)
-                            operatingSystem = OSVersion.Windows_Vista;
-                        else if (vs.Minor == 1)
-                            operatingSystem = OSVersion.Windows_7;
-                        else if (vs.Minor == 2)
-                            operatingSystem = OSVersion.Windows_8;
-                        else
-                            operatingSystem = OSVersion.Windows_8_1;
+                        switch (vs.Minor)
+                        {
+                            case 0: operatingSystem = OSVersion.Windows_Vista; break;
+                            case 1: operatingSystem = OSVersion.Windows_7; break;
+                            case 2: operatingSystem = OSVersion.Windows_8; break;
+                            default: operatingSystem = OSVersion.Windows_8_1; break;
+                        }
                         break;
                     case 10:
                         operatingSystem = OSVersion.Windows_10;
-                        break;
-                    default:
                         break;
                 }
             }
@@ -108,8 +92,8 @@ namespace GNX
         }
 
         #region Language
-        private static CultureInfo Language;
-        private static RegionInfo Country;
+        static CultureInfo Language;
+        static RegionInfo Country;
 
         public static CultureInfo LanguageNumbers;
 
@@ -120,9 +104,7 @@ namespace GNX
 
         public static void SetLanguage(CultureID name)
         {
-            int CultureName = Convert.ToInt32(name);
-            //Language = CultureInfo.GetCultureInfo(CultureName);
-
+            var CultureName = Convert.ToInt32(name);
             Language = new CultureInfo(CultureName);
 
             //Change Culture Info Month names.
@@ -136,7 +118,7 @@ namespace GNX
             //Culture for UI in any thread
             CultureInfo.DefaultThreadCurrentUICulture = Language;
 
-            Country = new RegionInfo(System.Threading.Thread.CurrentThread.CurrentUICulture.LCID);
+            Country = new RegionInfo(Thread.CurrentThread.CurrentUICulture.LCID);
         }
 
         public static string CurrencySymbol
@@ -174,18 +156,18 @@ namespace GNX
 
         #region Minimize RAM usage
         [DllImport("psapi.dll")]
-        private static extern int EmptyWorkingSet(IntPtr hwProc);
+        static extern int EmptyWorkingSet(IntPtr hwProc);
 
-        private static System.Windows.Forms.Timer tmrGarbage = new System.Windows.Forms.Timer();
+        static System.Windows.Forms.Timer tmrGarbage = new System.Windows.Forms.Timer();
 
-        private static void StartGarbageCollect()
+        static void StartGarbageCollect()
         {
             tmrGarbage.Interval = 50;
-            tmrGarbage.Tick += new EventHandler(CollectGarbage);
+            tmrGarbage.Tick += CollectGarbage;
             tmrGarbage.Start();
         }
 
-        private static void CollectGarbage(object source, EventArgs e)
+        static void CollectGarbage(object source, EventArgs e)
         {
             GC.Collect();
             EmptyWorkingSet(Process.GetCurrentProcess().Handle);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-//
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -8,10 +7,10 @@ using System.Text.RegularExpressions;
 
 namespace GNX
 {
-    public class cXML
+    public static class cXML
     {
-        private static string xmlFile;
-        private static string xmlData;
+        static string xmlFile;
+        static string xmlData;
 
         public static bool Load(string file, bool baseDirectory = true)
         {
@@ -33,9 +32,9 @@ namespace GNX
 
         public static T Deserialize<T>() where T : class
         {
-            using (StringReader sr = new StringReader(xmlData))
+            using (var sr = new StringReader(xmlData))
             {
-                System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(typeof(T));
+                var ser = new XmlSerializer(typeof(T));
                 try { return (T)ser.Deserialize(sr); }
                 catch (InvalidOperationException) { return null; }
             }
@@ -43,7 +42,7 @@ namespace GNX
 
         public static string Serialize<T>(T ObjectToSerialize)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(ObjectToSerialize.GetType());
+            var xmlSerializer = new XmlSerializer(ObjectToSerialize.GetType());
 
             var emptyNamespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
             var settings = new XmlWriterSettings();

@@ -1,23 +1,21 @@
 ﻿using System;
-//
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using System.Data;
 using System.Data.OleDb;
 
 namespace GNX
 {
-    public class cException
+    public static class cException
     {
         public static void ShowBox(Exception ex, string ArgumentString = null)
         {
-            string errormsg = ex.ToString();
+            var errormsg = ex.ToString();
             string CustomMessage = "";
             string errorLineBreak = "\r\n\r\n";
 
             Exception Error = ex;
-            Type ExType = ex.GetType();
+            var ExType = ex.GetType();
 
             OleDbError ErrorDb = default(OleDbError);
             bool OleDb = false;
@@ -42,7 +40,6 @@ namespace GNX
                     }
                 }
             }
-
             else if (ExType == typeof(InvalidOperationException))
             {
                 Error = ((InvalidOperationException)ex);
@@ -64,7 +61,6 @@ namespace GNX
                         CustomMessage = "Falha na conexão com o Banco de Dados";
                     }
                 }
-
                 else if (Error.TargetSite.Module.Name == "System.Data.SQLite.dll")
                 {
                     //Database is not Open
@@ -87,7 +83,6 @@ namespace GNX
                         CustomMessage = "Falha ao validar Provider do arquivo";
                     }
                 }
-
                 else if (Error.TargetSite.Module.Name == "System.Data.SQLite.dll")
                 {
                     //Datasource
@@ -97,33 +92,21 @@ namespace GNX
                     }
                 }
             }
-
             else if (ExType == typeof(FormatException))
             {
                 Error = ((FormatException)ex);
 
                 if (Error.TargetSite.Module.Name == "mscorlib.dll")
                 {
-                    //Conversion
-                    if (Error.TargetSite.Name == "StringToNumber")
+                    switch (Error.TargetSite.Name)
                     {
-                        CustomMessage = "Falha ao converter Texto para Número:\r\n" + ArgumentString;
-                    }
-                    else if (Error.TargetSite.Name == "ParseExactMultiple")
-                    {
-                        CustomMessage = "Falha ao converter Texto para Data:\r\n" + ArgumentString;
-                    }
-                    else if (Error.TargetSite.Name == "ParseDouble")
-                    {
-                        CustomMessage = "Falha ao converter Texto para Double:\r\n" + ArgumentString;
-                    }
-                    else if (Error.TargetSite.Name == "Parse")
-                    {
-                        CustomMessage = "Falha ao converter Texto para Boolean:\r\n" + ArgumentString;
+                        case "StringToNumber": CustomMessage = "Falha ao converter Texto para Número:\r\n" + ArgumentString; break;
+                        case "ParseExactMultiple": CustomMessage = "Falha ao converter Texto para Data:\r\n" + ArgumentString; break;
+                        case "ParseDouble": CustomMessage = "Falha ao converter Texto para Double:\r\n" + ArgumentString; break;
+                        case "Parse": CustomMessage = "Falha ao converter Texto para Boolean:\r\n" + ArgumentString; break;
                     }
                 }
             }
-
             else if (ExType == typeof(InvalidCastException))
             {
                 Error = ((InvalidCastException)ex);
@@ -137,7 +120,6 @@ namespace GNX
                     }
                 }
             }
-
             else if (ExType == typeof(BadImageFormatException))
             {
                 Error = ((BadImageFormatException)ex);
@@ -151,7 +133,6 @@ namespace GNX
                     }
                 }
             }
-
             else if (ExType == typeof(NotSupportedException))
             {
                 Error = ((NotSupportedException)ex);
@@ -165,46 +146,36 @@ namespace GNX
                     }
                 }
             }
-
             else if (ExType == typeof(FileNotFoundException))
             {
                 Error = ((FileNotFoundException)ex);
 
                 CustomMessage = "Arquivo não encontrado";
             }
-
             else if (ExType == typeof(DllNotFoundException))
             {
                 Error = ((DllNotFoundException)ex);
 
                 CustomMessage = "Arquivo DLL não encontrado";
             }
-
             else if (ExType == typeof(OleDbException))
             {
                 OleDb = true;
                 ErrorDb = ((OleDbException)ex).Errors[0];
 
-                //ISAM Extended Properties
-                if (ErrorDb.NativeError == -69141536)
+                switch (ErrorDb.NativeError)
                 {
-                }
-
-                //Opened File
-                else if (ErrorDb.NativeError == -67568648)
-                {
-                    CustomMessage = "Arquivo já esta aberto em outro programa";
-                }
-
-                //Excel Tab Wrong Name
-                else if (ErrorDb.NativeError == -537199594)
-                {
+                    //ISAM Extended Properties
+                    case -69141536: break;
+                    //Opened File
+                    case -67568648: CustomMessage = "Arquivo já esta aberto em outro programa"; break;
+                    //Excel Tab Wrong Name
+                    case -537199594: break;
                 }
             }
-
             else
             {
-                string ExTypeStr = "ExType  : " + ExType.ToString();
+                string ExTypeStr = "ExType  : " + ExType;
                 string Target = "\r\nTarget   : " + Error.TargetSite.Module.Name;
                 string Method = "\r\nMethod : " + Error.TargetSite.Name;
 
@@ -214,9 +185,9 @@ namespace GNX
 
             if (link)
             {
-                if (MessageBox.Show(CustomMessage + errorLineBreak + Error.Message, "Erro", MessageBoxButtons.OKCancel, MessageBoxIcon.Error) == System.Windows.Forms.DialogResult.OK)
+                if (MessageBox.Show(CustomMessage + errorLineBreak + Error.Message, "Erro", MessageBoxButtons.OKCancel, MessageBoxIcon.Error) == DialogResult.OK)
                 {
-                    ProcessStartInfo sInfo = new ProcessStartInfo(linkStr);
+                    var sInfo = new ProcessStartInfo(linkStr);
                     Process.Start(sInfo);
                 }
             }

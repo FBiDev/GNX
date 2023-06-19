@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-//
 
 namespace GNX
 {
@@ -9,36 +8,34 @@ namespace GNX
         public static int WM_NCLBUTTONDOWN { get { return 0xA1; } }
         public static IntPtr HT_CAPTION { get { return new IntPtr(0x2); } }
 
-        [DllImportAttribute("user32.dll")]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImportAttribute("user32.dll")]
-        private static extern bool ReleaseCapture();
-
         [DllImport("user32.dll")]
-        private static extern void SetWindowPos(uint Hwnd, uint Level, int X, int Y, int W, int H, uint Flags);
+        static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
         public static IntPtr _SendMessage(IntPtr Handle)
         {
             return SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, new IntPtr(0));
         }
 
+        [DllImport("user32.dll")]
+        static extern bool ReleaseCapture();
+
         public static bool _ReleaseCapture()
         {
             return ReleaseCapture();
         }
 
+        [DllImport("user32.dll")]
+        static extern void SetWindowPos(uint Hwnd, uint Level, int X, int Y, int W, int H, uint Flags);
+
         #region Tests
         [DllImport("user32.dll")]
-        private static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
-
+        static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);
 
         //int SPI_SETDRAGFULLWINDOWS = 0x0025;
         //[System.Runtime.InteropServices.DllImport("user32.dll")]
         //private static extern int SystemParametersInfo(int uAction, int uParam, int lpvParam, int fuWinIni);
         //SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, 0, 0, 2);
         //SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, 1, 0, 2);
-
 
         //[Flags()]
         //public enum RedrawWindowFlags : uint

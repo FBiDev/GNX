@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-//
 using System.Data;
 using System.Threading.Tasks;
 
@@ -20,16 +18,13 @@ namespace GNX
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public string ConnectionString { get; set; }
-
         public IDbConnection Connection;
-        //private IDbConnection conn { get; set; }
-        //private IDbCommand cmd { get; set; }
+        public string ConnectionString { get; set; }
 
         public List<IDbConnection> connList = new List<IDbConnection>();
         public List<IDbCommand> cmdList = new List<IDbCommand>();
 
-        private string DefaultConnectionString()
+        string DefaultConnectionString()
         {
             switch (DatabaseSystem)
             {
@@ -40,7 +35,7 @@ namespace GNX
             return null;
         }
 
-        public void AddLog(IDbCommand cmd, DbAction action = DbAction.Null, string method = default(string))
+        public void AddLog(IDbCommand cmd, DbAction action = DbAction.Null)
         {
             Log.Insert(0, new cLogSQL(Log.Count, cmd, action, cObject.GetDaoClassAndMethod(5)));
         }
@@ -53,7 +48,7 @@ namespace GNX
                 sql = "SELECT strftime('%Y-%m-%d %H:%M:%f','now', 'localtime') AS DataServ;";
             }
 
-            int connIndex = NewConnection();
+            var connIndex = NewConnection();
             Open(connIndex);
 
             string select = await ExecuteScalar(connIndex, sql);
@@ -76,9 +71,8 @@ namespace GNX
             return Convert.ToInt32(0 + select);
         }
 
-        private void CreateConnection(IDbConnection conn)
+        void CreateConnection(IDbConnection conn)
         {
-            //conn = Connection;
             if (conn != null && conn.ConnectionString.IsEmpty())
             {
                 if (ConnectionString.IsEmpty())
@@ -92,7 +86,7 @@ namespace GNX
             }
         }
 
-        private void OpenConnection(IDbConnection conn)
+        void OpenConnection(IDbConnection conn)
         {
             if (conn.State == ConnectionState.Closed)
             {
@@ -109,14 +103,14 @@ namespace GNX
 
         int NewConnection()
         {
-            IDbConnection conn = (IDbConnection)Connection.Clone();
+            var conn = (IDbConnection)Connection.Clone();
             connList.Add(conn);
             cmdList.Add(conn.CreateCommand());
 
             return connList.Count - 1;
         }
 
-        private void Open(int connIndex)
+        void Open(int connIndex)
         {
             try
             {
@@ -138,7 +132,7 @@ namespace GNX
             }
         }
 
-        private void Close(int connIndex)
+        void Close(int connIndex)
         {
             var conn = connList[connIndex];
             var cmd = cmdList[connIndex];
@@ -170,13 +164,13 @@ namespace GNX
         //    return null;
         //}
 
-        private IDbDataParameter AddSQLParameter(int connIndex, cSqlParameter parameter)
+        IDbDataParameter AddSQLParameter(int connIndex, cSqlParameter parameter)
         {
             var cmd = cmdList[connIndex];
 
             if (cmd != null)
             {
-                IDbDataParameter p = cmd.CreateParameter();
+                var p = cmd.CreateParameter();
                 p.ParameterName = parameter.ParameterName;
                 p.DbType = parameter.DbType;
                 p.Value = parameter.Value;
@@ -192,10 +186,10 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private Task<DataTable> ExecuteReader(int connIndex, string sql, string storedProcedure)
+        Task<DataTable> ExecuteReader(int connIndex, string sql, string storedProcedure)
         {
-            DataTable data = new DataTable();
-            DataSet ds = new DataSet();
+            var data = new DataTable();
+            var ds = new DataSet();
 
             var cmd = cmdList[connIndex];
 
@@ -231,11 +225,11 @@ namespace GNX
                     AddLog(cmd, DbAction.Select);
                     using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                     {
-                        DataTable schemaTabela = rdr.GetSchemaTable();
+                        var schemaTabela = rdr.GetSchemaTable();
 
                         foreach (DataRow dataRow in schemaTabela.Rows)
                         {
-                            DataColumn dataColumn = new DataColumn();
+                            var dataColumn = new DataColumn();
                             dataColumn.ColumnName = dataRow["ColumnName"].ToString();
                             dataColumn.DataType = Type.GetType(dataRow["DataType"].ToString());
                             dataColumn.ReadOnly = (bool)dataRow["IsReadOnly"];
@@ -266,7 +260,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private async Task<int> ExecuteNonQuery(int connIndex, string sql, DbAction action = DbAction.Null)
+        async Task<int> ExecuteNonQuery(int connIndex, string sql, DbAction action = DbAction.Null)
         {
             return await Task.Run(() =>
             {
@@ -299,7 +293,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        private async Task<string> ExecuteScalar(int connIndex, string sql)
+        async Task<string> ExecuteScalar(int connIndex, string sql)
         {
             return await Task.Run(() =>
             {
@@ -338,7 +332,7 @@ namespace GNX
 
         public async Task<DataTable> ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
         {
-            int connIndex = NewConnection();
+            var connIndex = NewConnection();
             Open(connIndex);
 
             if (parameters != null)
@@ -358,7 +352,7 @@ namespace GNX
 
         public async Task<cSqlResult> Execute(string sql, DbAction action, List<cSqlParameter> parameters)
         {
-            int connIndex = NewConnection();
+            var connIndex = NewConnection();
             Open(connIndex);
 
             if (parameters != null)
@@ -369,7 +363,7 @@ namespace GNX
                 }
             }
 
-            cSqlResult result = new cSqlResult();
+            var result = new cSqlResult();
             result.AffectedRows = await ExecuteNonQuery(connIndex, sql, action);
 
             if (action == DbAction.Insert)

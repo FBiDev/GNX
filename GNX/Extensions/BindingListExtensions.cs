@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-//
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace GNX
 {
@@ -10,22 +9,22 @@ namespace GNX
     public static class BindingListExtensions
     {
         /// <summary>
-        /// Adds the elements of the specified collection to the end of the <see cref="System.ComponentModel.BindingList{T}"/>,
-        /// while only firing the <see cref="System.ComponentModel.BindingList{T}.ListChanged"/>-event once.
+        /// Adds the elements of the specified collection to the end of the <see cref="BindingList{T}"/>,
+        /// while only firing the <see cref="BindingList{T}.ListChanged"/>-event once.
         /// </summary>
         /// <typeparam name="T">
-        /// The type T of the values of the <see cref="System.ComponentModel.BindingList{T}"/>.
+        /// The type T of the values of the <see cref="BindingList{T}"/>.
         /// </typeparam>
         /// <param name="bindingList">
-        /// The <see cref="System.ComponentModel.BindingList{T}"/> to which the values shall be added.
+        /// The <see cref="BindingList{T}"/> to which the values shall be added.
         /// </param>
         /// <param name="collection">
-        /// The collection whose elements should be added to the end of the <see cref="System.ComponentModel.BindingList{T}"/>.
+        /// The collection whose elements should be added to the end of the <see cref="BindingList{T}"/>.
         /// The collection itself cannot be null, but it can contain elements that are null,
         /// if type T is a reference type.
         /// </param>
-        /// <exception cref="ArgumentNullException">values is null.</exception>
-        public static void AddRange<T>(this System.ComponentModel.BindingList<T> bindingList, IEnumerable<T> collection)
+        /// <exception cref="System.ArgumentNullException">values is null.</exception>
+        public static void AddRange<T>(this BindingList<T> bindingList, IEnumerable<T> collection)
         {
             // The given collection may not be null.
             if (collection == null)

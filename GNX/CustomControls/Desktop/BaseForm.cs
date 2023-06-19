@@ -15,23 +15,23 @@ namespace GNX
             //Icon = cConvert.ToIco(Resources.img_form, new System.Drawing.Size(16,16));
             //Icon = Resources.ico_app;
 
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            AutoScaleMode = AutoScaleMode.None;
 
             Load += FormBase_Load;
             Shown += FormBase_Shown;
             Resize += FormBase_Resize;
         }
 
-        private void FormBase_Load(object sender, EventArgs e) { }
+        void FormBase_Load(object sender, EventArgs e) { }
 
-        private void FormBase_Shown(object sender, EventArgs e) { }
+        void FormBase_Shown(object sender, EventArgs e) { }
 
         protected override void OnHandleCreated(EventArgs e)
         {
             ResizeMargins();
         }
 
-        private void FormBase_Resize(object sender, EventArgs e)
+        void FormBase_Resize(object sender, EventArgs e)
         {
             ResizeMargins();
         }
@@ -40,8 +40,8 @@ namespace GNX
         {
             pnlBorder1.Location = new Point(1, 1);
             pnlBorder1.Size = new Size(
-                this.ClientSize.Width - (pnlBorder1.Location.X * 2),
-                (this.ClientSize.Height) - (pnlBorder1.Location.Y * 2));
+                ClientSize.Width - (pnlBorder1.Location.X * 2),
+                (ClientSize.Height) - (pnlBorder1.Location.Y * 2));
 
             pnlBorder2.Location = new Point(1, 1);
             pnlBorder2.Size = new Size(

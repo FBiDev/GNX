@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-//
-using System.IO;
+﻿using System.IO;
 
 namespace System.Security.Cryptography
 {
     public class CRC32
     {
-        private readonly uint[] ChecksumTable;
-        private readonly uint Polynomial = 0xEDB88320;
+        readonly uint[] ChecksumTable;
+        readonly uint Polynomial = 0xEDB88320;
 
-        private static readonly CRC32 ins = new CRC32();
+        static readonly CRC32 ins = new CRC32();
 
         public static CRC32 Create()
         {
@@ -42,7 +38,7 @@ namespace System.Security.Cryptography
             //Back FileStream to begin
             //stream.Position = 0;
 
-            byte[] hash = BitConverter.GetBytes(~result);
+            var hash = BitConverter.GetBytes(~result);
             Array.Reverse(hash);
             return hash;
         }

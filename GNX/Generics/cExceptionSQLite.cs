@@ -1,12 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-//
-
-namespace GNX
+﻿namespace GNX
 {
-    public class cExceptionSQLite
+    public static class cExceptionSQLite
     {
-        public static bool ShowBox(Exception ex, string ArgumentString = null)
+        public static bool ShowBox()
         {
             //string CustomMessage = "";
             //string errorLineBreak = "\r\n\r\n";

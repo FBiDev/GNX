@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-//
-using System.Collections.Specialized;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -16,8 +11,7 @@ namespace GNX
     {
         public static string RemoveWhiteSpaces(this string s)
         {
-            return string.Join(" ", s.Split(new char[] { ' ' },
-                   StringSplitOptions.RemoveEmptyEntries));
+            return string.Join(" ", s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         public static string HtmlDecode(this string s)
@@ -27,7 +21,7 @@ namespace GNX
 
         public static string HtmlRemoveTags(this string s)
         {
-            return Regex.Replace(s, @"<[^>]+>|", "").Trim(); ;
+            return Regex.Replace(s, @"<[^>]+>|", "").Trim();
         }
 
         public static short? ToShortNull(this string s)
@@ -50,7 +44,7 @@ namespace GNX
             return cConvert.ToDateTimeNull(s);
         }
 
-        public static Decimal ToDecimal(this string s)
+        public static decimal ToDecimal(this string s)
         {
             return cConvert.ToDecimal(s);
         }
@@ -99,8 +93,8 @@ namespace GNX
                 value = value.Replace(symbol, "");
             }
 
-            var index = CultureInfo.InvariantCulture.CompareInfo.IndexOf(source, value,
-                CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace);
+            var index = CultureInfo.InvariantCulture.CompareInfo.IndexOf(
+                source, value, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace);
             //| CompareOptions.IgnoreSymbols
 
             return index != -1;
@@ -122,13 +116,13 @@ namespace GNX
 
         public static string GetBetween(this string s, string start, string end, bool inclusive = false, bool firstMatch = true, bool singleLine = true)
         {
-            RegexOptions opt = singleLine ? RegexOptions.Singleline : 0;
             string first = firstMatch ? "?" : "";
 
             string pattern = @"" + Regex.Escape(start) + "(.*" + first + ")" + Regex.Escape(end);
-            Regex rgx = new Regex(pattern, opt | RegexOptions.IgnoreCase);
+            RegexOptions opt = singleLine ? RegexOptions.Singleline : 0;
+            var rgx = new Regex(pattern, opt | RegexOptions.IgnoreCase);
 
-            Match match = rgx.Match(s);
+            var match = rgx.Match(s);
             if (match.Success)
             {
                 return match.Groups[inclusive ? 0 : 1].Value;
@@ -138,13 +132,13 @@ namespace GNX
 
         public static List<string> GetBetweenList(this string s, string start, string end, bool inclusive = false, bool firstMatch = true, bool singleLine = true)
         {
-            RegexOptions opt = singleLine ? RegexOptions.Singleline : 0;
             string first = firstMatch ? "?" : "";
 
             string pattern = @"" + Regex.Escape(start) + "(.*" + first + ")" + Regex.Escape(end);
-            Regex rgx = new Regex(pattern, opt | RegexOptions.IgnoreCase);
+            RegexOptions opt = singleLine ? RegexOptions.Singleline : 0;
+            var rgx = new Regex(pattern, opt | RegexOptions.IgnoreCase);
 
-            MatchCollection matchList = rgx.Matches(s);
+            var matchList = rgx.Matches(s);
             var list = matchList.Cast<Match>().Select(match => match.Groups[inclusive ? 0 : 1].Value).ToList();
             return list;
         }

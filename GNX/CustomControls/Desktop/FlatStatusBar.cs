@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace GNX
 {
     public partial class FlatStatusBar : UserControl
     {
-        private int? _registros;
-        private Movimento _movimento;
-        private bool _BorderEnable = true;
+        int? _registros;
+        Movimento _movimento;
+        bool _BorderEnable = true;
 
         public int? Registros
         {
@@ -72,13 +71,13 @@ namespace GNX
             lblStatus2.TextChanged += lblStatus2_TextChanged;
         }
 
-        private void FlatStatusBar_Load(object sender, EventArgs e)
+        void FlatStatusBar_Load(object sender, EventArgs e)
         {
             lblStatus1_TextChanged(null, null);
             lblStatus2_TextChanged(null, null);
         }
 
-        private void lblStatus2_TextChanged(object sender, EventArgs e)
+        void lblStatus2_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(lblStatus2.Text.Trim()))
             {
@@ -88,7 +87,7 @@ namespace GNX
             pnlStatus2.Visible = true;
         }
 
-        private void lblStatus1_TextChanged(object sender, EventArgs e)
+        void lblStatus1_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(lblStatus1.Text.Trim()))
             {

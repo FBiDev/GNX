@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-//
 using System.Text.RegularExpressions;
 
 namespace GNX
@@ -35,18 +33,15 @@ namespace GNX
 
         public static void Move<T>(this List<T> list, T item, int newIndex)
         {
-            if (item != null)
+            var oldIndex = list.IndexOf(item);
+
+            if (oldIndex > -1)
             {
-                var oldIndex = list.IndexOf(item);
-                if (oldIndex > -1)
-                {
-                    list.RemoveAt(oldIndex);
+                list.RemoveAt(oldIndex);
 
-                    if (newIndex > oldIndex) newIndex--;
-                    // the actual index could have shifted due to the removal
+                if (newIndex > oldIndex) newIndex--;
 
-                    list.Insert(newIndex, item);
-                }
+                list.Insert(newIndex, item);
             }
         }
 
@@ -75,10 +70,11 @@ namespace GNX
             var regex = new Regex(@"\d+", RegexOptions.Compiled);
 
             int maxDigits = items
-                          .SelectMany(i => regex.Matches(selector(i)).Cast<Match>().Select(digitChunk => (int?)digitChunk.Value.Length))
-                          .Max() ?? 0;
+                .SelectMany(i => regex.Matches(selector(i)).Cast<Match>()
+                    .Select(digitChunk => (int?)digitChunk.Value.Length)).Max() ?? 0;
 
-            return items.OrderBy(i => regex.Replace(selector(i), match => match.Value.PadLeft(maxDigits, '0')), stringComparer ?? StringComparer.CurrentCulture);
+            return items.OrderBy(i => regex.Replace(selector(i),
+                match => match.Value.PadLeft(maxDigits, '0')), stringComparer ?? StringComparer.CurrentCulture);
         }
     }
 }

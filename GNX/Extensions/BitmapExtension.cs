@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-//
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -22,7 +19,7 @@ namespace GNX
 
             if (maxSize.Width == 0 && maxSize.Height == 0) { return new Size(width, height); }
 
-            float factor = Bitmap.Width >= Bitmap.Height ? (float)Bitmap.Height / (float)Bitmap.Width : (float)Bitmap.Width / (float)Bitmap.Height;
+            float factor = Bitmap.Width >= Bitmap.Height ? Bitmap.Height / (float)Bitmap.Width : Bitmap.Width / (float)Bitmap.Height;
 
             if (width >= height)
             {

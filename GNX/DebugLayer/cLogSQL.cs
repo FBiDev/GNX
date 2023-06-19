@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text.RegularExpressions;
-//
 
 namespace GNX
 {
@@ -20,7 +17,7 @@ namespace GNX
         {
             Line = index + 1;
             Date = DateTime.Now;
-            this.Method = method;
+            Method = method;
             Action = act != DbAction.Null ? act.ToString() : default(string);
 
             string query = string.Empty;
@@ -34,7 +31,6 @@ namespace GNX
 
             //query = query.Replace("  ", "\t ");
             //query = query.Replace("\t", "\t ");
-
             //query = query.RemoveWhiteSpaces();
 
             Command = query;

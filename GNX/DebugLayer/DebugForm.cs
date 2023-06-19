@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using GNX.Properties;
-using System.Drawing;
 
 namespace GNX
 {
@@ -24,7 +23,7 @@ namespace GNX
             dgvSQLBase.RowsAdded += dgv_RowsAdded;
         }
 
-        private void Form_Load(object sender, EventArgs e)
+        void Form_Load(object sender, EventArgs e)
         {
             //TopMost = true;
             Top = Screen.PrimaryScreen.WorkingArea.Height - Height;
@@ -50,9 +49,9 @@ namespace GNX
             UpdateMessages();
         }
 
-        private void Form_Shown(object sender, EventArgs e) { }
+        void Form_Shown(object sender, EventArgs e) { }
 
-        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabControl.SelectedIndex == 1)
             {
@@ -65,7 +64,7 @@ namespace GNX
             tabControl.SelectedIndex = index;
         }
 
-        private void dgv_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        void dgv_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             ((DataGridView)sender).Visible = true;
             if (((DataGridView)sender) == dgvSQLSistema)
@@ -86,7 +85,7 @@ namespace GNX
         public void UpdateErrors()
         {
             UpdateErrorTitle();
-            List<KeyValuePair<string, int>> errors = cDebug.GetErrors();
+            var errors = cDebug.GetErrors();
 
             txtErrors.Text = string.Empty;
             foreach (KeyValuePair<string, int> item in errors)
@@ -97,8 +96,9 @@ namespace GNX
 
         public void UpdateErrorTitle()
         {
-            List<KeyValuePair<string, int>> errors = cDebug.GetErrors();
+            var errors = cDebug.GetErrors();
             string title = errors.Count + " Error";
+
             if (errors.Count == 0 || errors.Count > 1) { title += "s"; }
             tabError.Text = title;
         }
@@ -111,9 +111,10 @@ namespace GNX
 
         public void UpdateMessageTitle()
         {
-            string messages = cDebug.GetMessages();
+            var messages = cDebug.GetMessages();
             int total = (messages.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)).Length - 1;
             string title = total + " Message";
+
             if (total == 0 || total > 1) { title += "s"; }
             tabMessage.Text = title;
         }

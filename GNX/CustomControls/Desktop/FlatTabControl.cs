@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-//
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Design;
 using FlatTabControl;
 
@@ -24,14 +19,14 @@ namespace GNX
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private Container components = null;
-        private SubClass scUpDown = null;
-        private bool bUpDown; // true when the button UpDown is required
-        private ImageList leftRightImages = null;
-        private const int nMargin = 5;
-        private Color mBackColor = Color.FromArgb(240, 240, 240);
-        private Color mBackColor2 = Color.FromArgb(212, 208, 200);
-        private Color mBorderColor = ColorTranslator.FromHtml("#A0A0A0");
+        Container components;
+        SubClass scUpDown;
+        bool bUpDown; // true when the button UpDown is required
+        ImageList leftRightImages;
+        const int nMargin = 5;
+        Color mBackColor = Color.FromArgb(240, 240, 240);
+        Color mBackColor2 = Color.FromArgb(212, 208, 200);
+        Color mBorderColor = ColorTranslator.FromHtml("#A0A0A0");
 
         public FlatTabControl()
         {
@@ -39,17 +34,17 @@ namespace GNX
             InitializeComponent();
 
             // double buffering
-            this.SetStyle(ControlStyles.UserPaint, true);
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            this.SetStyle(ControlStyles.DoubleBuffer, true);
-            this.SetStyle(ControlStyles.ResizeRedraw, true);
-            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.DoubleBuffer, true);
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
             bUpDown = false;
 
-            this.ControlAdded += new ControlEventHandler(FlatTabControl_ControlAdded);
-            this.ControlRemoved += new ControlEventHandler(FlatTabControl_ControlRemoved);
-            this.SelectedIndexChanged += new EventHandler(FlatTabControl_SelectedIndexChanged);
+            ControlAdded += FlatTabControl_ControlAdded;
+            ControlRemoved += FlatTabControl_ControlRemoved;
+            SelectedIndexChanged += FlatTabControl_SelectedIndexChanged;
 
             leftRightImages = new ImageList();
             //leftRightImages.ImageSize = new Size(16, 16); // default
@@ -96,8 +91,8 @@ namespace GNX
             if (!Visible)
                 return;
 
-            Rectangle TabControlArea = this.ClientRectangle;
-            Rectangle TabArea = this.DisplayRectangle;
+            Rectangle TabControlArea = ClientRectangle;
+            Rectangle TabArea = DisplayRectangle;
 
             //----------------------------
             // fill client area
@@ -110,7 +105,7 @@ namespace GNX
             // draw border
             int nDelta = SystemInformation.Border3DSize.Width;
 
-            Pen border = new Pen(Color.FromArgb(160, 160, 160));
+            var border = new Pen(Color.FromArgb(160, 160, 160));
             border = new Pen(myBorderColor);
             TabArea.Inflate(nDelta, nDelta);
             g.DrawRectangle(border, TabArea);
@@ -129,9 +124,9 @@ namespace GNX
                 // exclude updown control for painting
                 if (Win32.IsWindowVisible(scUpDown.Handle))
                 {
-                    Rectangle rupdown = new Rectangle();
+                    var rupdown = new Rectangle();
                     Win32.GetWindowRect(scUpDown.Handle, ref rupdown);
-                    Rectangle rupdown2 = this.RectangleToClient(rupdown);
+                    var rupdown2 = RectangleToClient(rupdown);
 
                     nWidth = rupdown2.X;
                 }
@@ -142,8 +137,8 @@ namespace GNX
             g.SetClip(rreg);
 
             // draw tabs
-            for (int i = 0; i < this.TabCount; i++)
-                DrawTab(g, this.TabPages[i], i);
+            for (int i = 0; i < TabCount; i++)
+                DrawTab(g, TabPages[i], i);
 
             g.Clip = rsaved;
             //----------------------------
@@ -151,9 +146,9 @@ namespace GNX
 
             //----------------------------
             // draw background to cover flat border areas
-            if (this.SelectedTab != null)
+            if (SelectedTab != null)
             {
-                TabPage tabPage = this.SelectedTab;
+                TabPage tabPage = SelectedTab;
                 Color color = tabPage.BackColor;
                 border = new Pen(color);
 
@@ -173,13 +168,13 @@ namespace GNX
 
         internal void DrawTab(Graphics g, TabPage tabPage, int nIndex)
         {
-            Rectangle recBounds = this.GetTabRect(nIndex);
-            RectangleF tabTextArea = (RectangleF)this.GetTabRect(nIndex);
+            var recBounds = GetTabRect(nIndex);
+            RectangleF tabTextArea = GetTabRect(nIndex);
 
-            bool bSelected = (this.SelectedIndex == nIndex);
+            bool bSelected = (SelectedIndex == nIndex);
 
             Point[] pt = new Point[7];
-            if (this.Alignment == TabAlignment.Top)
+            if (Alignment == TabAlignment.Top)
             {
                 pt[0] = new Point(recBounds.Left, recBounds.Bottom);
                 pt[1] = new Point(recBounds.Left, recBounds.Top + 3);
@@ -225,9 +220,9 @@ namespace GNX
             {
                 //----------------------------
                 // clear bottom lines
-                Pen pen = new Pen(tabPage.BackColor);
+                var pen = new Pen(tabPage.BackColor);
 
-                switch (this.Alignment)
+                switch (Alignment)
                 {
                     case TabAlignment.Top:
                         g.DrawLine(pen, recBounds.Left + 1, recBounds.Bottom, recBounds.Right - 1, recBounds.Bottom);
@@ -254,13 +249,12 @@ namespace GNX
                 int nRightMargin = 2;
 
                 Image img = ImageList.Images[tabPage.ImageIndex];
-
-                Rectangle rimage = new Rectangle(recBounds.X + nLeftMargin, recBounds.Y + 1, img.Width, img.Height);
+                var rimage = new Rectangle(recBounds.X + nLeftMargin, recBounds.Y + 1, img.Width, img.Height);
+                rimage.Y += (recBounds.Height - img.Height) / 2;
 
                 // adjust rectangles
-                float nAdj = (float)(nLeftMargin + img.Width + nRightMargin);
+                var nAdj = (float)(nLeftMargin + img.Width + nRightMargin);
 
-                rimage.Y += (recBounds.Height - img.Height) / 2;
                 tabTextArea.X += nAdj;
                 tabTextArea.Width -= nAdj;
 
@@ -271,7 +265,7 @@ namespace GNX
 
             //----------------------------
             // draw string
-            StringFormat stringFormat = new StringFormat();
+            var stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
 
@@ -288,16 +282,16 @@ namespace GNX
 
             //----------------------------
             // calc positions
-            Rectangle TabControlArea = this.ClientRectangle;
+            Rectangle TabControlArea = ClientRectangle;
 
-            Rectangle r0 = new Rectangle();
+            var r0 = new Rectangle();
             Win32.GetClientRect(scUpDown.Handle, ref r0);
 
             Brush br = new SolidBrush(SystemColors.Control);
             g.FillRectangle(br, r0);
             br.Dispose();
 
-            Pen border = new Pen(SystemColors.ControlDark);
+            var border = new Pen(SystemColors.ControlDark);
             Rectangle rborder = r0;
             rborder.Inflate(-1, -1);
             g.DrawRectangle(border, rborder);
@@ -307,8 +301,8 @@ namespace GNX
             int nTop = (r0.Height - 16) / 2;
             int nLeft = (nMiddle - 16) / 2;
 
-            Rectangle r1 = new Rectangle(nLeft, nTop, 16, 16);
-            Rectangle r2 = new Rectangle(nMiddle + nLeft, nTop, 16, 16);
+            var r1 = new Rectangle(nLeft, nTop, 16, 16);
+            var r2 = new Rectangle(nMiddle + nLeft, nTop, 16, 16);
             //----------------------------
 
             //----------------------------
@@ -316,9 +310,9 @@ namespace GNX
             Image img = leftRightImages.Images[1];
             if (img != null)
             {
-                if (this.TabCount > 0)
+                if (TabCount > 0)
                 {
-                    Rectangle r3 = this.GetTabRect(0);
+                    var r3 = GetTabRect(0);
                     if (r3.Left < TabControlArea.Left)
                         g.DrawImage(img, r1);
                     else
@@ -333,9 +327,9 @@ namespace GNX
             img = leftRightImages.Images[0];
             if (img != null)
             {
-                if (this.TabCount > 0)
+                if (TabCount > 0)
                 {
-                    Rectangle r3 = this.GetTabRect(this.TabCount - 1);
+                    var r3 = GetTabRect(TabCount - 1);
                     if (r3.Right > (TabControlArea.Width - r0.Width))
                         g.DrawImage(img, r2);
                     else
@@ -356,30 +350,30 @@ namespace GNX
             //FindUpDown();
         }
 
-        private void FlatTabControl_ControlAdded(object sender, ControlEventArgs e)
+        void FlatTabControl_ControlAdded(object sender, ControlEventArgs e)
         {
             //FindUpDown();
             //UpdateUpDown();
         }
 
-        private void FlatTabControl_ControlRemoved(object sender, ControlEventArgs e)
+        void FlatTabControl_ControlRemoved(object sender, ControlEventArgs e)
         {
             //FindUpDown();
             //UpdateUpDown();
         }
 
-        private void FlatTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        void FlatTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             //UpdateUpDown();
             //Invalidate();	// we need to update border and background colors
         }
 
-        private void FindUpDown()
+        void FindUpDown()
         {
             bool bFound = false;
 
             // find the UpDown control
-            IntPtr pWnd = Win32.GetWindow(this.Handle, Win32.GW_CHILD);
+            var pWnd = Win32.GetWindow(Handle, Win32.GW_CHILD);
 
             while (pWnd != IntPtr.Zero)
             {
@@ -387,9 +381,8 @@ namespace GNX
                 // Get the window class name
                 char[] className = new char[33];
 
-                int length = Win32.GetClassName(pWnd, className, 32);
-
-                string s = new string(className, 0, length);
+                var length = Win32.GetClassName(pWnd, className, 32);
+                var s = new string(className, 0, length);
                 //----------------------------
 
                 if (s == "msctls_updown32")
@@ -400,8 +393,8 @@ namespace GNX
                     {
                         //----------------------------
                         // Subclass it
-                        this.scUpDown = new SubClass(pWnd, true);
-                        this.scUpDown.SubClassedWndProc += new SubClass.SubClassWndProcEventHandler(scUpDown_SubClassedWndProc);
+                        scUpDown = new SubClass(pWnd, true);
+                        scUpDown.SubClassedWndProc += scUpDown_SubClassedWndProc;
                         //----------------------------
 
                         bUpDown = true;
@@ -418,13 +411,13 @@ namespace GNX
             }
         }
 
-        private void UpdateUpDown()
+        void UpdateUpDown()
         {
             if (bUpDown)
             {
                 if (Win32.IsWindowVisible(scUpDown.Handle))
                 {
-                    Rectangle rect = new Rectangle();
+                    var rect = new Rectangle();
 
                     Win32.GetClientRect(scUpDown.Handle, ref rect);
                     Win32.InvalidateRect(scUpDown.Handle, ref rect, true);
@@ -433,8 +426,7 @@ namespace GNX
         }
 
         #region scUpDown_SubClassedWndProc Event Handler
-
-        private int scUpDown_SubClassedWndProc(ref Message m)
+        int scUpDown_SubClassedWndProc(ref Message m)
         {
             switch (m.Msg)
             {
@@ -442,8 +434,8 @@ namespace GNX
                     {
                         //------------------------
                         // redraw
-                        IntPtr hDC = Win32.GetWindowDC(scUpDown.Handle);
-                        Graphics g = Graphics.FromHdc(hDC);
+                        var hDC = Win32.GetWindowDC(scUpDown.Handle);
+                        var g = Graphics.FromHdc(hDC);
 
                         DrawIcons(g);
 
@@ -456,7 +448,7 @@ namespace GNX
 
                         //------------------------
                         // validate current rect
-                        Rectangle rect = new Rectangle();
+                        var rect = new Rectangle();
 
                         Win32.GetClientRect(scUpDown.Handle, ref rect);
                         Win32.ValidateRect(scUpDown.Handle, ref rect);
@@ -474,23 +466,17 @@ namespace GNX
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            components = new Container();
         }
-
-
         #endregion
 
         #region Properties
-
         [Editor(typeof(TabpageExCollectionEditor), typeof(UITypeEditor))]
         public new TabPageCollection TabPages
         {
-            get
-            {
-                return base.TabPages;
-            }
+            get { return base.TabPages; }
         }
 
         new public TabAlignment Alignment
@@ -510,49 +496,45 @@ namespace GNX
         new public bool Multiline
         {
             get { return base.Multiline; }
-            set { base.Multiline = false; }
+            set
+            {
+                value = false;
+                base.Multiline = value;
+            }
         }
 
         [Browsable(true)]
         public Color myBackColor
         {
             get { return mBackColor; }
-            set { mBackColor = value; this.Invalidate(); }
+            set { mBackColor = value; Invalidate(); }
         }
 
         [Browsable(true)]
         public Color myBackColor2
         {
             get { return mBackColor2; }
-            set { mBackColor2 = value; this.Invalidate(); }
+            set { mBackColor2 = value; Invalidate(); }
         }
 
         [Browsable(true)]
         public Color myBorderColor
         {
             get { return mBorderColor; }
-            set { mBorderColor = value; this.Invalidate(); }
+            set { mBorderColor = value; Invalidate(); }
         }
-
         #endregion
 
         #region TabpageExCollectionEditor
-
         internal class TabpageExCollectionEditor : CollectionEditor
         {
-            public TabpageExCollectionEditor(System.Type type)
-                : base(type)
-            {
-            }
+            public TabpageExCollectionEditor(Type type) : base(type) { }
 
             protected override Type CreateCollectionItemType()
             {
                 return typeof(TabPage);
             }
         }
-
         #endregion
     }
-
-    //#endregion
 }

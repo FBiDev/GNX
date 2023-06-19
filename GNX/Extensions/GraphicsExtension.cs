@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-//
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 namespace GNX
@@ -26,9 +21,12 @@ namespace GNX
 
             if (!borderRound) { return; }
 
-            Pen pBorder = new Pen(borderColor);
-            Pen pBlank = new Pen(control.Parent.BackColor);
-            if (pBlank.Color == Color.Transparent) pBlank = new Pen(control.BackColor);
+            var pBlank = new Pen(control.Parent.BackColor);
+
+            if (pBlank.Color == Color.Transparent)
+                pBlank = new Pen(control.BackColor);
+
+            var pBorder = new Pen(borderColor);
 
             int WidthB = control.Width - 1;
             int HeightB = control.Height - 1;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -19,7 +18,7 @@ namespace GNX
 
         public static TypeCode TypeCode(this Type type)
         {
-            TypeCode code = Type.GetTypeCode(type);
+            var code = Type.GetTypeCode(type);
             return code;
         }
 
@@ -38,13 +37,6 @@ namespace GNX
                 }
             }
         }
-
-        //public static T Clone<T>(this T obj)
-        //{
-        //    var inst = obj.GetType().GetMethod("MemberwiseClone", BindingFlags.Instance | BindingFlags.NonPublic);
-
-        //    return (T)inst.Invoke(obj, null);
-        //}
 
         public static object Clone(this object source)
         {

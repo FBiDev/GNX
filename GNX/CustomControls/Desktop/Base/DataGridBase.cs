@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-//
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,47 +11,131 @@ namespace GNX
     {
         #region Defaults
         [DefaultValue(false)]
-        public new bool AllowUserToAddRows { get { return base.AllowUserToAddRows; } set { base.AllowUserToAddRows = value; } }
+        public new bool AllowUserToAddRows
+        {
+            get { return base.AllowUserToAddRows; }
+            set { base.AllowUserToAddRows = value; }
+        }
+
         [DefaultValue(false)]
-        public new bool AllowUserToDeleteRows { get { return base.AllowUserToDeleteRows; } set { base.AllowUserToDeleteRows = value; } }
+        public new bool AllowUserToDeleteRows
+        {
+            get { return base.AllowUserToDeleteRows; }
+            set { base.AllowUserToDeleteRows = value; }
+        }
+
         [DefaultValue(typeof(AnchorStyles), "Top, Bottom, Left, Right")]
-        public new AnchorStyles Anchor { get { return base.Anchor; } set { base.Anchor = value; } }
+        public new AnchorStyles Anchor
+        {
+            get { return base.Anchor; }
+            set { base.Anchor = value; }
+        }
+
         [DefaultValue(false)]
-        public new bool CausesValidation { get { return base.CausesValidation; } set { base.CausesValidation = value; } }
+        public new bool CausesValidation
+        {
+            get { return base.CausesValidation; }
+            set { base.CausesValidation = value; }
+        }
+
         [DefaultValue(typeof(BorderStyle), "None")]
-        public new BorderStyle BorderStyle { get { return base.BorderStyle; } set { base.BorderStyle = value; } }
+        public new BorderStyle BorderStyle
+        {
+            get { return base.BorderStyle; }
+            set { base.BorderStyle = value; }
+        }
+
         [DefaultValue(typeof(DataGridViewCellBorderStyle), "SingleHorizontal")]
-        public new DataGridViewCellBorderStyle CellBorderStyle { get { return base.CellBorderStyle; } set { base.CellBorderStyle = value; } }
+        public new DataGridViewCellBorderStyle CellBorderStyle
+        {
+            get { return base.CellBorderStyle; }
+            set { base.CellBorderStyle = value; }
+        }
+
         [DefaultValue(typeof(DataGridViewHeaderBorderStyle), "Single")]
-        public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle { get { return base.ColumnHeadersBorderStyle; } set { base.ColumnHeadersBorderStyle = value; } }
+        public new DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle
+        {
+            get { return base.ColumnHeadersBorderStyle; }
+            set { base.ColumnHeadersBorderStyle = value; }
+        }
+
         [DefaultValue(30)]
-        public new int ColumnHeadersHeight { get { return base.ColumnHeadersHeight; } set { base.ColumnHeadersHeight = value; } }
+        public new int ColumnHeadersHeight
+        {
+            get { return base.ColumnHeadersHeight; }
+            set { base.ColumnHeadersHeight = value; }
+        }
+
         [DefaultValue(typeof(DataGridViewColumnHeadersHeightSizeMode), "DisableResizing")]
-        public new DataGridViewColumnHeadersHeightSizeMode ColumnHeadersHeightSizeMode { get { return base.ColumnHeadersHeightSizeMode; } set { base.ColumnHeadersHeightSizeMode = value; } }
+        public new DataGridViewColumnHeadersHeightSizeMode ColumnHeadersHeightSizeMode
+        {
+            get { return base.ColumnHeadersHeightSizeMode; }
+            set { base.ColumnHeadersHeightSizeMode = value; }
+        }
+
         [DefaultValue(false)]
-        public new bool EnableHeadersVisualStyles { get { return base.EnableHeadersVisualStyles; } set { base.EnableHeadersVisualStyles = value; } }
+        public new bool EnableHeadersVisualStyles
+        {
+            get { return base.EnableHeadersVisualStyles; }
+            set { base.EnableHeadersVisualStyles = value; }
+        }
+
         [DefaultValue(false)]
-        public new bool MultiSelect { get { return base.MultiSelect; } set { base.MultiSelect = value; } }
+        public new bool MultiSelect
+        {
+            get { return base.MultiSelect; }
+            set { base.MultiSelect = value; }
+        }
+
         [DefaultValue(true)]
-        public new bool ReadOnly { get { return base.ReadOnly; } set { base.ReadOnly = value; } }
+        public new bool ReadOnly
+        {
+            get { return base.ReadOnly; }
+            set { base.ReadOnly = value; }
+        }
+
         [DefaultValue(typeof(DataGridViewHeaderBorderStyle), "Single")]
-        public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle { get { return base.RowHeadersBorderStyle; } set { base.RowHeadersBorderStyle = value; } }
+        public new DataGridViewHeaderBorderStyle RowHeadersBorderStyle
+        {
+            get { return base.RowHeadersBorderStyle; }
+            set { base.RowHeadersBorderStyle = value; }
+        }
+
         [DefaultValue(false)]
-        public new bool RowHeadersVisible { get { return base.RowHeadersVisible; } set { base.RowHeadersVisible = value; } }
+        public new bool RowHeadersVisible
+        {
+            get { return base.RowHeadersVisible; }
+            set { base.RowHeadersVisible = value; }
+        }
+
         [DefaultValue(typeof(DataGridViewRowHeadersWidthSizeMode), "DisableResizing")]
-        public new DataGridViewRowHeadersWidthSizeMode RowHeadersWidthSizeMode { get { return base.RowHeadersWidthSizeMode; } set { base.RowHeadersWidthSizeMode = value; } }
+        public new DataGridViewRowHeadersWidthSizeMode RowHeadersWidthSizeMode
+        {
+            get { return base.RowHeadersWidthSizeMode; }
+            set { base.RowHeadersWidthSizeMode = value; }
+        }
+
         [DefaultValue(typeof(DataGridViewSelectionMode), "FullRowSelect")]
-        public new DataGridViewSelectionMode SelectionMode { get { return base.SelectionMode; } set { base.SelectionMode = value; } }
+        public new DataGridViewSelectionMode SelectionMode
+        {
+            get { return base.SelectionMode; }
+            set { base.SelectionMode = value; }
+        }
+
         [DefaultValue(false)]
-        public new bool TabStop { get { return base.TabStop; } set { base.TabStop = value; } }
+        public new bool TabStop
+        {
+            get { return base.TabStop; }
+            set { base.TabStop = value; }
+        }
         #endregion
 
-        private string DefaultColumn = string.Empty;
-        private ListSortDirection DefaultColumnDirection;
-        private List<string> ColumnsBooleanNames = new List<string>();
+        string DefaultColumn = string.Empty;
+        ListSortDirection DefaultColumnDirection;
+        List<string> ColumnsBooleanNames = new List<string>();
 
-        private string LastSortedColumn;
-        private ListSortDirection LastSortedColumnDirection;
+        string LastSortedColumn;
+        ListSortDirection LastSortedColumnDirection;
 
         protected Color ColorBackground { get { return BackgroundColor; } set { BackgroundColor = value; } }
         protected Color ColorGrid { get { return GridColor; } set { GridColor = value; } }
@@ -89,9 +172,7 @@ namespace GNX
         protected void SetStyles()
         {
             //MAIN
-            Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            Anchor = (((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left) | AnchorStyles.Right);
 
             CausesValidation = false;
 
@@ -99,7 +180,7 @@ namespace GNX
             AllowUserToDeleteRows = false;
 
             BackgroundColor = ColorBackground;
-            BorderStyle = System.Windows.Forms.BorderStyle.None;
+            BorderStyle = BorderStyle.None;
             GridColor = ColorGrid;
             //Margin = new System.Windows.Forms.Padding(0);
             MultiSelect = false;
@@ -113,21 +194,21 @@ namespace GNX
 
             //ROWS
             RowTemplate.Height = 30;
-            RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            RowTemplate.Resizable = DataGridViewTriState.False;
 
             //Alternate Rows
             AlternatingRowsDefaultCellStyle.BackColor = ColorRowAlternate;
 
             //ROWS_HEADERS
-            var RowHeadersStyle = new DataGridViewCellStyle()
+            var RowHeadersStyle = new DataGridViewCellStyle
             {
-                Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft,
+                Alignment = DataGridViewContentAlignment.MiddleLeft,
                 BackColor = ColorRowHeader,
-                Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0),
                 ForeColor = ColorFontRowHeader,
                 SelectionBackColor = ColorRowHeaderSelection,
                 SelectionForeColor = ColorFontRowHeaderSelection,
-                WrapMode = System.Windows.Forms.DataGridViewTriState.True,
+                WrapMode = DataGridViewTriState.True
             };
             RowHeadersDefaultCellStyle = RowHeadersStyle;
 
@@ -136,32 +217,32 @@ namespace GNX
             RowHeadersVisible = false;
 
             //CELLS
-            System.Windows.Forms.DataGridViewCellStyle CellStyle = new System.Windows.Forms.DataGridViewCellStyle()
+            var CellStyle = new DataGridViewCellStyle
             {
-                Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft,
+                Alignment = DataGridViewContentAlignment.MiddleLeft,
                 BackColor = ColorRow,
-                Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0),
                 ForeColor = ColorFontRow,
                 SelectionBackColor = ColorRowSelection,
                 SelectionForeColor = ColorFontRowSelection,
-                WrapMode = System.Windows.Forms.DataGridViewTriState.False,
+                WrapMode = DataGridViewTriState.False
             };
-            DefaultCellStyle = CellStyle;
 
+            DefaultCellStyle = CellStyle;
             CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
 
             //COLUMNS
-            System.Windows.Forms.DataGridViewCellStyle ColumnHeadersStyle = new System.Windows.Forms.DataGridViewCellStyle()
+            var ColumnHeadersStyle = new DataGridViewCellStyle
             {
                 BackColor = ColorColumnHeader,
-                Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+                Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0),
                 ForeColor = ColorFontColumnHeader,
                 SelectionBackColor = ColorColumnSelection,
                 SelectionForeColor = ColorFontColumnSelection,
-                WrapMode = System.Windows.Forms.DataGridViewTriState.True,
+                WrapMode = DataGridViewTriState.True
             };
-            ColumnHeadersDefaultCellStyle = ColumnHeadersStyle;
 
+            ColumnHeadersDefaultCellStyle = ColumnHeadersStyle;
             ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             ColumnHeadersHeight = 30;
@@ -175,12 +256,12 @@ namespace GNX
 
         public void AddColumnInvisible<T>(string ColumnName, string ColumnHeaderText = "", string ColumnDataPropertyName = "")
         {
-            AddColumn<int>(ColumnName, ColumnHeaderText, ColumnDataPropertyName, "", DataGridViewContentAlignment.NotSet, null, false);
+            AddColumn<T>(ColumnName, ColumnHeaderText, ColumnDataPropertyName, "", DataGridViewContentAlignment.NotSet, null, false);
         }
 
         public void AddColumn<T>(string ColumnName, string ColumnHeaderText = "", string ColumnDataPropertyName = "", string ColumnFormat = "", DataGridViewContentAlignment ColumnAlignment = 0, int? index = null, bool visible = true, int ColumnWidth = 100)
         {
-            DataGridViewColumn c = new DataGridViewColumn();
+            var c = new DataGridViewColumn();
 
             Type _Type = typeof(T);
 
@@ -280,7 +361,7 @@ namespace GNX
         }
 
         //Fix Default Values
-        private bool firstChange = true;
+        bool firstChange = true;
         protected void Dg_ColumnHeadersHeightSizeModeChanged(object sender, EventArgs e)
         {
             if (firstChange)
@@ -293,15 +374,15 @@ namespace GNX
 
         protected override void OnScroll(ScrollEventArgs e)
         {
-            base.OnScroll(e); this.Invalidate();
+            base.OnScroll(e); Invalidate();
         }
         protected override void OnMouseEnter(EventArgs e)
         {
-            base.OnMouseEnter(e); this.Invalidate();
+            base.OnMouseEnter(e); Invalidate();
         }
         protected override void OnMouseLeave(EventArgs e)
         {
-            base.OnMouseLeave(e); this.Invalidate();
+            base.OnMouseLeave(e); Invalidate();
         }
 
         #region Paint
@@ -340,23 +421,24 @@ namespace GNX
         {
             base.OnMouseMove(e);
 
-            int index = this.HitTest(e.X, e.Y).RowIndex;
+            int index = HitTest(e.X, e.Y).RowIndex;
 
             if (index > -1)
             {
-                var row = ((DataGridView)this).Rows[index];
+                var row = Rows[index];
                 row.DefaultCellStyle.BackColor = ColorRowMouseHover;
                 row.DefaultCellStyle.SelectionBackColor = ColorRowMouseHover;
             }
         }
+
         //ChangeRowColorBackToNormal
         protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
         {
             base.OnRowPostPaint(e);
 
-            var row = ((DataGridView)this).Rows[e.RowIndex];
+            var row = Rows[e.RowIndex];
 
-            if (this.RectangleToScreen(e.RowBounds).Contains(MousePosition))
+            if (RectangleToScreen(e.RowBounds).Contains(MousePosition))
             {
                 //row.DefaultCellStyle.BackColor = ColorRowMouseHover;
                 //row.DefaultCellStyle.SelectionBackColor = ColorRowMouseHover;
@@ -389,7 +471,7 @@ namespace GNX
 
         public void RefreshCellsForeColor(string columnId, string valueId, string columnName, bool change, Color? c = null)
         {
-            foreach (DataGridViewRow Row in this.Rows)
+            foreach (DataGridViewRow Row in Rows)
             {
                 if (Row.Cells[columnId].Value.ToString() == valueId)
                 {
@@ -411,8 +493,8 @@ namespace GNX
             }
             else
             {
-                cell.Style.SelectionForeColor = this.DefaultCellStyle.SelectionForeColor;
-                cell.Style.ForeColor = this.DefaultCellStyle.ForeColor;
+                cell.Style.SelectionForeColor = DefaultCellStyle.SelectionForeColor;
+                cell.Style.ForeColor = DefaultCellStyle.ForeColor;
             }
         }
         #endregion
@@ -431,9 +513,9 @@ namespace GNX
 
         protected void Dg_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            LastSortedColumn = this.Columns[e.ColumnIndex].Name;
+            LastSortedColumn = Columns[e.ColumnIndex].Name;
 
-            if (this.SortOrder == SortOrder.Descending)
+            if (SortOrder == SortOrder.Descending)
             {
                 LastSortedColumnDirection = ListSortDirection.Ascending;
             }
@@ -460,26 +542,26 @@ namespace GNX
             {
                 if (!lastSortedDirection)
                 {
-                    this.Sort(this.Columns[DefaultColumn], DefaultColumnDirection);
+                    Sort(Columns[DefaultColumn], DefaultColumnDirection);
                 }
                 else
                 {
                     //Maintain sort direction after refresh
-                    if (this.Columns[LastSortedColumn] is DataGridViewImageColumn)
+                    if (Columns[LastSortedColumn] is DataGridViewImageColumn)
                     {
-                        var a = new DataGridViewCellMouseEventArgs(Columns[LastSortedColumn].Index, 0, 0, 0, new MouseEventArgs(System.Windows.Forms.MouseButtons.Left, 1, 0, 0, 0));
+                        var a = new DataGridViewCellMouseEventArgs(Columns[LastSortedColumn].Index, 0, 0, 0, new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
                         SortImageColumns(null, a);
                         SortImageColumns(null, a);
                     }
                     else
                     {
-                        if (this.SortOrder == SortOrder.Descending)
+                        if (SortOrder == SortOrder.Descending)
                         {
-                            this.Sort(this.Columns[LastSortedColumn], ListSortDirection.Descending);
+                            Sort(Columns[LastSortedColumn], ListSortDirection.Descending);
                         }
                         else
                         {
-                            this.Sort(this.Columns[LastSortedColumn], ListSortDirection.Ascending);
+                            Sort(Columns[LastSortedColumn], ListSortDirection.Ascending);
                         }
                     }
                 }
@@ -488,7 +570,7 @@ namespace GNX
 
         public void SortImageColumns(object sender, DataGridViewCellMouseEventArgs e)
         {
-            string clickedColumn = this.Columns[e.ColumnIndex].Name;
+            string clickedColumn = Columns[e.ColumnIndex].Name;
             string sortColumn = string.Empty;
 
             if (clickedColumn.Length > 2)
@@ -496,15 +578,15 @@ namespace GNX
                 sortColumn = clickedColumn.Substring(0, clickedColumn.Length - 3);
             }
 
-            List<string> booleanColumns = GetBooleanColumns();
+            var booleanColumns = GetBooleanColumns();
 
-            if (booleanColumns != null && sortColumn != string.Empty && booleanColumns.Exists(s => s.EndsWith(sortColumn)))
+            if (booleanColumns != null && sortColumn != string.Empty && booleanColumns.Exists(s => s.EndsWith(sortColumn, StringComparison.OrdinalIgnoreCase)))
             {
-                SortColumn(this.Columns[sortColumn], this.Columns[clickedColumn], e);
+                SortColumn(Columns[sortColumn], Columns[clickedColumn], e);
             }
         }
 
-        private void SortColumn(DataGridViewColumn sortColumn, DataGridViewColumn clickedColumn, DataGridViewCellMouseEventArgs e)
+        void SortColumn(DataGridViewColumn sortColumn, DataGridViewColumn clickedColumn, DataGridViewCellMouseEventArgs e)
         {
             DataGridView dgv = clickedColumn.DataGridView;
 
@@ -531,7 +613,7 @@ namespace GNX
             SortDefaultColumn();
         }
 
-        private string boolColumnSufix = "Bol";
+        string boolColumnSufix = "Bol";
         public void SetBooleanColumns(List<string> ColumnsBoolean)
         {
             ColumnsBooleanNames = ColumnsBoolean;
@@ -563,11 +645,11 @@ namespace GNX
         Bitmap imgfalse = Properties.Resources.img_false_ico;
         public void LoadBooleanImages()
         {
-            List<string> BooleanColumns = GetBooleanColumns();
+            var BooleanColumns = GetBooleanColumns();
 
             if (BooleanColumns == null) { return; }
 
-            foreach (DataGridViewRow row in this.Rows)
+            foreach (DataGridViewRow row in Rows)
             {
                 foreach (string BooleanColumn in BooleanColumns)
                 {

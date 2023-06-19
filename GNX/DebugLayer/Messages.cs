@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace GNX
+﻿namespace GNX
 {
     public static class Messages
     {

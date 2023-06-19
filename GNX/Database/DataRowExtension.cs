@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace GNX
 {
     public static class DataRowExtension
     {
-        private static object ConvertFieldValue<T>(this DataRow row, string column)
+        static object ConvertFieldValue<T>(this DataRow row, string column)
         {
             object result = null;
 
-            TypeCode type = typeof(T).TypeCode();
+            var type = typeof(T).TypeCode();
             if (type == TypeCode.String) { result = string.Empty; }
+
             if (!row.Table.Columns.Contains(column))
             {
                 cDebug.AddError(Messages.ColumnError(column));
@@ -21,74 +21,72 @@ namespace GNX
             try
             {
                 object columnObj = row[column];
-                string columnValue = columnObj.ToString().Trim();
+                var columnValue = columnObj.ToString().Trim();
 
-                if (!Convert.IsDBNull(columnObj) && !string.IsNullOrEmpty(columnValue))
+                if (Convert.IsDBNull(columnObj) || string.IsNullOrEmpty(columnValue))
+                    return result;
+
+                switch (type)
                 {
-                    switch (type)
-                    {
-                        case TypeCode.Object:
-                            result = columnObj;
-                            break;
-                        case TypeCode.String:
-                            result = columnValue;
-                            break;
-                        case TypeCode.Boolean:
-                            result = cConvert.ToBoolean(columnValue);
-                            break;
-                        case TypeCode.DateTime:
-                            result = cConvert.ToDateTimeNull(columnValue);
-                            break;
-                        case TypeCode.Int16:
-                            result = cConvert.ToShortNull(columnValue);
-                            break;
-                        case TypeCode.Int32:
-                            result = cConvert.ToIntNull(columnValue);
-                            break;
-                        case TypeCode.Single:
-                            result = cConvert.ToFloatNull(columnValue);
-                            break;
-                        case TypeCode.Double:
-                            result = cConvert.ToDoubleNull(columnValue);
-                            break;
-                        case TypeCode.Decimal:
-                            result = cConvert.ToDecimalNull(columnValue);
-                            break;
-                        default:
-                            throw new Exception("Tipo de dado inválido");
-                    }
+                    case TypeCode.Object:
+                        result = columnObj;
+                        break;
+                    case TypeCode.String:
+                        result = columnValue;
+                        break;
+                    case TypeCode.Boolean:
+                        result = cConvert.ToBoolean(columnValue);
+                        break;
+                    case TypeCode.DateTime:
+                        result = cConvert.ToDateTimeNull(columnValue);
+                        break;
+                    case TypeCode.Int16:
+                        result = cConvert.ToShortNull(columnValue);
+                        break;
+                    case TypeCode.Int32:
+                        result = cConvert.ToIntNull(columnValue);
+                        break;
+                    case TypeCode.Single:
+                        result = cConvert.ToFloatNull(columnValue);
+                        break;
+                    case TypeCode.Double:
+                        result = cConvert.ToDoubleNull(columnValue);
+                        break;
+                    case TypeCode.Decimal:
+                        result = cConvert.ToDecimalNull(columnValue);
+                        break;
+                    default:
+                        throw new Exception("Tipo de dado inválido");
                 }
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                var error = e.Message;
+            }
+
             return result;
         }
 
         public static T Value<T>(this DataRow row, string column)
         {
-            object result = ConvertFieldValue<T>(row, column);
+            var result = ConvertFieldValue<T>(row, column);
 
             if (result != null)
             {
                 return (T)result;
             }
-            else
-            {
-                return default(T);
-            }
+            return default(T);
         }
 
-        public static Nullable<T> ValueNullable<T>(this DataRow row, string column) where T : struct
+        public static T? ValueNullable<T>(this DataRow row, string column) where T : struct
         {
-            object result = ConvertFieldValue<T>(row, column);
+            var result = ConvertFieldValue<T>(row, column);
 
             if (result != null)
             {
                 return (T)result;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public static string Cell(this DataRow row, int collumn)

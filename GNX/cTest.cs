@@ -1,37 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GNX
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            List<string> cards = new List<string>();
+            var cards = new List<string>();
             cards.Add("s");
             cards.Add("m");
             cards.Add("c");
 
-            List<int> cardCont = new List<int>();
+            var cardCont = new List<int>();
             cardCont.Add(0);
             cardCont.Add(0);
             cardCont.Add(0);
 
             int maxItem = 2;
 
-            string[,] mt = new string[3, 2] { { "", "" }, { "", "" }, { "", "" } };
+            string[,] mt = { { "", "" }, { "", "" }, { "", "" } };
             //int[] cardCont = new int[3];
 
-            Random r = new Random();
+            var r = new Random();
 
             for (int slot = 0; slot < mt.GetLength(0); slot++)
             {
                 for (int col = 0; col < mt.GetLength(1); col++)
                 {
-                    int index = r.Next(cards.Count);
+                    var index = r.Next(cards.Count);
                     string randomString = cards[index];
 
                     if (cardCont[index] < maxItem)
@@ -59,10 +57,7 @@ namespace GNX
                     }
                     Console.WriteLine(slot + "-" + col);
                 }
-
             }
-
-
 
             for (int slot = 0; slot < mt.GetLength(0); slot++)
             {
@@ -77,8 +72,6 @@ namespace GNX
             {
                 Console.Write("[" + cardCont[slot] + "]");
             }
-            //Your code goes here
-
         }
     }
 }

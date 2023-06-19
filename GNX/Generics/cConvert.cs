@@ -1,13 +1,11 @@
 ﻿using System;
-//
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-//
 
 namespace GNX
 {
-    public class cConvert
+    public static class cConvert
     {
         public static int ToInt(string value)
         {
@@ -30,7 +28,7 @@ namespace GNX
             value = value.Trim().ToLower();
 
             if (value == "true") { return 1; }
-            else if (value == "false") { return 0; }
+            if (value == "false") { return 0; }
 
             if (!int.TryParse(value, out result)) { return null; }
             return result;
@@ -56,13 +54,13 @@ namespace GNX
             return result;
         }
 
-        private static string ToNumber(string value)
+        static string ToNumber(string value)
         {
             if (!string.IsNullOrEmpty(value))
             {
                 string cs = cApp.CurrencySymbol;
                 string gs = cApp.CurrencyGroupSeparator;
-                value = value.ToString().Replace(cs, "").Replace(gs, "").Replace("'", "").Trim();
+                value = value.Replace(cs, "").Replace(gs, "").Replace("'", "").Trim();
             }
             return value;
         }
@@ -82,18 +80,18 @@ namespace GNX
             return result;
         }
 
-        public static Double ToDouble(string value)
+        public static double ToDouble(string value)
         {
-            Double result = default(Double);
+            double result = default(double);
             value = ToNumber(value);
-            Double.TryParse(value, out result);
+            double.TryParse(value, out result);
             return result;
         }
 
-        public static Double? ToDoubleNull(string value)
+        public static double? ToDoubleNull(string value)
         {
-            Double result = default(Double);
-            if (string.IsNullOrEmpty(value) || !Double.TryParse(value, out result)) { return null; }
+            double result = default(double);
+            if (string.IsNullOrEmpty(value) || !double.TryParse(value, out result)) { return null; }
             return result;
         }
 
@@ -105,10 +103,10 @@ namespace GNX
             return result;
         }
 
-        public static Decimal? ToDecimalNull(string value)
+        public static decimal? ToDecimalNull(string value)
         {
-            Decimal result = default(Decimal);
-            if (string.IsNullOrEmpty(value) || !Decimal.TryParse(value, out result)) { return null; }
+            decimal result = default(decimal);
+            if (string.IsNullOrEmpty(value) || !decimal.TryParse(value, out result)) { return null; }
             return result;
         }
 
@@ -135,10 +133,7 @@ namespace GNX
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public static DateTime ToDateTime(string value)
@@ -186,7 +181,7 @@ namespace GNX
             return new T();
         }
 
-        public static Icon ToIco(System.Drawing.Image img, Size size)
+        public static Icon ToIco(Image img, Size size)
         {
             Icon icon;
             using (var msImg = new MemoryStream())

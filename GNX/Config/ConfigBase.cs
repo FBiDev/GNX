@@ -1,8 +1,4 @@
-﻿using System;
-using System.Data;
-//
-
-namespace GNX
+﻿namespace GNX
 {
     public static class ConfigBase
     {

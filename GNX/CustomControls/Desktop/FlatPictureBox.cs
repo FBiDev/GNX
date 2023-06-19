@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-//
 using System.Windows.Forms;
 using System.ComponentModel;
-using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace GNX
@@ -13,11 +8,11 @@ namespace GNX
     /// <summary>
     /// A PictureBox control extended to allow a variety of interpolations.
     /// </summary>
-    public partial class FlatPictureBox : PictureBox
+    public class FlatPictureBox : PictureBox
     {
         #region Interpolation Property
         /// <summary>Backing Field</summary>
-        private InterpolationMode interpolation = InterpolationMode.NearestNeighbor;
+        InterpolationMode interpolation = InterpolationMode.NearestNeighbor;
 
         /// <summary>
         /// The interpolation used to render the image.

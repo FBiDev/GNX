@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-//
-
-namespace GNX
+﻿namespace GNX
 {
     public class cSqlResult
     {

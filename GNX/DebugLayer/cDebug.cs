@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Windows.Forms;
-//
 using System.Linq;
 
 namespace GNX
 {
     public static class cDebug
     {
-        private static List<KeyValuePair<string, int>> Errors = new List<KeyValuePair<string, int>>();
-        private static string Messages = string.Empty;
+        static List<KeyValuePair<string, int>> Errors = new List<KeyValuePair<string, int>>();
+        static string Messages = string.Empty;
+
         public static ListBind<cLogSQL> LogSQLSistema = new ListBind<cLogSQL>();
         public static ListBind<cLogSQL> LogSQLBase = new ListBind<cLogSQL>();
 
@@ -29,7 +28,7 @@ namespace GNX
             }
 
             //else
-            DebugForm output = new DebugForm();
+            var output = new DebugForm();
             return output;
         }
 
@@ -41,12 +40,12 @@ namespace GNX
         public static void AddError(string error)
         {
             error += Environment.NewLine;
-            KeyValuePair<string, int> item = new KeyValuePair<string, int>(error, 1);
+            var item = new KeyValuePair<string, int>(error, 1);
 
             //Update Item
             if (Errors.Any(i => i.Key == error))
             {
-                int index = Errors.FindIndex(i => i.Key == error);
+                var index = Errors.FindIndex(i => i.Key == error);
                 item = new KeyValuePair<string, int>(error, Errors[index].Value + 1);
                 Errors[index] = item;
             }
@@ -56,13 +55,12 @@ namespace GNX
                 Errors.Insert(0, item);
             }
 
-            DebugForm form = Open();
+            var form = Open();
             form.UpdateErrors();
             form.TabSelectIndex(1);
+
             if (Enable)
-            {
                 form.Show();
-            }
         }
 
         public static void AddMessage(string text)

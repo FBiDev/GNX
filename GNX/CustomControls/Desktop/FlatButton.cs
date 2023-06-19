@@ -1,6 +1,5 @@
-﻿﻿using System;
+﻿using System;
 using System.Windows.Forms;
-//
 using System.Drawing;
 using System.ComponentModel;
 
@@ -105,7 +104,7 @@ namespace GNX
             Size = new Size(82, 34);
 
             base.UseVisualStyleBackColor = false;
-            FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            FlatStyle = FlatStyle.Flat;
 
             //foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(this))
             //    property.ResetValue(this);
@@ -146,27 +145,24 @@ namespace GNX
 
         protected override bool ShowFocusCues
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs pevent)
         {
-            base.OnPaint(e);
+            base.OnPaint(pevent);
 
             // Draw Border using color specified in Flat Appearance
-            Pen pen = new Pen(FlatAppearance.BorderColor, 1);
-            Rectangle rectangle = new Rectangle(0, 0, Size.Width - 1, Size.Height - 1);
-            e.Graphics.DrawRectangle(pen, rectangle);
+            var pen = new Pen(FlatAppearance.BorderColor, 1);
+            var rectangle = new Rectangle(0, 0, Size.Width - 1, Size.Height - 1);
+            pevent.Graphics.DrawRectangle(pen, rectangle);
 
             if (Focused)
             {
-                Pen penDot = new Pen(SystemColors.ControlDarkDark, 1);
+                var penDot = new Pen(SystemColors.ControlDarkDark, 1);
                 penDot.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-                Rectangle rectangleDot = new Rectangle(2, 2, Size.Width - 5, Size.Height - 5);
-                e.Graphics.DrawRectangle(penDot, rectangleDot);
+                var rectangleDot = new Rectangle(2, 2, Size.Width - 5, Size.Height - 5);
+                pevent.Graphics.DrawRectangle(penDot, rectangleDot);
             }
         }
     }

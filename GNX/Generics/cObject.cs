@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-//
 using System.Linq.Expressions;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace GNX
 {
-    public class cObject
+    public static class cObject
     {
         public static string GetPropertyName<T>(Expression<Func<T>> propertyLambda)
         {

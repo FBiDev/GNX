@@ -1,7 +1,4 @@
-﻿using System;
-//
-
-namespace GNX
+﻿namespace GNX
 {
     public class ListItem
     {

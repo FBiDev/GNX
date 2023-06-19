@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-//
 using System.ComponentModel;
 
 namespace GNX
@@ -13,9 +12,9 @@ namespace GNX
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     public class ListBind_old<T> : BindingList<T> where T : class
     {
-        private bool _isSorted;
-        private ListSortDirection _sortDirection = ListSortDirection.Ascending;
-        private PropertyDescriptor _sortProperty;
+        bool _isSorted;
+        ListSortDirection _sortDirection = ListSortDirection.Ascending;
+        PropertyDescriptor _sortProperty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBind_old{T}"/> class.
@@ -85,7 +84,7 @@ namespace GNX
             _sortProperty = prop;
             _sortDirection = direction;
 
-            List<T> list = Items as List<T>;
+            var list = Items as List<T>;
             if (list == null) return;
 
             list.Sort(Compare);
@@ -95,8 +94,7 @@ namespace GNX
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
-
-        private int Compare(T lhs, T rhs)
+        int Compare(T lhs, T rhs)
         {
             var result = OnComparison(lhs, rhs);
             //invert if descending
@@ -105,7 +103,7 @@ namespace GNX
             return result;
         }
 
-        private int OnComparison(T lhs, T rhs)
+        int OnComparison(T lhs, T rhs)
         {
             object lhsValue = lhs == null ? null : _sortProperty.GetValue(lhs);
             object rhsValue = rhs == null ? null : _sortProperty.GetValue(rhs);
@@ -126,14 +124,14 @@ namespace GNX
                 return 0; //both are the same
             }
             //not comparable, compare ToString
-            return lhsValue.ToString().CompareTo(rhsValue.ToString());
+            return string.Compare(lhsValue.ToString(), rhsValue.ToString(), StringComparison.OrdinalIgnoreCase);
         }
 
         public void AddRange(IEnumerable<T> itemsToAdd)
         {
             foreach (T item in itemsToAdd)
             {
-                this.Add(item);
+                Add(item);
             }
         }
     }

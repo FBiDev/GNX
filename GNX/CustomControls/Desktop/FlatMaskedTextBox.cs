@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-//
 using System.Drawing;
 using System.ComponentModel;
 
@@ -52,8 +51,9 @@ namespace GNX
         [DefaultValue(typeof(string), "")]
         public string PlaceholderText { get { return lblPlaceholder.Text; } set { lblPlaceholder.Text = value; } }
 
-        private int MaxLength;
-        private TextMask _Mask_;
+        int MaxLength;
+        TextMask _Mask_;
+
         [Category("_Properties")]
         [DefaultValue(typeof(string), "")]
         public TextMask _Mask
@@ -71,56 +71,49 @@ namespace GNX
                 txtMain.PromptChar = '_';
 
                 MaxLength = 50;
-
-                if (_Mask_ == TextMask.None)
+                switch (_Mask_)
                 {
-                    lblPlaceholder.Text = "";
-                }
-                else if (_Mask_ == TextMask.CPF)
-                {
-                    txtMain.Mask = "000.000.000-00";
-                    lblPlaceholder.Text = "000.000.000-00";
-                }
-                else if (_Mask_ == TextMask.CNPJ)
-                {
-                    txtMain.Mask = "00.000.000/0000-00";
-                    lblPlaceholder.Text = "00.000.000/0000-00";
-                }
-                else if (_Mask_ == TextMask.DATA)
-                {
-                    txtMain.Mask = "00/00/0000";
-                    lblPlaceholder.Text = "00/00/0000";
-                    txtMain.TextMaskFormat = MaskFormat.IncludeLiterals;
-                }
-                else if (_Mask_ == TextMask.HORA)
-                {
-                    txtMain.Mask = "00:00";
-                    lblPlaceholder.Text = "00:00";
-                }
-                else if (_Mask_ == TextMask.CELULAR)
-                {
-                    txtMain.Mask = "(00) 00000-0009";
-                    lblPlaceholder.Text = "(00) 00000-0000";
-                }
-                else if (_Mask_ == TextMask.NUMERO)
-                {
-                    lblPlaceholder.Text = "999";
-                    MaxLength = 10;
-                }
-                else if (_Mask_ == TextMask.DINHEIRO)
-                {
-                    lblPlaceholder.Text = "999,00";
-                }
-                else if (_Mask_ == TextMask.CEP)
-                {
-                    txtMain.Mask = "00000-000";
-                    lblPlaceholder.Text = "80000-100";
+                    case TextMask.None:
+                        lblPlaceholder.Text = "";
+                        break;
+                    case TextMask.CPF:
+                        txtMain.Mask = "000.000.000-00";
+                        lblPlaceholder.Text = "000.000.000-00";
+                        break;
+                    case TextMask.CNPJ:
+                        txtMain.Mask = "00.000.000/0000-00";
+                        lblPlaceholder.Text = "00.000.000/0000-00";
+                        break;
+                    case TextMask.DATA:
+                        txtMain.Mask = "00/00/0000";
+                        lblPlaceholder.Text = "00/00/0000";
+                        txtMain.TextMaskFormat = MaskFormat.IncludeLiterals;
+                        break;
+                    case TextMask.HORA:
+                        txtMain.Mask = "00:00";
+                        lblPlaceholder.Text = "00:00";
+                        break;
+                    case TextMask.CELULAR:
+                        txtMain.Mask = "(00) 00000-0009";
+                        lblPlaceholder.Text = "(00) 00000-0000";
+                        break;
+                    case TextMask.NUMERO:
+                        lblPlaceholder.Text = "999";
+                        MaxLength = 10;
+                        break;
+                    case TextMask.DINHEIRO:
+                        lblPlaceholder.Text = "999,00";
+                        break;
+                    case TextMask.CEP:
+                        txtMain.Mask = "00000-000";
+                        lblPlaceholder.Text = "80000-100";
+                        break;
                 }
             }
         }
         #endregion
 
-        private MaskedTextBox TextBox { get { return txtMain; } }
+        MaskedTextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
         public FlatMaskedTextBox()
@@ -180,17 +173,17 @@ namespace GNX
             TextBox.Focus();
         }
 
-        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             OnKeyPress(e);
         }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             OnKeyDown(e);
         }
 
-        private void TextBox_GotFocus(object sender, EventArgs e)
+        void TextBox_GotFocus(object sender, EventArgs e)
         {
             pnlBorder.BackColor = BorderColorFocus;
             pnlBg.BackColor = BackgroundColorFocus;
@@ -202,7 +195,7 @@ namespace GNX
             TextBox_TextChanged(null, null);
         }
 
-        private void TextBox_LostFocus(object sender, EventArgs e)
+        void TextBox_LostFocus(object sender, EventArgs e)
         {
             pnlBorder.BackColor = BorderColor;
             pnlBg.BackColor = BackgroundColor;
@@ -218,7 +211,6 @@ namespace GNX
         {
             string txt = txtMain.Text;
 
-            //DATA
             if (_Mask == TextMask.DATA)
             {
                 txt = txt.Replace("/", "").Trim();
@@ -227,6 +219,7 @@ namespace GNX
             {
                 string TextNew = "";
                 int SelStart = txtMain.SelectionStart;
+
                 foreach (char c in txtMain.Text)
                 {
                     int result;
@@ -235,26 +228,17 @@ namespace GNX
                         TextNew = TextNew.Insert(TextNew.Length, c.ToString());
                     }
                 }
+
                 if (TextNew.Length > MaxLength)
                 {
                     TextNew = TextNew.Substring(0, MaxLength);
                 }
+
                 txtMain.Text = TextNew;
                 txtMain.SelectionStart = SelStart;
             }
 
-            if (TextBox.Focused)
-            {
-                lblPlaceholder.Visible = false;
-            }
-            else if (TextBox.Text.Length == 0 || txt.Length == 0)
-            {
-                lblPlaceholder.Visible = true;
-            }
-            else
-            {
-                lblPlaceholder.Visible = false;
-            }
+            lblPlaceholder.Visible = !TextBox.Focused && (TextBox.Text.Length == 0 || txt.Length == 0);
         }
     }
 }

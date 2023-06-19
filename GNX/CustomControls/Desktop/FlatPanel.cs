@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-//
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
 
@@ -53,8 +48,7 @@ namespace GNX
         {
             if (NoScrollOnFocus)
                 return DisplayRectangle.Location;
-            else
-                return base.ScrollToControl(activeControl);
+            return base.ScrollToControl(activeControl);
         }
     }
 }

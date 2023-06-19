@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text.RegularExpressions;
-//
 
 namespace GNX
 {
@@ -24,21 +23,22 @@ namespace GNX
 
             if (this.Value != null && this.Value != DBNull.Value)
             {
-                Type ValueType = Value.GetType();
+                var ValueType = Value.GetType();
 
                 switch (ValueType.Name)
                 {
                     case "String":
-                        this.DbType = DbType.String;
+                        DbType = DbType.String;
                         if (Size == 0) Size = -1;
                         break;
-                    case "Int32": this.DbType = DbType.Int32; break;
+                    case "Int32":
+                        DbType = DbType.Int32; break;
                     case "DateTime":
-                        this.DbType = DbType.DateTime2;
+                        DbType = DbType.DateTime2;
                         this.Value = ((DateTime?)Value).ToDB();
                         break;
                     case "Boolean":
-                        this.DbType = DbType.Boolean;
+                        DbType = DbType.Boolean;
                         this.Value = cConvert.ToIntNull(Value);
                         break;
                 }
@@ -77,7 +77,7 @@ namespace GNX
             return query;
         }
 
-        private static string ReplaceItem(string query, object value, DbType DbType, string ParameterName)
+        static string ReplaceItem(string query, object value, DbType DbType, string ParameterName)
         {
             string val = value == null ? "NULL" : value.ToString();
             val = value == DBNull.Value ? "NULL" : value.ToString();

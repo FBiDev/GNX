@@ -7,35 +7,34 @@ namespace GNX
 {
     public class ListBind<T> : BindingList<T>
     {
-        private bool isSortedValue;
+        bool isSortedValue;
         ListSortDirection sortDirectionValue;
         PropertyDescriptor sortPropertyValue;
 
-        public ListBind()
-        {
-        }
+        public ListBind() { }
 
         public ListBind(IList<T> list)
         {
             foreach (object o in list)
-            {
-                this.Add((T)o);
-            }
+                Add((T)o);
         }
 
-        protected override void ApplySortCore(PropertyDescriptor prop,
-            ListSortDirection direction)
+        public void AddRange(IEnumerable<T> itemsToAdd)
         {
-            Type interfaceType = prop.PropertyType.GetInterface("IComparable");
+            foreach (T item in itemsToAdd)
+                Add(item);
+        }
+
+        protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
+        {
+            var interfaceType = prop.PropertyType.GetInterface("IComparable");
 
             if (interfaceType == null && prop.PropertyType.IsValueType)
             {
-                Type underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
+                var underlyingType = Nullable.GetUnderlyingType(prop.PropertyType);
 
                 if (underlyingType != null)
-                {
                     interfaceType = underlyingType.GetInterface("IComparable");
-                }
             }
 
             if (interfaceType != null)
@@ -43,7 +42,7 @@ namespace GNX
                 sortPropertyValue = prop;
                 sortDirectionValue = direction;
 
-                IEnumerable<T> query = base.Items;
+                IEnumerable<T> query = Items;
 
                 if (direction == ListSortDirection.Ascending)
                 {
@@ -57,17 +56,17 @@ namespace GNX
                 int newIndex = 0;
                 foreach (object item in query)
                 {
-                    this.Items[newIndex] = (T)item;
+                    Items[newIndex] = (T)item;
                     newIndex++;
                 }
 
                 isSortedValue = true;
-                this.OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+                OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
             }
             else
             {
                 throw new NotSupportedException("Cannot sort by " + prop.Name +
-                    ". This" + prop.PropertyType.ToString() +
+                    ". This" + prop.PropertyType +
                     " does not implement IComparable");
             }
         }
@@ -90,14 +89,6 @@ namespace GNX
         protected override bool IsSortedCore
         {
             get { return isSortedValue; }
-        }
-
-        public void AddRange(IEnumerable<T> itemsToAdd)
-        {
-            foreach (T item in itemsToAdd)
-            {
-                this.Add(item);
-            }
         }
     }
 }

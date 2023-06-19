@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GNX
 {
-    public partial class FlatListView : ListView
+    public class FlatListView : ListView
     {
         public List<Bitmap> ImagesOriginal = new List<Bitmap>();
         public List<Image> Images = new List<Image>();
@@ -44,11 +41,11 @@ namespace GNX
         public event ScrollEventHandler Scroll;
         protected virtual void OnScroll(ScrollEventArgs e)
         {
-            ScrollEventHandler handler = this.Scroll;
+            ScrollEventHandler handler = Scroll;
             if (handler != null) handler(this, e);
         }
 
-        private const uint WM_MOUSEWHEEL = 0x020A;
+        const uint WM_MOUSEWHEEL = 0x020A;
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
@@ -115,13 +112,13 @@ namespace GNX
                     //e.Graphics.FillRectangle(SystemBrushes.Control, e.Bounds);
                 }
             }
-            else
-            {
-                //using (SolidBrush br = new SolidBrush(BackColor))
-                //{
-                //e.Graphics.FillRectangle(br, e.Bounds);
-                //}
-            }
+            //else
+            //{
+            //using (SolidBrush br = new SolidBrush(BackColor))
+            //{
+            //e.Graphics.FillRectangle(br, e.Bounds);
+            //}
+            //}
 
             //TextRenderer.DrawText(e.Graphics, e.Item.Text, Font, e.Bounds,
             //                      textColor, Color.Empty,
@@ -196,10 +193,10 @@ namespace GNX
                 //if (ImagePadding < 6) ImagePadding = 6;
             });
 
-            var pics = new ImageList()
+            var pics = new ImageList
             {
                 ImageSize = ImagesSize,
-                ColorDepth = ColorDepth.Depth24Bit,
+                ColorDepth = ColorDepth.Depth24Bit
             };
 
             pics.Images.AddRange(Images.ToArray());
@@ -207,11 +204,11 @@ namespace GNX
             int index = 0;
             foreach (var imageItem in Images)
             {
-                var viewItem = new FlatListViewItem()
+                var viewItem = new FlatListViewItem
                 {
-                    ImageIndex = index,
-                    //Text = "X",
+                    ImageIndex = index
                 };
+
                 index++;
 
                 Items.Add(viewItem);

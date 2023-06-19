@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-//
 
 namespace GNX
 {
@@ -43,16 +42,16 @@ namespace GNX
         {
             InitializeComponent();
 
-            Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
+            Anchor = (((AnchorStyles.Top | AnchorStyles.Bottom)
+            | AnchorStyles.Left)
+            | AnchorStyles.Right);
         }
 
-        private bool isResizeMode;
-        private ResizeFace Face;
-        private int PanelBorderSize = 8;
+        bool isResizeMode;
+        ResizeFace Face;
+        int PanelBorderSize = 8;
 
-        private void PanelResizable_MouseDown(object sender, MouseEventArgs e)
+        void PanelResizable_MouseDown(object sender, MouseEventArgs e)
         {
             if (((Form)Parent).WindowState == FormWindowState.Maximized)
             {
@@ -63,7 +62,7 @@ namespace GNX
             {
                 isResizeMode = true;
 
-                if (e.Y <= PanelBorderSize && e.X >= this.Location.X + this.Size.Width - PanelBorderSize)
+                if (e.Y <= PanelBorderSize && e.X >= Location.X + Size.Width - PanelBorderSize)
                 {
                     Face = ResizeFace.TopRight;
                     Cursor = Cursors.SizeNESW;
@@ -73,22 +72,22 @@ namespace GNX
                     Face = ResizeFace.TopLeft;
                     Cursor = Cursors.SizeNWSE;
                 }
-                else if (e.X >= this.Location.X + this.Size.Width - PanelBorderSize && e.Y >= this.Location.Y + this.Size.Height - PanelBorderSize)
+                else if (e.X >= Location.X + Size.Width - PanelBorderSize && e.Y >= Location.Y + Size.Height - PanelBorderSize)
                 {
                     Face = ResizeFace.BottomRight;
                     Cursor = Cursors.SizeNWSE;
                 }
-                else if (e.X <= this.Location.X + PanelBorderSize && e.Y >= this.Location.Y + this.Size.Height - PanelBorderSize)
+                else if (e.X <= Location.X + PanelBorderSize && e.Y >= Location.Y + Size.Height - PanelBorderSize)
                 {
                     Face = ResizeFace.BottomLeft;
                     Cursor = Cursors.SizeNESW;
                 }
-                else if (e.X >= this.Location.X + this.Size.Width - PanelBorderSize)
+                else if (e.X >= Location.X + Size.Width - PanelBorderSize)
                 {
                     Face = ResizeFace.Right;
                     Cursor = Cursors.SizeWE;
                 }
-                else if (e.Y >= this.Location.Y + this.Size.Height - PanelBorderSize)
+                else if (e.Y >= Location.Y + Size.Height - PanelBorderSize)
                 {
                     Face = ResizeFace.Bottom;
                     Cursor = Cursors.SizeNS;
@@ -106,7 +105,7 @@ namespace GNX
             }
         }
 
-        private void PanelResizable_MouseMove(object sender, MouseEventArgs e)
+        void PanelResizable_MouseMove(object sender, MouseEventArgs e)
         {
             if (((Form)Parent).WindowState == FormWindowState.Maximized)
             {
@@ -115,8 +114,8 @@ namespace GNX
 
             if (isResizeMode)
             {
-                Size NewSize = new Size(e.X, e.Y);
-                Point NewLocation = new Point(0, 0);
+                var NewSize = new Size(e.X, e.Y);
+                var NewLocation = new Point(0, 0);
 
                 if (Face == ResizeFace.Top)
                 {
@@ -231,7 +230,7 @@ namespace GNX
             }
             else
             {
-                if (e.Y <= PanelBorderSize && e.X >= this.Location.X + this.Size.Width - PanelBorderSize)
+                if (e.Y <= PanelBorderSize && e.X >= Location.X + Size.Width - PanelBorderSize)
                 {
                     Cursor = Cursors.SizeNESW;
                 }
@@ -239,19 +238,19 @@ namespace GNX
                 {
                     Cursor = Cursors.SizeNWSE;
                 }
-                else if (e.X >= this.Location.X + this.Size.Width - PanelBorderSize && e.Y >= this.Location.Y + this.Size.Height - PanelBorderSize)
+                else if (e.X >= Location.X + Size.Width - PanelBorderSize && e.Y >= Location.Y + Size.Height - PanelBorderSize)
                 {
                     Cursor = Cursors.SizeNWSE;
                 }
-                else if (e.X <= this.Location.X + PanelBorderSize && e.Y >= this.Location.Y + this.Size.Height - PanelBorderSize)
+                else if (e.X <= Location.X + PanelBorderSize && e.Y >= Location.Y + Size.Height - PanelBorderSize)
                 {
                     Cursor = Cursors.SizeNESW;
                 }
-                else if (e.X >= this.Location.X + this.Size.Width - PanelBorderSize)
+                else if (e.X >= Location.X + Size.Width - PanelBorderSize)
                 {
                     Cursor = Cursors.SizeWE;
                 }
-                else if (e.Y >= this.Location.Y + this.Size.Height - PanelBorderSize)
+                else if (e.Y >= Location.Y + Size.Height - PanelBorderSize)
                 {
                     Cursor = Cursors.SizeNS;
                 }
@@ -266,37 +265,14 @@ namespace GNX
             }
         }
 
-        private void ResizeParent(MouseEventArgs e, bool XChange, bool XNegative, bool YChange, bool YNegative)
+        void PanelResizable_MouseUp(object sender, MouseEventArgs e)
         {
-            //int FormBorderSize = 0;
-            //Size NewSize = new Size(e.X, e.Y);
-            //Point NewLocation = new Point(0, 0);
-
-            //if (XChange)
-            //{
-            //    NewSize = new Size(e.X, Parent.Height);
-            //    if (XChange)
-            //    {
-            //        NewSize = new Size(-e.X, Parent.Height);
-            //    }
-
-            //    if (NewSize.Width >= Parent.MinimumSize.Width)
-            //    {
-            //        Parent.Size = NewSize;
-            //    }
-            //    return;
-            //}
+            if (e.Button != MouseButtons.Left)
+                return;
+            isResizeMode = false;
         }
 
-        private void PanelResizable_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                isResizeMode = false;
-            }
-        }
-
-        private void PanelResizable_MouseLeave(object sender, EventArgs e)
+        void PanelResizable_MouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
             Refresh();

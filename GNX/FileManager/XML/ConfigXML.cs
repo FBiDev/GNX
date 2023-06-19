@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace GNX
 {
-    [Serializable()]
+    [Serializable]
     [XmlRoot(ElementName = "Config")]
     public class ConfigXML
     {

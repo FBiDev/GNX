@@ -2,23 +2,25 @@
 using System.Windows.Forms;
 using System.Data.OleDb;
 using System.Data;
-//
+using System.Diagnostics.CodeAnalysis;
 
 namespace GNX
 {
-    public class cExcel
+    public static class cExcel
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public static DataTable Import(string ExcelTab, int IgnoreRowsCount = 0)
         {
-            DataTable data = new DataTable();
+            var data = new DataTable();
 
             try
             {
-                using (OpenFileDialog ofd = new OpenFileDialog()
-                    //{ Filter = "Excel WorkBook 97-2003|*.xls|Excel WorkBook|*.xlsx", ValidateNames = true }
-                    { Filter = "Excel|*.xls;*.xlsx", ValidateNames = true }
-                )
+                //{ Filter = "Excel WorkBook 97-2003|*.xls|Excel WorkBook|*.xlsx", ValidateNames = true }
+                using (OpenFileDialog ofd = new OpenFileDialog
+                {
+                    Filter = "Excel|*.xls;*.xlsx",
+                    ValidateNames = true
+                })
                 {
                     if (ofd.ShowDialog() == DialogResult.OK)
                     {
@@ -26,13 +28,13 @@ namespace GNX
                                         "Data Source=" + ofd.FileName + ";" +
                                         "Extended Properties='Excel 12.0 XML;HDR=YES;';";
 
-                        OleDbConnection con = new OleDbConnection(constr);
+                        var con = new OleDbConnection(constr);
 
-                        OleDbCommand oconn = new OleDbCommand();
+                        var oconn = new OleDbCommand();
                         oconn.Connection = con;
                         oconn.CommandText = "SELECT * FROM [" + ExcelTab + "$]";
 
-                        OleDbDataAdapter sda = new OleDbDataAdapter(oconn);
+                        var sda = new OleDbDataAdapter(oconn);
                         sda.Fill(data);
 
                         sda.Dispose();

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-//
 using System.Drawing;
 using System.ComponentModel;
-using System.Data;
 using GNX.Properties;
 
 namespace GNX
@@ -82,7 +80,7 @@ namespace GNX
         public event EventHandler SelectionChangeCommitted;
         //public delegate void EventHandler(object sender, EventArgs e);
 
-        private string _DisplayMember;
+        string _DisplayMember;
         [DefaultValue("")]
         public string DisplayMember
         {
@@ -147,7 +145,7 @@ namespace GNX
             Combo.DrawItem += Combo_DrawItem;
             Combo.DropDown += Combo_DropDown;
             Combo.DropDownClosed += Combo_DropDownClosed;
-            Combo.MouseWheel += new MouseEventHandler(Combo_MouseWheel);
+            Combo.MouseWheel += Combo_MouseWheel;
             Combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
             Combo.SelectionChangeCommitted += Combo_SelectionChangeCommitted;
 
@@ -172,7 +170,7 @@ namespace GNX
             Combo.ForeColor = ItemTextColor;
         }
 
-        private void pnlBg_Click(object sender, EventArgs e)
+        void pnlBg_Click(object sender, EventArgs e)
         {
             Combo.Focus();
             Combo.DroppedDown = true;
@@ -183,19 +181,14 @@ namespace GNX
             object previousValue = SelectedValue;
 
             DataSource = listSource;
-
-            //cbo1.SelectedValue = IdAntigo;
             SelectedValue = previousValue;
         }
 
         public void Reload<T>(List<T> listSource)
         {
-
             object previousValue = SelectedValue;
 
             DataSource = listSource;
-
-            //cbo1.SelectedValue = IdAntigo;
             SelectedValue = previousValue;
         }
 
@@ -204,7 +197,7 @@ namespace GNX
             Combo.ResetIndex();
         }
 
-        private void Combo_SelectedIndexChanged(object sender, EventArgs e)
+        void Combo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (SelectedIndexChanged.NotNull())
             {
@@ -212,7 +205,7 @@ namespace GNX
             }
         }
 
-        private void Combo_SelectionChangeCommitted(object sender, EventArgs e)
+        void Combo_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (SelectionChangeCommitted.NotNull())
             {
@@ -220,45 +213,42 @@ namespace GNX
             }
         }
 
-        private void Combo_GotFocus(object sender, EventArgs e)
+        void Combo_GotFocus(object sender, EventArgs e)
         {
             pnlBorder.BackColor = BorderColorFocus;
             picDrop.BackgroundImage = Resources.img_drop_arrow_focus;
         }
 
-        private void Combo_LostFocus(object sender, EventArgs e)
+        void Combo_LostFocus(object sender, EventArgs e)
         {
             pnlBorder.BackColor = BorderColor;
             picDrop.BackgroundImage = Resources.img_drop_arrow;
         }
 
-        private void Combo_MouseWheel(object sender, MouseEventArgs e)
+        void Combo_MouseWheel(object sender, MouseEventArgs e)
         {
             ((HandledMouseEventArgs)e).Handled = false;
         }
 
-        private void Combo_DropDown(object sender, EventArgs e) { }
+        void Combo_DropDown(object sender, EventArgs e) { }
 
-        private void Combo_DropDownClosed(object sender, EventArgs e) { }
+        void Combo_DropDownClosed(object sender, EventArgs e) { }
 
-        private void Combo_DrawItem(object sender, DrawItemEventArgs e)
+        void Combo_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index == -1)
-            {
-                return;
-            }
+            if (e.Index == -1) { return; }
 
             //BackgroundColor
             //var combo = sender as ComboBox;
             //combo.BackColor = Color.BlanchedAlmond;
 
-            SolidBrush textColorNormal = new SolidBrush(ItemTextColor);
-            SolidBrush textColorFocus = new SolidBrush(ItemTextColorFocus);
+            var textColorNormal = new SolidBrush(ItemTextColor);
+            var textColorFocus = new SolidBrush(ItemTextColorFocus);
 
             SolidBrush fontColor = textColorNormal;
 
-            SolidBrush backColorNormal = new SolidBrush(BackgroundColor);
-            SolidBrush backColorFocus = new SolidBrush(ItemBackColorFocus);
+            var backColorNormal = new SolidBrush(BackgroundColor);
+            var backColorFocus = new SolidBrush(ItemBackColorFocus);
             //Color.BlueViolet
 
             //int DrawYCenter = (int)Math.Floor((double)((((Combo.ItemHeight - 1) - (int)Combo.Font.Size) / 2) - 3));
@@ -293,8 +283,7 @@ namespace GNX
 
             // draw text strings
             e.Graphics.DrawString(
-                Combo.GetItemText(Combo.Items[e.Index]),
-                e.Font, fontColor, new Point(e.Bounds.X, e.Bounds.Y));
+                Combo.GetItemText(Combo.Items[e.Index]), e.Font, fontColor, new Point(e.Bounds.X, e.Bounds.Y));
         }
     }
 }

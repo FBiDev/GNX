@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 
 namespace GNX
 {
@@ -10,9 +7,7 @@ namespace GNX
         public static string ToDB(this int? value)
         {
             if (value.HasValue)
-            {
                 return value.ToString();
-            }
             return "NULL";
         }
 
@@ -28,7 +23,7 @@ namespace GNX
 
         public static string ToNumber(this int value, bool customLanguage = false)
         {
-            return ToNumber((float)value, 0, customLanguage);
+            return ToNumber(value, 0, customLanguage);
         }
     }
 }

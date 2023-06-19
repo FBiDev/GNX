@@ -1,10 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-//
-using System.ComponentModel;
-using System.Drawing;
-
-namespace GNX
+﻿namespace GNX
 {
     public partial class MaskedTextBoxBlue : FlatTextBoxBase
     {

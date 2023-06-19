@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-//
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace GNX
 {
@@ -19,9 +18,9 @@ namespace GNX
     public static class ContainersExtension
     {
         //Columns
-        private static void Format(this DataGridViewColumnCollection source, int colIndex, CellStyle format)
+        static void Format(this DataGridViewColumnCollection source, int colIndex, CellStyle format)
         {
-            var style = new DataGridViewCellStyle() { };
+            var style = new DataGridViewCellStyle { };
             DataGridViewColumn col = source[colIndex];
 
             switch (format)
@@ -42,8 +41,8 @@ namespace GNX
                     style.NullValue = null;
                     break;
                 case CellStyle.DateCenter:
-                    style.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-                    style.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    style.Font = new Font("Courier New", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
                     style.Format = "dd MMM, yyyy";
                     style.NullValue = null;
                     break;
@@ -51,13 +50,11 @@ namespace GNX
                     if (col is DataGridViewImageColumn)
                     {
                         style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        style.Padding = new System.Windows.Forms.Padding(2);
+                        style.Padding = new Padding(2);
 
                         col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                         ((DataGridViewImageColumn)col).ImageLayout = DataGridViewImageCellLayout.Zoom;
                     }
-                    break;
-                default:
                     break;
             }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GNX
+﻿namespace GNX
 {
     public enum DbSystem
     {
@@ -182,7 +180,6 @@ namespace GNX
         WM_GETDLGCODE = 0x0087,
         WM_SYNCPAINT = 0x0088,
 
-
         WM_NCMOUSEMOVE = 0x00A0,
         WM_NCLBUTTONDOWN = 0x00A1,
         WM_NCLBUTTONUP = 0x00A2,
@@ -287,7 +284,6 @@ namespace GNX
         WM_MDICASCADE = 0x0227,
         WM_MDIICONARRANGE = 0x0228,
         WM_MDIGETACTIVE = 0x0229,
-
 
         WM_MDISETMENU = 0x0230,
         WM_ENTERSIZEMOVE = 0x0231,

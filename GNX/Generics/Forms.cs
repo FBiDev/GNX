@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-//
+﻿using System.Linq;
 using System.Windows.Forms;
 
 namespace GNX
 {
-    public class Forms
+    public static class Forms
     {
         public static T Open<T>(Form parent = null, bool once = true) where T : new()
         {
@@ -21,9 +17,9 @@ namespace GNX
                     //frm = new T();
                     //FormGeneric = ((Form)(object)frm);
                 }
+
                 frmG = new T();
                 FormGeneric = ((Form)(object)frmG);
-
             }
             else
             {

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace GNX
 {
-    public class DB
+    public static class DB
     {
+        static cDataBase Database { get; set; }
         public static ListBind<cLogSQL> Log { get { return Database.Log; } set { Database.Log = value; } }
-        private static cDataBase Database { get; set; }
         public static bool ConfigLoaded { get; set; }
 
         public static void Load(string server, string database)

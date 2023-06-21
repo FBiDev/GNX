@@ -130,6 +130,12 @@
     <Compile Include="CustomControls\Desktop\FlatTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomControls\Desktop\FormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\FormBase.Designer.cs">
+      <DependentUpon>FormBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\Desktop\Test\Win32.cs" />
     <Compile Include="DebugLayer\DebugForm.cs">
       <SubType>Form</SubType>
@@ -263,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\Desktop\FlatPanel.resx">
       <DependentUpon>FlatPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Desktop\FormBase.resx">
+      <DependentUpon>FormBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DebugLayer\DebugForm.resx">
       <DependentUpon>DebugForm.cs</DependentUpon>

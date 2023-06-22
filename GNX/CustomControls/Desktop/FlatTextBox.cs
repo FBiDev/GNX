@@ -59,6 +59,8 @@ namespace GNX
         public int SelectionStart { get { return TextBox.SelectionStart; } set { TextBox.SelectionStart = value; } }
         public int SelectionLength { get { return TextBox.SelectionLength; } set { TextBox.SelectionLength = value; } }
 
+        public bool ReadOnly { get { return TextBox.ReadOnly; } set { TextBox.ReadOnly = value; } }
+
         public string previousText { get; set; }
         string previousTextBackup { get; set; }
         bool previousTextChanged { get; set; }

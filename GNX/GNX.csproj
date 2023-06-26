@@ -47,18 +47,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\DB.cs" />
+    <Compile Include="Config\Theme.cs" />
     <Compile Include="cTest.cs" />
-    <Compile Include="CustomControls\Desktop\BaseForm.cs">
+    <Compile Include="CustomControls\Desktop\Form\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomControls\Desktop\BaseForm.Designer.cs">
+    <Compile Include="CustomControls\Desktop\Form\BaseForm.Designer.cs">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\Desktop\BaseForm2.cs">
+    <Compile Include="CustomControls\Desktop\Form\BaseForm2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomControls\Desktop\BaseForm2.Designer.cs">
+    <Compile Include="CustomControls\Desktop\Form\BaseForm2.Designer.cs">
       <DependentUpon>BaseForm2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\Form\ContentBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\Form\ContentBaseForm.Designer.cs">
+      <DependentUpon>ContentBaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\Form\MainBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomControls\Desktop\Form\MainBaseForm.Designer.cs">
+      <DependentUpon>MainBaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\Desktop\FlatGroupBox.cs">
       <SubType>Component</SubType>
@@ -130,10 +143,10 @@
     <Compile Include="CustomControls\Desktop\FlatTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomControls\Desktop\FormBase.cs">
+    <Compile Include="CustomControls\Desktop\Form\FormBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomControls\Desktop\FormBase.Designer.cs">
+    <Compile Include="CustomControls\Desktop\Form\FormBase.Designer.cs">
       <DependentUpon>FormBase.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\Desktop\Test\Win32.cs" />
@@ -255,14 +268,20 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CustomControls\Desktop\BaseForm.resx">
+    <EmbeddedResource Include="CustomControls\Desktop\Form\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\Desktop\BaseForm2.resx">
+    <EmbeddedResource Include="CustomControls\Desktop\Form\BaseForm2.resx">
       <DependentUpon>BaseForm2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\Desktop\Base\FlatComboBoxNew.resx">
       <DependentUpon>FlatComboBoxNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Desktop\Form\ContentBaseForm.resx">
+      <DependentUpon>ContentBaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\Desktop\Form\MainBaseForm.resx">
+      <DependentUpon>MainBaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\Desktop\FlatStatusBar.resx">
       <DependentUpon>FlatStatusBar.cs</DependentUpon>
@@ -270,7 +289,7 @@
     <EmbeddedResource Include="CustomControls\Desktop\FlatPanel.resx">
       <DependentUpon>FlatPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\Desktop\FormBase.resx">
+    <EmbeddedResource Include="CustomControls\Desktop\Form\FormBase.resx">
       <DependentUpon>FormBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DebugLayer\DebugForm.resx">

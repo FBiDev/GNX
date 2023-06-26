@@ -148,6 +148,7 @@ namespace GNX
             Combo.MouseWheel += Combo_MouseWheel;
             Combo.SelectedIndexChanged += Combo_SelectedIndexChanged;
             Combo.SelectionChangeCommitted += Combo_SelectionChangeCommitted;
+            Combo.KeyDown += Combo_KeyDown;
 
             Cursor = Cursors.Hand;
             Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
@@ -156,6 +157,14 @@ namespace GNX
             MinimumSize = new Size(100, 34);
 
             Combo.Sorted = false;
+        }
+
+        public void DarkMode()
+        {
+            BackgroundColor = ColorTranslator.FromHtml("#191919");
+            LabelTextColor = ColorTranslator.FromHtml("#A3B2DC");
+            ItemTextColor = ColorTranslator.FromHtml("#D2D2D2");
+            BorderColor = ColorTranslator.FromHtml("#424242");
         }
 
         protected override void OnHandleCreated(EventArgs e)
@@ -195,6 +204,14 @@ namespace GNX
         public void ResetIndex()
         {
             Combo.ResetIndex();
+        }
+
+        void Combo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Space)
+            {
+                pnlBg_Click(null, null);
+            }
         }
 
         void Combo_SelectedIndexChanged(object sender, EventArgs e)

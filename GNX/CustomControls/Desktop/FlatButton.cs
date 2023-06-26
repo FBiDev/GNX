@@ -91,6 +91,10 @@ namespace GNX
         [Category("_Properties")]
         public Color _TextColor { get { return TextColor; } }
         protected Color TextColor = Color.FromArgb(47, 47, 47);
+
+        [Category("_Properties")]
+        public Color _SelectedColor { get { return SelectedColor; } }
+        protected Color SelectedColor = Color.FromArgb(203, 223, 254);
         #endregion
 
         public FlatButton()
@@ -108,6 +112,15 @@ namespace GNX
 
             //foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(this))
             //    property.ResetValue(this);
+        }
+
+        public void DarkMode()
+        {
+            BackgroundColor = ColorTranslator.FromHtml("#505050");
+            BackgroundColorFocus = BackgroundColor;
+            TextColor = ColorTranslator.FromHtml("#D2D2D2");
+            BorderColor = ColorTranslator.FromHtml("#262626");
+            SelectedColor = ColorTranslator.FromHtml("#191919");
         }
 
         protected override void OnHandleCreated(EventArgs e)

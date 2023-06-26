@@ -112,12 +112,13 @@
             this.cboFlat.MaxDropDownItems = 10;
             this.cboFlat.Name = "cboFlat";
             this.cboFlat.Size = new System.Drawing.Size(204, 24);
-            this.cboFlat.TabIndex = 4;
+            this.cboFlat.TabIndex = 0;
             // 
             // FlatComboBox
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.pnlBorder);
+            this.DoubleBuffered = true;
             this.MaximumSize = new System.Drawing.Size(0, 34);
             this.MinimumSize = new System.Drawing.Size(100, 34);
             this.Name = "FlatComboBox";

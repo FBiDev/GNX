@@ -16,7 +16,7 @@ namespace GNX
             {
                 _statusBar = value;
                 pnlFoot.Visible = value;
-                pnlHead.Padding = new Padding()
+                pnlHead.Padding = new Padding
                 {
                     All = pnlHead.Padding.Left,
                     Bottom = value == false ? pnlHead.Padding.Left : 32
@@ -38,7 +38,7 @@ namespace GNX
             if (ico is Icon)
                 Icon = ico;
 
-            //Theme.CheckTheme(frm);
+            Theme.CheckTheme(frm);
         }
 
         public static Icon ico { get; set; }
@@ -53,7 +53,7 @@ namespace GNX
 
         Point CenterOfMenuPanel<T>(T control, int height = 0) where T : Control
         {
-            Point center = new Point(
+            var center = new Point(
                 (pnlBody.Size.Width / 2) - (control.Width / 2),
                 height != 0 ? height : pnlBody.Size.Height / 2 - control.Height / 2);
 

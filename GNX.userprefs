@@ -4,9 +4,12 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="GNX\CustomControls\Desktop\FormBase.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GNX\CustomControls\Desktop\Form\FormBase.cs">
     <Files>
-      <File FileName="GNX\CustomControls\Desktop\FormBase.cs" Line="28" Column="10" />
+      <File FileName="GNX\Config\Theme.cs" Line="21" Column="30" />
+      <File FileName="GNX\CustomControls\Desktop\Form\FormBase.cs" Line="19" Column="46" />
+      <File FileName="GNX\CustomControls\Desktop\Form\ContentBaseForm.cs" Line="26" Column="2" />
+      <File FileName="GNX\CustomControls\Desktop\Form\MainBaseForm.cs" Line="27" Column="46" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MultiItemStartupConfigurations />

@@ -95,6 +95,21 @@ namespace GNX
         [Category("_Properties")]
         public Color _SelectedColor { get { return SelectedColor; } }
         protected Color SelectedColor = Color.FromArgb(203, 223, 254);
+
+
+        public bool _Selected;
+        public bool Selected
+        {
+            get { return _Selected; }
+            set
+            {
+                _Selected = value;
+                if (_Selected)
+                    BackColor = SelectedColor;
+                else
+                    BackColor = BackgroundColor;
+            }
+        }
         #endregion
 
         public FlatButton()
@@ -114,7 +129,7 @@ namespace GNX
             //    property.ResetValue(this);
         }
 
-        public void DarkMode()
+        public virtual void DarkTheme()
         {
             BackgroundColor = ColorTranslator.FromHtml("#505050");
             BackgroundColorFocus = BackgroundColor;

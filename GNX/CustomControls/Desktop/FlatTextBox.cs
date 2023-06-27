@@ -101,7 +101,7 @@ namespace GNX
             MinimumSize = new Size(100, 34);
         }
 
-        public void DarkMode()
+        public virtual void DarkTheme()
         {
             BackgroundColor = ColorTranslator.FromHtml("#191919");
             BackgroundColorFocus = BackgroundColor;

@@ -159,7 +159,7 @@ namespace GNX
             Combo.Sorted = false;
         }
 
-        public void DarkMode()
+        public virtual void DarkTheme()
         {
             BackgroundColor = ColorTranslator.FromHtml("#191919");
             LabelTextColor = ColorTranslator.FromHtml("#A3B2DC");

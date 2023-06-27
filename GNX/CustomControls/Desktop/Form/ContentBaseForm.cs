@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace GNX
@@ -21,6 +22,11 @@ namespace GNX
         public void Init(Form frm)
         {
             Theme.CheckTheme(frm);
+        }
+
+        public virtual void DarkTheme()
+        {
+            BackColor = ColorTranslator.FromHtml("#242424");
         }
     }
 }

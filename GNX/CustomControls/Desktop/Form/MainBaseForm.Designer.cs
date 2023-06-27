@@ -41,7 +41,6 @@
             // pnlFoot
             // 
             this.pnlFoot.BackColor = System.Drawing.Color.Transparent;
-            this.pnlFoot.BorderRound = false;
             this.pnlFoot.Controls.Add(this.staStatus);
             this.pnlFoot.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlFoot.Location = new System.Drawing.Point(0, 246);
@@ -66,8 +65,6 @@
             // 
             this.pnlHead.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnlHead.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.pnlHead.BorderRound = false;
-            this.pnlHead.BorderSize = 0;
             this.pnlHead.Controls.Add(this.pnlBody);
             this.pnlHead.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlHead.Location = new System.Drawing.Point(0, 0);
@@ -80,6 +77,8 @@
             // pnlBody
             // 
             this.pnlBody.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.pnlBody.BorderRound = true;
+            this.pnlBody.BorderSize = 1;
             this.pnlBody.Controls.Add(this.pnlContent);
             this.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlBody.Location = new System.Drawing.Point(8, 8);
@@ -92,8 +91,6 @@
             // pnlContent
             // 
             this.pnlContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.pnlContent.BorderRound = false;
-            this.pnlContent.BorderSize = 0;
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(3, 3);
             this.pnlContent.Name = "pnlContent";

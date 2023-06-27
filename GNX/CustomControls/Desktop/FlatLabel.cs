@@ -88,6 +88,11 @@ namespace GNX
             Padding = new Padding(0, 0, 0, 1);
         }
 
+        public virtual void DarkTheme()
+        {
+            ForeColor = ColorTranslator.FromHtml("#A3B2DC");
+        }
+
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);

@@ -51,6 +51,11 @@ namespace GNX
             Theme.CheckTheme(frm);
         }
 
+        public virtual void DarkTheme()
+        {
+            BackColor = ColorTranslator.FromHtml("#242424");
+        }
+
         public void SetContentForm(Form frm)
         {
             pnlContent.Controls.Clear();

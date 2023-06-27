@@ -13,10 +13,10 @@ namespace GNX
         [DefaultValue(typeof(Color), "0xA0A0A0")]
         public Color BorderColor { get; set; }
 
-        [DefaultValue(1)]
+        [DefaultValue(0)]
         public int BorderSize { get; set; }
 
-        [DefaultValue(true)]
+        [DefaultValue(false)]
         public bool BorderRound { get; set; }
 
         [DefaultValue(typeof(Padding), "0, 0, 0, 0")]
@@ -32,9 +32,16 @@ namespace GNX
             SetStyle(ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
             DoubleBuffered = true;
 
-            BorderSize = 1;
+            BorderSize = 0;
             BorderColor = ColorTranslator.FromHtml("#A0A0A0");
-            BorderRound = true;
+            BorderRound = false;
+        }
+
+        public virtual void DarkTheme()
+        {
+            BorderColor = ColorTranslator.FromHtml("#424242");
+            BackColor = ColorTranslator.FromHtml("#242424");
+            //BackColor = ColorTranslator.FromHtml("#191919");
         }
 
         protected override void OnControlAdded(ControlEventArgs e) { }

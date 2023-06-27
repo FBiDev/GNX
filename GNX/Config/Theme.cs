@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -34,41 +33,37 @@ namespace GNX
 
         static void ChangeTheme(Form f)
         {
-            f.BackColor = ColorTranslator.FromHtml("#242424");
+            if (f is ContentBaseForm)
+                ((ContentBaseForm)f).DarkTheme();
+            if (f is MainBaseForm)
+                ((MainBaseForm)f).DarkTheme();
 
             foreach (var c in f.GetControls<FlatLabel>())
-                c.ForeColor = ColorTranslator.FromHtml("#A3B2DC");
+                if (DarkMode) c.DarkTheme();
 
             foreach (var c in f.GetControls<FlatPanel>())
             {
-                c.BorderColor = ColorTranslator.FromHtml("#424242");
-
-                if (c.Name == "pnlContent" || c.Name == "pnlFoot" ||
-                    c.Name == "pnlHead" || c.Name == "pnlBody")
+                if (c.Name == "pnlHead" || c.Name == "pnlBody" || c.Name == "pnlFoot")
                 {
-                    //c.BackColor = ColorTranslator.FromHtml("#191919");
-                    c.BackColor = ColorTranslator.FromHtml("#242424");
+                    if (DarkMode) c.DarkTheme();
                 }
             }
 
             foreach (var c in f.GetControls<FlatButton>())
             {
-                if (DarkMode)
-                    c.DarkMode();
+                if (DarkMode) c.DarkTheme();
                 //else c.LightMode();
             }
 
             foreach (var c in f.GetControls<FlatTextBox>())
             {
-                if (DarkMode)
-                    c.DarkMode();
+                if (DarkMode) c.DarkTheme();
                 //else c.LightMode();
             }
 
             foreach (var c in f.GetControls<FlatComboBox>())
             {
-                if (DarkMode)
-                    c.DarkMode();
+                if (DarkMode) c.DarkTheme();
                 //else c.LightMode();
             }
         }

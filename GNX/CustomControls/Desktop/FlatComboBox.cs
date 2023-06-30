@@ -112,7 +112,15 @@ namespace GNX
         }
 
         [DefaultValue(-1)]
-        public int SelectedIndex { get { return cboFlat.SelectedIndex; } set { cboFlat.SelectedIndex = value; } }
+        public int SelectedIndex
+        {
+            get { return cboFlat.SelectedIndex; }
+            set
+            {
+                if (cboFlat.Items.Count > 0 && cboFlat.Items.Count <= value)
+                    cboFlat.SelectedIndex = value;
+            }
+        }
 
         [DefaultValue("")]
         public object SelectedValue

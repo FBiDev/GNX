@@ -26,11 +26,19 @@ namespace GNX
             set { base.Padding = value; }
         }
 
+        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        public new AutoSizeMode AutoSizeMode
+        {
+            get { return base.AutoSizeMode; }
+            set { base.AutoSizeMode = value; }
+        }
+
         public FlatPanel()
         {
             InitializeComponent();
             SetStyle(ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
             DoubleBuffered = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             BorderSize = 0;
             BorderColor = ColorTranslator.FromHtml("#A0A0A0");
@@ -40,8 +48,6 @@ namespace GNX
         public virtual void DarkTheme()
         {
             BorderColor = ColorTranslator.FromHtml("#424242");
-            BackColor = ColorTranslator.FromHtml("#242424");
-            //BackColor = ColorTranslator.FromHtml("#191919");
         }
 
         protected override void OnControlAdded(ControlEventArgs e) { }

@@ -49,6 +49,9 @@
     <Compile Include="Config\DB.cs" />
     <Compile Include="Config\Theme.cs" />
     <Compile Include="cTest.cs" />
+    <Compile Include="CustomControls\Desktop\FlatPanelBG.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CustomControls\Desktop\Form\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>

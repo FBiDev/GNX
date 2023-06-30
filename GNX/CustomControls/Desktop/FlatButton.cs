@@ -12,14 +12,22 @@ namespace GNX
         public new Color BackColor
         {
             get { return base.BackColor; }
-            set { base.BackColor = value; }
+            set
+            {
+                base.BackColor = value;
+                BackgroundColor = value;
+            }
         }
 
         [DefaultValue(typeof(Color), "47, 47, 47")]
         public new Color ForeColor
         {
             get { return base.ForeColor; }
-            set { base.ForeColor = value; }
+            set
+            {
+                base.ForeColor = value;
+                TextColor = value;
+            }
         }
 
         [DefaultValue(typeof(Font), "Segoe UI, 9")]
@@ -49,7 +57,7 @@ namespace GNX
             set { base.ImageAlign = value; }
         }
 
-        [DefaultValue(typeof(AnchorStyles), "Top")]
+        [DefaultValue(typeof(AnchorStyles), "Top, Left")]
         public new AnchorStyles Anchor
         {
             get { return base.Anchor; }
@@ -69,35 +77,82 @@ namespace GNX
             get { return base.FlatStyle; }
             set { base.FlatStyle = value; }
         }
+
+        [DefaultValue(typeof(Size), "24, 24")]
+        public new Size MinimumSize
+        {
+            get { return base.MinimumSize; }
+            set { base.MinimumSize = value; }
+        }
         #endregion
 
         #region Properties
-        [Category("_Properties")]
-        public Color _BorderColor { get { return BorderColor; } }
-        protected Color BorderColor = Color.FromArgb(213, 223, 229);
-
-        [Category("_Properties")]
-        public Color _BorderColorFocus { get { return BorderColorFocus; } }
-        protected Color BorderColorFocus = Color.FromArgb(108, 132, 199);
-
-        [Category("_Properties")]
-        public Color _BackgroundColor { get { return BackgroundColor; } }
         protected Color BackgroundColor = Color.FromArgb(237, 237, 237);
+        [Category("_Properties"), DefaultValue(typeof(Color), "237, 237, 237")]
+        public Color _BackgroundColor
+        {
+            get { return BackgroundColor; }
+            set
+            {
+                BackgroundColor = value;
+                BackColor = value;
+            }
+        }
 
-        [Category("_Properties")]
-        public Color _BackgroundColorFocus { get { return BackgroundColorFocus; } }
         protected Color BackgroundColorFocus = Color.FromArgb(213, 213, 213);
+        [Category("_Properties"), DefaultValue(typeof(Color), "213, 213, 213")]
+        public Color _BackgroundColorFocus
+        {
+            get { return BackgroundColorFocus; }
+            set
+            {
+                BackgroundColorFocus = value;
+                FlatAppearance.MouseOverBackColor = value;
+            }
+        }
 
-        [Category("_Properties")]
-        public Color _TextColor { get { return TextColor; } }
+        protected Color BorderColorDefault;
+        protected Color BorderColor = Color.FromArgb(213, 223, 229);
+        [Category("_Properties"), DefaultValue(typeof(Color), "213, 223, 229")]
+        public Color _BorderColor
+        {
+            get { return BorderColor; }
+            set
+            {
+                BorderColor = value;
+                FlatAppearance.BorderColor = value;
+            }
+        }
+
+        protected Color BorderColorFocus = Color.FromArgb(108, 132, 199);
+        [Category("_Properties"), DefaultValue(typeof(Color), "108, 132, 199")]
+        public Color _BorderColorFocus
+        {
+            get { return BorderColorFocus; }
+            set { BorderColorFocus = value; }
+        }
+
         protected Color TextColor = Color.FromArgb(47, 47, 47);
+        [Category("_Properties"), DefaultValue(typeof(Color), "47, 47, 47")]
+        public Color _TextColor
+        {
+            get { return TextColor; }
+            set
+            {
+                TextColor = value;
+                ForeColor = value;
+            }
+        }
 
-        [Category("_Properties")]
-        public Color _SelectedColor { get { return SelectedColor; } }
         protected Color SelectedColor = Color.FromArgb(203, 223, 254);
+        [Category("_Properties"), DefaultValue(typeof(Color), "203, 223, 254")]
+        public Color _SelectedColor { get { return SelectedColor; } }
 
+        [DefaultValue(false)]
+        public bool LockedColor { get; set; }
 
         public bool _Selected;
+        [DefaultValue(false)]
         public bool Selected
         {
             get { return _Selected; }
@@ -105,9 +160,20 @@ namespace GNX
             {
                 _Selected = value;
                 if (_Selected)
+                {
                     BackColor = SelectedColor;
+
+                    if (BorderColorDefault == default(Color))
+                        BorderColorDefault = BorderColor;
+                    //BorderColor = BorderColorFocus;
+                }
                 else
+                {
                     BackColor = BackgroundColor;
+
+                    BorderColor = BorderColorDefault;
+                    OnLostFocus(null);
+                }
             }
         }
         #endregion
@@ -115,7 +181,7 @@ namespace GNX
         public FlatButton()
         {
             Cursor = Cursors.Hand;
-            Anchor = AnchorStyles.Top;
+            Anchor = AnchorStyles.Top | AnchorStyles.Left;
             ImageAlign = ContentAlignment.MiddleLeft;
             Font = new Font("Segoe UI", 9);
 
@@ -134,12 +200,14 @@ namespace GNX
             BackgroundColor = ColorTranslator.FromHtml("#505050");
             BackgroundColorFocus = BackgroundColor;
             TextColor = ColorTranslator.FromHtml("#D2D2D2");
-            BorderColor = ColorTranslator.FromHtml("#262626");
+            BorderColor = ColorTranslator.FromHtml("#666666");
             SelectedColor = ColorTranslator.FromHtml("#191919");
         }
 
         protected override void OnHandleCreated(EventArgs e)
         {
+            if (LockedColor) return;
+
             // Prevent the button from drawing its own border
             FlatAppearance.BorderSize = 0;
             FlatAppearance.BorderColor = BorderColor;

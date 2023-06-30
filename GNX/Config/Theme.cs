@@ -1,83 +1,87 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace GNX
 {
-    public static class Theme
+    public class Theme
     {
-        public static bool DarkMode { get; set; }
-
-        public static void CheckTheme(Form f)
+        public enum eTheme
         {
-            if (DarkMode)
+            Light,
+            Dark,
+            Blue
+        }
+
+        protected static Theme _inst;
+        protected static Theme Instance
+        {
+            get { return _inst ?? (_inst = new Theme()); }
+        }
+
+        protected static eTheme SelectedTheme { get; set; }
+        public static void SetTheme(eTheme newTheme)
+        {
+            SelectedTheme = newTheme;
+        }
+
+        internal protected static void CheckTheme(Form f)
+        {
+            switch (SelectedTheme)
             {
-                SetDarkMode(f);
-                SetWindowDark(f.Handle);
-            }
-            else
-            {
-                SetLightMode();
+                case eTheme.Light: break;
+                case eTheme.Dark: Instance.DarkTheme(f); break;
+                case eTheme.Blue: break;
+                default: break;
             }
         }
 
-        public static void SetLightMode()
+        protected virtual void DarkTheme(Form f)
         {
-            //ChangeTheme(f);
-        }
+            SetWindowDark(f.Handle);
 
-        public static void SetDarkMode(Form f)
-        {
-            ChangeTheme(f);
-        }
-
-        static void ChangeTheme(Form f)
-        {
-            if (f is ContentBaseForm)
-                ((ContentBaseForm)f).DarkTheme();
             if (f is MainBaseForm)
-                ((MainBaseForm)f).DarkTheme();
+            {
+                var form = (MainBaseForm)f;
+                form.BackColor = ColorTranslator.FromHtml("#242424");
+            }
+
+            if (f is ContentBaseForm)
+            {
+                var form = (ContentBaseForm)f;
+                form.BackColor = ColorTranslator.FromHtml("#242424");
+            }
 
             foreach (var c in f.GetControls<FlatLabel>())
-                if (DarkMode) c.DarkTheme();
+                c.DarkTheme();
 
             foreach (var c in f.GetControls<FlatPanel>())
-            {
-                if (c.Name == "pnlHead" || c.Name == "pnlBody" || c.Name == "pnlFoot")
-                {
-                    if (DarkMode) c.DarkTheme();
-                }
-            }
+                c.DarkTheme();
+
+            foreach (var c in f.GetControls<FlatStatusBar>())
+                c.DarkTheme();
 
             foreach (var c in f.GetControls<FlatButton>())
-            {
-                if (DarkMode) c.DarkTheme();
-                //else c.LightMode();
-            }
+                c.DarkTheme();
 
             foreach (var c in f.GetControls<FlatTextBox>())
-            {
-                if (DarkMode) c.DarkTheme();
-                //else c.LightMode();
-            }
+                c.DarkTheme();
 
             foreach (var c in f.GetControls<FlatComboBox>())
-            {
-                if (DarkMode) c.DarkTheme();
-                //else c.LightMode();
-            }
+                c.DarkTheme();
         }
 
-        public static void SetWindowDark(IntPtr handle)
+        protected void SetWindowDark(IntPtr handle)
         {
             var dark = 1;
             DwmSetWindowAttribute(handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref dark, sizeof(uint));
         }
 
         [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, PreserveSig = true)]
-        public static extern void DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attribute, ref int pvAttribute, uint cbAttribute);
+        static extern void DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attribute, ref int pvAttribute, uint cbAttribute);
 
-        public enum DWMWINDOWATTRIBUTE : uint
+        enum DWMWINDOWATTRIBUTE : uint
         {
             DWMWA_NCRENDERING_ENABLED,
             DWMWA_NCRENDERING_POLICY,

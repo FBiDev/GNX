@@ -41,16 +41,18 @@
             // 
             // pnlStatus1
             // 
-            this.pnlStatus1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.pnlStatus1.BackColor = System.Drawing.Color.Transparent;
             this.pnlStatus1.Controls.Add(this.lblStatus1);
             this.pnlStatus1.Location = new System.Drawing.Point(0, 4);
             this.pnlStatus1.Name = "pnlStatus1";
+            this.pnlStatus1.Padding = new System.Windows.Forms.Padding(0, 0, 1, 0);
             this.pnlStatus1.Size = new System.Drawing.Size(116, 15);
             this.pnlStatus1.TabIndex = 1;
             // 
             // lblStatus1
             // 
-            this.lblStatus1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.lblStatus1.BackColor = System.Drawing.Color.Transparent;
+            this.lblStatus1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblStatus1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus1.ForeColor = System.Drawing.Color.DimGray;
             this.lblStatus1.Location = new System.Drawing.Point(0, 0);
@@ -62,7 +64,7 @@
             // 
             // pnlStatus2
             // 
-            this.pnlStatus2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(145)))), ((int)(((byte)(145)))));
+            this.pnlStatus2.BackColor = System.Drawing.Color.Transparent;
             this.pnlStatus2.Controls.Add(this.lblStatus2);
             this.pnlStatus2.Location = new System.Drawing.Point(122, 4);
             this.pnlStatus2.Name = "pnlStatus2";
@@ -71,7 +73,7 @@
             // 
             // lblStatus2
             // 
-            this.lblStatus2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.lblStatus2.BackColor = System.Drawing.Color.Transparent;
             this.lblStatus2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus2.ForeColor = System.Drawing.Color.DimGray;
             this.lblStatus2.Location = new System.Drawing.Point(0, 0);

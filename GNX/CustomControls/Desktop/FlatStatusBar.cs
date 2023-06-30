@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace GNX
@@ -60,6 +61,16 @@ namespace GNX
             }
         }
 
+        public Color BackColorContent
+        {
+            get { return pnlContent.BackColor; }
+            set
+            {
+                pnlContent.BackColor = value;
+                lblStatus1.BackColor = BackColorContent;
+            }
+        }
+
         public FlatStatusBar()
         {
             InitializeComponent();
@@ -67,8 +78,26 @@ namespace GNX
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
             Load += FlatStatusBar_Load;
+            BackColorChanged += StatusBar_BackColorChanged;
+
             lblStatus1.TextChanged += lblStatus1_TextChanged;
             lblStatus2.TextChanged += lblStatus2_TextChanged;
+        }
+
+        void StatusBar_BackColorChanged(object sender, EventArgs e)
+        {
+            pnlStatus1.BackColor = BackColor;
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+        }
+
+        public virtual void DarkTheme()
+        {
+            BackColor = ColorTranslator.FromHtml("#424242");
+            BackColorContent = ColorTranslator.FromHtml("#242424");
         }
 
         void FlatStatusBar_Load(object sender, EventArgs e)

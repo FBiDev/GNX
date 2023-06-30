@@ -28,21 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlContent = new GNX.FlatPanel();
             this.SuspendLayout();
-            // 
-            // pnlContent
-            // 
-            this.pnlContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlContent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.pnlContent.BackColor = System.Drawing.Color.Transparent;
-            this.pnlContent.Location = new System.Drawing.Point(0, 0);
-            this.pnlContent.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(430, 262);
-            this.pnlContent.TabIndex = 0;
             // 
             // ContentBaseForm
             // 
@@ -51,7 +37,6 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(430, 262);
             this.ControlBox = false;
-            this.Controls.Add(this.pnlContent);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -69,7 +54,6 @@
 
         #endregion
 
-        protected FlatPanel pnlContent;
 
     }
 }

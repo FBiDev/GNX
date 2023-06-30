@@ -27,7 +27,7 @@ namespace GNX
                 pnlHead.Padding = new Padding
                 {
                     All = pnlHead.Padding.Left,
-                    Bottom = value == false ? pnlHead.Padding.Left : 32
+                    Bottom = value == false ? pnlHead.Padding.Left : 8
                 };
             }
         }
@@ -49,11 +49,6 @@ namespace GNX
                 Icon = ico;
 
             Theme.CheckTheme(frm);
-        }
-
-        public virtual void DarkTheme()
-        {
-            BackColor = ColorTranslator.FromHtml("#242424");
         }
 
         public void SetContentForm(Form frm)

@@ -15,7 +15,7 @@ namespace GNX
             set
             {
                 base.BackColor = value;
-                BackgroundColor = value;
+                //BackgroundColor = value;
             }
         }
 

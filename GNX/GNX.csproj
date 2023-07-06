@@ -223,6 +223,7 @@
     <Compile Include="CustomControls\Desktop\FlatDataGrid.Designer.cs">
       <DependentUpon>FlatDataGrid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Generics\Colors.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

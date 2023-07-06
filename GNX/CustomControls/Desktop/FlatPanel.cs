@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
 
@@ -9,7 +10,15 @@ namespace GNX
         [DefaultValue(false)]
         public bool NoScrollOnFocus { get; set; }
 
-        [Browsable(true)]
+        [DefaultValue(typeof(Color), "Transparent")]
+        public new Color BackColor
+        {
+            get { return base.BackColor; }
+            set { base.BackColor = value; }
+        }
+
+        public Color OriginalBackColor { get; set; }
+
         [DefaultValue(typeof(Color), "0xA0A0A0")]
         public Color BorderColor { get; set; }
 
@@ -43,12 +52,11 @@ namespace GNX
             BorderSize = 0;
             BorderColor = ColorTranslator.FromHtml("#A0A0A0");
             BorderRound = false;
+
+            BackColor = Color.Transparent;
         }
 
-        public virtual void DarkTheme()
-        {
-            BorderColor = ColorTranslator.FromHtml("#424242");
-        }
+        protected override void OnHandleCreated(EventArgs e) { }
 
         protected override void OnControlAdded(ControlEventArgs e) { }
 

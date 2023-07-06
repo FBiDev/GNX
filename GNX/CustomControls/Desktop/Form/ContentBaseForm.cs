@@ -16,11 +16,33 @@ namespace GNX
         {
             InitializeComponent();
             TopLevel = false;
+            Shown += Form_Shown;
         }
 
-        public void Init(Form frm)
+        private bool firstInit = true;
+
+        public void Init()
         {
-            Theme.CheckTheme(frm);
+            if (firstInit)
+            {
+                foreach (var control in this.GetControls<FlatLabel>())
+                {
+                    control.OriginalForeColor = control.ForeColor;
+                }
+
+                foreach (var control in this.GetControls<FlatPanel>())
+                {
+                    control.OriginalBackColor = control.BackColor;
+                }
+            }
+
+            firstInit = false;
+            Theme.CheckTheme(this);
+        }
+
+        void Form_Shown(object sender, System.EventArgs e)
+        {
+            Init();
         }
     }
 }

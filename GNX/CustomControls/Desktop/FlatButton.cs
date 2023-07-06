@@ -8,26 +8,18 @@ namespace GNX
     public class FlatButton : Button
     {
         #region Defaults
-        [DefaultValue(typeof(Color), "237, 237, 237")]
+        [Category("_Colors"), DefaultValue(typeof(Color), "230, 230, 230")]
         public new Color BackColor
         {
             get { return base.BackColor; }
-            set
-            {
-                base.BackColor = value;
-                //BackgroundColor = value;
-            }
+            set { base.BackColor = value; }
         }
 
-        [DefaultValue(typeof(Color), "47, 47, 47")]
+        [Category("_Colors"), DefaultValue(typeof(Color), "47, 47, 47")]
         public new Color ForeColor
         {
             get { return base.ForeColor; }
-            set
-            {
-                base.ForeColor = value;
-                TextColor = value;
-            }
+            set { base.ForeColor = value; }
         }
 
         [DefaultValue(typeof(Font), "Segoe UI, 9")]
@@ -87,72 +79,60 @@ namespace GNX
         #endregion
 
         #region Properties
-        protected Color BackgroundColor = Color.FromArgb(237, 237, 237);
-        [Category("_Properties"), DefaultValue(typeof(Color), "237, 237, 237")]
-        public Color _BackgroundColor
+        protected Color _BackgroundColor = Color.FromArgb(230, 230, 230);
+        [Category("_Colors"), DefaultValue(typeof(Color), "230, 230, 230")]
+        public Color BackgroundColor
         {
-            get { return BackgroundColor; }
-            set
-            {
-                BackgroundColor = value;
-                BackColor = value;
-            }
+            get { return _BackgroundColor; }
+            set { _BackgroundColor = value; }
         }
 
-        protected Color BackgroundColorFocus = Color.FromArgb(213, 213, 213);
-        [Category("_Properties"), DefaultValue(typeof(Color), "213, 213, 213")]
-        public Color _BackgroundColorFocus
+        protected Color _BackgroundColorFocus = Color.FromArgb(213, 213, 213);
+        [Category("_Colors"), DefaultValue(typeof(Color), "213, 213, 213")]
+        public Color BackgroundColorFocus
         {
-            get { return BackgroundColorFocus; }
-            set
-            {
-                BackgroundColorFocus = value;
-                FlatAppearance.MouseOverBackColor = value;
-            }
+            get { return _BackgroundColorFocus; }
+            set { _BackgroundColorFocus = value; }
         }
 
-        protected Color BorderColorDefault;
-        protected Color BorderColor = Color.FromArgb(213, 223, 229);
-        [Category("_Properties"), DefaultValue(typeof(Color), "213, 223, 229")]
-        public Color _BorderColor
+        public Color BorderColorDefault = Color.FromArgb(213, 223, 229);
+        protected Color _BorderColor = Color.FromArgb(213, 223, 229);
+        [Category("_Colors"), DefaultValue(typeof(Color), "213, 223, 229")]
+        public Color BorderColor
         {
-            get { return BorderColor; }
-            set
-            {
-                BorderColor = value;
-                FlatAppearance.BorderColor = value;
-            }
+            get { return _BorderColor; }
+            set { _BorderColor = value; }
         }
 
-        protected Color BorderColorFocus = Color.FromArgb(108, 132, 199);
-        [Category("_Properties"), DefaultValue(typeof(Color), "108, 132, 199")]
-        public Color _BorderColorFocus
+        protected Color _BorderColorFocus = Color.FromArgb(108, 132, 199);
+        [Category("_Colors"), DefaultValue(typeof(Color), "108, 132, 199")]
+        public Color BorderColorFocus
         {
-            get { return BorderColorFocus; }
-            set { BorderColorFocus = value; }
+            get { return _BorderColorFocus; }
+            set { _BorderColorFocus = value; }
         }
 
-        protected Color TextColor = Color.FromArgb(47, 47, 47);
-        [Category("_Properties"), DefaultValue(typeof(Color), "47, 47, 47")]
-        public Color _TextColor
+        protected Color _TextColor = Color.FromArgb(47, 47, 47);
+        [Category("_Colors"), DefaultValue(typeof(Color), "47, 47, 47")]
+        public Color TextColor
         {
-            get { return TextColor; }
-            set
-            {
-                TextColor = value;
-                ForeColor = value;
-            }
+            get { return _TextColor; }
+            set { _TextColor = value; }
         }
 
-        protected Color SelectedColor = Color.FromArgb(203, 223, 254);
-        [Category("_Properties"), DefaultValue(typeof(Color), "203, 223, 254")]
-        public Color _SelectedColor { get { return SelectedColor; } }
+        protected Color _SelectedColor = Color.FromArgb(203, 223, 254);
+        [Category("_Colors"), DefaultValue(typeof(Color), "203, 223, 254")]
+        public Color SelectedColor
+        {
+            get { return _SelectedColor; }
+            set { _SelectedColor = value; }
+        }
 
-        [DefaultValue(false)]
-        public bool LockedColor { get; set; }
+        [Category("_Colors"), DefaultValue(false)]
+        public bool LockedColors { get; set; }
 
         public bool _Selected;
-        [DefaultValue(false)]
+        [Category("_Colors"), DefaultValue(false)]
         public bool Selected
         {
             get { return _Selected; }
@@ -162,18 +142,16 @@ namespace GNX
                 if (_Selected)
                 {
                     BackColor = SelectedColor;
-
-                    if (BorderColorDefault == default(Color))
-                        BorderColorDefault = BorderColor;
-                    //BorderColor = BorderColorFocus;
+                    BorderColor = BorderColorFocus;
                 }
                 else
                 {
                     BackColor = BackgroundColor;
-
                     BorderColor = BorderColorDefault;
                     OnLostFocus(null);
                 }
+
+                FlatAppearance.BorderColor = BorderColor;
             }
         }
         #endregion
@@ -195,18 +173,9 @@ namespace GNX
             //    property.ResetValue(this);
         }
 
-        public virtual void DarkTheme()
+        public void ResetColors()
         {
-            BackgroundColor = ColorTranslator.FromHtml("#505050");
-            BackgroundColorFocus = BackgroundColor;
-            TextColor = ColorTranslator.FromHtml("#D2D2D2");
-            BorderColor = ColorTranslator.FromHtml("#666666");
-            SelectedColor = ColorTranslator.FromHtml("#191919");
-        }
-
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            if (LockedColor) return;
+            if (LockedColors) return;
 
             // Prevent the button from drawing its own border
             FlatAppearance.BorderSize = 0;
@@ -215,6 +184,12 @@ namespace GNX
 
             BackColor = BackgroundColor;
             ForeColor = TextColor;
+            Selected = Selected;
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            ResetColors();
         }
 
         protected override void OnMouseEnter(EventArgs e)

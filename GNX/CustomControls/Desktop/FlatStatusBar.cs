@@ -94,12 +94,6 @@ namespace GNX
             base.OnHandleCreated(e);
         }
 
-        public virtual void DarkTheme()
-        {
-            BackColor = ColorTranslator.FromHtml("#424242");
-            BackColorContent = ColorTranslator.FromHtml("#242424");
-        }
-
         void FlatStatusBar_Load(object sender, EventArgs e)
         {
             lblStatus1_TextChanged(null, null);

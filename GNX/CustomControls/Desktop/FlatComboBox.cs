@@ -40,35 +40,35 @@ namespace GNX
         #endregion
 
         #region Properties
-        [Category("_Properties")]
-        public Color _BorderColor { get { return BorderColor; } }
-        public Color BorderColor = Color.FromArgb(213, 223, 229);
+        protected Color _BorderColor = Color.FromArgb(213, 223, 229);
+        [Category("_Colors"), DefaultValue(typeof(Color), "213, 223, 229")]
+        public Color BorderColor { get { return _BorderColor; } set { _BorderColor = value; } }
 
-        [Category("_Properties")]
-        public Color _BorderColorFocus { get { return BorderColorFocus; } }
-        protected Color BorderColorFocus = Color.FromArgb(108, 132, 199);
+        protected Color _BorderColorFocus = Color.FromArgb(108, 132, 199);
+        [Category("_Colors"), DefaultValue(typeof(Color), "108, 132, 199")]
+        public Color BorderColorFocus { get { return _BorderColorFocus; } set { _BorderColorFocus = value; } }
 
-        [Category("_Properties")]
-        public Color _BackgroundColor { get { return BackgroundColor; } }
-        protected Color BackgroundColor = Color.White;
+        protected Color _BackgroundColor = Color.White;
+        [Category("_Colors"), DefaultValue(typeof(Color), "White")]
+        public Color BackgroundColor { get { return _BackgroundColor; } set { _BackgroundColor = value; } }
 
-        [Category("_Properties")]
-        public Color _ItemBackColorFocus { get { return ItemBackColorFocus; } }
-        protected Color ItemBackColorFocus = Color.FromArgb(108, 132, 199);
+        protected Color _ItemBackColorFocus = Color.FromArgb(108, 132, 199);
+        [Category("_Colors"), DefaultValue(typeof(Color), "108, 132, 199")]
+        public Color ItemBackColorFocus { get { return _ItemBackColorFocus; } set { _ItemBackColorFocus = value; } }
 
-        [Category("_Properties")]
-        public Color _ItemTextColor { get { return ItemTextColor; } }
-        protected Color ItemTextColor = Color.FromArgb(47, 47, 47);
+        protected Color _ItemTextColor = Color.FromArgb(47, 47, 47);
+        [Category("_Colors"), DefaultValue(typeof(Color), "47, 47, 47")]
+        public Color ItemTextColor { get { return _ItemTextColor; } set { _ItemTextColor = value; } }
 
-        [Category("_Properties")]
-        public Color _ItemTextColorFocus { get { return ItemTextColorFocus; } }
-        protected Color ItemTextColorFocus = Color.White;
+        protected Color _ItemTextColorFocus = Color.White;
+        [Category("_Colors"), DefaultValue(typeof(Color), "White")]
+        public Color ItemTextColorFocus { get { return _ItemTextColorFocus; } set { _ItemTextColorFocus = value; } }
 
-        [Category("_Properties")]
-        public Color _LabelTextColor { get { return LabelTextColor; } }
-        protected Color LabelTextColor = Color.FromArgb(108, 132, 199);
+        protected Color _LabelTextColor = Color.FromArgb(108, 132, 199);
+        [Category("_Colors"), DefaultValue(typeof(Color), "108, 132, 199")]
+        public Color LabelTextColor { get { return _LabelTextColor; } set { _LabelTextColor = value; } }
 
-        [Category("_Properties")]
+        [Category("_Colors")]
         public string LabelText { get { return lblSubtitle.Text; } set { lblSubtitle.Text = value; } }
         #endregion
 
@@ -167,15 +167,7 @@ namespace GNX
             Combo.Sorted = false;
         }
 
-        public virtual void DarkTheme()
-        {
-            BackgroundColor = ColorTranslator.FromHtml("#191919");
-            LabelTextColor = ColorTranslator.FromHtml("#A3B2DC");
-            ItemTextColor = ColorTranslator.FromHtml("#D2D2D2");
-            BorderColor = ColorTranslator.FromHtml("#424242");
-        }
-
-        protected override void OnHandleCreated(EventArgs e)
+        public void ResetColors()
         {
             pnlBorder.BackColor = BorderColor;
 
@@ -185,6 +177,11 @@ namespace GNX
 
             Combo.BackColor = BackgroundColor;
             Combo.ForeColor = ItemTextColor;
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            ResetColors();
         }
 
         void pnlBg_Click(object sender, EventArgs e)

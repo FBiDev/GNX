@@ -31,24 +31,22 @@ namespace GNX
         #endregion
 
         #region Properties
-        [Category("_Properties")]
-        public Color _BackgroundColorFocus { get { return BackgroundColorFocus; } }
-        public Color BackgroundColorFocus = Color.FromArgb(252, 245, 237);
+        public Color _BackgroundColorFocus = Color.FromArgb(252, 245, 237);
+        [Category("_Colors"), DefaultValue(typeof(Color), "252, 245, 237")]
+        public Color BackgroundColorFocus { get { return _BackgroundColorFocus; } set { _BackgroundColorFocus = value; } }
 
-        [Category("_Properties")]
-        public Color _TextColor { get { return TextColor; } }
-        protected Color TextColor = Color.FromArgb(47, 47, 47);
+        protected Color _TextColor = Color.FromArgb(47, 47, 47);
+        [Category("_Colors"), DefaultValue(typeof(Color), "47, 47, 47")]
+        public Color TextColor { get { return _TextColor; } set { _TextColor = value; } }
 
-        [Category("_Properties")]
-        public Color _TextColorFocus { get { return TextColorFocus; } }
-        protected Color TextColorFocus = Color.FromArgb(47, 47, 47);
+        [Category("_Colors"), DefaultValue(typeof(Color), "47, 47, 47")]
+        public Color TextColorFocus { get { return _TextColorFocus; } set { _TextColorFocus = value; } }
+        protected Color _TextColorFocus = Color.FromArgb(47, 47, 47);
 
-        [Category("_Properties")]
-        [DefaultValue(typeof(string), "")]
+        [Category("_Colors"), DefaultValue(typeof(string), "")]
         public string DefaultText { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
-        [Category("_Properties")]
-        [DefaultValue(typeof(string), "")]
+        [Category("_Colors"), DefaultValue(typeof(string), "")]
         public string PlaceholderText { get { return lblPlaceholder.Text; } set { lblPlaceholder.Text = value; } }
         #endregion
 
@@ -56,8 +54,19 @@ namespace GNX
         TextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
-        public int SelectionStart { get { return TextBox.SelectionStart; } set { TextBox.SelectionStart = value; } }
-        public int SelectionLength { get { return TextBox.SelectionLength; } set { TextBox.SelectionLength = value; } }
+        [DefaultValue(0)]
+        public int SelectionStart
+        {
+            get { return TextBox.SelectionStart; }
+            set { TextBox.SelectionStart = value; }
+        }
+
+        [DefaultValue(0)]
+        public int SelectionLength
+        {
+            get { return TextBox.SelectionLength; }
+            set { TextBox.SelectionLength = value; }
+        }
 
         public bool ReadOnly { get { return TextBox.ReadOnly; } set { TextBox.ReadOnly = value; } }
 
@@ -101,20 +110,8 @@ namespace GNX
             MinimumSize = new Size(100, 34);
         }
 
-        public virtual void DarkTheme()
+        public void ResetColors()
         {
-            BackgroundColor = ColorTranslator.FromHtml("#191919");
-            BackgroundColorFocus = BackgroundColor;
-            LabelTextColor = ColorTranslator.FromHtml("#A3B2DC");
-            TextColor = ColorTranslator.FromHtml("#D2D2D2");
-            TextColorFocus = TextColor;
-            BorderColor = ColorTranslator.FromHtml("#424242");
-        }
-
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            base.OnHandleCreated(e);
-
             pnlBorder.BackColor = BorderColor;
             pnlBg.BackColor = BackgroundColor;
 
@@ -125,6 +122,13 @@ namespace GNX
 
             TextBox.BackColor = BackgroundColor;
             TextBox.ForeColor = TextColor;
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            ResetColors();
 
             previousText = TextBox.Text;
             previousTextBackup = TextBox.Text;

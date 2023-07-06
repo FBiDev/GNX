@@ -41,14 +41,32 @@ namespace GNX
             StatusBar = true;
 
             DoubleBuffered = true;
+
+            Shown += Form_Shown;
         }
 
-        public void Init(Form frm)
+        private bool firstInit = true;
+        public void Init()
         {
+            if (firstInit)
+            {
+                foreach (var control in this.GetControls<FlatPanel>())
+                {
+                    control.OriginalBackColor = control.BackColor;
+                }
+            }
+
+            firstInit = false;
+
             if (ico is Icon)
                 Icon = ico;
 
-            Theme.CheckTheme(frm);
+            Theme.CheckTheme(this);
+        }
+
+        void Form_Shown(object sender, System.EventArgs e)
+        {
+            Init();
         }
 
         public void SetContentForm(Form frm)

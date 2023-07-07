@@ -1,229 +1,86 @@
 ﻿using System;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace GNX
 {
-    public class Theme
+    public partial class Theme
     {
         public enum eTheme
         {
+            Empty,
             Light,
-            Dark,
-            Blue
+            Dark
         }
 
         protected static Theme _inst;
         protected static Theme Instance
         {
             get { return _inst ?? (_inst = new Theme()); }
+            set { _inst = _inst ?? (_inst = value); }
         }
 
-        private static eTheme _SelectedTheme;
-        public static eTheme SelectedTheme
-        {
-            get { return _SelectedTheme; }
-            set
-            {
-                _SelectedTheme = value;
-
-                foreach (Form f in Application.OpenForms)
-                {
-                    CheckTheme(f);
-                }
-            }
-        }
+        public static eTheme SelectedTheme { get; set; }
 
         public static void SetTheme(eTheme newTheme)
         {
             SelectedTheme = newTheme;
+
+            foreach (Form f in Application.OpenForms)
+            {
+                CheckTheme(f);
+            }
         }
 
         internal protected static void CheckTheme(Form f)
         {
             switch (SelectedTheme)
             {
-                case eTheme.Light: Instance.LightTheme(f); break;
-                case eTheme.Dark: Instance.DarkTheme(f); break;
-                case eTheme.Blue: break;
-                default: break;
+                case eTheme.Light:
+                    Instance.SetWindowDark(f.Handle, 0); break;
+                case eTheme.Dark:
+                    Instance.SetWindowDark(f.Handle, 1); break;
             }
+
+            Instance.ChangeControlsTheme(f);
         }
 
-        private static FlatButton LightButton = new FlatButton
+        public void ChangeControlsTheme(Form f)
         {
-            BackgroundColor = Colors.RGB(230, 230, 230),
-            BackgroundColorFocus = Colors.RGB(213, 213, 213),
-            BorderColor = Colors.RGB(213, 223, 229),
-            BorderColorDefault = Colors.RGB(213, 223, 229),
-
-            TextColor = Colors.RGB(47, 47, 47),
-            SelectedColor = Colors.RGB(203, 223, 254),
-        };
-
-        private void SetButtonColors(FlatButton c, FlatButton btn)
-        {
-            c.BackgroundColor = btn.BackgroundColor;
-            c.BackgroundColorFocus = btn.BackgroundColorFocus;
-            c.BorderColor = btn.BorderColor;
-            c.BorderColorDefault = btn.BorderColor;
-
-            c.TextColor = btn.TextColor;
-            c.SelectedColor = btn.SelectedColor;
-            c.ResetColors();
-        }
-
-        protected virtual void LightTheme(Form f)
-        {
-            SetWindowDark(f.Handle, 0);
-
             if (f is MainBaseForm)
             {
-                var form = (MainBaseForm)f;
-                form.BackColor = Colors.HTML("F0F0F0");
-                f.Refresh();
+                SetMainBaseTheme((MainBaseForm)f);
             }
             else if (f is ContentBaseForm)
             {
-                var form = (ContentBaseForm)f;
-                form.BackColor = Colors.HTML("F0F0F0");
-                f.Refresh();
+                SetContentBaseTheme((ContentBaseForm)f);
             }
 
             foreach (var control in f.GetControls<Control>())
             {
-                //override firsts
                 if (control is FlatPanel)
                 {
-                    var c = (FlatPanel)control;
-                    c.BorderColor = Colors.HTML("A0A0A0");
-
-                    if (c.BackColor != Color.Transparent)
-                        c.BackColor = c.OriginalBackColor;
+                    SetFlatPanelTheme((FlatPanel)control);
                 }
                 else if (control is FlatLabel)
                 {
-                    var c = (FlatLabel)control;
-                    c.ForeColor = c.OriginalForeColor;
+                    SetFlatLabelTheme((FlatLabel)control);
                 }
-                else if (control is FlatStatusBar)
+                if (control is FlatButton)
                 {
-                    var c = (FlatStatusBar)control;
-                    c.BackColor = Colors.RGB(145, 145, 145);
-                    c.BackColorContent = Colors.RGB(240, 240, 240);
-                }
-                else if (control is FlatButton)
-                {
-                    SetButtonColors((FlatButton)control, LightButton);
-                    //var c = (FlatButton)control;
-                    //c.BackgroundColor = Colors.RGB(230, 230, 230);
-                    //c.BackgroundColorFocus = Colors.RGB(213, 213, 213);
-                    //c.BorderColor = Colors.RGB(213, 223, 229);
-                    //c.BorderColorDefault = c.BorderColor;
-
-                    //c.TextColor = Colors.RGB(47, 47, 47);
-                    //c.SelectedColor = Colors.RGB(203, 223, 254);
-                    //c.ResetColors();
+                    SetFlatButtonTheme((FlatButton)control);
                 }
                 else if (control is FlatTextBox)
                 {
-                    var c = (FlatTextBox)control;
-                    c.BackgroundColor = Colors.HTML("FFFFFF");
-                    c.BackgroundColorFocus = c.BackgroundColor;
-                    c.LabelTextColor = Colors.RGB(108, 132, 199);
-                    c.TextColor = Colors.RGB(47, 47, 47);
-                    c.TextColorFocus = c.TextColor;
-                    c.BorderColor = Colors.RGB(213, 223, 229);
-                    c.ResetColors();
+                    SetFlatTextBoxTheme((FlatTextBox)control);
                 }
                 else if (control is FlatComboBox)
                 {
-                    var c = (FlatComboBox)control;
-                    c.BackgroundColor = Colors.HTML("FFFFFF");
-                    c.LabelTextColor = Colors.RGB(108, 132, 199);
-                    c.ItemTextColor = Colors.RGB(47, 47, 47);
-                    c.BorderColor = Colors.RGB(213, 223, 229);
-                    c.ResetColors();
-                }
-            }
-        }
-
-        protected virtual void DarkTheme(Form f)
-        {
-            SetWindowDark(f.Handle);
-
-            if (f is MainBaseForm)
-            {
-                var form = (MainBaseForm)f;
-                form.BackColor = Colors.HTML("242424");
-                f.Refresh();
-            }
-            else if (f is ContentBaseForm)
-            {
-                var form = (ContentBaseForm)f;
-                form.BackColor = Colors.HTML("242424");
-                f.Refresh();
-            }
-
-            foreach (var control in f.GetControls<Control>())
-            {
-                //override firsts
-                if (control is FlatPanel)
-                {
-                    var c = (FlatPanel)control;
-                    c.BorderColor = Colors.HTML("424242");
-
-                    if (c.BackColor != Color.Transparent)
-                    {
-                        if (c.BackColor == Colors.HTML("F0F0F0"))
-                            c.BackColor = Colors.HTML("242424");
-                        else if (c.BackColor == Colors.HTML("FCFCFC"))
-                            c.BackColor = Colors.HTML("272727");
-                    }
-                }
-                else if (control is FlatLabel)
-                {
-                    var c = (FlatLabel)control;
-                    c.ForeColor = Colors.HTML("A3B2DC");
+                    SetFlatComboBoxTheme((FlatComboBox)control);
                 }
                 else if (control is FlatStatusBar)
                 {
-                    var c = (FlatStatusBar)control;
-                    c.BackColor = Colors.HTML("424242");
-                    c.BackColorContent = Colors.HTML("242424");
-                }
-                else if (control is FlatButton)
-                {
-                    var c = (FlatButton)control;
-                    c.BackgroundColor = Colors.HTML("505050");
-                    c.BackgroundColorFocus = c.BackgroundColor;
-                    c.BorderColor = Colors.HTML("666666");
-                    c.BorderColorDefault = c.BorderColor;
-
-                    c.TextColor = Colors.HTML("D2D2D2");
-                    c.SelectedColor = Colors.HTML("191919");
-                    c.ResetColors();
-                }
-                else if (control is FlatTextBox)
-                {
-                    var c = (FlatTextBox)control;
-                    c.BackgroundColor = Colors.HTML("191919");
-                    c.BackgroundColorFocus = c.BackgroundColor;
-                    c.LabelTextColor = Colors.HTML("A3B2DC");
-                    c.TextColor = Colors.HTML("D2D2D2");
-                    c.TextColorFocus = c.TextColor;
-                    c.BorderColor = Colors.HTML("424242");
-                    c.ResetColors();
-                }
-                else if (control is FlatComboBox)
-                {
-                    var c = (FlatComboBox)control;
-                    c.BackgroundColor = Colors.HTML("191919");
-                    c.LabelTextColor = Colors.HTML("A3B2DC");
-                    c.ItemTextColor = Colors.HTML("D2D2D2");
-                    c.BorderColor = Colors.HTML("424242");
-                    c.ResetColors();
+                    SetFlatStatusBarTheme((FlatStatusBar)control);
                 }
             }
         }

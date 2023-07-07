@@ -33,19 +33,19 @@ namespace GNX
         }
 
         public static Icon ico { get; set; }
+        bool firstInit = true;
 
         public MainBaseForm()
         {
             InitializeComponent();
+            HandleCreated += (sender, e) => Init();
+            Shown += (sender, e) => Init();
+
             ResizeRedraw = true;
             StatusBar = true;
-
             DoubleBuffered = true;
-
-            Shown += Form_Shown;
         }
 
-        private bool firstInit = true;
         public void Init()
         {
             if (firstInit)
@@ -62,11 +62,6 @@ namespace GNX
                 Icon = ico;
 
             Theme.CheckTheme(this);
-        }
-
-        void Form_Shown(object sender, System.EventArgs e)
-        {
-            Init();
         }
 
         public void SetContentForm(Form frm)

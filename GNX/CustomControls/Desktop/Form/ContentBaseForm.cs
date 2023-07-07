@@ -12,14 +12,16 @@ namespace GNX
             set { base.AutoScaleMode = value; }
         }
 
+        bool firstInit = true;
+
         public ContentBaseForm()
         {
             InitializeComponent();
-            TopLevel = false;
-            Shown += Form_Shown;
-        }
+            HandleCreated += (sender, e) => Init();
+            Shown += (sender, e) => Init();
 
-        private bool firstInit = true;
+            TopLevel = false;
+        }
 
         public void Init()
         {
@@ -38,11 +40,6 @@ namespace GNX
 
             firstInit = false;
             Theme.CheckTheme(this);
-        }
-
-        void Form_Shown(object sender, System.EventArgs e)
-        {
-            Init();
         }
     }
 }

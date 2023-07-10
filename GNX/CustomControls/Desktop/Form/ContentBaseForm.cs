@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace GNX
@@ -12,34 +13,31 @@ namespace GNX
             set { base.AutoScaleMode = value; }
         }
 
-        bool firstInit = true;
+        public Size OriginalSize { get; set; }
 
         public ContentBaseForm()
         {
             InitializeComponent();
-            HandleCreated += (sender, e) => Init();
-            Shown += (sender, e) => Init();
+            HandleCreated += (sender, e) =>
+            {
+                Init();
+                Theme.CheckTheme(this);
+            };
+
+            Shown += (sender, e) =>
+            {
+                Theme.CheckTheme(this);
+            };
 
             TopLevel = false;
         }
 
-        public void Init()
+        void Init()
         {
-            if (firstInit)
-            {
-                foreach (var control in this.GetControls<FlatLabel>())
-                {
-                    control.OriginalForeColor = control.ForeColor;
-                }
+            OriginalSize = Size;
 
-                foreach (var control in this.GetControls<FlatPanel>())
-                {
-                    control.OriginalBackColor = control.BackColor;
-                }
-            }
-
-            firstInit = false;
-            Theme.CheckTheme(this);
+            this.GetControls<FlatLabel>().ForEach(x => x.OriginalForeColor = x.ForeColor);
+            this.GetControls<FlatPanel>().ForEach(x => x.OriginalBackColor = x.BackColor);
         }
     }
 }

@@ -33,35 +33,32 @@ namespace GNX
         }
 
         public static Icon ico { get; set; }
-        bool firstInit = true;
 
         public MainBaseForm()
         {
             InitializeComponent();
-            HandleCreated += (sender, e) => Init();
-            Shown += (sender, e) => Init();
+            HandleCreated += (sender, e) =>
+            {
+                Init();
+                Theme.CheckTheme(this);
+            };
+
+            Shown += (sender, e) =>
+            {
+                Theme.CheckTheme(this);
+            };
 
             ResizeRedraw = true;
             StatusBar = true;
             DoubleBuffered = true;
         }
 
-        public void Init()
+        void Init()
         {
-            if (firstInit)
-            {
-                foreach (var control in this.GetControls<FlatPanel>())
-                {
-                    control.OriginalBackColor = control.BackColor;
-                }
-            }
-
-            firstInit = false;
-
             if (ico is Icon)
                 Icon = ico;
 
-            Theme.CheckTheme(this);
+            this.GetControls<FlatPanel>().ForEach(x => x.OriginalBackColor = x.BackColor);
         }
 
         public void SetContentForm(Form frm)

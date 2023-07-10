@@ -17,6 +17,12 @@ namespace GNX
             return source.IsEmpty() == false;
         }
 
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (T element in source)
+                action(element);
+        }
+
         public static T First<T>(this List<T> list) where T : class, new()
         {
             if (list.Count == 0) { return new T(); }

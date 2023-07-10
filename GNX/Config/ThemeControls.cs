@@ -45,7 +45,7 @@ namespace GNX
         {
             c.BorderColor = Colors.HTML("A0A0A0");
 
-            if (c.BackColor != Color.Transparent)
+            if (c.OriginalBackColor != Color.Transparent)
                 c.BackColor = c.OriginalBackColor;
         }
 
@@ -53,11 +53,11 @@ namespace GNX
         {
             c.BorderColor = Colors.HTML("424242");
 
-            if (c.BackColor != Color.Transparent)
+            if (c.OriginalBackColor != Color.Transparent)
             {
-                if (c.BackColor == Colors.HTML("F0F0F0"))
+                if (c.OriginalBackColor == Colors.HTML("F0F0F0"))
                     c.BackColor = Colors.HTML("242424");
-                else if (c.BackColor == Colors.HTML("FCFCFC"))
+                else if (c.OriginalBackColor == Colors.HTML("FCFCFC"))
                     c.BackColor = Colors.HTML("272727");
             }
         }

@@ -32,6 +32,14 @@ namespace GNX
             }
         }
 
+        public static void DarkMode()
+        {
+            if (SelectedTheme == eTheme.Dark)
+                SetTheme(eTheme.Light);
+            else
+                SetTheme(eTheme.Dark);
+        }
+
         internal protected static void CheckTheme(Form f)
         {
             switch (SelectedTheme)

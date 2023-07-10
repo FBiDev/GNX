@@ -6,10 +6,10 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workbench ActiveDocument="GNX\CustomControls\Desktop\Form\MainBaseForm.cs">
     <Files>
-      <File FileName="GNX\Config\Theme.cs" Line="48" Column="31" />
-      <File FileName="GNX\Config\ThemeControls.cs" Line="8" Column="26" />
-      <File FileName="GNX\CustomControls\Desktop\Form\ContentBaseForm.cs" Line="21" Column="44" />
-      <File FileName="GNX\CustomControls\Desktop\Form\MainBaseForm.cs" Line="41" Column="13" />
+      <File FileName="GNX\Config\Theme.cs" Line="16" Column="32" />
+      <File FileName="GNX\Config\ThemeControls.cs" Line="67" Column="9" />
+      <File FileName="GNX\CustomControls\Desktop\Form\ContentBaseForm.cs" Line="3" Column="1" />
+      <File FileName="GNX\CustomControls\Desktop\Form\MainBaseForm.cs" Line="13" Column="47" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MultiItemStartupConfigurations />

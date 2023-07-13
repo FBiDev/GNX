@@ -4,12 +4,13 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="GNX\CustomControls\Desktop\Form\MainBaseForm.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GNX\Extensions\StringExtension.cs">
     <Files>
-      <File FileName="GNX\Config\Theme.cs" Line="16" Column="32" />
-      <File FileName="GNX\Config\ThemeControls.cs" Line="67" Column="9" />
-      <File FileName="GNX\CustomControls\Desktop\Form\ContentBaseForm.cs" Line="3" Column="1" />
-      <File FileName="GNX\CustomControls\Desktop\Form\MainBaseForm.cs" Line="13" Column="47" />
+      <File FileName="GNX\Config\ThemeColor.cs" Line="6" Column="6" />
+      <File FileName="GNX\Config\ThemeColorDark.cs" Line="3" Column="1" />
+      <File FileName="GNX\Config\ThemeColorLight.cs" Line="2" Column="28" />
+      <File FileName="GNX\Config\Theme.cs" Line="14" Column="10" />
+      <File FileName="GNX\Extensions\StringExtension.cs" Line="15" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MultiItemStartupConfigurations />

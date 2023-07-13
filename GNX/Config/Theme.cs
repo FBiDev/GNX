@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace GNX
 {
-    public partial class Theme
+    public static class Theme
     {
         public enum eTheme
         {
@@ -13,22 +13,25 @@ namespace GNX
             Dark
         }
 
-        protected static Theme _inst;
-        protected static Theme Instance
-        {
-            get { return _inst ?? (_inst = new Theme()); }
-            set { _inst = _inst ?? (_inst = value); }
-        }
+        //static ThemeColor _inst;
+        //get { return _inst ?? (_inst = new ThemeColor()); }
+        //set { _inst = _inst ?? (_inst = value); }
 
         public static eTheme SelectedTheme { get; set; }
-
-        public static void SetTheme(eTheme newTheme)
+        static ThemeColor _ColorSet;
+        public static ThemeColor ColorSet
         {
-            SelectedTheme = newTheme;
-
-            foreach (Form f in Application.OpenForms)
+            get
             {
-                CheckTheme(f);
+                return _ColorSet;
+            }
+            set
+            {
+                _ColorSet = value;
+
+                if (_ColorSet == null) return;
+                foreach (Form f in Application.OpenForms)
+                    CheckTheme(f);
             }
         }
 
@@ -40,62 +43,57 @@ namespace GNX
                 SetTheme(eTheme.Dark);
         }
 
-        internal protected static void CheckTheme(Form f)
+        public static void SetTheme(eTheme newTheme)
         {
+            SelectedTheme = newTheme;
+
             switch (SelectedTheme)
             {
-                case eTheme.Light:
-                    Instance.SetWindowDark(f.Handle, 0); break;
-                case eTheme.Dark:
-                    Instance.SetWindowDark(f.Handle, 1); break;
+                case eTheme.Empty: ColorSet = null; break;
+                case eTheme.Light: ColorSet = new ThemeColorLight(); break;
+                case eTheme.Dark: ColorSet = new ThemeColorDark(); break;
             }
-
-            Instance.ChangeControlsTheme(f);
         }
 
-        public void ChangeControlsTheme(Form f)
+        internal static void CheckTheme(Form f)
         {
+            if (ColorSet == null) return;
+
+            ColorSet.WindowForm(f);
+
             if (f is MainBaseForm)
-            {
-                SetMainBaseTheme((MainBaseForm)f);
-            }
+                ColorSet.MainBaseForm((MainBaseForm)f);
             else if (f is ContentBaseForm)
-            {
-                SetContentBaseTheme((ContentBaseForm)f);
-            }
+                ColorSet.ContentBaseForm((ContentBaseForm)f);
 
             foreach (var control in f.GetControls<Control>())
             {
                 if (control is FlatPanel)
-                {
-                    SetFlatPanelTheme((FlatPanel)control);
-                }
+                    ColorSet.FlatPanel((FlatPanel)control);
                 else if (control is FlatLabel)
-                {
-                    SetFlatLabelTheme((FlatLabel)control);
-                }
+                    ColorSet.FlatLabel((FlatLabel)control);
                 if (control is FlatButton)
                 {
-                    SetFlatButtonTheme((FlatButton)control);
+                    ColorSet.FlatButton((FlatButton)control);
+                    ((FlatButton)control).ResetColors();
                 }
                 else if (control is FlatTextBox)
                 {
-                    SetFlatTextBoxTheme((FlatTextBox)control);
+                    ColorSet.FlatTextBox((FlatTextBox)control);
+                    ((FlatTextBox)control).ResetColors();
                 }
                 else if (control is FlatComboBox)
                 {
-                    SetFlatComboBoxTheme((FlatComboBox)control);
+                    ColorSet.FlatComboBox((FlatComboBox)control);
+                    ((FlatComboBox)control).ResetColors();
                 }
                 else if (control is FlatStatusBar)
-                {
-                    SetFlatStatusBarTheme((FlatStatusBar)control);
-                }
+                    ColorSet.FlatStatusBar((FlatStatusBar)control);
             }
         }
 
-        protected void SetWindowDark(IntPtr handle, int dark = 1)
+        public static void SetWindowDark(IntPtr handle, int dark = 1)
         {
-            //var dark = 1;
             DwmSetWindowAttribute(handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref dark, sizeof(uint));
         }
 

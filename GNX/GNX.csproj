@@ -252,7 +252,9 @@
     <Compile Include="FileManager\XML\ConfigXML.cs" />
     <Compile Include="FileManager\XML\Server.cs" />
     <Compile Include="FileManager\XML\Wallpaper.cs" />
-    <Compile Include="Config\ThemeControls.cs" />
+    <Compile Include="Config\ThemeColor.cs" />
+    <Compile Include="Config\ThemeColorDark.cs" />
+    <Compile Include="Config\ThemeColorLight.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DLL\DLL.txt" />

@@ -9,6 +9,11 @@ namespace GNX
 {
     public static class StringExtension
     {
+        public static string NormalizePath(this string s)
+        {
+            return s.Replace('\\', '/');
+        }
+
         public static string RemoveWhiteSpaces(this string s)
         {
             return string.Join(" ", s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.IO;
 
 namespace GNX
 {
@@ -12,6 +13,17 @@ namespace GNX
         public static string NormalizePath(this string s)
         {
             return s.Replace('\\', '/');
+        }
+
+        public static string PathAddDateTime(this string s)
+        {
+            var folder = Path.GetDirectoryName(s);
+            var name = Path.GetFileNameWithoutExtension(s);
+            var ext = Path.GetExtension(s);
+
+            var NowString = DateTime.Now.ToFileName();
+            var fullName = name + "(" + NowString + ")" + ext;
+            return Path.Combine(folder, fullName).NormalizePath();
         }
 
         public static string RemoveWhiteSpaces(this string s)

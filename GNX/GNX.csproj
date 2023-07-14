@@ -255,6 +255,7 @@
     <Compile Include="Config\ThemeColor.cs" />
     <Compile Include="Config\ThemeColorDark.cs" />
     <Compile Include="Config\ThemeColorLight.cs" />
+    <Compile Include="Generics\TaskController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DLL\DLL.txt" />

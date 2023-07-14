@@ -30,6 +30,15 @@ namespace GNX
             return dt.ToString("HH:mm:ss");
         }
 
+        public static string ToFileName(this DateTime dt)
+        {
+            if (dt > DateTime.MinValue)
+            {
+                return dt.ToString("yyyy-MM-dd_HH-mm");
+            }
+            return "NULL";
+        }
+
         public static string ToDB(this DateTime? dt)
         {
             if (dt != null && dt.HasValue)

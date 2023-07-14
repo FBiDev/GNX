@@ -4,13 +4,15 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="GNX\Extensions\StringExtension.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GNX\Generics\TaskController.cs">
     <Files>
       <File FileName="GNX\Config\ThemeColor.cs" Line="6" Column="6" />
       <File FileName="GNX\Config\ThemeColorDark.cs" Line="3" Column="1" />
       <File FileName="GNX\Config\ThemeColorLight.cs" Line="2" Column="28" />
       <File FileName="GNX\Config\Theme.cs" Line="14" Column="10" />
-      <File FileName="GNX\Extensions\StringExtension.cs" Line="15" Column="10" />
+      <File FileName="GNX\Extensions\StringExtension.cs" Line="18" Column="39" />
+      <File FileName="GNX\Extensions\DateTimeExtension.cs" Line="40" Column="10" />
+      <File FileName="GNX\Generics\TaskController.cs" Line="12" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MultiItemStartupConfigurations />

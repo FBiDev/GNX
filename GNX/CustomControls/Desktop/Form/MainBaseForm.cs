@@ -61,12 +61,13 @@ namespace GNX
             this.GetControls<FlatPanel>().ForEach(x => x.OriginalBackColor = x.BackColor);
         }
 
-        public void SetContentForm(Form frm)
+        public void SetMainFormContent(Form frm)
         {
             pnlContent.Controls.Clear();
             pnlContent.Controls.Add(frm);
-            frm.Show();
+
             frm.Dock = DockStyle.Fill;
+            frm.Show();
         }
 
         protected override void OnHandleCreated(EventArgs e)

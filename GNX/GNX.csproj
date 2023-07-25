@@ -256,6 +256,7 @@
     <Compile Include="Config\ThemeColorDark.cs" />
     <Compile Include="Config\ThemeColorLight.cs" />
     <Compile Include="Generics\TaskController.cs" />
+    <Compile Include="Utils\Json.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DLL\DLL.txt" />
@@ -264,10 +265,6 @@
     <Content Include="Resources\IMG\img_drop_arrow_focus.png" />
     <None Include="Resources\IMG\img_true_ico.png" />
     <None Include="Resources\IMG\img_false_ico.png" />
-    <ContentWithTargetPath Include="Resources\DLL\Unmanaged\SQLite.Interop.dll">
-      <TargetPath>SQLite.Interop.dll</TargetPath>
-    </ContentWithTargetPath>
-    <Content Include="Resources\DLL\Referenced\System.Data.SQLite.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">
@@ -342,6 +339,8 @@
     <Folder Include="Class\" />
     <Folder Include="CustomControls\Web\" />
     <Folder Include="Resources\SQL\" />
+    <Folder Include="Resources\DLL\Unmanaged\" />
+    <Folder Include="Resources\DLL\Referenced\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

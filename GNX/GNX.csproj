@@ -256,7 +256,7 @@
     <Compile Include="Config\ThemeColorDark.cs" />
     <Compile Include="Config\ThemeColorLight.cs" />
     <Compile Include="Generics\TaskController.cs" />
-    <Compile Include="Utils\Json.cs" />
+    <Compile Include="Plugins\Json.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DLL\DLL.txt" />
@@ -341,6 +341,7 @@
     <Folder Include="Resources\SQL\" />
     <Folder Include="Resources\DLL\Unmanaged\" />
     <Folder Include="Resources\DLL\Referenced\" />
+    <Folder Include="Plugins\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

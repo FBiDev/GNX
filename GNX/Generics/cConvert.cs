@@ -107,6 +107,7 @@ namespace GNX
         {
             decimal result = default(decimal);
             if (string.IsNullOrEmpty(value) || !decimal.TryParse(value, out result)) { return null; }
+            result = result / 1.000000000000000000000000000000000m;
             return result;
         }
 

@@ -42,6 +42,9 @@ namespace GNX
             set { base.AutoSizeMode = value; }
         }
 
+        [DefaultValue(0)]
+        public new int TabIndex { get { return base.TabIndex; } set { base.TabIndex = value; } }
+
         public FlatPanel()
         {
             InitializeComponent();

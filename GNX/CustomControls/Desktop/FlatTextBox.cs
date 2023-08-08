@@ -68,7 +68,32 @@ namespace GNX
             set { TextBox.SelectionLength = value; }
         }
 
+        [DefaultValue(0)]
+        public new int TabIndex { get { return TextBox.TabIndex; } set { TextBox.TabIndex = value; } }
+
+        [DefaultValue(false)]
         public bool ReadOnly { get { return TextBox.ReadOnly; } set { TextBox.ReadOnly = value; } }
+
+        [DefaultValue(false)]
+        public bool Multiline { get { return TextBox.Multiline; } set { TextBox.Multiline = value; } }
+
+        [DefaultValue(typeof(ScrollBars), "None")]
+        public ScrollBars ScrollBars
+        {
+            get
+            {
+                return TextBox.ScrollBars;
+            }
+            set
+            {
+                TextBox.ScrollBars = value;
+
+                if (value == ScrollBars.None)
+                    TextBox.Height += 15;
+                else
+                    TextBox.Height -= 15;
+            }
+        }
 
         public string previousText { get; set; }
         string previousTextBackup { get; set; }

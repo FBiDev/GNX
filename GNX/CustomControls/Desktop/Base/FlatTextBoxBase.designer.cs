@@ -47,7 +47,7 @@
             this.pnlBorder.Margin = new System.Windows.Forms.Padding(0);
             this.pnlBorder.Name = "pnlBorder";
             this.pnlBorder.Size = new System.Drawing.Size(206, 34);
-            this.pnlBorder.TabIndex = 1;
+            this.pnlBorder.TabIndex = 0;
             // 
             // pnlBg
             // 
@@ -61,7 +61,7 @@
             this.pnlBg.Margin = new System.Windows.Forms.Padding(0);
             this.pnlBg.Name = "pnlBg";
             this.pnlBg.Size = new System.Drawing.Size(204, 32);
-            this.pnlBg.TabIndex = 1;
+            this.pnlBg.TabIndex = 0;
             // 
             // lblSubtitle
             // 

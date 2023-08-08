@@ -27,5 +27,16 @@ namespace GNX
 
             return sf.GetMethod().DeclaringType.Name + "." + sf.GetMethod().Name;
         }
+
+        public static bool IsEqual<T>(this T objA, T objB)
+        {
+            foreach (var item in objA.GetType().GetProperties())
+            {
+                if (item.GetValue(objA).ToString() != item.GetValue(objB).ToString())
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

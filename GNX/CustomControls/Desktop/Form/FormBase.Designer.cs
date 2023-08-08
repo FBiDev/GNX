@@ -52,7 +52,6 @@
             this.pnlFoot.Margin = new System.Windows.Forms.Padding(0);
             this.pnlFoot.Name = "pnlFoot";
             this.pnlFoot.Size = new System.Drawing.Size(480, 24);
-            this.pnlFoot.TabIndex = 0;
             // 
             // pnlFootContent
             // 
@@ -62,7 +61,6 @@
             this.pnlFootContent.Location = new System.Drawing.Point(0, 0);
             this.pnlFootContent.Name = "pnlFootContent";
             this.pnlFootContent.Size = new System.Drawing.Size(480, 24);
-            this.pnlFootContent.TabIndex = 0;
             // 
             // staStatus
             // 
@@ -89,7 +87,6 @@
             this.pnlHead.Name = "pnlHead";
             this.pnlHead.Padding = new System.Windows.Forms.Padding(8, 8, 8, 32);
             this.pnlHead.Size = new System.Drawing.Size(480, 270);
-            this.pnlHead.TabIndex = 0;
             // 
             // pnlBody
             // 
@@ -102,7 +99,6 @@
             this.pnlBody.Margin = new System.Windows.Forms.Padding(0);
             this.pnlBody.Name = "pnlBody";
             this.pnlBody.Size = new System.Drawing.Size(464, 230);
-            this.pnlBody.TabIndex = 0;
             // 
             // pnlContent
             // 
@@ -114,7 +110,6 @@
             this.pnlContent.Location = new System.Drawing.Point(0, 0);
             this.pnlContent.Name = "pnlContent";
             this.pnlContent.Size = new System.Drawing.Size(464, 230);
-            this.pnlContent.TabIndex = 0;
             // 
             // pnlContentInside
             // 
@@ -124,7 +119,6 @@
             this.pnlContentInside.Name = "pnlContentInside";
             this.pnlContentInside.Padding = new System.Windows.Forms.Padding(3);
             this.pnlContentInside.Size = new System.Drawing.Size(464, 230);
-            this.pnlContentInside.TabIndex = 0;
             // 
             // FormBase
             // 

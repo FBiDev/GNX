@@ -38,9 +38,14 @@
             // 
             this.pnlBg.Controls.Add(this.lblPlaceholder);
             this.pnlBg.Controls.Add(this.txtMain);
+            this.pnlBg.TabIndex = 0;
             this.pnlBg.Controls.SetChildIndex(this.txtMain, 0);
             this.pnlBg.Controls.SetChildIndex(this.lblSubtitle, 0);
             this.pnlBg.Controls.SetChildIndex(this.lblPlaceholder, 0);
+            // 
+            // pnlBorder
+            // 
+            this.pnlBorder.TabIndex = 0;
             // 
             // txtMain
             // 
@@ -54,7 +59,7 @@
             this.txtMain.Margin = new System.Windows.Forms.Padding(0);
             this.txtMain.Name = "txtMain";
             this.txtMain.Size = new System.Drawing.Size(195, 16);
-            this.txtMain.TabIndex = 3;
+            this.txtMain.TabIndex = 0;
             // 
             // lblPlaceholder
             // 
@@ -68,7 +73,7 @@
             this.lblPlaceholder.Margin = new System.Windows.Forms.Padding(3);
             this.lblPlaceholder.Name = "lblPlaceholder";
             this.lblPlaceholder.Size = new System.Drawing.Size(195, 14);
-            this.lblPlaceholder.TabIndex = 4;
+            this.lblPlaceholder.TabIndex = 0;
             // 
             // FlatTextBox
             // 

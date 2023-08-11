@@ -47,6 +47,16 @@ namespace GNX
             c.BorderColor = Colors.HTML("424242");
         }
 
+        public override void FlatMaskedTextBox(FlatMaskedTextBox c)
+        {
+            c.BackgroundColor = Colors.HTML("191919");
+            c.BackgroundColorFocus = Colors.HTML("191919");
+            c.LabelTextColor = Colors.HTML("A3B2DC");
+            c.TextColor = Colors.HTML("D2D2D2");
+            c.TextColorFocus = Colors.HTML("D2D2D2");
+            c.BorderColor = Colors.HTML("424242");
+        }
+
         public override void FlatComboBox(FlatComboBox c)
         {
             c.BackgroundColor = Colors.HTML("191919");

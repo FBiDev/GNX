@@ -11,6 +11,8 @@ namespace GNX
         static Assembly assembly;
 
         static string DllName = "Newtonsoft.Json";
+        static string DllPath = "Plugins/" + DllName + ".dll";
+
         static Type JsonClass;
         static Type EnumFormatting;
         static MethodInfo SerializeObjectMethod;
@@ -20,10 +22,17 @@ namespace GNX
         {
             if (assembly == null)
             {
-                assembly = Assembly.LoadFrom(@"Plugins\" + DllName + ".dll");
-                JsonClass = assembly.GetType(DllName + ".JsonConvert");
-                EnumFormatting = assembly.GetType(DllName + ".Formatting");
-                SerializeObjectMethod = JsonClass.GetMethod("SerializeObject", new Type[] { typeof(object), EnumFormatting });
+                try
+                {
+                    assembly = Assembly.LoadFrom(DllPath);
+                    JsonClass = assembly.GetType(DllName + ".JsonConvert");
+                    EnumFormatting = assembly.GetType(DllName + ".Formatting");
+                    SerializeObjectMethod = JsonClass.GetMethod("SerializeObject", new Type[] { typeof(object), EnumFormatting });
+                }
+                catch (Exception)
+                {
+                    throw new DllNotFoundException("DLL not found:\r\n" + DllPath);
+                }
             }
 
             return assembly != null & JsonClass != null & EnumFormatting != null;

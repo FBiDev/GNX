@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,11 +15,12 @@ namespace GNX
             set { base.AutoScaleMode = value; }
         }
 
-        public Size OriginalSize { get; set; }
+        public Size OriginalSize;
 
         public ContentBaseForm()
         {
             InitializeComponent();
+
             HandleCreated += (sender, e) =>
             {
                 Init();
@@ -28,6 +30,9 @@ namespace GNX
             Shown += (sender, e) =>
             {
                 Theme.CheckTheme(this);
+
+                foreach (Control control in Controls)
+                    control.Enter += Control_Enter;
             };
 
             TopLevel = false;
@@ -50,6 +55,11 @@ namespace GNX
                 x.TabIndex = tabIndex;
                 tabIndex++;
             });
+        }
+
+        void Control_Enter(object sender, EventArgs e)
+        {
+            ScrollControlIntoView((Control)sender);
         }
     }
 }

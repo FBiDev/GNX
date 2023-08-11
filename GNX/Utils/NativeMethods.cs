@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace GNX
 {
@@ -26,6 +27,34 @@ namespace GNX
 
         [DllImport("user32.dll")]
         static extern void SetWindowPos(uint Hwnd, uint Level, int X, int Y, int W, int H, uint Flags);
+
+        public static bool IsVCRedist2012Installed()
+        {
+            return IsAPPInstalled("Microsoft Visual C++ 2012 x64", "11.0.50727");
+        }
+
+        static bool IsAPPInstalled(string displayName, string additionalName = "")
+        {
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"))
+            {
+                if (key == null) return false;
+
+                foreach (string subKeyName in key.GetSubKeyNames())
+                {
+                    using (RegistryKey subKey = key.OpenSubKey(subKeyName))
+                    {
+                        var appName = subKey.GetValue("DisplayName");
+
+                        if (appName == null) continue;
+                        var appNameStr = appName.ToString();
+
+                        if (appNameStr.Contains(displayName) && appNameStr.Contains(additionalName))
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         #region Tests
         [DllImport("user32.dll")]

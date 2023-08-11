@@ -78,22 +78,7 @@ namespace GNX
         public bool Multiline { get { return TextBox.Multiline; } set { TextBox.Multiline = value; } }
 
         [DefaultValue(typeof(ScrollBars), "None")]
-        public ScrollBars ScrollBars
-        {
-            get
-            {
-                return TextBox.ScrollBars;
-            }
-            set
-            {
-                TextBox.ScrollBars = value;
-
-                if (value == ScrollBars.None)
-                    TextBox.Height += 15;
-                else
-                    TextBox.Height -= 15;
-            }
-        }
+        public ScrollBars ScrollBars { get { return TextBox.ScrollBars; } set { TextBox.ScrollBars = value; } }
 
         public string previousText { get; set; }
         string previousTextBackup { get; set; }
@@ -101,7 +86,7 @@ namespace GNX
 
         public new bool Focused { get; set; }
 
-        public new EventHandler TextChanged;
+        public new event EventHandler TextChanged;
         public new EventHandler Enter;
         public new EventHandler Leave;
         public new KeyPressEventHandler KeyPress;
@@ -157,6 +142,11 @@ namespace GNX
 
             previousText = TextBox.Text;
             previousTextBackup = TextBox.Text;
+
+            if (TextBox.ScrollBars == ScrollBars.None)
+                TextBox.Height += 15;
+            else
+                TextBox.Height -= 15;
         }
 
         protected void lblPlaceholder_MouseEnter(object sender, EventArgs e)

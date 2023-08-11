@@ -224,6 +224,7 @@
       <DependentUpon>FlatDataGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Generics\Colors.cs" />
+    <Compile Include="Plugins\Brotli.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -257,6 +258,7 @@
     <Compile Include="Config\ThemeColorLight.cs" />
     <Compile Include="Generics\TaskController.cs" />
     <Compile Include="Plugins\Json.cs" />
+    <Compile Include="_Desktop\Utils\FormManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\DLL\DLL.txt" />
@@ -338,10 +340,9 @@
   <ItemGroup>
     <Folder Include="Class\" />
     <Folder Include="CustomControls\Web\" />
-    <Folder Include="Resources\SQL\" />
-    <Folder Include="Resources\DLL\Unmanaged\" />
     <Folder Include="Resources\DLL\Referenced\" />
-    <Folder Include="Plugins\" />
+    <Folder Include="Resources\DLL\Unmanaged\" />
+    <Folder Include="Resources\SQL\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

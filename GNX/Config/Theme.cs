@@ -72,6 +72,7 @@ namespace GNX
                     ColorSet.FlatPanel((FlatPanel)control);
                 else if (control is FlatLabel)
                     ColorSet.FlatLabel((FlatLabel)control);
+
                 if (control is FlatButton)
                 {
                     ColorSet.FlatButton((FlatButton)control);
@@ -81,6 +82,11 @@ namespace GNX
                 {
                     ColorSet.FlatTextBox((FlatTextBox)control);
                     ((FlatTextBox)control).ResetColors();
+                }
+                else if (control is FlatMaskedTextBox)
+                {
+                    ColorSet.FlatMaskedTextBox((FlatMaskedTextBox)control);
+                    ((FlatMaskedTextBox)control).ResetColors();
                 }
                 else if (control is FlatComboBox)
                 {

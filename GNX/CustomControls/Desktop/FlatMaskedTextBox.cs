@@ -32,23 +32,22 @@ namespace GNX
 
         #region Properties
         [Category("_Properties")]
-        public Color _BackgroundColorFocus { get { return BackgroundColorFocus; } }
-        public Color BackgroundColorFocus = Color.FromArgb(252, 245, 237);
+        public Color _BackgroundColorFocus = Color.FromArgb(252, 245, 237);
+        [Category("_Colors"), DefaultValue(typeof(Color), "252, 245, 237")]
+        public Color BackgroundColorFocus { get { return _BackgroundColorFocus; } set { _BackgroundColorFocus = value; } }
 
-        [Category("_Properties")]
-        public Color _TextColor { get { return TextColor; } }
-        protected Color TextColor = Color.FromArgb(47, 47, 47);
+        protected Color _TextColor = Color.FromArgb(47, 47, 47);
+        [Category("_Colors"), DefaultValue(typeof(Color), "47, 47, 47")]
+        public Color TextColor { get { return _TextColor; } set { _TextColor = value; } }
 
-        [Category("_Properties")]
-        public Color _TextColorFocus { get { return TextColorFocus; } }
-        protected Color TextColorFocus = Color.FromArgb(47, 47, 47);
+        [Category("_Colors"), DefaultValue(typeof(Color), "47, 47, 47")]
+        public Color TextColorFocus { get { return _TextColorFocus; } set { _TextColorFocus = value; } }
+        protected Color _TextColorFocus = Color.FromArgb(47, 47, 47);
 
-        [Category("_Properties")]
-        [DefaultValue(typeof(string), "")]
-        public string _Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
+        [Category("_Colors"), DefaultValue(typeof(string), "")]
+        public string DefaultText { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
-        [Category("_Properties")]
-        [DefaultValue(typeof(string), "")]
+        [Category("_Colors"), DefaultValue(typeof(string), "")]
         public string PlaceholderText { get { return lblPlaceholder.Text; } set { lblPlaceholder.Text = value; } }
 
         int MaxLength;
@@ -63,10 +62,7 @@ namespace GNX
             {
                 _Mask_ = value;
 
-                lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
-
                 TextBox.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
-                txtMain.TextAlign = HorizontalAlignment.Center;
                 txtMain.Mask = "";
                 txtMain.PromptChar = '_';
 
@@ -116,6 +112,32 @@ namespace GNX
         MaskedTextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
+        public enum eTextAlign { Left, Right, Center }
+        eTextAlign _TextAlign;
+        public eTextAlign TextAlign
+        {
+            get { return _TextAlign; }
+            set
+            {
+                _TextAlign = value;
+                switch (_TextAlign)
+                {
+                    case eTextAlign.Left:
+                        lblPlaceholder.TextAlign = ContentAlignment.MiddleLeft;
+                        txtMain.TextAlign = HorizontalAlignment.Left;
+                        break;
+                    case eTextAlign.Right:
+                        lblPlaceholder.TextAlign = ContentAlignment.MiddleRight;
+                        txtMain.TextAlign = HorizontalAlignment.Right;
+                        break;
+                    case eTextAlign.Center:
+                        lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
+                        txtMain.TextAlign = HorizontalAlignment.Center;
+                        break;
+                }
+            }
+        }
+
         public FlatMaskedTextBox()
         {
             InitializeComponent();
@@ -139,6 +161,20 @@ namespace GNX
             Size = new Size(206, 34);
             MaximumSize = new Size(800, 34);
             MinimumSize = new Size(100, 34);
+        }
+
+        public void ResetColors()
+        {
+            pnlBorder.BackColor = BorderColor;
+            pnlBg.BackColor = BackgroundColor;
+
+            lblSubtitle.BackColor = BackgroundColor;
+            lblSubtitle.ForeColor = LabelTextColor;
+
+            lblPlaceholder.BackColor = BackgroundColor;
+
+            TextBox.BackColor = BackgroundColor;
+            TextBox.ForeColor = TextColor;
         }
 
         protected override void OnHandleCreated(EventArgs e)

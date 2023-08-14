@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 
 namespace GNX
 {
@@ -89,6 +90,20 @@ namespace GNX
                     if (Error.TargetSite.Name == "Open")
                     {
                         CustomMessage = "Falha na conexão com o Banco de Dados";
+                    }
+                }
+            }
+            else if (ExType == typeof(SqlException))
+            {
+                Error = ((SqlException)ex);
+                var Messages = ((SqlException)ex).Errors;
+
+                if (Error.TargetSite.Module.Name == "System.Data.dll")
+                {
+                    if (Error.TargetSite.DeclaringType.FullName == "System.Data.SqlClient.SqlInternalConnectionTds")
+                    {
+                        CustomMessage = "Falha na conexão com o Banco de Dados";
+                        CustomMessage += errorLineBreak + Messages[0];
                     }
                 }
             }
@@ -197,7 +212,8 @@ namespace GNX
             }
             else if (!externalDLL)
             {
-                MessageBox.Show(CustomMessage + errorLineBreak + Error.Message + errorLineBreak + Error.StackTrace, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(CustomMessage, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(CustomMessage + errorLineBreak + Error.Message + errorLineBreak + Error.StackTrace, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //throw new Exception(CustomMessage + errorLineBreak + Error.Message);
             }
         }

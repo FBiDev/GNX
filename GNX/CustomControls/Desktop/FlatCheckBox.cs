@@ -7,8 +7,28 @@ namespace GNX
 {
     public partial class FlatCheckBox : UserControl
     {
-        [Category("_Data")]
-        public string _Legend
+        #region Properties
+        protected Color _BorderColor = Color.FromArgb(213, 223, 229);
+        [Category("_Colors"), DefaultValue(typeof(Color), "213, 223, 229")]
+        public Color BorderColor { get { return _BorderColor; } set { _BorderColor = value; } }
+
+        protected Color _BorderColorFocus = Color.FromArgb(108, 132, 199);
+        [Category("_Colors"), DefaultValue(typeof(Color), "108, 132, 199")]
+        public Color BorderColorFocus { get { return _BorderColorFocus; } set { _BorderColorFocus = value; } }
+
+        [Category("_Colors"), DefaultValue(typeof(Color), "213, 223, 229")]
+        Color BorderColorLeave { get; set; }
+
+        [Category("_Colors"), DefaultValue(typeof(Color), "White")]
+        public new Color BackColor
+        {
+            get { return pnlBgWhite.BackColor; }
+            set { pnlBgWhite.BackColor = value; }
+        }
+        #endregion
+
+        [Category("_Data"), DefaultValue("")]
+        public string TextLegend
         {
             get { return lblLegend.Text; }
             set
@@ -18,58 +38,33 @@ namespace GNX
             }
         }
 
+        CheckBox CheckBox { get { return chkBox; } }
+
+        [DefaultValue(false)]
         public bool Checked { get { return CheckBox.Checked; } set { CheckBox.Checked = value; } }
         public event EventHandler CheckedChanged;
-
-        public new Color BackColor
-        {
-            get { return pnlBgWhite.BackColor; }
-            set { pnlBgWhite.BackColor = value; }
-        }
-
-        public Color BorderColor
-        {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
-        }
-
-        public Color BorderColorFocus { get; set; }
-        Color BorderColorLeave { get; set; }
 
         public FlatCheckBox()
         {
             InitializeComponent();
 
             CheckBox.CheckedChanged += chkBox_CheckedChanged;
+            Click += (sender, e) => pnlBgWhite_Click(null, null);
 
             AlignControl();
+        }
 
-            LightMode();
+        public void ResetColors()
+        {
+            base.BackColor = BorderColor;
+            BorderColorFocus = _BorderColorFocus;
+            BorderColorLeave = BorderColor;
         }
 
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            BorderColorLeave = BorderColor;
-        }
-
-        public void LightMode()
-        {
-            BorderColor = Color.FromArgb(213, 223, 229);
-            BorderColorFocus = Color.FromArgb(108, 132, 199);
-            BackColor = ColorTranslator.FromHtml("#FFFFFF");
-        }
-
-        public void DarkMode()
-        {
-            BorderColor = ColorTranslator.FromHtml("#424242");
-            BorderColorFocus = Color.FromArgb(108, 132, 199);
-            BackColor = ColorTranslator.FromHtml("#191919");
-        }
-
-        CheckBox CheckBox
-        {
-            get { return chkBox; }
+            ResetColors();
         }
 
         void AlignControl()

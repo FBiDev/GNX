@@ -35,12 +35,16 @@ namespace GNX
             }
         }
 
-        public static void DarkMode()
+        public static bool DarkMode()
         {
-            if (SelectedTheme == eTheme.Dark)
-                SetTheme(eTheme.Light);
-            else
+            if (SelectedTheme != eTheme.Dark)
+            {
                 SetTheme(eTheme.Dark);
+                return true;
+            }
+
+            SetTheme(eTheme.Light);
+            return false;
         }
 
         public static void SetTheme(eTheme newTheme)
@@ -77,6 +81,11 @@ namespace GNX
                 {
                     ColorSet.FlatButton((FlatButton)control);
                     ((FlatButton)control).ResetColors();
+                }
+                else if (control is FlatCheckBox)
+                {
+                    ColorSet.FlatCheckBox((FlatCheckBox)control);
+                    ((FlatCheckBox)control).ResetColors();
                 }
                 else if (control is FlatTextBox)
                 {

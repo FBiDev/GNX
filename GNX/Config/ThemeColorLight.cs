@@ -32,6 +32,13 @@ namespace GNX
             c.SelectedColor = Colors.RGB(203, 223, 254);
         }
 
+        public override void FlatCheckBox(FlatCheckBox c)
+        {
+            c.BorderColor = Color.FromArgb(213, 223, 229);
+            c.BorderColorFocus = Color.FromArgb(108, 132, 199);
+            c.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+        }
+
         public override void FlatTextBox(FlatTextBox c)
         {
             c.BackgroundColor = Colors.HTML("FFFFFF");

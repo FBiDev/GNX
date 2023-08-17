@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -37,42 +37,42 @@ namespace GNX
 
         public static short? ToShortNull(this string s)
         {
-            return cConvert.ToShortNull(s);
+            return Cast.ToShortNull(s);
         }
 
         public static float ToFloat(this string s)
         {
-            return cConvert.ToFloat(s);
+            return Cast.ToFloat(s);
         }
 
         public static TimeSpan? ToTimeSpanNull(this string s)
         {
-            return cConvert.ToTimeSpanNull(s);
+            return Cast.ToTimeSpanNull(s);
         }
 
         public static DateTime? ToDateTimeNull(this string s)
         {
-            return cConvert.ToDateTimeNull(s);
+            return Cast.ToDateTimeNull(s);
         }
 
         public static decimal ToDecimal(this string s)
         {
-            return cConvert.ToDecimal(s);
+            return Cast.ToDecimal(s);
         }
 
         public static string ToCurrency(this string s)
         {
-            return cConvert.ToCurrency(s);
+            return Cast.ToCurrency(s);
         }
 
         public static bool ToBoolean(this string s)
         {
-            return cConvert.ToBoolean(s);
+            return Cast.ToBoolean(s);
         }
 
         public static int ToInt(this string s)
         {
-            return cConvert.ToInt(s);
+            return Cast.ToInt(s);
         }
 
         public static bool IsEmpty(this string source)

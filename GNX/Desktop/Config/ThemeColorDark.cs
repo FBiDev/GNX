@@ -41,7 +41,7 @@ namespace GNX.Desktop
         {
             c.BorderColor = ColorTranslator.FromHtml("#424242");
             c.BorderColorFocus = Color.FromArgb(108, 132, 199);
-            c.BackColor = ColorTranslator.FromHtml("#191919");
+            c.BackgroundColor = ColorTranslator.FromHtml("#191919");
         }
 
         public override void FlatTextBox(FlatTextBox c)

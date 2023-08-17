@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text.RegularExpressions;
@@ -39,7 +39,7 @@ namespace GNX
                         break;
                     case "Boolean":
                         DbType = DbType.Boolean;
-                        this.Value = cConvert.ToIntNull(Value);
+                        this.Value = Cast.ToIntNull(Value);
                         break;
                 }
             }

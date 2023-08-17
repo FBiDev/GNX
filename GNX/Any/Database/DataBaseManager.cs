@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GNX
 {
-    public class cDataBase
+    public class DataBaseManager
     {
         public List<cLogSQL> Log = new List<cLogSQL>();
 
@@ -73,27 +73,20 @@ namespace GNX
 
         void CreateConnection(IDbConnection conn)
         {
-            if (conn != null && conn.ConnectionString.IsEmpty())
-            {
-                if (ConnectionString.IsEmpty())
-                {
-                    conn.ConnectionString = DefaultConnectionString();
-                }
-                else
-                {
-                    conn.ConnectionString = ConnectionString;
-                }
-            }
+            if (conn == null || conn.ConnectionString.IsEmpty() == false)
+                return;
+
+            if (ConnectionString.IsEmpty())
+                conn.ConnectionString = DefaultConnectionString();
+            else
+                conn.ConnectionString = ConnectionString;
         }
 
         void OpenConnection(IDbConnection conn)
         {
             if (conn.State == ConnectionState.Closed)
             {
-                try
-                {
-                    conn.Open();
-                }
+                try { conn.Open(); }
                 catch (Exception) { throw; }
             }
         }

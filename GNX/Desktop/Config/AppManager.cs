@@ -90,12 +90,12 @@ namespace GNX.Desktop
         }
 
         #region Lock to 1 Execution only
-        public static void SingleProcess(bool locked, Mutex singleton)
+        public static void SingleProcess(bool locked, Mutex singleton, string systemName)
         {
             if (!singleton.WaitOne(TimeSpan.Zero, true) && locked)
             {
                 //there is already another instance running!
-                MessageBox.Show("Esse programa já esta sendo executado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("O programa " + systemName + " já esta sendo executado", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 Exit();
             }
         }

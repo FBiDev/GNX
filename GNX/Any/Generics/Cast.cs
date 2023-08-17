@@ -5,7 +5,7 @@ using System.IO;
 
 namespace GNX
 {
-    public static class cConvert
+    public static class Cast
     {
         public static int ToInt(string value)
         {

@@ -4,6 +4,19 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="GNX\Desktop\CustomControls\FlatCheckBox.cs">
+    <Files>
+      <File FileName="GNX\Any\Plugins\Brotli.cs" Line="50" Column="14" />
+      <File FileName="GNX\Any\Database\DataRowExtension.cs" Line="18" Column="30" />
+      <File FileName="GNX\Any\Generics\Cast.cs" Line="14" Column="27" />
+      <File FileName="GNX\Any\Database\DataBaseManager.cs" Line="14" Column="50" />
+      <File FileName="GNX\Desktop\Config\AppManager.cs" Line="92" Column="41" />
+      <File FileName="GNX\Desktop\CustomControls\FlatCheckBox.cs" Line="16" Column="9" />
+      <File FileName="GNX\Desktop\CustomControls\FlatTextBox.cs" Line="141" Column="22" />
+      <File FileName="GNX\Desktop\CustomControls\Base\FlatTextBoxBase.cs" Line="42" Column="44" />
+      <File FileName="GNX\Desktop\CustomControls\FlatPanel.cs" Line="18" Column="10" />
+      <File FileName="GNX\Desktop\Config\ThemeColorLight.cs" Line="37" Column="45" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MultiItemStartupConfigurations />
 </Properties>

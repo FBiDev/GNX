@@ -19,13 +19,13 @@ namespace GNX
                 {
                     case TypeCode.Object: result = columnObj; break;
                     case TypeCode.String: result = columnValue; break;
-                    case TypeCode.Boolean: result = cConvert.ToBoolean(columnValue); break;
-                    case TypeCode.DateTime: result = cConvert.ToDateTimeNull(columnValue); break;
-                    case TypeCode.Int16: result = cConvert.ToShortNull(columnValue); break;
-                    case TypeCode.Int32: result = cConvert.ToIntNull(columnValue); break;
-                    case TypeCode.Single: result = cConvert.ToFloatNull(columnValue); break;
-                    case TypeCode.Double: result = cConvert.ToDoubleNull(columnValue); break;
-                    case TypeCode.Decimal: result = cConvert.ToDecimalNull(columnValue); break;
+                    case TypeCode.Boolean: result = Cast.ToBoolean(columnValue); break;
+                    case TypeCode.DateTime: result = Cast.ToDateTimeNull(columnValue); break;
+                    case TypeCode.Int16: result = Cast.ToShortNull(columnValue); break;
+                    case TypeCode.Int32: result = Cast.ToIntNull(columnValue); break;
+                    case TypeCode.Single: result = Cast.ToFloatNull(columnValue); break;
+                    case TypeCode.Double: result = Cast.ToDoubleNull(columnValue); break;
+                    case TypeCode.Decimal: result = Cast.ToDecimalNull(columnValue); break;
                     default: throw new Exception("Tipo de dado inválido");
                 }
             }

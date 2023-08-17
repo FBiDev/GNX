@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -132,12 +132,12 @@ namespace GNX.Desktop
             }
         }
 
-        public int SelectedValueInt { get { return cConvert.ToInt(cboFlat.SelectedValue); } }
+        public int SelectedValueInt { get { return Cast.ToInt(cboFlat.SelectedValue); } }
 
         [DefaultValue(null)]
         public object SelectedItem { get { return cboFlat.SelectedItem; } set { cboFlat.SelectedItem = value; } }
 
-        public T SelectedObject<T>() where T : new() { return cConvert.ToObject<T>(cboFlat.SelectedItem); }
+        public T SelectedObject<T>() where T : new() { return Cast.ToObject<T>(cboFlat.SelectedItem); }
         #endregion
 
         public FlatComboBox()

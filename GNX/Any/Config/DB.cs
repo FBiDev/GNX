@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,13 +8,13 @@ namespace GNX
 {
     public static class DB
     {
-        static cDataBase Database { get; set; }
+        static DataBaseManager Database { get; set; }
         public static List<cLogSQL> Log { get { return Database.Log; } set { Database.Log = value; } }
         public static bool ConfigLoaded { get; set; }
 
         public static void Load(string server, string database)
         {
-            Database = new cDataBase
+            Database = new DataBaseManager
             {
                 DatabaseSystem = DbSystem.SQLServer,
                 Connection = new SqlConnection(),

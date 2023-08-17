@@ -13,7 +13,7 @@ namespace GNX
 
         public static string ToCurrency(this decimal d)
         {
-            return cConvert.ToCurrency(d.ToString());
+            return Cast.ToCurrency(d.ToString());
         }
 
         public static string ToNumber(this decimal value, int decimals = 2, bool customLanguage = false)

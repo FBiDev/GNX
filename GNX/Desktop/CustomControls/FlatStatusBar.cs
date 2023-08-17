@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -25,7 +25,7 @@ namespace GNX.Desktop
                 {
                     lblStatus1.Text = value.ToString() + " registro";
 
-                    if (cConvert.ToInt(value) > 1)
+                    if (Cast.ToInt(value) > 1)
                     {
                         lblStatus1.Text += "s";
                     }

@@ -48,7 +48,7 @@
 	<ItemGroup>
 		<Compile Include="Any\Config\AppEnums.cs" />
 		<Compile Include="Any\Config\DB.cs" />
-		<Compile Include="Any\Database\cDataBase.cs" />
+		<Compile Include="Any\Database\DataBaseManager.cs" />
 		<Compile Include="Any\Database\cSqlParameter.cs" />
 		<Compile Include="Any\Database\cSqlResult.cs" />
 		<Compile Include="Any\Database\DataRowExtension.cs" />
@@ -63,8 +63,7 @@
 		<Compile Include="Any\FileManager\CRC32.cs" />
 		<Compile Include="Any\FileManager\XmlManager.cs" />
 		<Compile Include="Any\FileManager\StringWriterUTF8.cs" />
-		<Compile Include="Any\Generics\cConvert.cs" />
-		<Compile Include="Any\Generics\cExceptionSQLite.cs" />
+		<Compile Include="Any\Generics\Cast.cs" />
 		<Compile Include="Any\Generics\ObjectManager.cs" />
 		<Compile Include="Any\Generics\Colors.cs" />
 		<Compile Include="Any\Generics\TaskController.cs" />
@@ -74,7 +73,7 @@
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Base\DataGridBase.Designer.cs">
-			<DependentUpon>Desktop\CustomControls\Base\DataGridBase.cs</DependentUpon>
+			<DependentUpon>DataGridBase.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Base\FlatComboBoxNew.cs">
 			<SubType>Component</SubType>
@@ -83,55 +82,55 @@
 			<SubType>UserControl</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Base\FlatTextBoxBase.designer.cs">
-			<DependentUpon>..\..\..\CustomControls\Desktop\Base\FlatTextBoxBase.cs</DependentUpon>
+			<DependentUpon>FlatTextBoxBase.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\BaseForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\BaseForm.Designer.cs">
-			<DependentUpon>..\..\..\CustomControls\Desktop\Form\BaseForm.cs</DependentUpon>
+			<DependentUpon>BaseForm.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\BaseForm2.cs">
 			<SubType>Form</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\BaseForm2.Designer.cs">
-			<DependentUpon>..\..\..\CustomControls\Desktop\Form\BaseForm2.cs</DependentUpon>
+			<DependentUpon>BaseForm2.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\ContentBaseForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\ContentBaseForm.Designer.cs">
-			<DependentUpon>..\..\..\CustomControls\Desktop\Form\ContentBaseForm.cs</DependentUpon>
+			<DependentUpon>ContentBaseForm.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\FormBase.cs">
 			<SubType>Form</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\FormBase.Designer.cs">
-			<DependentUpon>..\..\..\CustomControls\Desktop\Form\FormBase.cs</DependentUpon>
+			<DependentUpon>FormBase.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\MainBaseForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Form\MainBaseForm.Designer.cs">
-			<DependentUpon>..\..\..\CustomControls\Desktop\Form\MainBaseForm.cs</DependentUpon>
+			<DependentUpon>MainBaseForm.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Test\MaskedTextBoxBlue.cs">
 			<SubType>UserControl</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Test\MaskedTextBoxBlue.Designer.cs">
-			<DependentUpon>..\..\..\CustomControls\Desktop\Test\MaskedTextBoxBlue.cs</DependentUpon>
+			<DependentUpon>MaskedTextBoxBlue.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Test\MenuBar.cs">
 			<SubType>UserControl</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Test\MenuBar.Designer.cs">
-			<DependentUpon>..\..\..\CustomControls\Desktop\Test\MenuBar.cs</DependentUpon>
+			<DependentUpon>MenuBar.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Test\PanelResizable.cs">
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Test\PanelResizable.Designer.cs">
-			<DependentUpon>..\..\..\CustomControls\Desktop\Test\PanelResizable.cs</DependentUpon>
+			<DependentUpon>PanelResizable.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\Test\Win32.cs" />
 		<Compile Include="Desktop\CustomControls\FlatButton.cs">
@@ -141,50 +140,50 @@
 			<SubType>UserControl</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatCheckBox.Designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatCheckBox.cs</DependentUpon>
+			<DependentUpon>FlatCheckBox.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatComboBox.cs">
 			<SubType>UserControl</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatComboBox.designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatComboBox.cs</DependentUpon>
+			<DependentUpon>FlatComboBox.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatDataGrid.cs">
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatDataGrid.Designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatDataGrid.cs</DependentUpon>
+			<DependentUpon>FlatDataGrid.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatGroupBox.cs">
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatGroupBox.Designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatGroupBox.cs</DependentUpon>
+			<DependentUpon>FlatGroupBox.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatLabel.cs">
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatLabel.Designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatLabel.cs</DependentUpon>
+			<DependentUpon>FlatLabel.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatListView.cs">
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatListView.Designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatListView.cs</DependentUpon>
+			<DependentUpon>FlatListView.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatListViewItem.cs" />
 		<Compile Include="Desktop\CustomControls\FlatMaskedTextBox.cs">
 			<SubType>UserControl</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatMaskedTextBox.designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatMaskedTextBox.cs</DependentUpon>
+			<DependentUpon>FlatMaskedTextBox.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatPanel.cs">
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatPanel.Designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatPanel.cs</DependentUpon>
+			<DependentUpon>FlatPanel.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatPanelBG.cs">
 			<SubType>Component</SubType>
@@ -196,13 +195,13 @@
 			<SubType>Component</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatProgressBar.Designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatProgressBar.cs</DependentUpon>
+			<DependentUpon>FlatProgressBar.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatStatusBar.cs">
 			<SubType>UserControl</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatStatusBar.Designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatStatusBar.cs</DependentUpon>
+			<DependentUpon>FlatStatusBar.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatTabControl.cs">
 			<SubType>Component</SubType>
@@ -211,7 +210,7 @@
 			<SubType>UserControl</SubType>
 		</Compile>
 		<Compile Include="Desktop\CustomControls\FlatTextBox.designer.cs">
-			<DependentUpon>..\..\CustomControls\Desktop\FlatTextBox.cs</DependentUpon>
+			<DependentUpon>FlatTextBox.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\Config\AppEnums.cs" />
 		<Compile Include="Desktop\Config\AppManager.cs" />
@@ -266,6 +265,7 @@
 			<DependentUpon>DebugForm.cs</DependentUpon>
 		</Compile>
 		<Compile Include="Desktop\DebugLayer\Messages.cs" />
+		<Compile Include="Any\Config\cExceptionSQLite.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="Any\Resources\ICO\ico_debug.ico" />

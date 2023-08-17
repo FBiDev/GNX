@@ -7,7 +7,25 @@ namespace GNX.Desktop
 {
     public partial class FlatCheckBox : UserControl
     {
+        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        public new AutoSizeMode AutoSizeMode
+        {
+            get { return base.AutoSizeMode; }
+            set { base.AutoSizeMode = value; }
+        }
+
+        [DefaultValue(typeof(Color), "213, 223, 229")]
+        public new Color BackColor
+        {
+            get { return base.BackColor; }
+            set { base.BackColor = value; }
+        }
+
         #region Properties
+        protected Color _BackgroundColor = Color.White;
+        [Category("_Colors"), DefaultValue(typeof(Color), "White")]
+        public Color BackgroundColor { get { return _BackgroundColor; } set { _BackgroundColor = value; } }
+
         protected Color _BorderColor = Color.FromArgb(213, 223, 229);
         [Category("_Colors"), DefaultValue(typeof(Color), "213, 223, 229")]
         public Color BorderColor { get { return _BorderColor; } set { _BorderColor = value; } }
@@ -18,13 +36,6 @@ namespace GNX.Desktop
 
         [Category("_Colors"), DefaultValue(typeof(Color), "213, 223, 229")]
         Color BorderColorLeave { get; set; }
-
-        [Category("_Colors"), DefaultValue(typeof(Color), "White")]
-        public new Color BackColor
-        {
-            get { return pnlBgWhite.BackColor; }
-            set { pnlBgWhite.BackColor = value; }
-        }
         #endregion
 
         [Category("_Data"), DefaultValue("")]
@@ -57,6 +68,7 @@ namespace GNX.Desktop
         public void ResetColors()
         {
             base.BackColor = BorderColor;
+            pnlBgWhite.BackColor = BackgroundColor;
             BorderColorFocus = _BorderColorFocus;
             BorderColorLeave = BorderColor;
         }

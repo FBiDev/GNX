@@ -12,6 +12,14 @@
             }
         }
 
+        public static void ResetPanelForm(FlatPanel pnlForm)
+        {
+            var textbox = pnlForm.GetControls<FlatTextBox>();
+
+            foreach (var item in textbox)
+                ResetControls(item);
+        }
+
         public static bool IsInvalidObject<T>(T obj) where T : class, new()
         {
             if (obj.IsNull() || obj.IsEqual(new T()))

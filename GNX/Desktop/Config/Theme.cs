@@ -31,7 +31,7 @@ namespace GNX.Desktop
             }
         }
 
-        public static bool DarkMode()
+        public static bool ToggleDarkMode()
         {
             if (SelectedTheme != eTheme.Dark)
             {

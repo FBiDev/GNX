@@ -14,17 +14,17 @@ namespace GNX.Desktop
             set { base.AutoSizeMode = value; }
         }
 
-        [DefaultValue(typeof(Color), "213, 223, 229")]
+        [Category("_Colors"), DefaultValue(typeof(Color), "White")]
         public new Color BackColor
         {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
+            get { return pnlBgWhite.BackColor; }
+            set { pnlBgWhite.BackColor = value; }
         }
 
         #region Properties
         protected Color _BackgroundColor = Color.White;
         [Category("_Colors"), DefaultValue(typeof(Color), "White")]
-        public Color BackgroundColor { get { return _BackgroundColor; } set { _BackgroundColor = value; } }
+        internal Color BackgroundColor { get { return _BackgroundColor; } set { _BackgroundColor = value; } }
 
         protected Color _BorderColor = Color.FromArgb(213, 223, 229);
         [Category("_Colors"), DefaultValue(typeof(Color), "213, 223, 229")]
@@ -68,7 +68,7 @@ namespace GNX.Desktop
         public void ResetColors()
         {
             base.BackColor = BorderColor;
-            pnlBgWhite.BackColor = BackgroundColor;
+            BackColor = BackgroundColor;
             BorderColorFocus = _BorderColorFocus;
             BorderColorLeave = BorderColor;
         }

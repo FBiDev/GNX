@@ -16,6 +16,12 @@
         Edição
     }
 
+    public enum LabelType
+    {
+        Normal,
+        Error
+    }
+
     public enum TextMask
     {
         None,

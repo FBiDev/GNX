@@ -8,14 +8,14 @@ namespace GNX.Desktop
     public partial class FlatMaskedTextBox : FlatTextBoxBase
     {
         #region Defaults
-        [DefaultValue(typeof(Size), "800, 34")]
+        [DefaultValue(typeof(Size), "1500, 34")]
         public new Size MaximumSize
         {
             get { return base.MaximumSize; }
             set { base.MaximumSize = value; }
         }
 
-        [DefaultValue(typeof(Size), "100, 34")]
+        [DefaultValue(typeof(Size), "64, 34")]
         public new Size MinimumSize
         {
             get { return base.MinimumSize; }
@@ -159,8 +159,8 @@ namespace GNX.Desktop
 
             Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
             Size = new Size(206, 34);
-            MaximumSize = new Size(800, 34);
-            MinimumSize = new Size(100, 34);
+            MaximumSize = new Size(1500, 34);
+            MinimumSize = new Size(64, 34);
         }
 
         public void ResetColors()

@@ -10,14 +10,21 @@ namespace GNX.Desktop
     public partial class FlatComboBox : UserControl
     {
         #region Defaults
-        [DefaultValue(typeof(Size), "800, 34")]
+        [DefaultValue(typeof(Padding), "2, 2, 2, 2")]
+        public new Padding Margin
+        {
+            get { return base.Margin; }
+            set { base.Margin = value; }
+        }
+
+        [DefaultValue(typeof(Size), "1500, 34")]
         public new Size MaximumSize
         {
             get { return base.MaximumSize; }
             set { base.MaximumSize = value; }
         }
 
-        [DefaultValue(typeof(Size), "100, 34")]
+        [DefaultValue(typeof(Size), "64, 34")]
         public new Size MinimumSize
         {
             get { return base.MinimumSize; }
@@ -161,8 +168,9 @@ namespace GNX.Desktop
             Cursor = Cursors.Hand;
             Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
             Size = new Size(206, 34);
-            MaximumSize = new Size(800, 34);
-            MinimumSize = new Size(100, 34);
+            MaximumSize = new Size(1500, 34);
+            MinimumSize = new Size(64, 34);
+            Margin = new Padding(2);
 
             Combo.Sorted = false;
         }

@@ -20,6 +20,11 @@ namespace GNX.Desktop
         public override void FlatLabel(FlatLabel c)
         {
             c.ForeColor = c.OriginalForeColor;
+
+            switch (c.ForeColorType)
+            {
+                case LabelType.Error: c.ForeColor = Color.Firebrick; break;
+            }
         }
 
         public override void FlatButton(FlatButton c)

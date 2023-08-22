@@ -25,6 +25,11 @@ namespace GNX.Desktop
         public override void FlatLabel(FlatLabel c)
         {
             c.ForeColor = Colors.HTML("A3B2DC");
+
+            switch (c.ForeColorType)
+            {
+                case LabelType.Error: c.ForeColor = Color.LightCoral; break;
+            }
         }
 
         public override void FlatButton(FlatButton c)

@@ -8,6 +8,12 @@ namespace GNX.Desktop
     public partial class FlatTextBoxBase : UserControl
     {
         #region Defaults
+        [DefaultValue(typeof(Padding), "2, 2, 2, 2")]
+        public new Padding Margin
+        {
+            get { return base.Margin; }
+            set { base.Margin = value; }
+        }
         #endregion
 
         #region Properties
@@ -37,6 +43,8 @@ namespace GNX.Desktop
 
             pnlBg.MouseEnter += pnlBg_MouseEnter;
             lblSubtitle.MouseEnter += lblSubtitle_MouseEnter;
+
+            Margin = new Padding(2);
         }
 
         protected override void OnHandleCreated(EventArgs e)

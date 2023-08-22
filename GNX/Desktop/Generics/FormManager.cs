@@ -8,11 +8,20 @@
             {
                 if (controls[i] is FlatLabel) ((FlatLabel)controls[i]).Text = string.Empty;
                 else if (controls[i] is FlatTextBox) ((FlatTextBox)controls[i]).Text = string.Empty;
+                else if (controls[i] is FlatTableLayoutPanel) ResetPanelForm((FlatTableLayoutPanel)controls[i]);
                 else if (controls[i] is object) controls[i] = null;
             }
         }
 
         public static void ResetPanelForm(FlatPanel pnlForm)
+        {
+            var textbox = pnlForm.GetControls<FlatTextBox>();
+
+            foreach (var item in textbox)
+                ResetControls(item);
+        }
+
+        public static void ResetPanelForm(FlatTableLayoutPanel pnlForm)
         {
             var textbox = pnlForm.GetControls<FlatTextBox>();
 

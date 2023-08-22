@@ -8,6 +8,13 @@ namespace GNX.Desktop
     public class FlatButton : Button
     {
         #region Defaults
+        [DefaultValue(typeof(Padding), "2, 2, 2, 2")]
+        public new Padding Margin
+        {
+            get { return base.Margin; }
+            set { base.Margin = value; }
+        }
+
         [Category("_Colors"), DefaultValue(typeof(Color), "230, 230, 230")]
         public new Color BackColor
         {
@@ -165,6 +172,7 @@ namespace GNX.Desktop
 
             MinimumSize = new Size(24, 24);
             Size = new Size(82, 34);
+            Margin = new Padding(2);
 
             base.UseVisualStyleBackColor = false;
             FlatStyle = FlatStyle.Flat;

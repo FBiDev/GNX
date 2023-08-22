@@ -72,6 +72,9 @@ namespace GNX.Desktop
             set { base.BackColor = value; }
         }
 
+        [DefaultValue(typeof(LabelType), "Normal")]
+        public LabelType ForeColorType { get; set; }
+
         public FlatLabel()
         {
             InitializeComponent();

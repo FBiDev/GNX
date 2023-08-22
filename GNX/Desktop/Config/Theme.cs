@@ -8,7 +8,6 @@ namespace GNX.Desktop
     {
         public enum eTheme
         {
-            Empty,
             Light,
             Dark
         }
@@ -49,7 +48,6 @@ namespace GNX.Desktop
 
             switch (SelectedTheme)
             {
-                case eTheme.Empty: ColorSet = null; break;
                 case eTheme.Light: ColorSet = new ThemeColorLight(); break;
                 case eTheme.Dark: ColorSet = new ThemeColorDark(); break;
             }

@@ -14,10 +14,7 @@ namespace GNX
 
             try
             {
-                stackTrace += ObjectManager.GetDaoClassAndMethod(9) + newLine;
-                stackTrace += ObjectManager.GetDaoClassAndMethod(12) + newLine;
-                stackTrace += ObjectManager.GetDaoClassAndMethod(15) + newLine;
-                stackTrace += ObjectManager.GetDaoClassAndMethod(18) + newLine;
+                stackTrace += ObjectManager.GetStackTrace();
             }
             catch
             {
@@ -60,6 +57,7 @@ namespace GNX
                         CustomMessage = "";
                     }
                 }
+                CustomMessage = ex.Message + errorLineBreak + Error.Data["Error"];
             }
             else if (ExType == typeof(InvalidOperationException))
             {

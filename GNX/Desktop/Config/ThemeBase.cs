@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace GNX.Desktop
 {
-    public static class Theme
+    public static class ThemeBase
     {
         public enum eTheme
         {
@@ -13,6 +13,8 @@ namespace GNX.Desktop
         }
 
         public static eTheme SelectedTheme { get; set; }
+        static bool SelectedThemeChanged;
+
         static ThemeColor _ColorSet;
         public static ThemeColor ColorSet
         {
@@ -25,26 +27,32 @@ namespace GNX.Desktop
                 _ColorSet = value;
 
                 if (_ColorSet == null) return;
+
+                if (SelectedThemeChanged == false) return;
+
                 foreach (Form f in Application.OpenForms)
+                {
                     CheckTheme(f);
+                }
             }
         }
 
-        public static bool ToggleDarkMode()
+        public static int ToggleDarkMode()
         {
             if (SelectedTheme != eTheme.Dark)
             {
                 SetTheme(eTheme.Dark);
-                return true;
+                return 1;
             }
 
             SetTheme(eTheme.Light);
-            return false;
+            return 0;
         }
 
         public static void SetTheme(eTheme newTheme)
         {
             SelectedTheme = newTheme;
+            SelectedThemeChanged = true;
 
             switch (SelectedTheme)
             {
@@ -53,7 +61,57 @@ namespace GNX.Desktop
             }
         }
 
-        internal static void CheckTheme(Form f)
+        public static void CheckControlTheme(Control control)
+        {
+            if (ColorSet.IsNull()) ColorSet = new ThemeColorLight();
+
+            if (control is FlatPanel)
+                ColorSet.FlatPanel((FlatPanel)control);
+            else if (control is FlatLabel)
+                ColorSet.FlatLabel((FlatLabel)control);
+
+            if (control is FlatButton)
+            {
+                ColorSet.FlatButton((FlatButton)control);
+                ((FlatButton)control).ResetColors();
+            }
+            else if (control is FlatCheckBox)
+            {
+                ColorSet.FlatCheckBox((FlatCheckBox)control);
+                ((FlatCheckBox)control).ResetColors();
+            }
+            else if (control is FlatTextBox)
+            {
+                ColorSet.FlatTextBox((FlatTextBox)control);
+                ((FlatTextBox)control).ResetColors();
+            }
+            else if (control is FlatMaskedTextBox)
+            {
+                ColorSet.FlatMaskedTextBox((FlatMaskedTextBox)control);
+                ((FlatMaskedTextBox)control).ResetColors();
+            }
+            else if (control is FlatComboBox)
+            {
+                ColorSet.FlatComboBox((FlatComboBox)control);
+                ((FlatComboBox)control).ResetColors();
+            }
+            else if (control is FlatStatusBar)
+                ColorSet.FlatStatusBar((FlatStatusBar)control);
+            else if (control is FlatTabControl)
+                ColorSet.FlatTabControl((FlatTabControl)control);
+            else if (control is FlatPictureBox)
+                ColorSet.FlatPictureBox((FlatPictureBox)control);
+            else if (control is FlatGroupBox)
+                ColorSet.FlatGroupBox((FlatGroupBox)control);
+            else if (control is FlatListView)
+                ColorSet.FlatListView((FlatListView)control);
+            else if (control is FlatDataGrid)
+                ColorSet.FlatDataGrid((FlatDataGrid)control);
+            else if (control is RichTextBox)
+                ColorSet.RichTextBox((RichTextBox)control);
+        }
+
+        public static void CheckTheme(Form f)
         {
             if (ColorSet == null) return;
 
@@ -63,41 +121,12 @@ namespace GNX.Desktop
                 ColorSet.MainBaseForm((MainBaseForm)f);
             else if (f is ContentBaseForm)
                 ColorSet.ContentBaseForm((ContentBaseForm)f);
+            else if (f is Form)
+                ColorSet.Form(f);
 
             foreach (var control in f.GetControls<Control>())
             {
-                if (control is FlatPanel)
-                    ColorSet.FlatPanel((FlatPanel)control);
-                else if (control is FlatLabel)
-                    ColorSet.FlatLabel((FlatLabel)control);
-
-                if (control is FlatButton)
-                {
-                    ColorSet.FlatButton((FlatButton)control);
-                    ((FlatButton)control).ResetColors();
-                }
-                else if (control is FlatCheckBox)
-                {
-                    ColorSet.FlatCheckBox((FlatCheckBox)control);
-                    ((FlatCheckBox)control).ResetColors();
-                }
-                else if (control is FlatTextBox)
-                {
-                    ColorSet.FlatTextBox((FlatTextBox)control);
-                    ((FlatTextBox)control).ResetColors();
-                }
-                else if (control is FlatMaskedTextBox)
-                {
-                    ColorSet.FlatMaskedTextBox((FlatMaskedTextBox)control);
-                    ((FlatMaskedTextBox)control).ResetColors();
-                }
-                else if (control is FlatComboBox)
-                {
-                    ColorSet.FlatComboBox((FlatComboBox)control);
-                    ((FlatComboBox)control).ResetColors();
-                }
-                else if (control is FlatStatusBar)
-                    ColorSet.FlatStatusBar((FlatStatusBar)control);
+                CheckControlTheme(control);
             }
         }
 

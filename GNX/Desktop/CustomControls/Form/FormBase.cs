@@ -38,7 +38,7 @@ namespace GNX.Desktop
             if (ico is Icon)
                 Icon = ico;
 
-            Theme.CheckTheme(frm);
+            ThemeBase.CheckTheme(frm);
         }
 
         public static Icon ico { get; set; }

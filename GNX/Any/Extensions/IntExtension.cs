@@ -11,6 +11,11 @@ namespace GNX
             return "NULL";
         }
 
+        public static bool ToBool(this int value)
+        {
+            return Cast.ToBoolean(value.ToString());
+        }
+
         public static string ToCurrency(this decimal d)
         {
             return Cast.ToCurrency(d.ToString());

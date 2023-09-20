@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlHead = new FlatPanelBG();
-            this.pnlBody = new FlatPanelBG();
-            this.pnlContent = new FlatPanel();
-            this.pnlFoot = new FlatPanelBG();
-            this.staStatus = new FlatStatusBar();
+            this.pnlHead = new GNX.Desktop.FlatPanelBG();
+            this.pnlBody = new GNX.Desktop.FlatPanelBG();
+            this.pnlContent = new GNX.Desktop.FlatPanel();
+            this.pnlFoot = new GNX.Desktop.FlatPanelBG();
+            this.staStatus = new GNX.Desktop.FlatStatusBar();
             this.pnlHead.SuspendLayout();
             this.pnlBody.SuspendLayout();
             this.pnlFoot.SuspendLayout();
@@ -41,28 +41,30 @@
             // pnlHead
             // 
             this.pnlHead.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.pnlHead.BackColorType = GNX.Desktop.PanelType.control;
             this.pnlHead.Controls.Add(this.pnlBody);
             this.pnlHead.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlHead.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.pnlHead.Location = new System.Drawing.Point(0, 0);
             this.pnlHead.Margin = new System.Windows.Forms.Padding(0);
             this.pnlHead.Name = "pnlHead";
             this.pnlHead.Padding = new System.Windows.Forms.Padding(8);
             this.pnlHead.Size = new System.Drawing.Size(480, 246);
-            this.pnlHead.OriginalBackColor = System.Drawing.Color.Empty;
             // 
             // pnlBody
             // 
             this.pnlBody.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.pnlBody.BackColorType = GNX.Desktop.PanelType.white;
             this.pnlBody.BorderRound = true;
             this.pnlBody.BorderSize = 1;
             this.pnlBody.Controls.Add(this.pnlContent);
             this.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlBody.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.pnlBody.Location = new System.Drawing.Point(8, 8);
             this.pnlBody.Margin = new System.Windows.Forms.Padding(0);
             this.pnlBody.Name = "pnlBody";
             this.pnlBody.Padding = new System.Windows.Forms.Padding(5);
             this.pnlBody.Size = new System.Drawing.Size(464, 230);
-            this.pnlBody.OriginalBackColor = System.Drawing.Color.Empty;
             // 
             // pnlContent
             // 
@@ -70,18 +72,19 @@
             this.pnlContent.Location = new System.Drawing.Point(5, 5);
             this.pnlContent.Name = "pnlContent";
             this.pnlContent.Size = new System.Drawing.Size(454, 220);
-            this.pnlContent.OriginalBackColor = System.Drawing.Color.Empty;
             // 
             // pnlFoot
             // 
             this.pnlFoot.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.pnlFoot.BackColorType = GNX.Desktop.PanelType.control;
             this.pnlFoot.Controls.Add(this.staStatus);
             this.pnlFoot.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlFoot.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.pnlFoot.Location = new System.Drawing.Point(0, 246);
             this.pnlFoot.Margin = new System.Windows.Forms.Padding(0);
             this.pnlFoot.Name = "pnlFoot";
             this.pnlFoot.Size = new System.Drawing.Size(480, 24);
-            this.pnlFoot.OriginalBackColor = System.Drawing.Color.Empty;
+            this.pnlFoot.TabIndex = 1;
             // 
             // staStatus
             // 
@@ -90,7 +93,7 @@
             this.staStatus.BorderEnable = false;
             this.staStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.staStatus.Location = new System.Drawing.Point(0, 0);
-            this.staStatus.Movimento = Movimento.Nenhum;
+            this.staStatus.Movimento = GNX.Desktop.Movimento.Nenhum;
             this.staStatus.Name = "staStatus";
             this.staStatus.Registros = 0;
             this.staStatus.Size = new System.Drawing.Size(480, 24);

@@ -15,7 +15,8 @@ namespace GNX.Desktop
             set { base.AutoScaleMode = value; }
         }
 
-        public Size OriginalSize;
+        public Size SizeOriginal;
+        public bool isDesignMode = true;
 
         public ContentBaseForm()
         {
@@ -24,15 +25,20 @@ namespace GNX.Desktop
             HandleCreated += (sender, e) =>
             {
                 Init();
-                Theme.CheckTheme(this);
+                if (isDesignMode) return;
+
+                ThemeBase.CheckTheme(this);
             };
 
             Shown += (sender, e) =>
             {
-                Theme.CheckTheme(this);
-
                 foreach (Control control in Controls)
                     control.Enter += Control_Enter;
+
+                isDesignMode = DesignMode;
+                if (isDesignMode) return;
+
+                ThemeBase.CheckTheme(this);
             };
 
             TopLevel = false;
@@ -40,10 +46,7 @@ namespace GNX.Desktop
 
         void Init()
         {
-            OriginalSize = Size;
-
-            this.GetControls<FlatLabel>().ForEach(x => x.OriginalForeColor = x.ForeColor);
-            this.GetControls<FlatPanel>().ForEach(x => x.OriginalBackColor = x.BackColor);
+            SizeOriginal = Size;
 
             var panels = Controls.OfType<FlatPanel>();
 

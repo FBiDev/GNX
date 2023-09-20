@@ -14,7 +14,7 @@ namespace GNX.Desktop
         public new Color GridColor { get { return base.GridColor; } set { base.GridColor = value; } }
         #endregion
 
-        public StatusStrip _Statusbar = new StatusStrip();
+        StatusStrip _Statusbar = new StatusStrip();
         public StatusStrip Statusbar { get { return _Statusbar; } set { _Statusbar = value; } }
 
         protected override bool ShowFocusCues

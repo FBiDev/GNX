@@ -18,8 +18,21 @@
 
     public enum LabelType
     {
-        Normal,
-        Error
+        normal,
+        primary,
+        success,
+        danger,
+        custom
+    }
+
+    public enum PanelType
+    {
+        transparent,
+        control,
+        controlLight,
+        controlDark,
+        white,
+        custom
     }
 
     public enum TextMask

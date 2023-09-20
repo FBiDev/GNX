@@ -47,7 +47,7 @@ namespace GNX.Desktop
         public bool FillOnFormResize { get; set; }
         #endregion
 
-        Size OriginalSize;
+        Size SizeOriginal;
 
         public FlatTableLayoutPanel()
         {
@@ -57,14 +57,14 @@ namespace GNX.Desktop
             Margin = new Padding(0);
             MinimumSize = new Size(64, 34);
 
-            Resize += This_Resize;
+            Resize += OnResize;
         }
 
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
 
-            OriginalSize = Size;
+            SizeOriginal = Size;
 
             int tabIndex = 0;
             foreach (Control control in Controls)
@@ -75,12 +75,12 @@ namespace GNX.Desktop
             }
         }
 
-        void This_Resize(object sender, EventArgs e)
+        public void OnResize(object sender, EventArgs e)
         {
-            if (FillOnFormResize && Parent is Form)
-                if (Parent.Height >= OriginalSize.Height)
+            if (FillOnFormResize && Parent is ContentBaseForm)
+                if (Parent.Height >= SizeOriginal.Height)
                     Dock = DockStyle.Fill;
-                else if (Parent.Height < OriginalSize.Height)
+                else if (Parent.Height < SizeOriginal.Height)
                     Dock = DockStyle.Top;
         }
 

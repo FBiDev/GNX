@@ -32,7 +32,7 @@ namespace GNX.Desktop
 
         #region Properties
         [Category("_Properties")]
-        public Color _BackgroundColorFocus = Color.FromArgb(252, 245, 237);
+        protected Color _BackgroundColorFocus = Color.FromArgb(252, 245, 237);
         [Category("_Colors"), DefaultValue(typeof(Color), "252, 245, 237")]
         public Color BackgroundColorFocus { get { return _BackgroundColorFocus; } set { _BackgroundColorFocus = value; } }
 
@@ -40,15 +40,19 @@ namespace GNX.Desktop
         [Category("_Colors"), DefaultValue(typeof(Color), "47, 47, 47")]
         public Color TextColor { get { return _TextColor; } set { _TextColor = value; } }
 
+        protected Color _TextColorFocus = Color.FromArgb(47, 47, 47);
         [Category("_Colors"), DefaultValue(typeof(Color), "47, 47, 47")]
         public Color TextColorFocus { get { return _TextColorFocus; } set { _TextColorFocus = value; } }
-        protected Color _TextColorFocus = Color.FromArgb(47, 47, 47);
 
         [Category("_Colors"), DefaultValue(typeof(string), "")]
         public string DefaultText { get { return TextBox.Text; } set { TextBox.Text = value; } }
 
         [Category("_Colors"), DefaultValue(typeof(string), "")]
         public string PlaceholderText { get { return lblPlaceholder.Text; } set { lblPlaceholder.Text = value; } }
+
+        protected Color _PlaceholderColor = Color.FromArgb(178, 178, 178);
+        [Category("_Colors"), DefaultValue(typeof(Color), "178, 178, 178")]
+        public Color PlaceholderColor { get { return _PlaceholderColor; } set { _PlaceholderColor = value; } }
 
         int MaxLength;
         TextMask _Mask_;
@@ -94,15 +98,15 @@ namespace GNX.Desktop
                         lblPlaceholder.Text = "(00) 00000-0000";
                         break;
                     case TextMask.NUMERO:
-                        lblPlaceholder.Text = "999";
+                        lblPlaceholder.Text = "000";
                         MaxLength = 10;
                         break;
                     case TextMask.DINHEIRO:
-                        lblPlaceholder.Text = "999,00";
+                        lblPlaceholder.Text = "000,00";
                         break;
                     case TextMask.CEP:
                         txtMain.Mask = "00000-000";
-                        lblPlaceholder.Text = "80000-100";
+                        lblPlaceholder.Text = "00000-000";
                         break;
                 }
             }
@@ -175,6 +179,8 @@ namespace GNX.Desktop
 
             TextBox.BackColor = BackgroundColor;
             TextBox.ForeColor = TextColor;
+
+            lblPlaceholder.ForeColor = PlaceholderColor;
         }
 
         protected override void OnHandleCreated(EventArgs e)

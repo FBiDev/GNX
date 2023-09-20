@@ -17,7 +17,17 @@ namespace GNX.Desktop
             set { base.BackColor = value; }
         }
 
-        public Color OriginalBackColor { get; set; }
+        PanelType _BackColorType;
+        [DefaultValue(typeof(PanelType), "transparent")]
+        public PanelType BackColorType
+        {
+            get { return _BackColorType; }
+            set
+            {
+                _BackColorType = value;
+                ThemeBase.CheckControlTheme(this);
+            }
+        }
 
         [DefaultValue(typeof(Color), "0xA0A0A0")]
         public Color BorderColor { get; set; }

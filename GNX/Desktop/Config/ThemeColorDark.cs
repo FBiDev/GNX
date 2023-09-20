@@ -5,30 +5,35 @@ namespace GNX.Desktop
 {
     public class ThemeColorDark : ThemeColor
     {
-        public override void WindowForm(Form f) { Theme.SetWindowDark(f.Handle, 1); }
-        public override void MainBaseForm(MainBaseForm f) { f.BackColor = Colors.HTML("242424"); }
-        public override void ContentBaseForm(ContentBaseForm f) { f.BackColor = Colors.HTML("242424"); }
+        public override void WindowForm(Form f) { ThemeBase.SetWindowDark(f.Handle, 1); }
+        public override void MainBaseForm(MainBaseForm f) { f.BackColor = Colors.RGB(53, 53, 53); }
+        public override void ContentBaseForm(ContentBaseForm f) { f.BackColor = Colors.RGB(53, 53, 53); }
+        public override void Form(Form f) { f.BackColor = Colors.RGB(53, 53, 53); }
 
         public override void FlatPanel(FlatPanel c)
         {
-            c.BorderColor = Colors.HTML("424242");
+            c.ForeColor = Colors.RGB(210, 210, 210);
+            c.BorderColor = Colors.RGB(86, 86, 86);
 
-            if (c.OriginalBackColor != Color.Transparent)
+            switch (c.BackColorType)
             {
-                if (c.OriginalBackColor == Colors.HTML("F0F0F0"))
-                    c.BackColor = Colors.HTML("242424");
-                else if (c.OriginalBackColor == Colors.HTML("FCFCFC"))
-                    c.BackColor = Colors.HTML("272727");
+                case PanelType.transparent: c.BackColor = Color.Transparent; break;
+                case PanelType.control: c.BackColor = Colors.RGB(53, 53, 53); break;
+                case PanelType.controlLight: c.BackColor = Colors.RGB(53, 53, 53); break;
+                case PanelType.controlDark: c.BackColor = Colors.RGB(42, 42, 42); break;
+                case PanelType.white: c.BackColor = Colors.RGB(42, 42, 42); break;
             }
         }
 
         public override void FlatLabel(FlatLabel c)
         {
-            c.ForeColor = Colors.HTML("A3B2DC");
+            c.ForeColor = Colors.RGB(210, 210, 210);
 
             switch (c.ForeColorType)
             {
-                case LabelType.Error: c.ForeColor = Color.LightCoral; break;
+                case LabelType.primary: c.ForeColor = Colors.RGB(163, 178, 220); break;
+                case LabelType.success: c.ForeColor = Colors.RGB(36, 155, 63); break;
+                case LabelType.danger: c.ForeColor = Color.LightCoral; break;
             }
         }
 
@@ -36,51 +41,106 @@ namespace GNX.Desktop
         {
             c.BackgroundColor = Colors.RGB(80, 80, 80);
             c.BackgroundColorFocus = Colors.RGB(80, 80, 80);
-            c.BorderColor = Colors.RGB(102, 102, 102);
-            c.BorderColorDefault = Colors.RGB(102, 102, 102);
+            c.BorderColor = Colors.RGB(86, 86, 86);
+            c.BorderColorDefault = Colors.RGB(86, 86, 86);
             c.TextColor = Colors.RGB(210, 210, 210);
-            c.SelectedColor = Colors.RGB(25, 25, 25);
+            c.SelectedColor = Colors.RGB(30, 30, 30);
         }
 
         public override void FlatCheckBox(FlatCheckBox c)
         {
-            c.BorderColor = ColorTranslator.FromHtml("#424242");
-            c.BorderColorFocus = Color.FromArgb(108, 132, 199);
-            c.BackgroundColor = ColorTranslator.FromHtml("#191919");
+            c.BorderColor = Colors.RGB(86, 86, 86);
+            c.BorderColorFocus = Colors.RGB(108, 132, 199);
+            c.BackgroundColor = Colors.RGB(30, 30, 30);
         }
 
         public override void FlatTextBox(FlatTextBox c)
         {
-            c.BackgroundColor = Colors.HTML("191919");
-            c.BackgroundColorFocus = Colors.HTML("191919");
-            c.LabelTextColor = Colors.HTML("A3B2DC");
-            c.TextColor = Colors.HTML("D2D2D2");
-            c.TextColorFocus = Colors.HTML("D2D2D2");
-            c.BorderColor = Colors.HTML("424242");
+            c.BackgroundColor = Colors.RGB(30, 30, 30);
+            c.BackgroundColorFocus = Colors.RGB(50, 50, 60);
+            c.LabelTextColor = Colors.RGB(163, 178, 220);
+            c.TextColor = Colors.RGB(210, 210, 210);
+            c.TextColorFocus = Colors.RGB(210, 210, 210);
+            c.BorderColor = Colors.RGB(86, 86, 86);
         }
 
         public override void FlatMaskedTextBox(FlatMaskedTextBox c)
         {
-            c.BackgroundColor = Colors.HTML("191919");
-            c.BackgroundColorFocus = Colors.HTML("191919");
-            c.LabelTextColor = Colors.HTML("A3B2DC");
-            c.TextColor = Colors.HTML("D2D2D2");
-            c.TextColorFocus = Colors.HTML("D2D2D2");
-            c.BorderColor = Colors.HTML("424242");
+            c.BackgroundColor = Colors.RGB(30, 30, 30);
+            c.BackgroundColorFocus = Colors.RGB(50, 50, 60);
+            c.LabelTextColor = Colors.RGB(163, 178, 220);
+            c.TextColor = Colors.RGB(210, 210, 210);
+            c.TextColorFocus = Colors.RGB(210, 210, 210);
+            c.BorderColor = Colors.RGB(86, 86, 86);
+            c.PlaceholderColor = Colors.RGB(108, 108, 108);
         }
 
         public override void FlatComboBox(FlatComboBox c)
         {
-            c.BackgroundColor = Colors.HTML("191919");
-            c.LabelTextColor = Colors.HTML("A3B2DC");
-            c.ItemTextColor = Colors.HTML("D2D2D2");
-            c.BorderColor = Colors.HTML("424242");
+            c.BackgroundColor = Colors.RGB(30, 30, 30);
+            c.LabelTextColor = Colors.RGB(163, 178, 220);
+            c.ItemTextColor = Colors.RGB(210, 210, 210);
+            c.BorderColor = Colors.RGB(86, 86, 86);
         }
 
         public override void FlatStatusBar(FlatStatusBar c)
         {
-            c.BackColor = Colors.HTML("424242");
-            c.BackColorContent = Colors.HTML("242424");
+            c.BackColor = Colors.RGB(86, 86, 86);
+            c.BackColorContent = Colors.RGB(53, 53, 53);
+        }
+
+        public override void FlatTabControl(FlatTabControl c)
+        {
+            c.myBackColor = Colors.RGB(53, 53, 53);
+            c.myBackColor2 = Colors.RGB(30, 30, 30);
+            c.myBorderColor = Colors.RGB(86, 86, 86);
+
+            foreach (TabPage page in c.TabPages)
+            {
+                page.ForeColor = Colors.RGB(210, 210, 210);
+                page.BackColor = Colors.RGB(53, 53, 53);
+            }
+        }
+
+        public override void FlatPictureBox(FlatPictureBox c)
+        {
+            c.BackColor = Colors.RGB(53, 53, 53);
+        }
+
+        public override void FlatGroupBox(FlatGroupBox c)
+        {
+            c.ForeColor = Colors.RGB(210, 210, 210);
+            c.BackColor = Colors.RGB(53, 53, 53);
+            c.BorderColor = Colors.RGB(86, 86, 86);
+        }
+
+        public override void FlatListView(FlatListView c)
+        {
+            c.BackColor = Colors.RGB(53, 53, 53);
+        }
+
+        public override void FlatDataGrid(FlatDataGrid c)
+        {
+            c.ColorBackground = ColorTranslator.FromHtml("#212121");
+            c.ColorGrid = c.ColorBackground;
+
+            c.ColorRow = c.ColorBackground;
+            c.ColorRowAlternate = ColorTranslator.FromHtml("#242424");
+
+            c.ColorRowSelection = ColorTranslator.FromHtml("#0F0F0F");
+            c.ColorRowMouseHover = ColorTranslator.FromHtml("#353535");
+
+            c.ColorFontRow = ColorTranslator.FromHtml("#D2D2D2");
+            c.ColorFontRowSelection = c.ColorFontRow;
+
+            c.ColorColumnHeader = ColorTranslator.FromHtml("#3F3F3F");
+            c.ColorColumnSelection = c.ColorColumnHeader;
+        }
+
+        public override void RichTextBox(RichTextBox c)
+        {
+            c.ForeColor = Colors.RGB(210, 210, 210);
+            c.BackColor = Colors.RGB(42, 42, 42);
         }
     }
 }

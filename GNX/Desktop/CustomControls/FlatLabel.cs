@@ -63,7 +63,17 @@ namespace GNX.Desktop
             set { base.ForeColor = value; }
         }
 
-        public Color OriginalForeColor { get; set; }
+        LabelType _ForeColorType;
+        [DefaultValue(typeof(LabelType), "normal")]
+        public LabelType ForeColorType
+        {
+            get { return _ForeColorType; }
+            set
+            {
+                _ForeColorType = value;
+                ThemeBase.CheckControlTheme(this);
+            }
+        }
 
         [DefaultValue(typeof(Color), "Transparent")]
         public new Color BackColor
@@ -71,9 +81,6 @@ namespace GNX.Desktop
             get { return base.BackColor; }
             set { base.BackColor = value; }
         }
-
-        [DefaultValue(typeof(LabelType), "Normal")]
-        public LabelType ForeColorType { get; set; }
 
         public FlatLabel()
         {

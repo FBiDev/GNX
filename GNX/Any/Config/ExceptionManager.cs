@@ -2,6 +2,7 @@
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.IO;
+using System.Reflection;
 
 namespace GNX
 {
@@ -41,6 +42,11 @@ namespace GNX
 
             bool externalDLL = false;
 
+            string innerMessage = string.Empty;
+
+            if (ex.InnerException != null)
+                innerMessage = ex.InnerException.Message + errorLineBreak;
+
             AddDataError(ex);
 
             if (ExType == typeof(Exception))
@@ -57,7 +63,11 @@ namespace GNX
                         CustomMessage = "";
                     }
                 }
-                CustomMessage = ex.Message + errorLineBreak + Error.Data["Error"];
+                CustomMessage = ex.Message + errorLineBreak + innerMessage + Error.Data["Error"];
+            }
+            else if (ExType == typeof(TargetInvocationException))
+            {
+                CustomMessage = ex.Message + errorLineBreak + innerMessage + Error.Data["Error"];
             }
             else if (ExType == typeof(InvalidOperationException))
             {

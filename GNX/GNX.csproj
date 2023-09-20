@@ -68,7 +68,7 @@
     <Compile Include="Any\Generics\Colors.cs" />
     <Compile Include="Any\Generics\TaskController.cs" />
     <Compile Include="Any\Plugins\Brotli.cs" />
-    <Compile Include="Any\Plugins\Json.cs" />
+    <Compile Include="Any\Plugins\JsonAny.cs" />
     <Compile Include="Desktop\CustomControls\Base\DataGridBase.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -220,11 +220,12 @@
     <Compile Include="Desktop\Config\ThemeColor.cs" />
     <Compile Include="Desktop\Config\ThemeColorDark.cs" />
     <Compile Include="Desktop\Config\ThemeColorLight.cs" />
-    <Compile Include="Desktop\Config\Theme.cs" />
+    <Compile Include="Desktop\Config\ThemeBase.cs" />
     <Compile Include="Any\Database\cLogSQL.cs" />
     <Compile Include="Desktop\Extensions\BindingListExtension.cs" />
     <Compile Include="Desktop\Extensions\PictureBoxExtension.cs" />
     <Compile Include="Desktop\Extensions\DataGridViewExtension.cs" />
+    <Compile Include="Desktop\Plugins\Json.cs" />
     <Compile Include="Web\Extensions\EnumExtensionWeb.cs" />
     <Compile Include="Desktop\Extensions\FormExtension.cs" />
     <Compile Include="Desktop\Extensions\GraphicsExtension.cs" />

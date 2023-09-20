@@ -33,6 +33,7 @@ namespace GNX.Desktop
         }
 
         public static Icon ico { get; set; }
+        public bool isDesignMode = true;
 
         public MainBaseForm()
         {
@@ -40,12 +41,17 @@ namespace GNX.Desktop
             HandleCreated += (sender, e) =>
             {
                 Init();
-                Theme.CheckTheme(this);
+                if (isDesignMode) return;
+
+                ThemeBase.CheckTheme(this);
             };
 
             Shown += (sender, e) =>
             {
-                Theme.CheckTheme(this);
+                isDesignMode = DesignMode;
+                if (isDesignMode) return;
+
+                ThemeBase.CheckTheme(this);
             };
 
             ResizeRedraw = true;
@@ -57,8 +63,6 @@ namespace GNX.Desktop
         {
             if (ico is Icon)
                 Icon = ico;
-
-            this.GetControls<FlatPanel>().ForEach(x => x.OriginalBackColor = x.BackColor);
         }
 
         public void SetMainFormContent(Form frm)

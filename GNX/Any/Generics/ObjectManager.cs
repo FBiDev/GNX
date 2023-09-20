@@ -41,32 +41,33 @@ namespace GNX
             string result = string.Empty;
             var lineNumber = 0;
 
+            var skipClass = new List<string> {
+                "System."
+            };
+
             foreach (var frame in frames)
             {
-                var frameMethod = frame.GetMethod();
-                var frameMethodName = frameMethod.Name;
+                var frameClass = frame.GetMethod();
+                var frameClassName = frameClass.DeclaringType.FullName;
+                var frameMethodName = frameClass.Name;
 
-                if (new List<string> { "Start" }.Contains(frameMethod.Name))
-                    continue;
+                if (skipClass.Any(x => { return frameClassName.IndexOf(x, StringComparison.CurrentCultureIgnoreCase) == 0; })) { continue; }
 
-                if (frameMethod.Name == ".ctor")
+                if (frameMethodName == ".ctor") frameMethodName = frameClassName;
+
+                if (frameMethodName == "MoveNext")
                 {
-                    frameMethodName = frameMethod.DeclaringType.Name;
-                }
-
-                if (frameMethod.Name == "MoveNext")
-                {
-                    lineNumber = frame.GetFileLineNumber();
+                    //lineNumber = frame.GetFileLineNumber();
                     continue;
                 }
 
-                if (new List<string> { "WndProc" }.Contains(frameMethod.Name))
+                if (new List<string> { "WndProc" }.Contains(frameMethodName))
                     break;
 
                 if (lineNumber == 0) lineNumber = frame.GetFileLineNumber();
 
                 result += lineNumber.ToString().PadLeft(3, '0');
-                result += " : " + frameMethod.DeclaringType.Name + "." + frameMethodName;
+                result += " : " + frameClassName + "." + frameMethodName;
                 result += Environment.NewLine;
                 lineNumber = 0;
             }

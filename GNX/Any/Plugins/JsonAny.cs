@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GNX
 {
-    public static class Json
+    static class JsonAny
     {
         static Assembly assembly;
 
@@ -71,20 +71,14 @@ namespace GNX
             return false;
         }
 
-        public static bool Save(object value, string path, bool indented = true)
+        public static bool Save(object value, string path, bool indented = true, bool backslashReplace = false)
         {
-            try
-            {
-                var jsonData = SerializeObject(value, indented);
-                jsonData = jsonData.Replace(@"\\", "/");
+            var jsonData = SerializeObject(value, indented);
 
-                File.WriteAllText(path, jsonData, Encoding.UTF8);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            if (backslashReplace) jsonData = jsonData.Replace(@"\\", "/");
+
+            File.WriteAllText(path, jsonData, Encoding.UTF8);
+            return true;
         }
     }
 }

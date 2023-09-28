@@ -7,7 +7,7 @@ namespace GNX
 {
     public class DataBaseManager
     {
-        public List<cLogSQL> Log = new List<cLogSQL>();
+        public ListSynced<cLogSQL> Log = new ListSynced<cLogSQL>();
 
         public DbSystem DatabaseSystem;
 
@@ -37,7 +37,7 @@ namespace GNX
 
         public void AddLog(IDbCommand cmd, DbAction action = DbAction.Null)
         {
-            Log.Insert(0, new cLogSQL(Log.Count, cmd, action, ObjectManager.GetDaoClassAndMethod(5)));
+            Log.Insert(0, new cLogSQL(Log.Count, cmd, action, ObjectManager.GetDaoClassAndMethod(11)));
         }
 
         public async Task<DateTime> DateTimeServer()
@@ -172,6 +172,27 @@ namespace GNX
             return null;
         }
 
+        string ReplaceSQLCommands(string sql)
+        {
+            if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
+            {
+                //Concat in SQLite = ||
+                sql = sql.Replace("'%'+", "'%'||");
+                sql = sql.Replace("+'%'", "||'%'");
+
+                sql = sql.Replace("'%' +", "'%' ||");
+                sql = sql.Replace("+ '%'", "|| '%'");
+
+                //Convert dateString to date
+                sql = sql.Replace("CONVERT(date,", "date(");
+                sql = sql.Replace("CONVERT(datetime,", "datetime(");
+                sql = sql.Replace("CONVERT(datetime2,", "datetime(");
+                sql = sql.Replace("CONVERT(datetime2(0),", "datetime(");
+                sql = sql.Replace("CONVERT(datetime2(3),", "strftime('%Y-%m-%d %H:%M:%f',");
+            }
+            return sql;
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         Task<DataTable> ExecuteReader(int connIndex, string sql, string storedProcedure)
         {
@@ -193,15 +214,7 @@ namespace GNX
                     }
                     else
                     {
-                        if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
-                        {
-                            //Concat in SQLite = ||
-                            cmd.CommandText = cmd.CommandText.Replace("'%'+", "'%'||");
-                            cmd.CommandText = cmd.CommandText.Replace("+'%'", "||'%'");
-
-                            cmd.CommandText = cmd.CommandText.Replace("'%' +", "'%' ||");
-                            cmd.CommandText = cmd.CommandText.Replace("+ '%'", "|| '%'");
-                        }
+                        cmd.CommandText = ReplaceSQLCommands(cmd.CommandText);
                     }
 
                     if (cmd.Parameters.Count > 0)
@@ -246,31 +259,28 @@ namespace GNX
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         async Task<int> ExecuteNonQuery(int connIndex, string sql, DbAction action = DbAction.Null)
         {
-            return await Task.Run(() =>
+            int affectedRows = 0;
+            var cmd = cmdList[connIndex];
+            if (cmd == null) return affectedRows;
+
+            await Task.Run(() =>
             {
-                var cmd = cmdList[connIndex];
-
-                int affectedRows = 0;
-
-                if (cmd != null)
+                try
                 {
-                    try
-                    {
-                        cmd.CommandText = sql;
-                        if (cmd.Parameters.Count > 0)
-                        {
-                            cmd.Prepare();
-                        }
+                    cmd.CommandText = sql;
+                    cmd.CommandText = ReplaceSQLCommands(cmd.CommandText);
 
-                        AddLog(cmd, action);
-                        affectedRows = cmd.ExecuteNonQuery();
+                    if (cmd.Parameters.Count > 0)
+                        cmd.Prepare();
 
-                        cmdList[connIndex] = cmd;
-                    }
-                    catch (Exception) { throw; }
+                    affectedRows = cmd.ExecuteNonQuery();
+                    cmdList[connIndex] = cmd;
                 }
-                return affectedRows;
+                catch (Exception) { throw; }
             });
+
+            AddLog(cmd, action);
+            return affectedRows;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
@@ -321,7 +331,10 @@ namespace GNX
                 }
             }
 
-            DataTable table = await ExecuteReader(connIndex, sql, storedProcedure);
+            DataTable table = await Task.Run(async () =>
+            {
+                return await ExecuteReader(connIndex, sql, storedProcedure);
+            });
 
             Close(connIndex);
 

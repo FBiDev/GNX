@@ -9,7 +9,7 @@ namespace GNX
     public static class DB
     {
         static DataBaseManager Database { get; set; }
-        public static List<cLogSQL> Log { get { return Database.Log; } set { Database.Log = value; } }
+        public static ListSynced<cLogSQL> Log { get { return Database.Log; } set { Database.Log = value; } }
         public static bool ConfigLoaded { get; set; }
 
         public static void Load(string server, string database)

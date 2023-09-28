@@ -57,7 +57,7 @@ namespace GNX
 
                 if (frameMethodName == "MoveNext")
                 {
-                    //lineNumber = frame.GetFileLineNumber();
+                    lineNumber = frame.GetFileLineNumber();
                     continue;
                 }
 

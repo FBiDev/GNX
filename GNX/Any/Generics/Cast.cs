@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 
 namespace GNX
@@ -137,17 +138,21 @@ namespace GNX
             return false;
         }
 
+        static CultureInfo CultureBrazil = CultureInfo.CreateSpecificCulture("pt-BR");
+        static CultureInfo CultureUSA = CultureInfo.CreateSpecificCulture("en-US");
+
         public static DateTime ToDateTime(string value)
         {
             DateTime result = default(DateTime);
-            DateTime.TryParse(value, out result);
+            DateTime.TryParse(value, CultureBrazil, DateTimeStyles.None, out result);
+
             return result;
         }
 
         public static DateTime? ToDateTimeNull(string value)
         {
             DateTime result = default(DateTime);
-            if (string.IsNullOrEmpty(value) || !DateTime.TryParse(value, out result)) { return null; }
+            if (string.IsNullOrEmpty(value) || !DateTime.TryParse(value, CultureBrazil, DateTimeStyles.None, out result)) { return null; }
             return result;
         }
 

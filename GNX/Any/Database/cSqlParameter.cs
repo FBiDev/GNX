@@ -14,7 +14,7 @@ namespace GNX
         public byte Precision { get; set; }
         public byte Scale { get; set; }
 
-        public cSqlParameter(string ParameterName, object Value, int Size = 0)
+        public cSqlParameter(string ParameterName, object Value, DbType dbType = DbType.AnsiString, int Size = 0)
         {
             this.ParameterName = ParameterName;
 
@@ -35,7 +35,21 @@ namespace GNX
                         DbType = DbType.Int32; break;
                     case "DateTime":
                         DbType = DbType.DateTime2;
-                        this.Value = ((DateTime?)Value).ToDB();
+
+                        if (DateTime.MinValue == ((DateTime)Value))
+                        {
+                            DbType = DbType.AnsiString;
+                            this.Value = DBNull.Value;
+                        }
+                        else
+                        {
+                            if (dbType == DbType.Date)
+                                this.Value = ((DateTime?)Value).ToDB(dbType);
+                            else
+                                this.Value = ((DateTime?)Value).ToDB();
+                        }
+
+                        if (Size == 0) Size = 1;
                         break;
                     case "Boolean":
                         DbType = DbType.Boolean;
@@ -53,7 +67,7 @@ namespace GNX
 
             this.ParameterName = ParameterName;
             this.DbType = DbType;
-            this.Value = Value;
+            this.Value = Value.ToString();
             this.Size = Size;
             this.Precision = Precision;
             this.Scale = Scale;

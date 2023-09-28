@@ -44,22 +44,22 @@
             // 
             // txtMain
             // 
-            this.txtMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.txtMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMain.BackColor = System.Drawing.Color.White;
             this.txtMain.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMain.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.txtMain.Location = new System.Drawing.Point(4, 15);
+            this.txtMain.Location = new System.Drawing.Point(5, 15);
             this.txtMain.Margin = new System.Windows.Forms.Padding(0);
             this.txtMain.Name = "txtMain";
-            this.txtMain.Size = new System.Drawing.Size(196, 16);
+            this.txtMain.Size = new System.Drawing.Size(195, 16);
             this.txtMain.TabIndex = 3;
             // 
             // lblPlaceholder
             // 
-            this.lblPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.lblPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPlaceholder.BackColor = System.Drawing.Color.Transparent;
             this.lblPlaceholder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

@@ -64,6 +64,7 @@
     <Compile Include="Any\FileManager\XmlManager.cs" />
     <Compile Include="Any\FileManager\StringWriterUTF8.cs" />
     <Compile Include="Any\Generics\Cast.cs" />
+    <Compile Include="Any\Generics\ListSynced.cs" />
     <Compile Include="Any\Generics\ObjectManager.cs" />
     <Compile Include="Any\Generics\Colors.cs" />
     <Compile Include="Any\Generics\TaskController.cs" />

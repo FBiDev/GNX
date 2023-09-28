@@ -28,6 +28,9 @@ namespace GNX
             Language.DateTimeFormat.MonthGenitiveNames = Language.DateTimeFormat.MonthGenitiveNames.Select(m => Language.TextInfo.ToTitleCase(m)).ToArray();
             Language.DateTimeFormat.AbbreviatedMonthNames = Language.DateTimeFormat.AbbreviatedMonthNames.Select(m => Language.TextInfo.ToTitleCase(m)).ToArray();
 
+            Language.DateTimeFormat.DayNames = Language.DateTimeFormat.DayNames.Select(d => Language.TextInfo.ToTitleCase(d)).ToArray();
+            Language.DateTimeFormat.DayNames = Language.DateTimeFormat.DayNames.Select(d => d.Replace("-Feira", "")).ToArray();
+
             //Culture for any thread
             CultureInfo.DefaultThreadCurrentCulture = Language;
 

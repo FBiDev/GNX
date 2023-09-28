@@ -22,6 +22,7 @@ namespace GNX
                 stackTrace += "";
             }
 
+            ex.Data.Remove("Error");
             ex.Data.Add("Error", stackTrace);
         }
 

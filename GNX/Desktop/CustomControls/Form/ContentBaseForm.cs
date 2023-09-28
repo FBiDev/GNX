@@ -41,6 +41,8 @@ namespace GNX.Desktop
                 ThemeBase.CheckTheme(this);
             };
 
+            Resize += OnResize;
+
             TopLevel = false;
         }
 
@@ -63,6 +65,20 @@ namespace GNX.Desktop
         void Control_Enter(object sender, EventArgs e)
         {
             ScrollControlIntoView((Control)sender);
+        }
+
+        public void OnResize(object sender, EventArgs e)
+        {
+            var tableLayouts = Controls.OfType<FlatTableLayoutPanel>();
+            foreach (var tbl in tableLayouts)
+            {
+                if (tbl.FillOnFormResize == false) continue;
+
+                if (Height >= tbl.SizeOriginal.Height)
+                    tbl.Dock = DockStyle.Fill;
+                else if (Height < tbl.SizeOriginal.Height)
+                    tbl.Dock = DockStyle.Top;
+            }
         }
     }
 }

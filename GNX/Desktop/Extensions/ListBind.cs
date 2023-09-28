@@ -7,6 +7,20 @@ namespace GNX.Desktop
 {
     public class ListBind<T> : BindingList<T>
     {
+        public void SyncList(ListSynced<T> otherList)
+        {
+            otherList.ListChanged += (sender, e) =>
+            {
+                switch (e.ListChangedType)
+                {
+                    case ListSyncedChangedType.Reset: Clear(); break;
+                    case ListSyncedChangedType.ItemAdded: Add(e.Item); break;
+                    case ListSyncedChangedType.ItemDeleted: Remove(e.Item); break;
+                    case ListSyncedChangedType.ItemInserted: Insert(e.Index, e.Item); break;
+                }
+            };
+        }
+
         bool isSortedValue;
         ListSortDirection sortDirectionValue;
         PropertyDescriptor sortPropertyValue;

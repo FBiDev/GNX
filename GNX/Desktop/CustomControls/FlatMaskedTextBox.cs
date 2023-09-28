@@ -57,6 +57,8 @@ namespace GNX.Desktop
         int MaxLength;
         TextMask _Mask_;
 
+        public bool MaskCompleted { get { return txtMain.MaskCompleted; } }
+
         [Category("_Properties")]
         [DefaultValue(typeof(string), "")]
         public TextMask _Mask

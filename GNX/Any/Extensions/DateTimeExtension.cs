@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 
 namespace GNX
@@ -39,11 +40,13 @@ namespace GNX
             return "NULL";
         }
 
-        public static string ToDB(this DateTime? dt)
+        public static string ToDB(this DateTime? dt, DbType dbType = DbType.DateTime)
         {
-            if (dt != null && dt.HasValue)
+            if (dt != null && dt.HasValue && dt > DateTime.MinValue)
             {
-                return "'" + dt.Value.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+                if (dbType == DbType.Date)
+                    return dt.Value.ToString("yyyy-MM-dd");
+                return dt.Value.ToString("yyyy-MM-dd HH:mm:ss");
             }
             return "NULL";
         }

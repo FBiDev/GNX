@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GNX.Desktop
@@ -51,7 +52,7 @@ namespace GNX.Desktop
                 isDesignMode = DesignMode;
                 if (isDesignMode) return;
 
-                ThemeBase.CheckTheme(this);
+                //ThemeBase.CheckTheme(this);
             };
 
             ResizeRedraw = true;
@@ -85,6 +86,17 @@ namespace GNX.Desktop
         public void CenterWindow()
         {
             CenterToScreen();
+        }
+
+        public async Task ShowLayout()
+        {
+            await Task.Delay(50);
+            Opacity = 1;
+        }
+
+        public void HideLayout()
+        {
+            Opacity = 0;
         }
 
         Point CenterOfMenuPanel<T>(T control, int height = 0) where T : Control

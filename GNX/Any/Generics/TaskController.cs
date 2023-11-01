@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -41,6 +42,30 @@ namespace GNX
         public static async Task Delay(int secondsDelay)
         {
             await Task.Delay(secondsDelay * 1000);
+        }
+    }
+
+    public static class TaskExtension
+    {
+#pragma warning disable
+        // Asynchronous methods should return a Task instead of void
+        public static async void AwaitSafe(this Task task)
+#pragma warning restore
+        {
+            try
+            {
+                await task;
+            }
+            catch (Exception ex)
+            {
+                var codeLine = ex.StackTrace.Split(Environment.NewLine.ToCharArray()).First().Split('\\').Last();
+                System.Windows.Forms.MessageBox.Show(codeLine + Environment.NewLine + "Task Failed: " + ex.Message);
+            }
+        }
+
+        public static void RunIgnoreException(this Task task)
+        {
+            task.ContinueWith(_ => { return; });
         }
     }
 }

@@ -11,6 +11,7 @@ namespace GNX.Desktop
         StringCenter,
         Number,
         NumberCenter,
+        Date,
         DateCenter,
         Image
     }
@@ -20,8 +21,13 @@ namespace GNX.Desktop
         //Columns
         static void Format(this DataGridViewColumnCollection source, int colIndex, CellStyle format)
         {
-            var style = new DataGridViewCellStyle { };
             DataGridViewColumn col = source[colIndex];
+
+            var style = new DataGridViewCellStyle
+            {
+                FormatProvider = LanguageManager.CultureBrazil,
+                NullValue = null
+            };
 
             switch (format)
             {
@@ -38,13 +44,14 @@ namespace GNX.Desktop
                         style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                     style.Format = "N0";
-                    style.NullValue = null;
+                    break;
+                case CellStyle.Date:
+                    style.Format = "d";
                     break;
                 case CellStyle.DateCenter:
                     style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     style.Font = new Font("Courier New", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
                     style.Format = "dd MMM, yyyy";
-                    style.NullValue = null;
                     break;
                 case CellStyle.Image:
                     if (col is DataGridViewImageColumn)

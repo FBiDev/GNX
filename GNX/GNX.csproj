@@ -85,6 +85,18 @@
     <Compile Include="Desktop\CustomControls\Base\FlatTextBoxBase.designer.cs">
       <DependentUpon>FlatTextBoxBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Desktop\CustomControls\ButtonExe.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Desktop\CustomControls\ButtonExe.Designer.cs">
+      <DependentUpon>ButtonExe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Desktop\CustomControls\FlatMaskedTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Desktop\CustomControls\FlatMaskedTextBox.designer.cs">
+      <DependentUpon>FlatMaskedTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Desktop\CustomControls\FlatTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -177,11 +189,11 @@
       <DependentUpon>FlatListView.cs</DependentUpon>
     </Compile>
     <Compile Include="Desktop\CustomControls\FlatListViewItem.cs" />
-    <Compile Include="Desktop\CustomControls\FlatMaskedTextBox.cs">
+    <Compile Include="Desktop\CustomControls\FlatMaskedTextBoxOLD.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Desktop\CustomControls\FlatMaskedTextBox.designer.cs">
-      <DependentUpon>FlatMaskedTextBox.cs</DependentUpon>
+    <Compile Include="Desktop\CustomControls\FlatMaskedTextBoxOLD.designer.cs">
+      <DependentUpon>FlatMaskedTextBoxOLD.cs</DependentUpon>
     </Compile>
     <Compile Include="Desktop\CustomControls\FlatPanel.cs">
       <SubType>Component</SubType>
@@ -294,6 +306,12 @@
     <EmbeddedResource Include="Desktop\CustomControls\Base\FlatTextBoxBase.resx">
       <DependentUpon>FlatTextBoxBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Desktop\CustomControls\ButtonExe.resx">
+      <DependentUpon>ButtonExe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Desktop\CustomControls\FlatMaskedTextBox.resx">
+      <DependentUpon>FlatMaskedTextBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Desktop\CustomControls\Form\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -327,8 +345,8 @@
     <EmbeddedResource Include="Desktop\CustomControls\FlatDataGrid.resx">
       <DependentUpon>FlatDataGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Desktop\CustomControls\FlatMaskedTextBox.resx">
-      <DependentUpon>FlatMaskedTextBox.cs</DependentUpon>
+    <EmbeddedResource Include="Desktop\CustomControls\FlatMaskedTextBoxOLD.resx">
+      <DependentUpon>FlatMaskedTextBoxOLD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Desktop\CustomControls\FlatPanel.resx">
       <DependentUpon>FlatPanel.cs</DependentUpon>

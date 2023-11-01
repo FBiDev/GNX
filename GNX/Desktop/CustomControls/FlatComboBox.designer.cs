@@ -32,7 +32,7 @@
             this.pnlBg = new System.Windows.Forms.Panel();
             this.picDrop = new System.Windows.Forms.PictureBox();
             this.lblSubtitle = new System.Windows.Forms.Label();
-            this.cboFlat = new FlatComboBoxNew();
+            this.cboFlat = new GNX.Desktop.FlatComboBoxNew();
             this.pnlBorder.SuspendLayout();
             this.pnlBg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picDrop)).BeginInit();
@@ -40,8 +40,8 @@
             // 
             // pnlBorder
             // 
-            this.pnlBorder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.pnlBorder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBorder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(223)))), ((int)(((byte)(229)))));
             this.pnlBorder.Controls.Add(this.pnlBg);
@@ -54,8 +54,8 @@
             // 
             // pnlBg
             // 
-            this.pnlBg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.pnlBg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBg.BackColor = System.Drawing.Color.White;
             this.pnlBg.Controls.Add(this.picDrop);
@@ -70,7 +70,7 @@
             // 
             // picDrop
             // 
-            this.picDrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.picDrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.picDrop.BackgroundImage = global::GNX.Properties.Resources.img_drop_arrow;
             this.picDrop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -95,8 +95,8 @@
             // 
             // cboFlat
             // 
-            this.cboFlat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.cboFlat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboFlat.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboFlat.BackColor = System.Drawing.Color.White;

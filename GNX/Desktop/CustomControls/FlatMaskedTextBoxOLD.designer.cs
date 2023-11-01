@@ -1,6 +1,6 @@
 ﻿namespace GNX.Desktop
 {
-    partial class FlatTextBox
+    partial class FlatMaskedTextBoxOLD
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtMain = new System.Windows.Forms.TextBox();
+            this.txtMain = new System.Windows.Forms.MaskedTextBox();
             this.lblPlaceholder = new System.Windows.Forms.Label();
-            this.pnlText = new System.Windows.Forms.Panel();
             this.pnlContent.SuspendLayout();
-            this.pnlText.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pnlContent
+            // pnlBg
             // 
-            this.pnlContent.Controls.Add(this.pnlText);
+            this.pnlContent.Controls.Add(this.lblPlaceholder);
+            this.pnlContent.Controls.Add(this.txtMain);
+            this.pnlContent.Controls.SetChildIndex(this.txtMain, 0);
+            this.pnlContent.Controls.SetChildIndex(this.lblPlaceholder, 0);
             this.pnlContent.Controls.SetChildIndex(this.lblSubtitle, 0);
-            this.pnlContent.Controls.SetChildIndex(this.pnlText, 0);
             // 
             // txtMain
             // 
@@ -49,55 +49,39 @@
             this.txtMain.BackColor = System.Drawing.Color.White;
             this.txtMain.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMain.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.txtMain.Location = new System.Drawing.Point(8, 0);
+            this.txtMain.Location = new System.Drawing.Point(5, 15);
             this.txtMain.Margin = new System.Windows.Forms.Padding(0);
             this.txtMain.Name = "txtMain";
-            this.txtMain.Size = new System.Drawing.Size(190, 16);
-            this.txtMain.TabIndex = 0;
+            this.txtMain.Size = new System.Drawing.Size(195, 16);
+            this.txtMain.TabIndex = 3;
             // 
             // lblPlaceholder
             // 
-            this.lblPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lblPlaceholder.BackColor = System.Drawing.Color.Transparent;
             this.lblPlaceholder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lblPlaceholder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(178)))), ((int)(((byte)(178)))));
-            this.lblPlaceholder.Location = new System.Drawing.Point(5, -1);
-            this.lblPlaceholder.Margin = new System.Windows.Forms.Padding(0);
+            this.lblPlaceholder.Location = new System.Drawing.Point(5, 15);
+            this.lblPlaceholder.Margin = new System.Windows.Forms.Padding(3);
             this.lblPlaceholder.Name = "lblPlaceholder";
-            this.lblPlaceholder.Size = new System.Drawing.Size(194, 15);
-            this.lblPlaceholder.TabIndex = 0;
+            this.lblPlaceholder.Size = new System.Drawing.Size(195, 14);
+            this.lblPlaceholder.TabIndex = 4;
             // 
-            // pnlText
-            // 
-            this.pnlText.BackColor = System.Drawing.Color.Transparent;
-            this.pnlText.Controls.Add(this.lblPlaceholder);
-            this.pnlText.Controls.Add(this.txtMain);
-            this.pnlText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlText.Location = new System.Drawing.Point(1, 15);
-            this.pnlText.Name = "pnlText";
-            this.pnlText.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.pnlText.Size = new System.Drawing.Size(202, 16);
-            this.pnlText.TabIndex = 1;
-            // 
-            // FlatTextBox
+            // FlatMaskedTextBox
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Name = "FlatTextBox";
+            this.Name = "FlatMaskedTextBox";
             this.pnlContent.ResumeLayout(false);
             this.pnlContent.PerformLayout();
-            this.pnlText.ResumeLayout(false);
-            this.pnlText.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        protected System.Windows.Forms.TextBox txtMain;
+        protected System.Windows.Forms.MaskedTextBox txtMain;
         protected System.Windows.Forms.Label lblPlaceholder;
-        private System.Windows.Forms.Panel pnlText;
 
     }
 }

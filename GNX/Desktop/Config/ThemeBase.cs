@@ -37,16 +37,16 @@ namespace GNX.Desktop
             }
         }
 
-        public static int ToggleDarkMode()
+        public static bool ToggleDarkMode()
         {
             if (SelectedTheme != eTheme.Dark)
             {
                 SetTheme(eTheme.Dark);
-                return 1;
+                return true;
             }
 
             SetTheme(eTheme.Light);
-            return 0;
+            return false;
         }
 
         public static void SetTheme(eTheme newTheme)
@@ -107,6 +107,8 @@ namespace GNX.Desktop
                 ColorSet.FlatListView((FlatListView)control);
             else if (control is FlatDataGrid)
                 ColorSet.FlatDataGrid((FlatDataGrid)control);
+            else if (control is ButtonExe)
+                ColorSet.ButtonExe((ButtonExe)control);
             else if (control is RichTextBox)
                 ColorSet.RichTextBox((RichTextBox)control);
         }

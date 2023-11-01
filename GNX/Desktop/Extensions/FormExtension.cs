@@ -19,5 +19,13 @@ namespace GNX.Desktop
             var locationOnForm = f.PointToClient(c.Parent.PointToScreen(c.Location));
             return locationOnForm;
         }
+
+        public static void InvokeIfRequired(this Control control, MethodInvoker action)
+        {
+            if (control.InvokeRequired)
+                control.Invoke(action);
+            else
+                action();
+        }
     }
 }

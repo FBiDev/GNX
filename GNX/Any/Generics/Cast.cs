@@ -112,7 +112,7 @@ namespace GNX
             return result;
         }
 
-        public static string ToCurrency(string value)
+        public static string ToMoney(string value)
         {
             decimal result = default(decimal);
             if (decimal.TryParse(value, out result))
@@ -138,13 +138,10 @@ namespace GNX
             return false;
         }
 
-        static CultureInfo CultureBrazil = CultureInfo.CreateSpecificCulture("pt-BR");
-        static CultureInfo CultureUSA = CultureInfo.CreateSpecificCulture("en-US");
-
         public static DateTime ToDateTime(string value)
         {
             DateTime result = default(DateTime);
-            DateTime.TryParse(value, CultureBrazil, DateTimeStyles.None, out result);
+            DateTime.TryParse(value, LanguageManager.CultureBrazil, DateTimeStyles.None, out result);
 
             return result;
         }
@@ -152,7 +149,7 @@ namespace GNX
         public static DateTime? ToDateTimeNull(string value)
         {
             DateTime result = default(DateTime);
-            if (string.IsNullOrEmpty(value) || !DateTime.TryParse(value, CultureBrazil, DateTimeStyles.None, out result)) { return null; }
+            if (string.IsNullOrEmpty(value) || !DateTime.TryParse(value, LanguageManager.CultureBrazil, DateTimeStyles.None, out result)) { return null; }
             return result;
         }
 

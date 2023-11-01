@@ -26,7 +26,10 @@ namespace GNX
         {
             foreach (var item in objA.GetType().GetProperties())
             {
-                if (item.GetValue(objA).ToString() != item.GetValue(objB).ToString())
+                var valA = item.GetValue(objA);
+                var valB = item.GetValue(objB);
+
+                if (Equals(valA, valB) == false)
                     return false;
             }
 

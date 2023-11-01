@@ -14,8 +14,8 @@ namespace GNX.Desktop
         public new Color GridColor { get { return base.GridColor; } set { base.GridColor = value; } }
         #endregion
 
-        StatusStrip _Statusbar = new StatusStrip();
-        public StatusStrip Statusbar { get { return _Statusbar; } set { _Statusbar = value; } }
+        FlatStatusBar _Statusbar = new FlatStatusBar();
+        public FlatStatusBar Statusbar { get { return _Statusbar; } set { _Statusbar = value; } }
 
         protected override bool ShowFocusCues
         {
@@ -80,10 +80,7 @@ namespace GNX.Desktop
 
         public void RefreshStatusBar()
         {
-            if (Statusbar.Items.Count > 0)
-            {
-                Statusbar.Items[0].Text = (Rows.Count + " Registro(s)");
-            }
+            Statusbar.Registros = Rows.Count;
         }
 
         bool HandleRightClick(MouseEventArgs e)
@@ -105,12 +102,46 @@ namespace GNX.Desktop
                 menu.Show(Cursor.Position);
         }
 
-        public T GetSelectedItem<T>() where T : class
+        public T GetCurrentRowObject<T>() where T : class
         {
             var dgv = this as DataGridView;
             if (dgv.CurrentRow.NotNull() && dgv.CurrentRow.Index != -1)
                 return dgv.CurrentRow.DataBoundItem as T;
             return null;
+        }
+
+        public string GetCurrentRowValue(bool includeColumnName = false)
+        {
+            var dgv = this as DataGridView;
+
+            if (dgv.CurrentRow.IsNull() || dgv.CurrentRow.Index == -1)
+                return string.Empty;
+
+            var rowValue = string.Empty;
+
+            if (includeColumnName)
+            {
+                foreach (DataGridViewColumn column in dgv.Columns)
+                {
+                    if (column.Visible)
+                        rowValue += column.HeaderText;
+                    if (column.Index < dgv.ColumnCount - 1)
+                        rowValue += "\t";
+                    else
+                        rowValue += Environment.NewLine;
+                }
+            }
+
+            foreach (DataGridViewCell cell in dgv.CurrentRow.Cells)
+            {
+                if (dgv.Columns[cell.ColumnIndex].Visible)
+                    rowValue += cell.Value;
+                if (cell.ColumnIndex < dgv.CurrentRow.Cells.Count - 1)
+                    rowValue += "\t";
+                else
+                    rowValue += Environment.NewLine;
+            }
+            return rowValue;
         }
     }
 }

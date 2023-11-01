@@ -59,11 +59,25 @@
         Windows_NT4 = 400,
         Windows_2000 = 50,
         Windows_XP = 51,
-        Windows_Vista = 60,
-        Windows_7 = 61,
-        Windows_8 = 62,
-        Windows_8_1 = 63,
-        Windows_10 = 100
+        Windows_XP_x64 = 521,
+        Windows_Server_2003 = 523,
+        Windows_Vista = 601,
+        Windows_Server_2008 = 603,
+        Windows_7 = 611,
+        Windows_Server_2008_R2 = 613,
+        Windows_8 = 621,
+        Windows_Server_2012 = 623,
+        Windows_8_1 = 631,
+        Windows_Server_2012_R2 = 633,
+        Windows_10 = 1001,
+        Windows_Server_2016 = 1003,
+        Windows_11 = 1022000
+    }
+
+    public enum OSEdition
+    {
+        Professional = 256,
+        Home = 512
     }
 
     public enum WindowsMessage

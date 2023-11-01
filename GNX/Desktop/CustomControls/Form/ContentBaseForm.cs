@@ -18,6 +18,10 @@ namespace GNX.Desktop
         public Size SizeOriginal;
         public bool isDesignMode = true;
 
+        bool _firstLoad = true;
+        //public event EventHandler FirstLoad;
+        public event EventAsyncTask FirstLoad;
+
         public ContentBaseForm()
         {
             InitializeComponent();
@@ -27,6 +31,8 @@ namespace GNX.Desktop
                 Init();
                 if (isDesignMode) return;
 
+                ResizeBegin += (s, ev) => { TurnOffFormLevelDoubleBuffering(); };
+                ResizeEnd += (s, ev) => { TurnOnFormLevelDoubleBuffering(); };
                 ThemeBase.CheckTheme(this);
             };
 
@@ -44,6 +50,15 @@ namespace GNX.Desktop
             Resize += OnResize;
 
             TopLevel = false;
+        }
+
+        public void LoadFirstTime()
+        {
+            if (_firstLoad && FirstLoad.NotNull())
+            {
+                _firstLoad = false;
+                FirstLoad().AwaitSafe();
+            }
         }
 
         void Init()
@@ -80,5 +95,39 @@ namespace GNX.Desktop
                     tbl.Dock = DockStyle.Top;
             }
         }
+
+        #region Fix_Flickering_Controls
+        bool enableFormLevelDoubleBuffering = true;
+        int originalExStyle = -1;
+
+        void TurnOnFormLevelDoubleBuffering()
+        {
+            enableFormLevelDoubleBuffering = true;
+            UpdateStyles();
+        }
+
+        void TurnOffFormLevelDoubleBuffering()
+        {
+            enableFormLevelDoubleBuffering = false;
+            UpdateStyles();
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                if (originalExStyle == -1)
+                    originalExStyle = base.CreateParams.ExStyle;
+
+                CreateParams cp = base.CreateParams;
+                if (enableFormLevelDoubleBuffering && DesignMode == false)
+                    cp.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED
+                else
+                    cp.ExStyle = originalExStyle;
+
+                return cp;
+            }
+        }
+        #endregion
     }
 }

@@ -15,15 +15,15 @@ namespace GNX.Desktop
             set { base.AutoScaleMode = value; }
         }
 
-        protected bool _statusBar;
+        protected bool _statusBarEnable;
 
-        public bool StatusBar
+        public bool StatusBarEnable
         {
-            get { return _statusBar; }
+            get { return _statusBarEnable; }
 
             set
             {
-                _statusBar = value;
+                _statusBarEnable = value;
                 pnlFoot.Visible = value;
                 pnlHead.Padding = new Padding
                 {
@@ -35,6 +35,7 @@ namespace GNX.Desktop
 
         public static Icon ico { get; set; }
         public bool isDesignMode = true;
+        public static bool DebugMode;
 
         public MainBaseForm()
         {
@@ -52,12 +53,39 @@ namespace GNX.Desktop
                 isDesignMode = DesignMode;
                 if (isDesignMode) return;
 
+                AwaitShown().AwaitSafe();
                 //ThemeBase.CheckTheme(this);
             };
 
+            if (DesignMode == false)
+                Opacity = 0;
+
             ResizeRedraw = true;
-            StatusBar = true;
+            StatusBarEnable = true;
             DoubleBuffered = true;
+        }
+
+        async Task AwaitShown()
+        {
+            await Task.Delay(50);
+            Opacity = 1;
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            AutoScaleDimensions = new SizeF(0F, 0F);
+            AutoScaleMode = AutoScaleMode.None;
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (DebugMode && keyData == (Keys.F1))
+            {
+                cDebug.Open().Show();
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         void Init()
@@ -75,28 +103,14 @@ namespace GNX.Desktop
             frm.Show();
         }
 
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            base.OnHandleCreated(e);
-
-            AutoScaleDimensions = new SizeF(0F, 0F);
-            AutoScaleMode = AutoScaleMode.None;
-        }
+        public static bool AutoResizeWindow = true;
+        public static bool AutoCenterWindow = true;
 
         public void CenterWindow()
         {
-            CenterToScreen();
-        }
+            if (AutoCenterWindow == false) return;
 
-        public async Task ShowLayout()
-        {
-            await Task.Delay(50);
-            Opacity = 1;
-        }
-
-        public void HideLayout()
-        {
-            Opacity = 0;
+            this.InvokeIfRequired(CenterToScreen);
         }
 
         Point CenterOfMenuPanel<T>(T control, int height = 0) where T : Control

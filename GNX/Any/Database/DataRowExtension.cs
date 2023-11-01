@@ -20,7 +20,12 @@ namespace GNX
                     case TypeCode.Object: result = columnObj; break;
                     case TypeCode.String: result = columnValue; break;
                     case TypeCode.Boolean: result = Cast.ToBoolean(columnValue); break;
-                    case TypeCode.DateTime: result = Cast.ToDateTimeNull(columnValue); break;
+                    case TypeCode.DateTime:
+                        if (columnObj is DateTime)
+                            result = columnObj;
+                        else
+                            result = Cast.ToDateTimeNull(columnValue);
+                        break;
                     case TypeCode.Int16: result = Cast.ToShortNull(columnValue); break;
                     case TypeCode.Int32: result = Cast.ToIntNull(columnValue); break;
                     case TypeCode.Single: result = Cast.ToFloatNull(columnValue); break;

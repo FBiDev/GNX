@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace GNX.Desktop
 {
-    public partial class FlatMaskedTextBox : FlatTextBoxBase
+    public partial class FlatMaskedTextBoxOLD : FlatTextBoxBase
     {
         #region Defaults
         [DefaultValue(typeof(Size), "1500, 34")]
@@ -56,17 +56,6 @@ namespace GNX.Desktop
 
         [DefaultValue(false)]
         public bool ReadOnly { get { return TextBox.ReadOnly; } set { TextBox.ReadOnly = value; } }
-
-        public new bool Enabled
-        {
-            get { return TextBox.Enabled; }
-            set
-            {
-                TextBox.Enabled = value;
-                TabStop = value;
-                ChangeCursor();
-            }
-        }
 
         int MaxLength;
         TextMask _Mask_;
@@ -119,7 +108,7 @@ namespace GNX.Desktop
                         break;
                     case TextMask.NUMERO:
                         lblPlaceholder.Text = "000";
-                        MaxLength = 1000;
+                        MaxLength = 10;
                         break;
                     case TextMask.DINHEIRO:
                         lblPlaceholder.Text = LanguageManager.CurrencySymbol + " 000" + LanguageManager.CurrencyDecimalSeparator + "00";
@@ -135,13 +124,6 @@ namespace GNX.Desktop
 
         MaskedTextBox TextBox { get { return txtMain; } }
         public new string Text { get { return TextBox.Text; } set { TextBox.Text = value; } }
-
-        [DefaultValue(0)]
-        public int SelectionStart
-        {
-            get { return TextBox.SelectionStart; }
-            set { TextBox.SelectionStart = value; }
-        }
 
         public enum eTextAlign { Left, Right, Center }
         eTextAlign _TextAlign;
@@ -171,7 +153,7 @@ namespace GNX.Desktop
 
         public new event EventHandler TextChanged;
 
-        public FlatMaskedTextBox()
+        public FlatMaskedTextBoxOLD()
         {
             InitializeComponent();
 
@@ -206,10 +188,11 @@ namespace GNX.Desktop
             lblSubtitle.BackColor = BackgroundColor;
             lblSubtitle.ForeColor = LabelTextColor;
 
+            lblPlaceholder.BackColor = BackgroundColor;
+
             TextBox.BackColor = BackgroundColor;
             TextBox.ForeColor = TextColor;
 
-            lblPlaceholder.BackColor = BackgroundColor;
             lblPlaceholder.ForeColor = PlaceholderColor;
 
             if (_Mask == TextMask.DINHEIRO && Text.Length > 0)
@@ -218,14 +201,18 @@ namespace GNX.Desktop
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            base.OnHandleCreated(e);
+            BackColor = BorderColor;
+            pnlContent.BackColor = BackgroundColor;
 
-            ResetColors();
+            lblSubtitle.BackColor = BackgroundColor;
+            lblSubtitle.ForeColor = LabelTextColor;
+
+            TextBox.BackColor = BackgroundColor;
+            TextBox.ForeColor = TextColor;
 
             if (_Mask == TextMask.DINHEIRO)
             {
                 lblPlaceholder.Text = LanguageManager.CurrencySymbol + " 000" + LanguageManager.CurrencyDecimalSeparator + "00";
-                lblPlaceholder.Location = new Point(lblPlaceholder.Location.X - 1, lblPlaceholder.Location.Y);
             }
         }
 
@@ -289,14 +276,9 @@ namespace GNX.Desktop
                 var isEmpty = !TextBox.Focused && (TextBox.Text.Length == 0);
                 if (isEmpty)
                 {
+                    lblPlaceholder.Width = 195;
                     lblPlaceholder.Text = LanguageManager.CurrencySymbol + " 000" + LanguageManager.CurrencyDecimalSeparator + "00";
                     lblPlaceholder.ForeColor = PlaceholderColor;
-                    lblPlaceholder.Width = pnlContent.Width - 10;
-                    lblPlaceholder.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-                }
-                else
-                {
-                    txtMain.Text = txtMain.Text.ToMoney();
                 }
             }
         }
@@ -356,14 +338,12 @@ namespace GNX.Desktop
 
                 if (isEmpty == false)
                 {
-                    lblPlaceholder.Text = LanguageManager.CurrencySymbol;
+                    lblPlaceholder.Width = 20;
+                    lblPlaceholder.Text = LanguageManager.CurrencySymbol + " ";
                     lblPlaceholder.ForeColor = txtMain.ForeColor;
-                    lblPlaceholder.Width = lblPlaceholder.PreferredWidth;
-                    lblPlaceholder.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 
-                    txtMain.Dock = DockStyle.None;
-                    txtMain.Location = new Point(lblPlaceholder.Width + 4, 0);
-                    txtMain.Size = new Size(Size.Width - 32, txtMain.Size.Height);
+                    txtMain.Location = new Point(5 + lblPlaceholder.Width, 15);
+                    txtMain.Size = new Size(Size.Width - 32, Size.Height - 18);
                 }
             }
 

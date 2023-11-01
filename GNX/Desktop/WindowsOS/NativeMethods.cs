@@ -56,6 +56,37 @@ namespace GNX.Desktop
             return false;
         }
 
+        //GETOS
+        #region OSVERSIONINFOEX
+        [DllImport("kernel32.dll")]
+        internal static extern bool GetVersionEx(ref OSVERSIONINFOEX osVersionInfo);
+
+        internal static OSVERSIONINFOEX GetOSVersionInfo()
+        {
+            var osVersionInfo = new OSVERSIONINFOEX();
+            osVersionInfo.dwOSVersionInfoSize = Marshal.SizeOf(typeof(OSVERSIONINFOEX));
+            GetVersionEx(ref osVersionInfo);
+            return osVersionInfo;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct OSVERSIONINFOEX
+        {
+            public int dwOSVersionInfoSize;
+            public int dwMajorVersion;
+            public int dwMinorVersion;
+            public int dwBuildNumber;
+            public int dwPlatformId;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+            public string szCSDVersion;
+            public short wServicePackMajor;
+            public short wServicePackMinor;
+            public short wSuiteMask;
+            public byte wProductType;
+            public byte wReserved;
+        }
+        #endregion OSVERSIONINFOEX
+
         #region Tests
         [DllImport("user32.dll")]
         static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, IntPtr dwExtraInfo);

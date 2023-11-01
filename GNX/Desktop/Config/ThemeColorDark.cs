@@ -74,7 +74,7 @@ namespace GNX.Desktop
             c.BorderColor = Colors.RGB(86, 86, 86);
             c.PlaceholderColor = Colors.RGB(108, 108, 108);
         }
-
+        
         public override void FlatComboBox(FlatComboBox c)
         {
             c.BackgroundColor = Colors.RGB(30, 30, 30);
@@ -135,6 +135,13 @@ namespace GNX.Desktop
 
             c.ColorColumnHeader = ColorTranslator.FromHtml("#3F3F3F");
             c.ColorColumnSelection = c.ColorColumnHeader;
+        }
+
+        public override void ButtonExe(ButtonExe c)
+        {
+            c.BackColor = Colors.RGB(80, 80, 80);
+            c.BorderColor = Colors.RGB(86, 86, 86);
+            c.TextColor = Colors.RGB(210, 210, 210);
         }
 
         public override void RichTextBox(RichTextBox c)

@@ -4,9 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace GNX
 {
+    public delegate Task EventAsyncTask();
+
     public static class ObjectManager
     {
         public static string GetPropertyName<T>(Expression<Func<T>> propertyLambda)
@@ -38,7 +41,7 @@ namespace GNX
             var frames = sf.ToList();
             frames.RemoveRange(0, 4);
 
-            string result = string.Empty;
+            string result = "Stack: " + Environment.NewLine;
             var lineNumber = 0;
 
             var skipClass = new List<string> {
@@ -61,8 +64,7 @@ namespace GNX
                     continue;
                 }
 
-                if (new List<string> { "WndProc" }.Contains(frameMethodName))
-                    break;
+                if (new List<string> { "WndProc" }.Contains(frameMethodName)) break;
 
                 if (lineNumber == 0) lineNumber = frame.GetFileLineNumber();
 

@@ -161,7 +161,35 @@ namespace GNX.Desktop
                 FlatAppearance.BorderColor = BorderColor;
             }
         }
+
+        bool _Enabled = true;
+
+        public new bool Enabled
+        {
+            get { return _Enabled; }
+            set
+            {
+                _Enabled = value;
+                TabStop = value;
+                SetStyle(ControlStyles.Selectable, value);
+
+                if (_Enabled)
+                {
+                    Cursor = Cursors.Hand;
+                    FlatAppearance.MouseOverBackColor = BackColor;
+                }
+                else
+                {
+                    Cursor = Cursors.No;
+                    FlatAppearance.MouseOverBackColor = BackColor;
+                }
+
+                Refresh();
+            }
+        }
         #endregion
+
+        public new event EventHandler Click;
 
         public FlatButton()
         {
@@ -179,6 +207,21 @@ namespace GNX.Desktop
 
             //foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(this))
             //    property.ResetValue(this);
+
+            Enabled = true;
+            MouseDown += OnMouseDown;
+            base.Click += OnClick;
+        }
+
+        void OnMouseDown(object sender, MouseEventArgs e)
+        {
+            //if (!Enabled) ((Control)sender).Parent.Focus();
+        }
+
+        void OnClick(object sender, EventArgs e)
+        {
+            if (!Enabled) return;
+            Click(sender, e);
         }
 
         public void ResetColors()
@@ -202,6 +245,8 @@ namespace GNX.Desktop
 
         protected override void OnMouseEnter(EventArgs e)
         {
+            if (!Enabled) return;
+
             base.OnMouseEnter(e);
             FlatAppearance.BorderColor = BorderColorFocus;
         }
@@ -214,6 +259,8 @@ namespace GNX.Desktop
 
         protected override void OnGotFocus(EventArgs e)
         {
+            if (!Enabled) return;
+
             FlatAppearance.BorderColor = BorderColorFocus;
         }
 
@@ -236,12 +283,19 @@ namespace GNX.Desktop
             var rectangle = new Rectangle(0, 0, Size.Width - 1, Size.Height - 1);
             pevent.Graphics.DrawRectangle(pen, rectangle);
 
-            if (Focused)
+            if (Enabled && Focused)
             {
                 var penDot = new Pen(SystemColors.ControlDarkDark, 1);
                 penDot.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                 var rectangleDot = new Rectangle(2, 2, Size.Width - 5, Size.Height - 5);
                 pevent.Graphics.DrawRectangle(penDot, rectangleDot);
+            }
+
+            if (Enabled == false)
+            {
+                var rectangleAll = new Rectangle(0, 0, Size.Width, Size.Height);
+                var disabledColor = new SolidBrush(Color.FromArgb(128, BackColor));
+                pevent.Graphics.FillRectangle(disabledColor, rectangleAll);
             }
         }
     }

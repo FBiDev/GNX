@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 
 namespace GNX.Desktop
 {
@@ -12,6 +13,12 @@ namespace GNX.Desktop
             {
                 if (controls[i] is FlatLabel) ((FlatLabel)controls[i]).Text = string.Empty;
                 else if (controls[i] is FlatTextBox) ((FlatTextBox)controls[i]).Text = string.Empty;
+                else if (controls[i] is FlatMaskedTextBox)
+                {
+                    ((FlatMaskedTextBox)controls[i]).Text = string.Empty;
+                    ((FlatMaskedTextBox)controls[i]).TextBox_LostFocus(null, null);
+                }
+                else if (controls[i] is FlatComboBox) ((FlatComboBox)controls[i]).ResetIndex();
                 else if (controls[i] is FlatDataGrid) ((FlatDataGrid)controls[i]).DataSource = null;
                 else if (controls[i] is FlatTableLayoutPanel) ResetPanelForm((FlatTableLayoutPanel)controls[i]);
                 else if (controls[i] is object) controls[i] = null;
@@ -20,17 +27,29 @@ namespace GNX.Desktop
 
         public static void ResetPanelForm(FlatPanel pnlForm)
         {
-            var textbox = pnlForm.GetControls<FlatTextBox>();
+            var txtBoxes = pnlForm.GetControls<FlatTextBox>();
+            var maskBoxes = pnlForm.GetControls<FlatMaskedTextBox>();
 
-            foreach (var item in textbox)
+            foreach (var item in txtBoxes)
+                ResetControls(item);
+
+            foreach (var item in maskBoxes)
                 ResetControls(item);
         }
 
-        public static void ResetPanelForm(FlatTableLayoutPanel pnlForm)
+        public static void ResetPanelForm(FlatTableLayoutPanel table)
         {
-            var textbox = pnlForm.GetControls<FlatTextBox>();
+            var txtBoxes = table.GetControls<FlatTextBox>();
+            var maskBoxes = table.GetControls<FlatMaskedTextBox>();
+            var ComboBoxes = table.GetControls<FlatComboBox>();
 
-            foreach (var item in textbox)
+            foreach (var item in txtBoxes)
+                ResetControls(item);
+
+            foreach (var item in maskBoxes)
+                ResetControls(item);
+
+            foreach (var item in ComboBoxes)
                 ResetControls(item);
         }
 
@@ -83,7 +102,9 @@ namespace GNX.Desktop
 
                 if (value is DateTime)
                 {
-                    if (((DateTime)value).IsNull())
+                    if (((DateTime)value).IsNull()
+                        || ((DateTime)value) == DateTime.MinValue
+                        || ((DateTime)value) < SqlDateTime.MinValue.Value)
                         return true;
                     continue;
                 }

@@ -50,6 +50,11 @@ namespace GNX
             return Cast.ToTimeSpanNull(s);
         }
 
+        public static DateTime ToDateTime(this string s)
+        {
+            return Cast.ToDateTime(s);
+        }
+
         public static DateTime? ToDateTimeNull(this string s)
         {
             return Cast.ToDateTimeNull(s);
@@ -60,9 +65,9 @@ namespace GNX
             return Cast.ToDecimal(s);
         }
 
-        public static string ToCurrency(this string s)
+        public static string ToMoney(this string s)
         {
-            return Cast.ToCurrency(s);
+            return Cast.ToMoney(s);
         }
 
         public static bool ToBoolean(this string s)

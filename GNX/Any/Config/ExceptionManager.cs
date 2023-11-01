@@ -73,22 +73,26 @@ namespace GNX
             else if (ExType == typeof(InvalidOperationException))
             {
                 Error = ((InvalidOperationException)ex);
+                var Message = ((InvalidOperationException)ex).Message;
 
                 if (Error.TargetSite.Module.Name == "System.Data.dll")
                 {
-                    //Engine not Installed
-                    if (Error.TargetSite.Name == "GetDataSource")
+                    switch (Error.TargetSite.Name)
                     {
-                        link = true;
-                        linkStr = "https://www.microsoft.com/en-us/download/confirmation.aspx?id=54920";
+                        case "GetDataSource":
+                            //Engine not Installed
+                            link = true;
+                            linkStr = "https://www.microsoft.com/en-us/download/confirmation.aspx?id=54920";
 
-                        CustomMessage = "Motor Excel não instalado, clique em OK para ir fazer o download";
-                    }
-
-                    //Not Closed Connection
-                    else if (Error.TargetSite.Name == "TryOpenConnection")
-                    {
-                        CustomMessage = "Falha na conexão com o Banco de Dados";
+                            CustomMessage = "Motor Excel não instalado, clique em OK para ir fazer o download";
+                            break;
+                        case "TryOpenConnection":
+                            //Not Closed Connectiond
+                            CustomMessage = "Falha na conexão com o Banco de Dados";
+                            break;
+                        case "Prepare":
+                            CustomMessage = Message + errorLineBreak + Error.Data["Error"];
+                            break;
                     }
                 }
                 else if (Error.TargetSite.Module.Name == "System.Data.SQLite.dll")

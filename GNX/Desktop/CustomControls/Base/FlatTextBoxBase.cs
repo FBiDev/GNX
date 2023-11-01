@@ -41,7 +41,7 @@ namespace GNX.Desktop
         {
             InitializeComponent();
 
-            pnlBg.MouseEnter += pnlBg_MouseEnter;
+            pnlContent.MouseEnter += pnlBg_MouseEnter;
             lblSubtitle.MouseEnter += lblSubtitle_MouseEnter;
 
             Margin = new Padding(2);
@@ -49,8 +49,8 @@ namespace GNX.Desktop
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            pnlBorder.BackColor = BorderColor;
-            pnlBg.BackColor = BackgroundColor;
+            BackColor = BorderColor;
+            pnlContent.BackColor = BackgroundColor;
 
             lblSubtitle.BackColor = BackgroundColor;
             lblSubtitle.ForeColor = LabelTextColor;
@@ -58,12 +58,18 @@ namespace GNX.Desktop
 
         protected void ChangeCursor()
         {
-            Cursor = Cursors.IBeam;
+            if (TabStop)
+                Cursor = Cursors.IBeam;
+            else
+                Cursor = Cursors.No;
         }
 
         protected void ChangeCursor2()
         {
-            Cursor = Cursors.Default;
+            if (TabStop)
+                Cursor = Cursors.Default;
+            else
+                Cursor = Cursors.No;
         }
 
         protected void TextBoxBase_Paint(object sender, PaintEventArgs e)

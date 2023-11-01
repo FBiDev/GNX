@@ -139,12 +139,42 @@ namespace GNX.Desktop
             }
         }
 
+        [DefaultValue("")]
+        public string SelectedText
+        {
+            get { if (cboFlat.SelectedValue.NotNull()) { return cboFlat.Text; } return string.Empty; }
+            set
+            {
+                if (value.NotNull() && !value.Equals(string.Empty)) { cboFlat.SelectedIndex = cboFlat.FindStringExact(value); } else { ResetIndex(); }
+            }
+        }
+
         public int SelectedValueInt { get { return Cast.ToInt(cboFlat.SelectedValue); } }
 
         [DefaultValue(null)]
         public object SelectedItem { get { return cboFlat.SelectedItem; } set { cboFlat.SelectedItem = value; } }
 
         public T SelectedObject<T>() where T : new() { return Cast.ToObject<T>(cboFlat.SelectedItem); }
+
+        public new bool Enabled
+        {
+            get { return Combo.Enabled; }
+            set
+            {
+                Combo.Enabled = value;
+                TabStop = value;
+                SetStyle(ControlStyles.Selectable, value);
+                ChangeCursor();
+            }
+        }
+
+        protected void ChangeCursor()
+        {
+            if (TabStop)
+                Cursor = Cursors.Hand;
+            else
+                Cursor = Cursors.No;
+        }
         #endregion
 
         public FlatComboBox()
@@ -179,6 +209,7 @@ namespace GNX.Desktop
         {
             pnlBorder.BackColor = BorderColor;
 
+            BackColor = BackgroundColor;
             pnlBg.BackColor = BackgroundColor;
             lblSubtitle.BackColor = BackgroundColor;
             lblSubtitle.ForeColor = LabelTextColor;
@@ -194,6 +225,7 @@ namespace GNX.Desktop
 
         void pnlBg_Click(object sender, EventArgs e)
         {
+            if (Enabled == false) return;
             Combo.Focus();
             Combo.DroppedDown = true;
         }
@@ -312,8 +344,19 @@ namespace GNX.Desktop
             }
 
             // draw text strings
-            e.Graphics.DrawString(
-                Combo.GetItemText(Combo.Items[e.Index]), e.Font, fontColor, new Point(e.Bounds.X, e.Bounds.Y));
+            //e.Graphics.DrawString(Combo.GetItemText(Combo.Items[e.Index]), e.Font, fontColor, new Point(e.Bounds.X + 5, e.Bounds.Y));
+            //Better Color Render
+            TextRenderer.DrawText(
+                e.Graphics, Combo.GetItemText(Combo.Items[e.Index]),
+                e.Font, new Point(e.Bounds.X + 4, e.Bounds.Y + 1),
+                fontColor.Color, Color.Transparent, TextFormatFlags.TextBoxControl);
+
+            if (Enabled == false)
+            {
+                var rectangleAll = new Rectangle(0, 0, Size.Width, Size.Height);
+                var disabledColor = new SolidBrush(Color.FromArgb(128, BackColor));
+                e.Graphics.FillRectangle(disabledColor, rectangleAll);
+            }
         }
     }
 }

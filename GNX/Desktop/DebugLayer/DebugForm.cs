@@ -18,9 +18,18 @@ namespace GNX.Desktop
             tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
 
             dgvSQLSistema.Visible = false;
-            dgvSQLBase.Visible = false;
             dgvSQLSistema.RowsAdded += dgv_RowsAdded;
+            dgvSQLSistema.MouseDown += (sender, e) => dgvSQLSistema.ShowContextMenu(e, mnuSqlSystem);
+
+            mniSqlSystemCopyCommand.MouseDown += mniSqlSystemCopyCommand_MouseDown;
+            mniSqlSystemCopyLog.MouseDown += mniSqlSystemCopyLog_MouseDown;
+
+            dgvSQLBase.Visible = false;
             dgvSQLBase.RowsAdded += dgv_RowsAdded;
+            dgvSQLBase.MouseDown += (sender, e) => dgvSQLBase.ShowContextMenu(e, mnuSqlBase);
+
+            mniSqlBaseCopyCommand.MouseDown += mniSqlBaseCopyCommand_MouseDown;
+            mniSqlBaseCopyLog.MouseDown += mniSqlBaseCopyLog_MouseDown;
         }
 
         void Form_Load(object sender, EventArgs e)
@@ -30,19 +39,21 @@ namespace GNX.Desktop
             Left = 0;
 
             dgvSQLSistema.AutoGenerateColumns = false;
-            dgvSQLSistema.AddColumn<int>("Line", "Linha", "", "", 0, null, true, 50);
-            dgvSQLSistema.AddColumn<DateTime>("Date", "Data");
+            dgvSQLSistema.AddColumn<int>("Line", "Linha", "", "", DataGridViewContentAlignment.MiddleCenter, null, true, 64);
+            dgvSQLSistema.AddColumn<DateTime>("Date", "Data", "", "", DataGridViewContentAlignment.MiddleCenter, null, true, 85);
             dgvSQLSistema.AddColumn<string>("Method", "Função");
-            dgvSQLSistema.AddColumn<string>("Action", "Ação", "", "", 0, null, true, 50);
+            dgvSQLSistema.AddColumn<string>("Action", "Ação", "", "", 0, null, true, 60);
             dgvSQLSistema.AddColumn<string>("Command", "Comando");
+            dgvSQLSistema.Columns["Command"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvSQLSistema.DataSource = cDebug.LogSQLSistema;
 
             dgvSQLBase.AutoGenerateColumns = false;
-            dgvSQLBase.AddColumn<int>("Line", "Linha", "", "", 0, null, true, 50);
-            dgvSQLBase.AddColumn<DateTime>("Date", "Data");
+            dgvSQLBase.AddColumn<int>("Line", "Linha", "", "", DataGridViewContentAlignment.MiddleCenter, null, true, 64);
+            dgvSQLBase.AddColumn<DateTime>("Date", "Data", "", "", DataGridViewContentAlignment.MiddleCenter, null, true, 85);
             dgvSQLBase.AddColumn<string>("Method", "Função");
-            dgvSQLBase.AddColumn<string>("Action", "Ação", "", "", 0, null, true, 50);
+            dgvSQLBase.AddColumn<string>("Action", "Ação", "", "", 0, null, true, 60);
             dgvSQLBase.AddColumn<string>("Command", "Comando");
+            dgvSQLBase.Columns["Command"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvSQLBase.DataSource = cDebug.LogSQLBase;
 
             UpdateErrors();
@@ -53,9 +64,13 @@ namespace GNX.Desktop
 
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl.SelectedIndex == 1)
+            if (tabControl.SelectedTab == tabSQLSistema)
             {
                 dgvSQLSistema.Focus();
+            }
+            else if (tabControl.SelectedTab == tabSQLBase)
+            {
+                dgvSQLBase.Focus();
             }
         }
 
@@ -80,6 +95,38 @@ namespace GNX.Desktop
             {
                 ((DataGridView)sender).FirstDisplayedScrollingRowIndex = 0;
             }
+        }
+
+        void mniSqlSystemCopyCommand_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+
+            var log = dgvSQLSistema.GetCurrentRowObject<cLogSQL>();
+            Clipboard.SetText(log.Command + Environment.NewLine);
+        }
+
+        void mniSqlBaseCopyCommand_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+
+            var log = dgvSQLBase.GetCurrentRowObject<cLogSQL>();
+            Clipboard.SetText(log.Command + Environment.NewLine);
+        }
+
+        void mniSqlSystemCopyLog_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+
+            var log = dgvSQLSistema.GetCurrentRowValue(true);
+            Clipboard.SetText(log);
+        }
+
+        void mniSqlBaseCopyLog_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+
+            var log = dgvSQLBase.GetCurrentRowValue(true);
+            Clipboard.SetText(log);
         }
 
         public void UpdateErrors()

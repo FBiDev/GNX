@@ -71,6 +71,17 @@ namespace GNX.Desktop
         [DefaultValue(false)]
         public bool ReadOnly { get { return TextBox.ReadOnly; } set { TextBox.ReadOnly = value; } }
 
+        public new bool Enabled
+        {
+            get { return TextBox.Enabled; }
+            set
+            {
+                TextBox.Enabled = value;
+                TabStop = value;
+                ChangeCursor();
+            }
+        }
+
         [DefaultValue(false)]
         public bool Multiline { get { return TextBox.Multiline; } set { TextBox.Multiline = value; } }
 
@@ -95,7 +106,7 @@ namespace GNX.Desktop
 
             lblPlaceholder.MouseEnter += lblPlaceholder_MouseEnter;
 
-            pnlBg.Click += pnlBg_Click;
+            pnlContent.Click += pnlBg_Click;
             lblSubtitle.Click += lblSubtitle_Click;
             lblPlaceholder.Click += lblPlaceholder_Click;
 
@@ -119,8 +130,8 @@ namespace GNX.Desktop
 
         public void ResetColors()
         {
-            pnlBorder.BackColor = BorderColor;
-            pnlBg.BackColor = BackgroundColor;
+            BackColor = BorderColor;
+            pnlContent.BackColor = BackgroundColor;
 
             lblSubtitle.BackColor = BackgroundColor;
             lblSubtitle.ForeColor = LabelTextColor;
@@ -199,8 +210,8 @@ namespace GNX.Desktop
 
         void TextBox_GotFocus(object sender, EventArgs e)
         {
-            pnlBorder.BackColor = BorderColorFocus;
-            pnlBg.BackColor = BackgroundColorFocus;
+            BackColor = BorderColorFocus;
+            pnlContent.BackColor = BackgroundColorFocus;
             lblSubtitle.BackColor = BackgroundColorFocus;
 
             TextBox.BackColor = BackgroundColorFocus;
@@ -212,8 +223,8 @@ namespace GNX.Desktop
 
         void TextBox_LostFocus(object sender, EventArgs e)
         {
-            pnlBorder.BackColor = BorderColor;
-            pnlBg.BackColor = BackgroundColor;
+            BackColor = BorderColor;
+            pnlContent.BackColor = BackgroundColor;
             lblSubtitle.BackColor = BackgroundColor;
 
             TextBox.BackColor = BackgroundColor;

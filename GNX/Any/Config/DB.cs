@@ -9,45 +9,49 @@ namespace GNX
     public static class DB
     {
         static DataBaseManager Database { get; set; }
-        public static ListSynced<cLogSQL> Log { get { return Database.Log; } set { Database.Log = value; } }
-        public static bool ConfigLoaded { get; set; }
+        public static ListSynced<cLogSQL> Log { get { return Database.Log; } }
+        public static bool Loaded { get; set; }
 
         public static void Load(string server, string database)
         {
-            Database = new DataBaseManager
-            {
-                DatabaseSystem = DbSystem.SQLServer,
-                Connection = new SqlConnection(),
-                ServerAddress = server,
-                DatabaseName = database,
-                DataBaseFile = "",
-                Username = "",
-                Password = "",
-                ConnectionString = ""
-            };
+            Database = new DataBaseManager { };
+            Reload(server, database);
+            Loaded = true;
         }
 
-        public async static Task<DataTable> ExecuteSelect(string sql, List<cSqlParameter> parameters = null)
+        public static void Reload(string server, string database)
         {
-            if (ConfigLoaded) { return await Database.ExecuteSelect(sql, parameters); }
+            Database.DatabaseSystem = DbSystem.SQLServer;
+            Database.Connection = new SqlConnection();
+            Database.ServerAddress = server;
+            Database.DatabaseName = database;
+            Database.DataBaseFile = "";
+            Database.Username = "";
+            Database.Password = "";
+            Database.ConnectionString = "";
+        }
+
+        public async static Task<DataTable> ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
+        {
+            if (Loaded) { return await Database.ExecuteSelect(sql, parameters, storedProcedure); }
             return new DataTable();
         }
 
         public async static Task<cSqlResult> Execute(string sql, DbAction action, List<cSqlParameter> parameters)
         {
-            if (ConfigLoaded) { return await Database.Execute(sql, action, parameters); }
+            if (Loaded) { return await Database.Execute(sql, action, parameters); }
             return new cSqlResult();
         }
 
         public async static Task<int> GetLastID()
         {
-            if (ConfigLoaded) { return await Database.GetLastID(); }
+            if (Loaded) { return await Database.GetLastID(); }
             return 0;
         }
 
         public async static Task<DateTime> DataServidor()
         {
-            if (ConfigLoaded) { return await Database.DateTimeServer(); }
+            if (Loaded) { return await Database.DateTimeServer(); }
             return DateTime.MinValue;
         }
     }

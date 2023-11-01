@@ -81,10 +81,10 @@ namespace GNX.Desktop
 
         void AlignControl()
         {
-            var newLocation = new Point((pnlBgWhite.Width / 2) - (CheckBox.Width / 2), CheckBox.Location.Y);
+            var newLocation = new Point((pnlBgWhite.Width - CheckBox.Width) / 2, CheckBox.Location.Y);
             CheckBox.Location = newLocation;
 
-            newLocation = new Point((pnlBgWhite.Width / 2) - (lblLegend.Width / 2), lblLegend.Location.Y);
+            newLocation = new Point((pnlBgWhite.Width - lblLegend.Width) / 2, lblLegend.Location.Y);
             lblLegend.Location = newLocation;
         }
 

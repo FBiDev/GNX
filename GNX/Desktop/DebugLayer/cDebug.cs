@@ -13,7 +13,7 @@ namespace GNX.Desktop
         public static ListBind<cLogSQL> LogSQLSistema = new ListBind<cLogSQL>();
         public static ListBind<cLogSQL> LogSQLBase = new ListBind<cLogSQL>();
 
-        public static int Enable;
+        public static bool Enable;
 
         public static DebugForm Open()
         {
@@ -59,7 +59,7 @@ namespace GNX.Desktop
             form.UpdateErrors();
             form.TabSelectIndex(1);
 
-            if (Enable == 1)
+            if (Enable)
                 form.Show();
         }
 

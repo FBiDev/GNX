@@ -37,7 +37,16 @@ namespace GNX
 
         public void AddLog(IDbCommand cmd, DbAction action = DbAction.Null)
         {
-            Log.Insert(0, new cLogSQL(Log.Count, cmd, action, ObjectManager.GetDaoClassAndMethod(11)));
+            Log.Insert(0, new cLogSQL(Log.Count, cmd, action, ObjectManager.GetDaoClassAndMethod(13)));
+        }
+
+        public string LastCall
+        {
+            get
+            {
+                if (Log.Count == 0) return string.Empty;
+                return Environment.NewLine + "Log: " + Environment.NewLine + Log[0].Method;
+            }
         }
 
         public async Task<DateTime> DateTimeServer()
@@ -194,7 +203,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        Task<DataTable> ExecuteReader(int connIndex, string sql, string storedProcedure)
+        async Task<DataTable> ExecuteReader(int connIndex, string sql, string storedProcedure)
         {
             var data = new DataTable();
             var ds = new DataSet();
@@ -203,57 +212,59 @@ namespace GNX
 
             if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
             {
-                try
+                cmd.CommandText = sql;
+
+                if (!string.IsNullOrWhiteSpace(storedProcedure))
                 {
-                    cmd.CommandText = sql;
-
-                    if (!string.IsNullOrWhiteSpace(storedProcedure))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.CommandText = storedProcedure;
-                    }
-                    else
-                    {
-                        cmd.CommandText = ReplaceSQLCommands(cmd.CommandText);
-                    }
-
-                    if (cmd.Parameters.Count > 0)
-                    {
-                        cmd.Prepare();
-                    }
-
-                    AddLog(cmd, DbAction.Select);
-                    using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
-                    {
-                        var schemaTabela = rdr.GetSchemaTable();
-
-                        foreach (DataRow dataRow in schemaTabela.Rows)
-                        {
-                            var dataColumn = new DataColumn();
-                            dataColumn.ColumnName = dataRow["ColumnName"].ToString();
-                            dataColumn.DataType = Type.GetType(dataRow["DataType"].ToString());
-                            dataColumn.ReadOnly = (bool)dataRow["IsReadOnly"];
-                            dataColumn.AutoIncrement = (bool)dataRow["IsAutoIncrement"];
-                            dataColumn.Unique = (bool)dataRow["IsUnique"];
-                            data.Columns.Add(dataColumn);
-                        }
-
-                        DataRow dt;
-                        while (rdr.FieldCount > 0 && rdr.Read())
-                        {
-                            dt = data.NewRow();
-                            for (int i = 0; i < data.Columns.Count; i++)
-                            {
-                                dt[i] = rdr[i];
-                            }
-                            data.Rows.Add(dt);
-                        }
-                    }
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = storedProcedure;
                 }
-                catch (Exception) { throw; }
+                else
+                {
+                    cmd.CommandText = ReplaceSQLCommands(cmd.CommandText);
+                }
+
+                AddLog(cmd, DbAction.Select);
+
+                if (cmd.Parameters.Count > 0)
+                    cmd.Prepare();
+
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        using (IDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                        {
+                            var schemaTabela = rdr.GetSchemaTable();
+
+                            foreach (DataRow dataRow in schemaTabela.Rows)
+                            {
+                                var dataColumn = new DataColumn();
+                                dataColumn.ColumnName = dataRow["ColumnName"].ToString();
+                                dataColumn.DataType = Type.GetType(dataRow["DataType"].ToString());
+                                dataColumn.ReadOnly = (bool)dataRow["IsReadOnly"];
+                                dataColumn.AutoIncrement = (bool)dataRow["IsAutoIncrement"];
+                                dataColumn.Unique = (bool)dataRow["IsUnique"];
+                                data.Columns.Add(dataColumn);
+                            }
+
+                            DataRow dt;
+                            while (rdr.FieldCount > 0 && rdr.Read())
+                            {
+                                dt = data.NewRow();
+                                for (int i = 0; i < data.Columns.Count; i++)
+                                {
+                                    dt[i] = rdr[i];
+                                }
+                                data.Rows.Add(dt);
+                            }
+                        }
+                    }
+                    catch (Exception) { throw; }
+                });
             }
 
-            return Task.FromResult(data);
+            return await Task.FromResult(data);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
@@ -263,13 +274,15 @@ namespace GNX
             var cmd = cmdList[connIndex];
             if (cmd == null) return affectedRows;
 
+            cmd.CommandText = sql;
+            cmd.CommandText = ReplaceSQLCommands(cmd.CommandText);
+
+            AddLog(cmd, action);
+
             await Task.Run(() =>
             {
                 try
                 {
-                    cmd.CommandText = sql;
-                    cmd.CommandText = ReplaceSQLCommands(cmd.CommandText);
-
                     if (cmd.Parameters.Count > 0)
                         cmd.Prepare();
 
@@ -279,42 +292,36 @@ namespace GNX
                 catch (Exception) { throw; }
             });
 
-            AddLog(cmd, action);
             return affectedRows;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         async Task<string> ExecuteScalar(int connIndex, string sql)
         {
+            var cmd = cmdList[connIndex];
+            if (cmd == null) return string.Empty;
+
+            cmd.CommandText = sql;
+            AddLog(cmd);
+
             return await Task.Run(() =>
             {
-                var cmd = cmdList[connIndex];
-
-                if (cmd != null)
+                object select = string.Empty;
+                try
                 {
-                    object select = string.Empty;
+                    if (cmd.Parameters.Count > 0)
+                        cmd.Prepare();
 
-                    try
-                    {
-                        cmd.CommandText = sql;
-                        if (cmd.Parameters.Count > 0)
-                        {
-                            cmd.Prepare();
-                        }
+                    select = cmd.ExecuteScalar();
 
-                        AddLog(cmd);
-                        select = cmd.ExecuteScalar();
-
-                        cmdList[connIndex] = cmd;
-                    }
-                    catch (Exception) { throw; }
+                    cmdList[connIndex] = cmd;
 
                     if (select != null)
-                    {
                         return select.ToString();
-                    }
+
+                    return string.Empty;
                 }
-                return string.Empty;
+                catch (Exception) { throw; }
             });
         }
 
@@ -331,14 +338,28 @@ namespace GNX
                 }
             }
 
-            DataTable table = await Task.Run(async () =>
-            {
-                return await ExecuteReader(connIndex, sql, storedProcedure);
-            });
+            DataTable table = await ExecuteReader(connIndex, sql, storedProcedure);
 
             Close(connIndex);
 
             return table;
+        }
+
+        public async Task<string> ExecuteSelectString(string sql, List<cSqlParameter> parameters = null)
+        {
+            var connIndex = NewConnection();
+            Open(connIndex);
+
+            if (parameters != null)
+            {
+                foreach (cSqlParameter p in parameters)
+                {
+                    AddSQLParameter(connIndex, p);
+                }
+            }
+
+            string select = await ExecuteScalar(connIndex, sql);
+            return select;
         }
 
         public async Task<cSqlResult> Execute(string sql, DbAction action, List<cSqlParameter> parameters)

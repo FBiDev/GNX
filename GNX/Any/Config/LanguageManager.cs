@@ -8,15 +8,25 @@ namespace GNX
     public static class LanguageManager
     {
         #region Language
-        static CultureInfo Language;
+        public static CultureInfo CultureBrazil = CultureInfo.CreateSpecificCulture("pt-BR");
+        public static CultureInfo CultureUSA = CultureInfo.CreateSpecificCulture("en-US");
+
+        static CultureInfo Language = new CultureInfo(Convert.ToInt32(CultureID.UnitedStates_English));
         static RegionInfo Country;
 
         public static CultureInfo LanguageNumbers;
+
+        public static bool LanguageIsUSA()
+        {
+            return Language.LCID == (int)CultureID.UnitedStates_English;
+        }
 
         public static void SetLanguageNumbers(CultureID name)
         {
             LanguageNumbers = new CultureInfo(Convert.ToInt32(name));
         }
+
+        public static CultureInfo GetLanguage() { return Language; }
 
         public static void SetLanguage(CultureID name)
         {

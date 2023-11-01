@@ -125,7 +125,7 @@
         private FlatPanelBG pnlHead;
         private FlatPanelBG pnlBody;
         protected FlatPanel pnlContent;
-        protected FlatStatusBar staStatus;
+        public FlatStatusBar staStatus;
 
     }
 }

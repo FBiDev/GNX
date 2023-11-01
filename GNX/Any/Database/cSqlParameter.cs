@@ -29,10 +29,19 @@ namespace GNX
                 {
                     case "String":
                         DbType = DbType.String;
+                        if (string.IsNullOrWhiteSpace((string)Value))
+                        { this.Value = DBNull.Value; }
+                        else { this.Value = ((string)Value).Trim(); }
+
                         if (Size == 0) Size = -1;
                         break;
                     case "Int32":
                         DbType = DbType.Int32; break;
+                    case "Decimal":
+                        DbType = DbType.Decimal;
+                        Precision = 10;
+                        Scale = 2;
+                        break;
                     case "DateTime":
                         DbType = DbType.DateTime2;
 
@@ -93,16 +102,30 @@ namespace GNX
 
         static string ReplaceItem(string query, object value, DbType DbType, string ParameterName)
         {
-            string val = value == null ? "NULL" : value.ToString();
-            val = value == DBNull.Value ? "NULL" : value.ToString();
+            string val = null;
 
-            val = val.Replace("'", "''");
-
-            switch (DbType)
+            if (value == null || value == DBNull.Value)
             {
-                case DbType.String: val = "'" + val + "'"; break;
-                case DbType.DateTime2: val = "'" + val + "'"; break;
-                case DbType.DateTime: val = "'" + val + "'"; break;
+                val = null;
+            }
+            else
+            {
+                val = value.ToString();
+                val = val.Replace("'", "''");
+            }
+
+            if (val == null)
+            {
+                val = "NULL";
+            }
+            else
+            {
+                switch (DbType)
+                {
+                    case DbType.String: val = "'" + val + "'"; break;
+                    case DbType.DateTime2: val = "'" + val + "'"; break;
+                    case DbType.DateTime: val = "'" + val + "'"; break;
+                }
             }
 
             query = Regex.Replace(query, ParameterName + @"\b", val);

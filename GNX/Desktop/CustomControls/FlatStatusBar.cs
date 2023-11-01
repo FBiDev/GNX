@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -6,6 +7,13 @@ namespace GNX.Desktop
 {
     public partial class FlatStatusBar : UserControl
     {
+        [DefaultValue(false)]
+        public new bool TabStop
+        {
+            get { return base.TabStop; }
+            set { base.TabStop = value; }
+        }
+
         int? _registros;
         Movimento _movimento;
         bool _BorderEnable = true;
@@ -75,6 +83,7 @@ namespace GNX.Desktop
         {
             InitializeComponent();
 
+            TabStop = false;
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
             Load += FlatStatusBar_Load;

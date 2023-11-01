@@ -28,45 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlBorder = new System.Windows.Forms.Panel();
-            this.pnlBg = new System.Windows.Forms.Panel();
+            this.pnlContent = new System.Windows.Forms.Panel();
             this.lblSubtitle = new System.Windows.Forms.Label();
-            this.pnlBorder.SuspendLayout();
-            this.pnlBg.SuspendLayout();
+            this.pnlContent.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pnlBorder
+            // pnlContent
             // 
-            this.pnlBorder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlBorder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(223)))), ((int)(((byte)(229)))));
-            this.pnlBorder.Controls.Add(this.pnlBg);
-            this.pnlBorder.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnlBorder.Location = new System.Drawing.Point(0, 0);
-            this.pnlBorder.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlBorder.Name = "pnlBorder";
-            this.pnlBorder.Size = new System.Drawing.Size(206, 34);
-            this.pnlBorder.TabIndex = 0;
-            // 
-            // pnlBg
-            // 
-            this.pnlBg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlBg.BackColor = System.Drawing.Color.White;
-            this.pnlBg.Controls.Add(this.lblSubtitle);
-            this.pnlBg.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnlBg.Location = new System.Drawing.Point(1, 1);
-            this.pnlBg.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlBg.Name = "pnlBg";
-            this.pnlBg.Size = new System.Drawing.Size(204, 32);
-            this.pnlBg.TabIndex = 0;
+            this.pnlContent.BackColor = System.Drawing.Color.White;
+            this.pnlContent.Controls.Add(this.lblSubtitle);
+            this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlContent.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnlContent.Location = new System.Drawing.Point(1, 1);
+            this.pnlContent.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlContent.Name = "pnlContent";
+            this.pnlContent.Padding = new System.Windows.Forms.Padding(1, 2, 1, 1);
+            this.pnlContent.Size = new System.Drawing.Size(204, 32);
+            this.pnlContent.TabIndex = 0;
             // 
             // lblSubtitle
             // 
             this.lblSubtitle.AutoSize = true;
             this.lblSubtitle.BackColor = System.Drawing.Color.White;
+            this.lblSubtitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(132)))), ((int)(((byte)(199)))));
             this.lblSubtitle.Location = new System.Drawing.Point(1, 2);
@@ -78,24 +62,26 @@
             // FlatTextBoxBase
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.pnlBorder);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(223)))), ((int)(((byte)(229)))));
+            this.Controls.Add(this.pnlContent);
             this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximumSize = new System.Drawing.Size(0, 34);
             this.MinimumSize = new System.Drawing.Size(100, 34);
             this.Name = "FlatTextBoxBase";
+            this.Padding = new System.Windows.Forms.Padding(1);
             this.Size = new System.Drawing.Size(206, 34);
-            this.pnlBorder.ResumeLayout(false);
-            this.pnlBg.ResumeLayout(false);
-            this.pnlBg.PerformLayout();
+            this.pnlContent.ResumeLayout(false);
+            this.pnlContent.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        protected System.Windows.Forms.Panel pnlBg;
+        protected System.Windows.Forms.Panel pnlContent;
         protected System.Windows.Forms.Label lblSubtitle;
-        protected System.Windows.Forms.Panel pnlBorder;
 
 
     }

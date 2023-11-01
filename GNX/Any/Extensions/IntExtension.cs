@@ -18,7 +18,7 @@ namespace GNX
 
         public static string ToCurrency(this decimal d)
         {
-            return Cast.ToCurrency(d.ToString());
+            return Cast.ToMoney(d.ToString());
         }
 
         public static string ToNumber(this decimal value, int decimals = 2, bool customLanguage = false)

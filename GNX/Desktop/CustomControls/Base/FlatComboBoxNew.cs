@@ -26,7 +26,7 @@ namespace GNX.Desktop
 
             Font = new Font("Segoe UI", 9);
             ForeColor = Color.FromArgb(47, 47, 47);
-            BackColor = Color.White;
+            BackColor = Color.Red;
 
             DropDownStyle = ComboBoxStyle.DropDownList;
             FlatStyle = FlatStyle.Standard;

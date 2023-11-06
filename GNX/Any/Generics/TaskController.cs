@@ -58,7 +58,9 @@ namespace GNX
             }
             catch (Exception ex)
             {
-                var codeLine = ex.StackTrace.Split(Environment.NewLine.ToCharArray()).First().Split('\\').Last();
+                //var codeLine = ex.StackTrace.Split(Environment.NewLine.ToCharArray()).First().Split('\\').Last();
+                //codeLine += Environment.NewLine + Environment.NewLine;
+                var codeLine = ObjectManager.GetStackTrace();
                 System.Windows.Forms.MessageBox.Show(codeLine + Environment.NewLine + "Task Failed: " + ex.Message);
             }
         }

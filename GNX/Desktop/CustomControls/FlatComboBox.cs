@@ -85,18 +85,12 @@ namespace GNX.Desktop
 
         public event EventHandler SelectedIndexChanged;
         public event EventHandler SelectionChangeCommitted;
-        //public delegate void EventHandler(object sender, EventArgs e);
 
-        string _DisplayMember;
         [DefaultValue("")]
         public string DisplayMember
         {
             get { return cboFlat.DisplayMember; }
-            set
-            {
-                cboFlat.DisplayMember = value;
-                _DisplayMember = value;
-            }
+            set { cboFlat.DisplayMember = value; }
         }
 
         [DefaultValue("")]
@@ -112,8 +106,10 @@ namespace GNX.Desktop
             get { return cboFlat.DataSource; }
             set
             {
+                cboFlat.BindingContext = new BindingContext();
+                cboFlat.DataSource = null;
+                cboFlat.Items.Clear();
                 cboFlat.DataSource = value;
-                cboFlat.DisplayMember = _DisplayMember;
                 ResetIndex();
             }
         }
@@ -124,7 +120,7 @@ namespace GNX.Desktop
             get { return cboFlat.SelectedIndex; }
             set
             {
-                if (cboFlat.Items.Count > 0 && cboFlat.Items.Count <= value)
+                if (cboFlat.Items.Count > 0 && value <= cboFlat.Items.Count)
                     cboFlat.SelectedIndex = value;
             }
         }
@@ -135,7 +131,8 @@ namespace GNX.Desktop
             get { if (cboFlat.SelectedValue.NotNull()) { return cboFlat.SelectedValue; } return string.Empty; }
             set
             {
-                if (value.NotNull() && !value.ToString().Equals(string.Empty)) { cboFlat.SelectedValue = value; } else { ResetIndex(); }
+                if (value.NotNull() && !value.ToString().Equals(string.Empty)) { cboFlat.SelectedValue = value; }
+                else { ResetIndex(); }
             }
         }
 
@@ -145,7 +142,8 @@ namespace GNX.Desktop
             get { if (cboFlat.SelectedValue.NotNull()) { return cboFlat.Text; } return string.Empty; }
             set
             {
-                if (value.NotNull() && !value.Equals(string.Empty)) { cboFlat.SelectedIndex = cboFlat.FindStringExact(value); } else { ResetIndex(); }
+                if (value.NotNull() && !value.Equals(string.Empty)) { SelectedIndex = cboFlat.FindStringExact(value); }
+                else { ResetIndex(); }
             }
         }
 

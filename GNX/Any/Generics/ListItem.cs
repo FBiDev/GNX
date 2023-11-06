@@ -10,5 +10,10 @@
             Value = 0;
             Text = string.Empty;
         }
+
+        public override string ToString()
+        {
+            return Text + " - " + Value.ToString();
+        }
     }
 }

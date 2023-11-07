@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace GNX
 {
-    public delegate Task EventAsyncTask();
+    public delegate void EventVoid();
+    public delegate Task EventTaskAsync();
 
     public static class ObjectManager
     {

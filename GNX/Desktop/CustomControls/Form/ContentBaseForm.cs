@@ -20,7 +20,8 @@ namespace GNX.Desktop
 
         bool _firstLoad = true;
         //public event EventHandler FirstLoad;
-        public event EventAsyncTask FirstLoad;
+        public event EventVoid FinalLoadOnce;
+        public event EventTaskAsync FinalLoadOnceAsync;
 
         public ContentBaseForm()
         {
@@ -52,12 +53,17 @@ namespace GNX.Desktop
             TopLevel = false;
         }
 
-        public void LoadFirstTime()
+        public void FinalLoadOnShow()
         {
-            if (_firstLoad && FirstLoad.NotNull())
+            if (_firstLoad)
             {
+                if (FinalLoadOnce.NotNull())
+                    FinalLoadOnce();
+
+                if (FinalLoadOnceAsync.NotNull())
+                    FinalLoadOnceAsync().AwaitSafe();
+
                 _firstLoad = false;
-                FirstLoad().AwaitSafe();
             }
         }
 

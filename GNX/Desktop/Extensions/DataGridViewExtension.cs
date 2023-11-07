@@ -25,7 +25,7 @@ namespace GNX.Desktop
 
             var style = new DataGridViewCellStyle
             {
-                FormatProvider = LanguageManager.CultureBrazil,
+                //FormatProvider = LanguageManager.CultureBrazil,
                 NullValue = null
             };
 
@@ -46,9 +46,11 @@ namespace GNX.Desktop
                     style.Format = "N0";
                     break;
                 case CellStyle.Date:
+                    style.FormatProvider = LanguageManager.CultureBrazil;
                     style.Format = "d";
                     break;
                 case CellStyle.DateCenter:
+                    style.FormatProvider = LanguageManager.CultureBrazil;
                     style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     style.Font = new Font("Courier New", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
                     style.Format = "dd MMM, yyyy";

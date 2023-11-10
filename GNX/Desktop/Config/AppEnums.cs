@@ -1,5 +1,15 @@
 ﻿namespace GNX.Desktop
 {
+    public enum Align
+    {
+        None,
+        Left,
+        Center,
+        Right,
+        Top,
+        Bottom
+    }
+
     public enum Movimento
     {
         Nenhum,

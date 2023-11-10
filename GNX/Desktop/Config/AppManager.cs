@@ -173,7 +173,7 @@ namespace GNX.Desktop
 
         static void CollectGarbage(object source, EventArgs e)
         {
-            GC.Collect();
+            //GC.Collect();
             EmptyWorkingSet(Process.GetCurrentProcess().Handle);
         }
         #endregion

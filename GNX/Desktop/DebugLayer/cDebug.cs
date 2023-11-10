@@ -14,22 +14,32 @@ namespace GNX.Desktop
         public static ListBind<cLogSQL> LogSQLBase = new ListBind<cLogSQL>();
 
         public static bool Enable;
+        static DebugForm output;
 
-        public static DebugForm Open()
+        static void Create()
         {
-            foreach (Form f in Application.OpenForms)
-            {
-                if (f.GetType() == typeof(DebugForm))
-                {
-                    ((DebugForm)f).WindowState = FormWindowState.Normal;
-                    ((DebugForm)f).Focus();
-                    return ((DebugForm)f);
-                }
-            }
+            if (output.IsNull())
+                output = new DebugForm();
+        }
 
-            //else
-            var output = new DebugForm();
-            return output;
+        public static void Open()
+        {
+            Create();
+
+            if (Enable)
+            {
+                foreach (Form f in Application.OpenForms)
+                {
+                    if (f.GetType() == typeof(DebugForm))
+                    {
+                        ((DebugForm)f).WindowState = FormWindowState.Normal;
+                        return;
+                    }
+                }
+
+                output.Show();
+                output.Focus();
+            }
         }
 
         public static List<KeyValuePair<string, int>> GetErrors()
@@ -55,12 +65,12 @@ namespace GNX.Desktop
                 Errors.Insert(0, item);
             }
 
-            var form = Open();
-            form.UpdateErrors();
-            form.TabSelectIndex(1);
+            Create();
 
-            if (Enable)
-                form.Show();
+            output.UpdateErrors();
+            output.TabSelectIndex(1);
+
+            Open();
         }
 
         public static void AddMessage(string text)

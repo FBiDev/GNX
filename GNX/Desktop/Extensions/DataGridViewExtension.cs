@@ -61,8 +61,9 @@ namespace GNX.Desktop
                         style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                         style.Padding = new Padding(2);
 
+                        col.Resizable = DataGridViewTriState.False;
                         col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                        ((DataGridViewImageColumn)col).ImageLayout = DataGridViewImageCellLayout.Zoom;
+                        ((DataGridViewImageColumn)col).ImageLayout = DataGridViewImageCellLayout.NotSet;
                     }
                     break;
             }

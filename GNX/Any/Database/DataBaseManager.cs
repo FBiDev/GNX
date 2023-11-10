@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GNX
@@ -21,7 +22,7 @@ namespace GNX
         public IDbConnection Connection;
         public string ConnectionString { get; set; }
 
-        public List<IDbConnection> connList = new List<IDbConnection>();
+        //public List<IDbConnection> connList = new List<IDbConnection>();
         public List<IDbCommand> cmdList = new List<IDbCommand>();
 
         string DefaultConnectionString()
@@ -64,7 +65,7 @@ namespace GNX
             return Convert.ToDateTime(select);
         }
 
-        public async Task<int> GetLastID(int connIndex = -1)
+        public async Task<int> GetLastID(IDbCommand connIndex = null)
         {
             string sql = "SELECT SCOPE_IDENTITY() AS LastID;";
             if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
@@ -72,7 +73,7 @@ namespace GNX
                 sql = "SELECT LAST_INSERT_ROWID() AS LastID;";
             }
 
-            if (connIndex == -1)
+            if (connIndex == null)
                 connIndex = NewConnection();
             Open(connIndex);
 
@@ -100,21 +101,24 @@ namespace GNX
             }
         }
 
-        int NewConnection()
+        IDbCommand NewConnection()
         {
             var conn = (IDbConnection)Connection.Clone();
-            connList.Add(conn);
-            cmdList.Add(conn.CreateCommand());
+            //connList.Add(conn);
+            var cmd = conn.CreateCommand();
+            cmdList.Insert(0, cmd);
 
-            return connList.Count - 1;
+            //return connList.Count - 1;
+            return cmd;
         }
 
-        void Open(int connIndex)
+        void Open(IDbCommand connIndex)
         {
             try
             {
-                var conn = connList[connIndex];
-                var cmd = cmdList[connIndex];
+                //var conn = connList[connIndex];
+                var cmd = connIndex;
+                var conn = cmd.Connection;
 
                 CreateConnection(conn);
 
@@ -128,16 +132,34 @@ namespace GNX
             catch (Exception) { throw; }
         }
 
-        void Close(int connIndex)
+        void Close(IDbCommand connIndex)
         {
-            var conn = connList[connIndex];
-            var cmd = cmdList[connIndex];
+            if (connIndex == null) return;
 
-            if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
+            //var conn = connList[connIndex];
+            //var cmd = cmdList[connIndex];
+            var cmd = connIndex;
+
+            if (cmd != null && cmd.Connection != null)
             {
-                cmd.Connection.Close();
-                cmd.Parameters.Clear();
-                conn.Close();
+                if (cmd.Connection.State == ConnectionState.Open)
+                {
+                    cmd.Connection.Close();
+                    cmd.Parameters.Clear();
+                    //conn.Close();
+                }
+
+                while (cmdList.Count > 10)
+                {
+                    //var nconn = connList[index];
+                    var lastcmd = cmdList.Last();
+
+                    if (lastcmd.Connection.State == ConnectionState.Closed)
+                    {
+                        //connList.RemoveAt(index);
+                        cmdList.Remove(lastcmd);
+                    }
+                }
             }
         }
 
@@ -160,9 +182,10 @@ namespace GNX
         //    return null;
         //}
 
-        IDbDataParameter AddSQLParameter(int connIndex, cSqlParameter parameter)
+        IDbDataParameter AddSQLParameter(IDbCommand connIndex, cSqlParameter parameter)
         {
-            var cmd = cmdList[connIndex];
+            //var cmd = cmdList[connIndex];
+            var cmd = connIndex;
 
             if (cmd != null)
             {
@@ -203,12 +226,13 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        async Task<DataTable> ExecuteReader(int connIndex, string sql, string storedProcedure)
+        async Task<DataTable> ExecuteReader(IDbCommand connIndex, string sql, string storedProcedure)
         {
             var data = new DataTable();
             var ds = new DataSet();
 
-            var cmd = cmdList[connIndex];
+            //var cmd = cmdList[connIndex];
+            var cmd = connIndex;
 
             if (cmd != null && cmd.Connection != null && cmd.Connection.State == ConnectionState.Open)
             {
@@ -268,10 +292,11 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        async Task<int> ExecuteNonQuery(int connIndex, string sql, DbAction action = DbAction.Null)
+        async Task<int> ExecuteNonQuery(IDbCommand connIndex, string sql, DbAction action = DbAction.Null)
         {
             int affectedRows = 0;
-            var cmd = cmdList[connIndex];
+            //var cmd = cmdList[connIndex];
+            var cmd = connIndex;
             if (cmd == null) return affectedRows;
 
             cmd.CommandText = sql;
@@ -287,7 +312,7 @@ namespace GNX
                         cmd.Prepare();
 
                     affectedRows = cmd.ExecuteNonQuery();
-                    cmdList[connIndex] = cmd;
+                    //cmdList[connIndex] = cmd;
                 }
                 catch (Exception) { throw; }
             });
@@ -296,9 +321,9 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        async Task<string> ExecuteScalar(int connIndex, string sql)
+        async Task<string> ExecuteScalar(IDbCommand connIndex, string sql)
         {
-            var cmd = cmdList[connIndex];
+            var cmd = connIndex;
             if (cmd == null) return string.Empty;
 
             cmd.CommandText = sql;
@@ -314,7 +339,7 @@ namespace GNX
 
                     select = cmd.ExecuteScalar();
 
-                    cmdList[connIndex] = cmd;
+                    //cmdList[connIndex] = cmd;
 
                     if (select != null)
                         return select.ToString();

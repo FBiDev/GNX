@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace GNX.Desktop
@@ -399,34 +398,33 @@ namespace GNX.Desktop
 
         #region Paint
         //AdjustImageQuality
-        protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
-        {
-            base.OnCellPainting(e);
+        //protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
+        //{
+        //    base.OnCellPainting(e);
 
-            e.Graphics.InterpolationMode = InterpolationMode.Bilinear;
-            e.Graphics.PixelOffsetMode = PixelOffsetMode.Default;
+        //    e.Graphics.InterpolationMode = InterpolationMode.Bilinear;
+        //    e.Graphics.PixelOffsetMode = PixelOffsetMode.Default;
 
-            if (e.RowHeader()) { return; }
+        //    if (e.RowHeader()) { return; }
 
-            var dgv = this as DataGridView;
-            var row = dgv.Rows[e.RowIndex];
-            var cell = row.Cells[e.ColumnIndex];
+        //    if (e.Value is Bitmap)
+        //    {
+        //        var image = e.Value as Bitmap;
+        //        var cellSize = e.CellBounds;
+        //        var padding = e.CellStyle.Padding.All;
 
-            if (cell.ValueType == typeof(Bitmap))
-            {
-                var image = cell.Value as Bitmap;
-                if (image.Width > cell.Size.Width || image.Height > cell.Size.Height)
-                {
-                    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    //e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                }
-                else
-                {
-                    e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-                    e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
-                }
-            }
-        }
+        //        if (image.Width > cellSize.Width - padding || image.Height > cellSize.Height - padding)
+        //        {
+        //            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        //            //e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+        //        }
+        //        else
+        //        {
+        //            e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+        //            e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
+        //        }
+        //    }
+        //}
 
         //MouseMoveChangeRowColor
         protected override void OnMouseMove(MouseEventArgs e)
@@ -655,11 +653,15 @@ namespace GNX.Desktop
 
         Bitmap imgtrue = Properties.Resources.img_true_ico;
         Bitmap imgfalse = Properties.Resources.img_false_ico;
+
         public void LoadBooleanImages()
         {
             var BooleanColumns = GetBooleanColumns();
 
             if (BooleanColumns == null) { return; }
+
+            var imgtruePerformatic = imgtrue.Clone32bpp();
+            var imgfalsePerformatic = imgfalse.Clone32bpp();
 
             foreach (DataGridViewRow row in Rows)
             {
@@ -668,7 +670,7 @@ namespace GNX.Desktop
                     if (Columns.Contains(BooleanColumn) && Columns.Contains(BooleanColumn + boolColumnSufix))
                     {
                         string cellValue = row.Cells[BooleanColumn].Value != null ? row.Cells[BooleanColumn].Value.ToString() : string.Empty;
-                        row.Cells[BooleanColumn + boolColumnSufix].Value = (cellValue == "True") ? imgtrue : imgfalse;
+                        row.Cells[BooleanColumn + boolColumnSufix].Value = (cellValue == "True") ? imgtruePerformatic : imgfalsePerformatic;
                     }
                 }
             }

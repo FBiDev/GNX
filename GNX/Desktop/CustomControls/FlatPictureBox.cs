@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
@@ -10,6 +11,76 @@ namespace GNX.Desktop
     /// </summary>
     public class FlatPictureBox : PictureBox
     {
+        IContainer components;
+        ContextMenuStrip mnuPicture;
+        ToolStripMenuItem mniCopyImage;
+
+        [DefaultValue(false)]
+        public bool AutoScale { get; set; }
+
+        public new Image Image
+        {
+            get { return base.Image; }
+            set
+            {
+                base.Image = value;
+
+                if (AutoScale && value is Image)
+                {
+                    //this.ScaleTo((Bitmap)value);
+                }
+
+                if (Parent is Control)
+                    this.AlignBox();
+
+                if (value is Image)
+                    ContextMenuStrip = mnuPicture;
+            }
+        }
+
+        Align _align { get; set; }
+
+        [DefaultValue(typeof(Align), "None")]
+        public Align Align
+        {
+            get { return _align; }
+            set
+            {
+                _align = value;
+
+                if (Parent is Control)
+                    this.AlignBox();
+            }
+        }
+
+        public FlatPictureBox()
+        {
+            //SubMenu
+            components = new Container();
+
+            mniCopyImage = new ToolStripMenuItem();
+            mniCopyImage.Name = "mniCopyImage";
+            mniCopyImage.Size = new Size(227, 22);
+            mniCopyImage.Text = "Copy Image";
+
+            mnuPicture = new ContextMenuStrip(components);
+            mnuPicture.SuspendLayout();
+            mnuPicture.Items.AddRange(new ToolStripItem[]{
+                mniCopyImage
+            });
+            mnuPicture.Name = "mnuPicture";
+            mnuPicture.Size = new Size(228, 48);
+            mnuPicture.ResumeLayout(false);
+
+            mniCopyImage.MouseDown += mniCopyImage_MouseDown;
+        }
+
+        void mniCopyImage_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            Clipboard.SetImage(Image);
+        }
+
         #region Interpolation Property
         /// <summary>Backing Field</summary>
         InterpolationMode interpolation = InterpolationMode.NearestNeighbor;

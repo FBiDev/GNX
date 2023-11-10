@@ -83,7 +83,7 @@ namespace GNX.Desktop
         {
             if (DebugMode && keyData == (Keys.F1))
             {
-                cDebug.Open().Show();
+                cDebug.Open();
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace GNX.Desktop
@@ -398,33 +399,33 @@ namespace GNX.Desktop
 
         #region Paint
         //AdjustImageQuality
-        //protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
-        //{
-        //    base.OnCellPainting(e);
+        protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
+        {
+            base.OnCellPainting(e);
 
-        //    e.Graphics.InterpolationMode = InterpolationMode.Bilinear;
-        //    e.Graphics.PixelOffsetMode = PixelOffsetMode.Default;
+            e.Graphics.InterpolationMode = InterpolationMode.Bilinear;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.Default;
 
-        //    if (e.RowHeader()) { return; }
+            if (e.RowHeader()) { return; }
 
-        //    if (e.Value is Bitmap)
-        //    {
-        //        var image = e.Value as Bitmap;
-        //        var cellSize = e.CellBounds;
-        //        var padding = e.CellStyle.Padding.All;
+            if (e.Value is Bitmap)
+            {
+                var image = e.Value as Bitmap;
+                var cellSize = e.CellBounds;
+                var padding = e.CellStyle.Padding.All;
 
-        //        if (image.Width > cellSize.Width - padding || image.Height > cellSize.Height - padding)
-        //        {
-        //            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        //            //e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-        //        }
-        //        else
-        //        {
-        //            e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-        //            e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
-        //        }
-        //    }
-        //}
+                if (image.Width > cellSize.Width - padding || image.Height > cellSize.Height - padding)
+                {
+                    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    //e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                }
+                else
+                {
+                    e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    //e.Graphics.PixelOffsetMode = PixelOffsetMode.Half;
+                }
+            }
+        }
 
         //MouseMoveChangeRowColor
         protected override void OnMouseMove(MouseEventArgs e)

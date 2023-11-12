@@ -61,15 +61,15 @@ namespace GNX.Desktop
             mniCopyImage = new ToolStripMenuItem();
             mniCopyImage.Name = "mniCopyImage";
             mniCopyImage.Size = new Size(227, 22);
-            mniCopyImage.Text = "Copy Image";
+            mniCopyImage.Text = "Copy image";
 
             mnuPicture = new ContextMenuStrip(components);
             mnuPicture.SuspendLayout();
+            mnuPicture.Name = "mnuPicture";
+            mnuPicture.Size = new Size(228, 48);
             mnuPicture.Items.AddRange(new ToolStripItem[]{
                 mniCopyImage
             });
-            mnuPicture.Name = "mnuPicture";
-            mnuPicture.Size = new Size(228, 48);
             mnuPicture.ResumeLayout(false);
 
             mniCopyImage.MouseDown += mniCopyImage_MouseDown;

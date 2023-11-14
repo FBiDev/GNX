@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace GNX
 {
-    public static class ObjectExtesion
+    public static class ObjectExtension
     {
         public static bool IsNull(this object T)
         {

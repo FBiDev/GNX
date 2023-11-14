@@ -4,17 +4,17 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace GNX
+namespace GNX.Desktop
 {
     public static class DB
     {
-        static DataBaseManager Database { get; set; }
+        static DatabaseManager Database { get; set; }
         public static ListSynced<cLogSQL> Log { get { return Database.Log; } }
         public static bool Loaded { get; set; }
 
         public static void Load(string server, string database)
         {
-            Database = new DataBaseManager { };
+            Database = new DatabaseManager { };
             Reload(server, database);
             Loaded = true;
         }
@@ -33,25 +33,41 @@ namespace GNX
 
         public async static Task<DataTable> ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
         {
-            if (Loaded) { return await Database.ExecuteSelect(sql, parameters, storedProcedure); }
+            if (Loaded)
+            {
+                try { return await Database.ExecuteSelect(sql, parameters, storedProcedure); }
+                catch (Exception ex) { ExceptionManager.Resolve(ex, Database.LastCall); }
+            }
             return new DataTable();
+        }
+
+        public async static Task<string> ExecuteSelectString(string sql, List<cSqlParameter> parameters = null)
+        {
+            if (Loaded)
+            {
+                try { return await Database.ExecuteSelectString(sql, parameters); }
+                catch (Exception ex) { ExceptionManager.Resolve(ex, Database.LastCall); }
+            }
+            return string.Empty;
         }
 
         public async static Task<cSqlResult> Execute(string sql, DbAction action, List<cSqlParameter> parameters)
         {
-            if (Loaded) { return await Database.Execute(sql, action, parameters); }
+            if (Loaded)
+            {
+                try { return await Database.Execute(sql, action, parameters); }
+                catch (Exception ex) { ExceptionManager.Resolve(ex, Database.LastCall); }
+            }
             return new cSqlResult();
         }
 
-        public async static Task<int> GetLastID()
+        public async static Task<DateTime> DateTimeServer()
         {
-            if (Loaded) { return await Database.GetLastID(); }
-            return 0;
-        }
-
-        public async static Task<DateTime> DataServidor()
-        {
-            if (Loaded) { return await Database.DateTimeServer(); }
+            if (Loaded)
+            {
+                try { return await Database.DateTimeServer(); }
+                catch (Exception ex) { ExceptionManager.Resolve(ex, Database.LastCall); }
+            }
             return DateTime.MinValue;
         }
     }

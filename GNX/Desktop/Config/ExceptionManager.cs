@@ -26,6 +26,7 @@ namespace GNX.Desktop
             }
             else if (!exProc.ExternalDll)
             {
+                Clipboard.SetText(exProc.Message + customMessage);
                 MessageBox.Show(exProc.Message + customMessage, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //MessageBox.Show(CustomMessage + errorLineBreak + Error.Message + errorLineBreak + Error.StackTrace, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //throw new Exception(CustomMessage + errorLineBreak + Error.Message);

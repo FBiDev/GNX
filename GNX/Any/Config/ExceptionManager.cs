@@ -15,7 +15,7 @@ namespace GNX
 
             try
             {
-                stackTrace += ObjectManager.GetStackTrace();
+                stackTrace += ObjectManager.GetStackTrace(null);
             }
             catch
             {

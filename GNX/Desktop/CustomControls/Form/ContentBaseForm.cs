@@ -57,13 +57,13 @@ namespace GNX.Desktop
         {
             if (_firstLoad)
             {
+                _firstLoad = false;
+
                 if (FinalLoadOnce.NotNull())
                     FinalLoadOnce();
 
                 if (FinalLoadOnceAsync.NotNull())
                     FinalLoadOnceAsync().AwaitSafe();
-
-                _firstLoad = false;
             }
         }
 

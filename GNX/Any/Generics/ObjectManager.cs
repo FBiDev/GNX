@@ -34,7 +34,7 @@ namespace GNX
             return sf.GetMethod().DeclaringType.Name + "." + sf.GetMethod().Name;
         }
 
-        public static string GetStackTrace()
+        public static string GetStackTrace(Exception ex)
         {
             var st = new StackTrace(true);
             var sf = st.GetFrames();
@@ -42,12 +42,15 @@ namespace GNX
             var frames = sf.ToList();
             frames.RemoveRange(0, 4);
 
-            string result = "Stack: " + Environment.NewLine;
-            var lineNumber = 0;
+            string result = "[Stack]" + Environment.NewLine;
+            if (ex.NotNull())
+                result += "File : " + ex.StackTrace.Split(Environment.NewLine.ToCharArray()).First().Split('\\').Last() + Environment.NewLine;
 
             var skipClass = new List<string> {
                 "System."
             };
+
+            var lineNumber = 0;
 
             foreach (var frame in frames)
             {

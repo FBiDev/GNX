@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Diagnostics;
 
 namespace GNX
 {
@@ -49,11 +48,6 @@ namespace GNX
                 return dt.Value.ToString("yyyy-MM-dd HH:mm:ss");
             }
             return "NULL";
-        }
-
-        public static float ElapsedSeconds(this Stopwatch sw)
-        {
-            return Convert.ToSingle(((float)sw.ElapsedMilliseconds / 1000).ToString("N2"));
         }
     }
 }

@@ -21,7 +21,10 @@ namespace GNX
 
         public IDbConnection Connection;
         public string ConnectionString { get; set; }
+        
         public int ConnectionTimeout { get; set; }
+        public const int DefaultConnectionTimeout = 10;
+        public const int DefaultCommandTimeout = 10;
 
         public List<IDbCommand> cmdList = new List<IDbCommand>();
 
@@ -30,8 +33,8 @@ namespace GNX
             switch (DatabaseSystem)
             {
                 case DbSystem.SQLServer: return "User ID=" + Username + ";Password=" + Password + ";Data Source=" + ServerAddress + ";Initial Catalog=" + DatabaseName + ";Connection Timeout=" + ConnectionTimeout + ";Persist Security Info=False;Packet Size=4096";
-                case DbSystem.SQLite: return "Data Source=" + DataBaseFile + ";Version=3;Timeout=" + ConnectionTimeout * 1000 + ";";
-                case DbSystem.SQLiteODBC: return "Driver=SQLite3 ODBC Driver; Datasource=" + DataBaseFile + ";Timeout=" + ConnectionTimeout * 1000 + ";Version=3;New=True;Compress=True;";
+                case DbSystem.SQLite: return "Data Source=" + DataBaseFile + ";Version=3;";
+                case DbSystem.SQLiteODBC: return "Driver=SQLite3 ODBC Driver; Datasource=" + DataBaseFile + ";Version=3;New=True;Compress=True;";
             }
             return null;
         }
@@ -89,7 +92,10 @@ namespace GNX
         {
             var conn = (IDbConnection)Connection.Clone();
 
-            if (ConnectionTimeout == 0) { ConnectionTimeout = 10; }
+            if (ConnectionTimeout == 0)
+            {
+                ConnectionTimeout = DefaultConnectionTimeout;
+            }
 
             var cmd = conn.CreateCommand();
             cmdList.Insert(0, cmd);

@@ -72,6 +72,16 @@ namespace GNX.Desktop
             SetStyles();
         }
 
+        public void DisposeCells()
+        {
+            foreach (DataGridViewColumn col in Columns)
+                col.Dispose();
+
+            foreach (DataGridViewRow row in Rows)
+                foreach (DataGridViewCell cell in row.Cells)
+                    cell.Dispose();
+        }
+
         public new void RefreshRows()
         {
             base.RefreshRows();

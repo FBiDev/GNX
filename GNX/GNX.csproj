@@ -242,6 +242,7 @@
     <Compile Include="Desktop\Extensions\BindingListExtension.cs" />
     <Compile Include="Desktop\Extensions\PictureBoxExtension.cs" />
     <Compile Include="Desktop\Extensions\DataGridViewExtension.cs" />
+    <Compile Include="Desktop\Extensions\TaskExtension.cs" />
     <Compile Include="Desktop\Plugins\Json.cs" />
     <Compile Include="Web\Extensions\EnumExtensionWeb.cs" />
     <Compile Include="Desktop\Extensions\FormExtension.cs" />

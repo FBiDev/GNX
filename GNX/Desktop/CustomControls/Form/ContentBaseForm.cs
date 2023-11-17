@@ -63,7 +63,7 @@ namespace GNX.Desktop
                     FinalLoadOnce();
 
                 if (FinalLoadOnceAsync.NotNull())
-                    FinalLoadOnceAsync().AwaitSafe();
+                    FinalLoadOnceAsync().TryAwait();
             }
         }
 

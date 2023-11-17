@@ -53,7 +53,7 @@ namespace GNX.Desktop
                 isDesignMode = DesignMode;
                 if (isDesignMode) return;
 
-                AwaitShown().AwaitSafe();
+                AwaitShown().TryAwait();
                 //ThemeBase.CheckTheme(this);
             };
 

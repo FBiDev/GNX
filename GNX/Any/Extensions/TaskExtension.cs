@@ -1,30 +1,23 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GNX
 {
-    public static class TaskExtension
+    static class TaskExtension
     {
 #pragma warning disable
         // Asynchronous methods should return a Task instead of void
-        public static async void AwaitSafe(this Task task)
+        public static async void TryAwait(this Task task)
 #pragma warning restore
         {
             try
             {
                 await task;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var exceptionMessage = "[Task Failed]" + Environment.NewLine + ex.Message + Environment.NewLine + Environment.NewLine;
-                var stackCalls = ObjectManager.GetStackTrace(ex);
-                var errorMessage = exceptionMessage + stackCalls;
-
-                Clipboard.SetText(errorMessage);
-                MessageBox.Show(errorMessage, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                throw;
             }
         }
 

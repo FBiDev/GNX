@@ -9,7 +9,7 @@
       <File FileName="GNX\Any\Generics\TaskController.cs" Line="24" Column="10" />
       <File FileName="GNX\Desktop\CustomControls\FlatPictureBox.cs" Line="14" Column="30" />
       <File FileName="GNX\Desktop\CustomControls\Base\DataGridBase.cs" Line="5" Column="1" />
-      <File FileName="GNX\Any\Extensions\TaskExtension.cs" Line="26" Column="36" />
+      <File FileName="GNX\Any\Extensions\TaskExtension.cs" Line="4" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MultiItemStartupConfigurations />

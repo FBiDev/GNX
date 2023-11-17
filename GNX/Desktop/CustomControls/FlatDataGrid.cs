@@ -14,6 +14,19 @@ namespace GNX.Desktop
         public new Color GridColor { get { return base.GridColor; } set { base.GridColor = value; } }
         #endregion
 
+        public new object DataSource
+        {
+            get
+            {
+                return base.DataSource;
+            }
+            set
+            {
+                DisposeCells();
+                base.DataSource = value;
+            }
+        }
+
         FlatStatusBar _Statusbar = new FlatStatusBar();
         public FlatStatusBar Statusbar { get { return _Statusbar; } set { _Statusbar = value; } }
 

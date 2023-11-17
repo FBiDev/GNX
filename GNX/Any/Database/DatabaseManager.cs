@@ -225,7 +225,6 @@ namespace GNX
         async Task<DataTable> ExecuteReader(IDbCommand cmd, string sql, string storedProcedure)
         {
             var data = new DataTable();
-            var ds = new DataSet();
 
             if (cmd == null || cmd.Connection == null || cmd.Connection.State != ConnectionState.Open)
                 return data;

@@ -20,8 +20,8 @@ namespace GNX.Desktop
                 var stackCalls = ObjectManager.GetStackTrace(ex);
                 var errorMessage = exceptionMessage + stackCalls;
 
-                Clipboard.SetText(errorMessage);
                 MessageBox.Show(errorMessage, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ClipboardSafe.SetText(errorMessage);
             }
         }
     }

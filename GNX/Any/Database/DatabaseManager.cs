@@ -21,7 +21,7 @@ namespace GNX
 
         public IDbConnection Connection;
         public string ConnectionString { get; set; }
-        
+
         public int ConnectionTimeout { get; set; }
         public const int DefaultConnectionTimeout = 10;
         public const int DefaultCommandTimeout = 10;
@@ -145,11 +145,10 @@ namespace GNX
             if (cmd.Connection.State == ConnectionState.Open)
             {
                 cmd.Connection.Close();
-                cmd.Connection.Dispose();
-                cmd.Dispose();
             }
 
             var timer = new StopwatchTimer(15);
+
             while (cmdList.Count > 10)
             {
                 var lastcmd = cmdList.Last();
@@ -157,6 +156,9 @@ namespace GNX
                 if (timer.Stopped || lastcmd.Connection.State == ConnectionState.Closed)
                 {
                     cmdList.Remove(lastcmd);
+                    lastcmd.Connection.Dispose();
+                    lastcmd.Dispose();
+
                     timer.Restart();
                 }
             }

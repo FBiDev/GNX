@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -100,32 +99,24 @@ namespace GNX.Desktop
             Padding = new Padding(0, 0, 0, 1);
         }
 
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            base.OnHandleCreated(e);
-        }
-
-        [DefaultValue(false)]
-        public bool DoubleClickBlockCopy { get; set; }
         int WM_LBUTTONDBLCLK = 0x203;
         string sSaved;
 
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == WM_LBUTTONDBLCLK && DoubleClickBlockCopy)
-            {
-                sSaved = Clipboard.GetText();
+            base.WndProc(ref m);
 
-                base.WndProc(ref m);
-
-                if (!string.IsNullOrEmpty(sSaved))
-                    Clipboard.SetText(sSaved);
-                else
-                    Clipboard.Clear();
-            }
-            else
+            if (m.Msg == WM_LBUTTONDBLCLK)
             {
-                base.WndProc(ref m);
+                this.InvokeIfRequired(() =>
+                {
+                    sSaved = ClipboardSafe.GetText();
+
+                    if (!string.IsNullOrEmpty(sSaved))
+                        ClipboardSafe.SetText(sSaved);
+                    else
+                        ClipboardSafe.Clear();
+                });
             }
         }
     }

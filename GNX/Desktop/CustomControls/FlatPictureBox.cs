@@ -78,7 +78,7 @@ namespace GNX.Desktop
         void mniCopyImage_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
-            Clipboard.SetImage(Image);
+            ClipboardSafe.SetImage(Image);
         }
 
         #region Interpolation Property

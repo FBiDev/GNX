@@ -240,6 +240,7 @@
     <Compile Include="Desktop\Config\ThemeBase.cs" />
     <Compile Include="Any\Database\cLogSQL.cs" />
     <Compile Include="Desktop\Extensions\BindingListExtension.cs" />
+    <Compile Include="Desktop\Generics\ClipboardSafe.cs" />
     <Compile Include="Desktop\Extensions\PictureBoxExtension.cs" />
     <Compile Include="Desktop\Extensions\DataGridViewExtension.cs" />
     <Compile Include="Desktop\Extensions\TaskExtension.cs" />

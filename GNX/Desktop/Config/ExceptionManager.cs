@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace GNX.Desktop
@@ -9,7 +10,7 @@ namespace GNX.Desktop
         public static void Resolve(Exception ex, string customMessage = "")
         {
             var exProc = GNX.ExceptionManager.Process(ex);
-            
+
             if (exProc.HasLink)
             {
                 // + errorLineBreak + Error.Message
@@ -26,8 +27,9 @@ namespace GNX.Desktop
             }
             else if (!exProc.ExternalDll)
             {
-                Clipboard.SetText(exProc.Message + customMessage);
                 MessageBox.Show(exProc.Message + customMessage, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ClipboardSafe.SetText(exProc.Message + customMessage);
+
                 //MessageBox.Show(CustomMessage + errorLineBreak + Error.Message + errorLineBreak + Error.StackTrace, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //throw new Exception(CustomMessage + errorLineBreak + Error.Message);
             }

@@ -102,7 +102,7 @@ namespace GNX.Desktop
             if (e.Button != MouseButtons.Left) return;
 
             var log = dgvSQLSistema.GetCurrentRowObject<cLogSQL>();
-            Clipboard.SetText(log.Command + Environment.NewLine);
+            ClipboardSafe.SetText(log.Command + Environment.NewLine);
         }
 
         void mniSqlBaseCopyCommand_MouseDown(object sender, MouseEventArgs e)
@@ -110,7 +110,7 @@ namespace GNX.Desktop
             if (e.Button != MouseButtons.Left) return;
 
             var log = dgvSQLBase.GetCurrentRowObject<cLogSQL>();
-            Clipboard.SetText(log.Command + Environment.NewLine);
+            ClipboardSafe.SetText(log.Command + Environment.NewLine);
         }
 
         void mniSqlSystemCopyLog_MouseDown(object sender, MouseEventArgs e)
@@ -118,7 +118,7 @@ namespace GNX.Desktop
             if (e.Button != MouseButtons.Left) return;
 
             var log = dgvSQLSistema.GetCurrentRowValue(true);
-            Clipboard.SetText(log);
+            ClipboardSafe.SetText(log);
         }
 
         void mniSqlBaseCopyLog_MouseDown(object sender, MouseEventArgs e)
@@ -126,7 +126,7 @@ namespace GNX.Desktop
             if (e.Button != MouseButtons.Left) return;
 
             var log = dgvSQLBase.GetCurrentRowValue(true);
-            Clipboard.SetText(log);
+            ClipboardSafe.SetText(log);
         }
 
         public void UpdateErrors()

@@ -49,5 +49,13 @@ namespace GNX
             }
             return "NULL";
         }
+
+        public static string ToDBquoted(this DateTime? dt)
+        {
+            var result = ToDB(dt);
+            if (result != "NULL")
+                return "'" + result + "'";
+            return result;
+        }
     }
 }

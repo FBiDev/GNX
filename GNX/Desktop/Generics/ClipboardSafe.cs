@@ -37,7 +37,7 @@ namespace GNX.Desktop
 
         public static void Clear()
         {
-            var thread = new Thread(() => Clipboard.Clear());
+            var thread = new Thread(Clipboard.Clear);
             StartThread(thread);
         }
     }

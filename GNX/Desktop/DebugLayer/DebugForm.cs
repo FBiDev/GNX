@@ -165,5 +165,10 @@ namespace GNX.Desktop
             if (total == 0 || total > 1) { title += "s"; }
             tabMessage.Text = title;
         }
+
+        void btnGarbageCollect_Click(object sender, EventArgs e)
+        {
+            AppManager.CollectGarbage(sender, e);
+        }
     }
 }

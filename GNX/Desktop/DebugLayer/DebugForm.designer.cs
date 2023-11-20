@@ -54,6 +54,7 @@
             this.mnuSqlSystem = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mniSqlSystemCopyCommand = new System.Windows.Forms.ToolStripMenuItem();
             this.mniSqlSystemCopyLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnGarbageCollect = new GNX.Desktop.FlatButton();
             this.pnlContent.SuspendLayout();
             this.pnlBorder1.SuspendLayout();
             this.pnlBorder2.SuspendLayout();
@@ -131,6 +132,7 @@
             // tabMessage
             // 
             this.tabMessage.BackColor = System.Drawing.Color.White;
+            this.tabMessage.Controls.Add(this.btnGarbageCollect);
             this.tabMessage.Controls.Add(this.txtMessages);
             this.tabMessage.Location = new System.Drawing.Point(4, 25);
             this.tabMessage.Name = "tabMessage";
@@ -338,6 +340,18 @@
             this.mniSqlSystemCopyLog.Size = new System.Drawing.Size(162, 22);
             this.mniSqlSystemCopyLog.Text = "Copy Log";
             // 
+            // btnGarbageCollect
+            // 
+            this.btnGarbageCollect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(223)))), ((int)(((byte)(229)))));
+            this.btnGarbageCollect.FlatAppearance.BorderSize = 0;
+            this.btnGarbageCollect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(213)))), ((int)(((byte)(213)))));
+            this.btnGarbageCollect.Location = new System.Drawing.Point(2, 28);
+            this.btnGarbageCollect.Name = "btnGarbageCollect";
+            this.btnGarbageCollect.Size = new System.Drawing.Size(100, 24);
+            this.btnGarbageCollect.TabIndex = 3;
+            this.btnGarbageCollect.Text = "Garbage Collect";
+            this.btnGarbageCollect.Click += new System.EventHandler(this.btnGarbageCollect_Click);
+            // 
             // DebugForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -385,6 +399,7 @@
         private System.Windows.Forms.ToolStripMenuItem mniSqlSystemCopyCommand;
         private System.Windows.Forms.ToolStripMenuItem mniSqlBaseCopyLog;
         private System.Windows.Forms.ToolStripMenuItem mniSqlSystemCopyLog;
+        private FlatButton btnGarbageCollect;
 
     }
 }

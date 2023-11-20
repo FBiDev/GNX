@@ -61,7 +61,7 @@ namespace GNX.Desktop
                 const int VER_NT_SERVER = 3;
 
                 int EditionID = osVersionInfo.wSuiteMask;
-                
+
                 switch (ProductType)
                 {
                     case VER_NT_WORKSTATION:
@@ -135,11 +135,6 @@ namespace GNX.Desktop
             return Environment.MachineName;
         }
 
-        public static void Start()
-        {
-            StartGarbageCollect();
-        }
-
         public static void Exit()
         {
             Application.Exit();
@@ -171,9 +166,9 @@ namespace GNX.Desktop
             tmrGarbage.Start();
         }
 
-        static void CollectGarbage(object source, EventArgs e)
+        public static void CollectGarbage(object source, EventArgs e)
         {
-            //GC.Collect();
+            GC.Collect();
             EmptyWorkingSet(Process.GetCurrentProcess().Handle);
         }
         #endregion

@@ -10,8 +10,8 @@ namespace GNX
     {
         static Assembly assembly;
 
-        static string DllName = "Newtonsoft.Json";
-        static string DllPath = "Plugins/" + DllName + ".dll";
+        static readonly string DllName = "Newtonsoft.Json";
+        static readonly string DllPath = "Plugins/" + DllName + ".dll";
 
         static Type JsonClass;
         static Type EnumFormatting;

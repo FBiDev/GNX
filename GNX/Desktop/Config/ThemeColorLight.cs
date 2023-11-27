@@ -91,9 +91,9 @@ namespace GNX.Desktop
 
         public override void FlatTabControl(FlatTabControl c)
         {
-            c.myBackColor = Colors.RGB(244, 244, 244);
-            c.myBackColor2 = Colors.RGB(212, 208, 200);
-            c.myBorderColor = Colors.RGB(160, 160, 160);
+            c.MyBackColor = Colors.RGB(244, 244, 244);
+            c.MyBackColor2 = Colors.RGB(212, 208, 200);
+            c.MyBorderColor = Colors.RGB(160, 160, 160);
 
             foreach (TabPage page in c.TabPages)
             {

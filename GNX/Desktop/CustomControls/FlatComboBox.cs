@@ -179,9 +179,9 @@ namespace GNX.Desktop
         {
             InitializeComponent();
 
-            pnlBg.Click += pnlBg_Click;
-            lblSubtitle.Click += pnlBg_Click;
-            picDrop.Click += pnlBg_Click;
+            pnlBg.Click += PnlBg_Click;
+            lblSubtitle.Click += PnlBg_Click;
+            picDrop.Click += PnlBg_Click;
 
             Combo.GotFocus += Combo_GotFocus;
             Combo.LostFocus += Combo_LostFocus;
@@ -221,7 +221,7 @@ namespace GNX.Desktop
             ResetColors();
         }
 
-        void pnlBg_Click(object sender, EventArgs e)
+        void PnlBg_Click(object sender, EventArgs e)
         {
             if (Enabled == false) return;
             Combo.Focus();
@@ -253,7 +253,7 @@ namespace GNX.Desktop
         {
             if (e.KeyData == Keys.Space)
             {
-                pnlBg_Click(null, null);
+                PnlBg_Click(null, null);
             }
         }
 

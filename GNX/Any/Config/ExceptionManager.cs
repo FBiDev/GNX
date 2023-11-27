@@ -11,7 +11,6 @@ namespace GNX
         static void AddDataError(Exception ex)
         {
             var stackTrace = string.Empty;
-            var newLine = Environment.NewLine;
 
             try
             {
@@ -28,14 +27,13 @@ namespace GNX
 
         internal static ExceptionProcessed Process(Exception ex, string ArgumentString = null)
         {
-            var errormsg = ex.ToString();
             string CustomMessage = "";
             string errorLineBreak = "\r\n\r\n";
 
             Exception Error = ex;
             var ExType = ex.GetType();
 
-            OleDbError ErrorDb = default(OleDbError);
+            OleDbError ErrorDb;
             bool OleDb = false;
 
             bool link = false;
@@ -57,11 +55,7 @@ namespace GNX
                     //No Database File
                     if (Error.TargetSite.Name == "CreateConnection")
                     {
-                        CustomMessage = "Arquivo de Banco de dados não encontrado";
-                    }
-                    else
-                    {
-                        CustomMessage = "";
+                        //CustomMessage = "Arquivo de Banco de dados não encontrado";
                     }
                 }
                 CustomMessage = ex.Message + errorLineBreak + innerMessage + Error.Data["Error"];
@@ -134,8 +128,8 @@ namespace GNX
                 {
                     if (Error.TargetSite.DeclaringType.FullName == "System.Data.SqlClient.SqlInternalConnectionTds")
                     {
-                        CustomMessage = "Falha na conexão com o Banco de Dados";
-                        CustomMessage += errorLineBreak + Messages[0];
+                        //CustomMessage = "Falha na conexão com o Banco de Dados";
+                        //CustomMessage += errorLineBreak + Messages[0];
                     }
 
                     CustomMessage = Messages[0] + errorLineBreak + Error.Data["Error"];
@@ -197,13 +191,13 @@ namespace GNX
             }
             else if (ExType == typeof(FileNotFoundException))
             {
-                Error = ((FileNotFoundException)ex);
+                //Error = ((FileNotFoundException)ex);
 
                 CustomMessage = "Arquivo não encontrado";
             }
             else if (ExType == typeof(DllNotFoundException))
             {
-                Error = ((DllNotFoundException)ex);
+                //Error = ((DllNotFoundException)ex);
 
                 CustomMessage = "Arquivo DLL não encontrado";
             }

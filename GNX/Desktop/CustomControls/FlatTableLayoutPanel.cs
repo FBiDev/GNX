@@ -82,7 +82,7 @@ namespace GNX.Desktop
             {
                 if (pnt is Form)
                 {
-                    ((Form)pnt).ScrollControlIntoView((Control)sender);
+                    (pnt as Form).ScrollControlIntoView(sender as Control);
                     break;
                 }
 

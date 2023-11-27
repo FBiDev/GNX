@@ -22,7 +22,7 @@ namespace GNX.Desktop
         Container components;
         SubClass scUpDown;
         bool bUpDown; // true when the button UpDown is required
-        ImageList leftRightImages;
+        readonly ImageList leftRightImages;
         const int nMargin = 5;
         Color mBackColor = Color.FromArgb(240, 240, 240);
         Color mBackColor2 = Color.FromArgb(212, 208, 200);
@@ -58,7 +58,7 @@ namespace GNX.Desktop
             //    leftRightImages.Images.AddStrip(updownImage);
             //}
 
-            myBackColor = Color.FromArgb(240, 240, 240);
+            MyBackColor = Color.FromArgb(240, 240, 240);
             //if (TabPages.Count > 0) { SelectedIndex = 0; }
         }
 
@@ -69,7 +69,8 @@ namespace GNX.Desktop
         {
             if (disposing)
             {
-                if (components != null)
+                if (components == null) { }
+                else
                 {
                     components.Dispose();
                 }
@@ -105,8 +106,7 @@ namespace GNX.Desktop
             // draw border
             int nDelta = SystemInformation.Border3DSize.Width;
 
-            var border = new Pen(Color.FromArgb(160, 160, 160));
-            border = new Pen(myBorderColor);
+            var border = new Pen(MyBorderColor);
             TabArea.Inflate(nDelta, nDelta);
             g.DrawRectangle(border, TabArea);
             border.Dispose();
@@ -214,7 +214,7 @@ namespace GNX.Desktop
             // draw border
             //g.DrawRectangle(SystemPens.ControlDark, recBounds);
             //g.DrawPolygon(new Pen(Color.FromArgb(160, 160, 160)), pt);
-            g.DrawPolygon(new Pen(myBorderColor), pt);
+            g.DrawPolygon(new Pen(MyBorderColor), pt);
 
             if (bSelected)
             {
@@ -265,9 +265,11 @@ namespace GNX.Desktop
 
             //----------------------------
             // draw string
-            var stringFormat = new StringFormat();
-            stringFormat.Alignment = StringAlignment.Center;
-            stringFormat.LineAlignment = StringAlignment.Center;
+            var stringFormat = new StringFormat
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            };
 
             br = new SolidBrush(tabPage.ForeColor);
 
@@ -394,7 +396,7 @@ namespace GNX.Desktop
                         //----------------------------
                         // Subclass it
                         scUpDown = new SubClass(pWnd, true);
-                        scUpDown.SubClassedWndProc += scUpDown_SubClassedWndProc;
+                        scUpDown.SubClassedWndProc += ScUpDown_SubClassedWndProc;
                         //----------------------------
 
                         bUpDown = true;
@@ -426,7 +428,7 @@ namespace GNX.Desktop
         }
 
         #region scUpDown_SubClassedWndProc Event Handler
-        int scUpDown_SubClassedWndProc(ref Message m)
+        int ScUpDown_SubClassedWndProc(ref Message m)
         {
             switch (m.Msg)
             {
@@ -504,21 +506,21 @@ namespace GNX.Desktop
         }
 
         [Browsable(true)]
-        public Color myBackColor
+        public Color MyBackColor
         {
             get { return mBackColor; }
             set { mBackColor = value; Invalidate(); }
         }
 
         [Browsable(true)]
-        public Color myBackColor2
+        public Color MyBackColor2
         {
             get { return mBackColor2; }
             set { mBackColor2 = value; Invalidate(); }
         }
 
         [Browsable(true)]
-        public Color myBorderColor
+        public Color MyBorderColor
         {
             get { return mBorderColor; }
             set { mBorderColor = value; Invalidate(); }

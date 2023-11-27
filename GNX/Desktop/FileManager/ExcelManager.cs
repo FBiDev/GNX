@@ -30,9 +30,11 @@ namespace GNX.Desktop
 
                         var con = new OleDbConnection(constr);
 
-                        var oconn = new OleDbCommand();
-                        oconn.Connection = con;
-                        oconn.CommandText = "SELECT * FROM [" + ExcelTab + "$]";
+                        var oconn = new OleDbCommand
+                        {
+                            Connection = con,
+                            CommandText = "SELECT * FROM [" + ExcelTab + "$]"
+                        };
 
                         var sda = new OleDbDataAdapter(oconn);
                         sda.Fill(data);

@@ -24,7 +24,7 @@ namespace GNX.Desktop
             Modo = MenuMode.Consulta;
         }
 
-        void pnlMenuBar_SizeChanged(object sender, EventArgs e)
+        void MenuBarOnSizeChanged(object sender, EventArgs e)
         {
             int ctrs = pnlMenuBar.Controls.Count;
             int each = pnlMenuBar.Width / ctrs;
@@ -38,16 +38,16 @@ namespace GNX.Desktop
             }
         }
 
-        void btnSearch_Click(object sender, EventArgs e)
+        void SearchOnClick(object sender, EventArgs e)
         {
         }
 
-        void btnSave_Click(object sender, EventArgs e)
+        void SaveOnClick(object sender, EventArgs e)
         {
             //lblModo.Text = Modo.ToString();
         }
 
-        void btnNew_Click(object sender, EventArgs e)
+        void NewOnClick(object sender, EventArgs e)
         {
             Modo = MenuMode.Inclusão;
 

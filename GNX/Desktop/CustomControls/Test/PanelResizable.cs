@@ -49,7 +49,7 @@ namespace GNX.Desktop
 
         bool isResizeMode;
         ResizeFace Face;
-        int PanelBorderSize = 8;
+        readonly int PanelBorderSize = 8;
 
         void PanelResizable_MouseDown(object sender, MouseEventArgs e)
         {
@@ -114,8 +114,8 @@ namespace GNX.Desktop
 
             if (isResizeMode)
             {
-                var NewSize = new Size(e.X, e.Y);
-                var NewLocation = new Point(0, 0);
+                Size NewSize;
+                Point NewLocation;
 
                 if (Face == ResizeFace.Top)
                 {

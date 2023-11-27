@@ -5,7 +5,7 @@ namespace GNX.Desktop
 {
     public static class DataRowExtensionDesktop
     {
-        static object ConvertFieldValue<T>(this DataRow row, string column)
+        static object CastFieldValue<T>(this DataRow row, string column)
         {
             object result = null;
 
@@ -14,23 +14,23 @@ namespace GNX.Desktop
 
             if (!row.Table.Columns.Contains(column))
             {
-                cDebug.AddError(Messages.ColumnError(column));
+                DebugManager.AddError(Messages.ColumnError(column));
                 return result;
             }
 
-            return DataRowExtension.ConvertFieldValue(row, column, type, result);
+            return DataRowExtension.CastFieldValue(row, column, type, result);
         }
 
         public static T Value<T>(this DataRow row, string column)
         {
-            var result = row.ConvertFieldValue<T>(column);
+            var result = row.CastFieldValue<T>(column);
 
             return result == null ? default(T) : (T)result;
         }
 
         public static T? ValueNullable<T>(this DataRow row, string column) where T : struct
         {
-            var result = row.ConvertFieldValue<T>(column);
+            var result = row.CastFieldValue<T>(column);
 
             return (T?)(result == null ? result : (T)result);
         }

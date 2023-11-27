@@ -3,7 +3,7 @@ using System.Data;
 
 namespace GNX
 {
-    public class cLogSQL
+    public class SqlLog
     {
         public int Line { get; set; }
         public DateTime Date { get; set; }
@@ -13,12 +13,12 @@ namespace GNX
         public string CommandParameters { get; set; }
         public string Command { get; set; }
 
-        public cLogSQL(int index, IDbCommand cmd, DbAction act = DbAction.Null, string method = default(string))
+        public SqlLog(int index, IDbCommand cmd, DatabaseAction act = DatabaseAction.Null, string method = "")
         {
             Line = index + 1;
             Date = DateTime.Now;
             Method = method;
-            Action = act != DbAction.Null ? act.ToString() : default(string);
+            Action = act != DatabaseAction.Null ? act.ToString() : string.Empty;
 
             string query = string.Empty;
             if (cmd.NotNull())
@@ -26,7 +26,7 @@ namespace GNX
                 CommandParameters = cmd.CommandText;
                 query = cmd.CommandText;
 
-                query = cSqlParameter.Replace(query, cmd.Parameters);
+                query = SqlParameter.Replace(query, cmd.Parameters);
             }
 
             //query = query.Replace("  ", "\t ");

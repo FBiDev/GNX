@@ -10,27 +10,26 @@ namespace GNX
     {
         public static int ToInt(string value)
         {
-            int result = default(int);
+            int result;
             int.TryParse(value, out result);
             return result;
         }
 
         public static int ToInt(object obj)
         {
-            if (obj == null) { return default(int); }
+            if (obj == null) { return 0; }
             return ToInt(obj.ToString());
         }
 
         public static int? ToIntNull(string value)
         {
-            int result = default(int);
-
             if (string.IsNullOrEmpty(value)) { return null; }
             value = value.Trim().ToLower();
 
             if (value == "true") { return 1; }
             if (value == "false") { return 0; }
 
+            int result;
             if (!int.TryParse(value, out result)) { return null; }
             return result;
         }
@@ -43,14 +42,14 @@ namespace GNX
 
         public static short ToShort(string value)
         {
-            short result = default(short);
+            short result;
             short.TryParse(value, out result);
             return result;
         }
 
         public static short? ToShortNull(string value)
         {
-            short result = default(short);
+            short result;
             if (string.IsNullOrEmpty(value) || !short.TryParse(value, out result)) { return null; }
             return result;
         }
@@ -68,7 +67,7 @@ namespace GNX
 
         public static float ToFloat(string value)
         {
-            float result = default(float);
+            float result;
             value = ToNumber(value);
             float.TryParse(value, out result);
             return result;
@@ -76,14 +75,14 @@ namespace GNX
 
         public static float? ToFloatNull(string value)
         {
-            float result = default(float);
+            float result;
             if (string.IsNullOrEmpty(value) || !float.TryParse(value, out result)) { return null; }
             return result;
         }
 
         public static double ToDouble(string value)
         {
-            double result = default(double);
+            double result;
             value = ToNumber(value);
             double.TryParse(value, out result);
             return result;
@@ -91,30 +90,30 @@ namespace GNX
 
         public static double? ToDoubleNull(string value)
         {
-            double result = default(double);
+            double result;
             if (string.IsNullOrEmpty(value) || !double.TryParse(value, out result)) { return null; }
             return result;
         }
 
         public static decimal ToDecimal(string value)
         {
-            decimal result = default(decimal);
             value = ToNumber(value);
+            decimal result;
             decimal.TryParse(value, out result);
             return result;
         }
 
         public static decimal? ToDecimalNull(string value)
         {
-            decimal result = default(decimal);
+            decimal result;
             if (string.IsNullOrEmpty(value) || !decimal.TryParse(value, out result)) { return null; }
-            result = result / 1.000000000000000000000000000000000m;
+            result /= 1.000000000000000000000000000000000m;
             return result;
         }
 
         public static string ToMoney(string value)
         {
-            decimal result = default(decimal);
+            decimal result;
             if (decimal.TryParse(value, out result))
             {
                 value = string.Format("{0:C2}", result);
@@ -140,7 +139,7 @@ namespace GNX
 
         public static DateTime ToDateTime(string value)
         {
-            DateTime result = default(DateTime);
+            DateTime result;
             DateTime.TryParse(value, LanguageManager.CultureBrazil, DateTimeStyles.None, out result);
 
             return result;
@@ -148,14 +147,14 @@ namespace GNX
 
         public static DateTime? ToDateTimeNull(string value)
         {
-            DateTime result = default(DateTime);
+            DateTime result;
             if (string.IsNullOrEmpty(value) || !DateTime.TryParse(value, LanguageManager.CultureBrazil, DateTimeStyles.None, out result)) { return null; }
             return result;
         }
 
         public static TimeSpan? ToTimeSpanNull(string value)
         {
-            TimeSpan time = default(TimeSpan);
+            TimeSpan time;
 
             if (value != string.Empty && value.Length >= 2)
             {

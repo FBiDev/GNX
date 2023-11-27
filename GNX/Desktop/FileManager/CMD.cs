@@ -49,8 +49,8 @@ namespace GNX.Desktop
                 proc.StartInfo.WorkingDirectory = Path.Combine(folderBase, folderPath);
                 proc.StartInfo.FileName = Path.Combine(folderBase, folderPath, fileName);
 
-                var folderExists = Directory.Exists(proc.StartInfo.WorkingDirectory);
-                var fileExists = File.Exists(proc.StartInfo.FileName);
+                //var folderExists = Directory.Exists(proc.StartInfo.WorkingDirectory);
+                //var fileExists = File.Exists(proc.StartInfo.FileName);
 
                 proc.StartInfo.Arguments = "";
                 proc.StartInfo.UseShellExecute = false;

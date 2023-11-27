@@ -5,13 +5,13 @@ using System.Windows.Forms;
 
 namespace GNX.Desktop
 {
-    public static class cDebug
+    public static class DebugManager
     {
-        static List<KeyValuePair<string, int>> Errors = new List<KeyValuePair<string, int>>();
+        static readonly List<KeyValuePair<string, int>> Errors = new List<KeyValuePair<string, int>>();
         static string Messages = string.Empty;
 
-        public static ListBind<cLogSQL> LogSQLSistema = new ListBind<cLogSQL>();
-        public static ListBind<cLogSQL> LogSQLBase = new ListBind<cLogSQL>();
+        public static ListBind<SqlLog> LogSQLSistema = new ListBind<SqlLog>();
+        public static ListBind<SqlLog> LogSQLBase = new ListBind<SqlLog>();
 
         public static bool Enable;
         static DebugForm output;

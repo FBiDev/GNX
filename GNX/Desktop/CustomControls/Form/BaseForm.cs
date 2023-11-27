@@ -74,7 +74,7 @@ namespace GNX.Desktop
         {
             if (keyData == (Keys.F1))
             {
-                cDebug.Open();
+                DebugManager.Open();
             }
 
             //if (keyData == (Keys.Escape))

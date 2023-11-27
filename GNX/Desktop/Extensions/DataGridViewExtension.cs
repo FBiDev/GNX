@@ -63,7 +63,7 @@ namespace GNX.Desktop
 
                         col.Resizable = DataGridViewTriState.False;
                         col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                        ((DataGridViewImageColumn)col).ImageLayout = DataGridViewImageCellLayout.NotSet;
+                        (col as DataGridViewImageColumn).ImageLayout = DataGridViewImageCellLayout.NotSet;
                     }
                     break;
             }

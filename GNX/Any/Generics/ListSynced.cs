@@ -37,8 +37,9 @@ namespace GNX
 
         protected virtual void OnListChanged(ListChangedEventArgs<T> e)
         {
-            if (ListChanged != null)
-                ListChanged.Invoke(this, e);
+            if (ListChanged == null)
+                return;
+            ListChanged.Invoke(this, e);
         }
     }
 

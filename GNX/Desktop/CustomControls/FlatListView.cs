@@ -42,7 +42,10 @@ namespace GNX.Desktop
         protected virtual void OnScroll(ScrollEventArgs e)
         {
             ScrollEventHandler handler = Scroll;
-            if (handler != null) handler(this, e);
+            if (handler == null)
+                return;
+
+            handler(this, e);
         }
 
         const uint WM_MOUSEWHEEL = 0x020A;

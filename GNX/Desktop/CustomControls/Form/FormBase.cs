@@ -35,13 +35,13 @@ namespace GNX.Desktop
 
         public void Init(Form frm)
         {
-            if (ico is Icon)
-                Icon = ico;
+            if (Ico is Icon)
+                Icon = Ico;
 
             ThemeBase.CheckTheme(frm);
         }
 
-        public static Icon ico { get; set; }
+        public static Icon Ico { get; set; }
 
         protected override void OnHandleCreated(EventArgs e)
         {
@@ -49,15 +49,6 @@ namespace GNX.Desktop
 
             AutoScaleDimensions = new SizeF(0F, 0F);
             AutoScaleMode = AutoScaleMode.None;
-        }
-
-        Point CenterOfMenuPanel<T>(T control, int height = 0) where T : Control
-        {
-            var center = new Point(
-                (pnlBody.Size.Width / 2) - (control.Width / 2),
-                height != 0 ? height : pnlBody.Size.Height / 2 - control.Height / 2);
-
-            return center;
         }
     }
 }

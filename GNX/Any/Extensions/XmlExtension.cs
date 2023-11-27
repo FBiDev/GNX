@@ -7,15 +7,15 @@ namespace GNX
     {
         public static XmlNode Child(this XmlNode father, string childName)
         {
-            XmlNode child = null;
+            XmlNode child;
 
             try
             {
                 child = father.SelectSingleNode(childName);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var msg = ex.Message;
+                throw;
             }
 
             return child;
@@ -27,10 +27,9 @@ namespace GNX
             {
                 return father.SelectSingleNode(childName).InnerText;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var msg = ex.Message;
-                return string.Empty;
+                throw;
             }
         }
     }

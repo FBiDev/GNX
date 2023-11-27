@@ -5,7 +5,7 @@ namespace GNX
 {
     public static class DataRowExtension
     {
-        internal static object ConvertFieldValue(DataRow row, string column, TypeCode type, object result)
+        internal static object CastFieldValue(DataRow row, string column, TypeCode type, object result)
         {
             try
             {
@@ -34,9 +34,9 @@ namespace GNX
                     default: throw new Exception("Tipo de dado inválido");
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                var error = e.Message;
+                throw;
             }
 
             return result;

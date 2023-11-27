@@ -89,8 +89,8 @@ namespace GNX.Desktop
             Load += FlatStatusBar_Load;
             BackColorChanged += StatusBar_BackColorChanged;
 
-            lblStatus1.TextChanged += lblStatus1_TextChanged;
-            lblStatus2.TextChanged += lblStatus2_TextChanged;
+            lblStatus1.TextChanged += LblStatus1_TextChanged;
+            lblStatus2.TextChanged += LblStatus2_TextChanged;
         }
 
         void StatusBar_BackColorChanged(object sender, EventArgs e)
@@ -105,11 +105,11 @@ namespace GNX.Desktop
 
         void FlatStatusBar_Load(object sender, EventArgs e)
         {
-            lblStatus1_TextChanged(null, null);
-            lblStatus2_TextChanged(null, null);
+            LblStatus1_TextChanged(null, null);
+            LblStatus2_TextChanged(null, null);
         }
 
-        void lblStatus2_TextChanged(object sender, EventArgs e)
+        void LblStatus2_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(lblStatus2.Text.Trim()))
             {
@@ -119,7 +119,7 @@ namespace GNX.Desktop
             pnlStatus2.Visible = true;
         }
 
-        void lblStatus1_TextChanged(object sender, EventArgs e)
+        void LblStatus1_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(lblStatus1.Text.Trim()))
             {

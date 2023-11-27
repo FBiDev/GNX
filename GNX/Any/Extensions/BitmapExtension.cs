@@ -41,7 +41,8 @@ namespace GNX
                 return errorBitmap;
 
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(path)))
-                return ((Bitmap)Image.FromStream(ms, false, false)).Clone32bpp();
+            using (Bitmap bitmapFile = ((Bitmap)Image.FromStream(ms, false, false)))
+                return bitmapFile.Clone32bpp();
         }
 
         public static Bitmap FromFile(string filePath, Size newSize, Bitmap errorBitmap)

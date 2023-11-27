@@ -285,8 +285,10 @@ namespace GNX.Desktop
 
             if (Enabled && Focused)
             {
-                var penDot = new Pen(SystemColors.ControlDarkDark, 1);
-                penDot.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+                var penDot = new Pen(SystemColors.ControlDarkDark, 1)
+                {
+                    DashStyle = System.Drawing.Drawing2D.DashStyle.Dot
+                };
                 var rectangleDot = new Rectangle(2, 2, Size.Width - 5, Size.Height - 5);
                 pevent.Graphics.DrawRectangle(penDot, rectangleDot);
             }

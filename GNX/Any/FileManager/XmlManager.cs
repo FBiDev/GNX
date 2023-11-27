@@ -23,10 +23,9 @@ namespace GNX
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var msg = ex.Message;
-                return false;
+                throw;
             }
         }
 
@@ -45,10 +44,12 @@ namespace GNX
             var xmlSerializer = new XmlSerializer(ObjectToSerialize.GetType());
 
             var emptyNamespaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
-            var settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.OmitXmlDeclaration = false;
-            settings.Encoding = Encoding.UTF8;
+            var settings = new XmlWriterSettings
+            {
+                Indent = true,
+                OmitXmlDeclaration = false,
+                Encoding = Encoding.UTF8
+            };
 
             using (var textWriter = new StringWriterUTF8())
             using (var writer = XmlWriter.Create(textWriter, settings))

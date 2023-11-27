@@ -7,7 +7,7 @@
         Czech_CzechRepublic = 1029
     }
 
-    public enum DbSystem
+    public enum DatabaseType
     {
         Undefined,
         SQLServer,
@@ -21,13 +21,13 @@
         SyBase,
     }
 
-    public enum DbServer
+    public enum DatabaseMode
     {
-        Producao,
         Desenvolvimento,
+        Producao
     }
 
-    public enum DbAction
+    public enum DatabaseAction
     {
         Null = -1,
         Update = 0,

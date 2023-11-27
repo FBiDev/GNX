@@ -88,9 +88,9 @@ namespace GNX.Desktop
         [DefaultValue(typeof(ScrollBars), "None")]
         public ScrollBars ScrollBars { get { return TextBox.ScrollBars; } set { TextBox.ScrollBars = value; } }
 
-        public string previousText { get; set; }
-        string previousTextBackup { get; set; }
-        bool previousTextChanged { get; set; }
+        public string PreviousText { get; set; }
+        string PreviousTextBackup { get; set; }
+        bool PreviousTextChanged { get; set; }
 
         public new bool Focused { get; set; }
 
@@ -104,11 +104,11 @@ namespace GNX.Desktop
         {
             InitializeComponent();
 
-            lblPlaceholder.MouseEnter += lblPlaceholder_MouseEnter;
+            lblPlaceholder.MouseEnter += LblPlaceholder_MouseEnter;
 
-            pnlContent.Click += pnlBg_Click;
-            lblSubtitle.Click += lblSubtitle_Click;
-            lblPlaceholder.Click += lblPlaceholder_Click;
+            pnlContent.Click += PnlBg_Click;
+            lblSubtitle.Click += LblSubtitle_Click;
+            lblPlaceholder.Click += LblPlaceholder_Click;
 
             TextBox.KeyPress += TextBox_KeyPress;
             TextBox.KeyDown += TextBox_KeyDown;
@@ -148,8 +148,8 @@ namespace GNX.Desktop
 
             ResetColors();
 
-            previousText = TextBox.Text;
-            previousTextBackup = TextBox.Text;
+            PreviousText = TextBox.Text;
+            PreviousTextBackup = TextBox.Text;
 
             if (TextBox.ScrollBars == ScrollBars.None)
                 TextBox.Height += 15;
@@ -157,22 +157,22 @@ namespace GNX.Desktop
                 TextBox.Height -= 15;
         }
 
-        protected void lblPlaceholder_MouseEnter(object sender, EventArgs e)
+        protected void LblPlaceholder_MouseEnter(object sender, EventArgs e)
         {
             ChangeCursor();
         }
 
-        protected void pnlBg_Click(object sender, EventArgs e)
+        protected void PnlBg_Click(object sender, EventArgs e)
         {
             TextBox.Focus();
         }
 
-        protected void lblSubtitle_Click(object sender, EventArgs e)
+        protected void LblSubtitle_Click(object sender, EventArgs e)
         {
             TextBox.Focus();
         }
 
-        protected void lblPlaceholder_Click(object sender, EventArgs e)
+        protected void LblPlaceholder_Click(object sender, EventArgs e)
         {
             TextBox.Focus();
         }
@@ -245,17 +245,17 @@ namespace GNX.Desktop
 
             //prevent = true;
 
-            if (previousTextBackup != TextBox.Text)
+            if (PreviousTextBackup != TextBox.Text)
             {
-                previousTextChanged = !previousTextChanged;
+                PreviousTextChanged = !PreviousTextChanged;
 
-                if (previousTextChanged)
+                if (PreviousTextChanged)
                 {
-                    previousTextChanged = false;
-                    previousText = previousTextBackup;
+                    PreviousTextChanged = false;
+                    PreviousText = PreviousTextBackup;
                 }
 
-                previousTextBackup = TextBox.Text;
+                PreviousTextBackup = TextBox.Text;
             }
 
             TextChanged(sender, e);

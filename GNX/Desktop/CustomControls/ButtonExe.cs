@@ -54,26 +54,15 @@ namespace GNX.Desktop
         {
             InitializeComponent();
 
-            Btn.MouseEnter += btn_MouseEnter;
-            Btn.MouseLeave += btn_MouseLeave;
-            Btn.Click += Btn_Click;
-            Btn.SizeChanged += Btn_SizeChanged;
-            SizeChanged += Btn_SizeChanged;
+            Btn.MouseEnter += OnMouseEnter;
+            Btn.MouseLeave += OnMouseLeave;
+            Btn.Click += OnClick;
+            Btn.SizeChanged += OnSizeChanged;
+            SizeChanged += OnSizeChanged;
 
             BackColor = Colors.RGB(151, 184, 243);
             BorderColor = Color.WhiteSmoke;
             TextColor = _TextColor;
-        }
-
-        void Btn_Click(object sender, EventArgs e)
-        {
-            if (Click.IsNull()) { return; }
-            Click(sender, e);
-        }
-
-        void Btn_SizeChanged(object sender, EventArgs e)
-        {
-            AlignControl();
         }
 
         void AlignControl()
@@ -81,13 +70,23 @@ namespace GNX.Desktop
             var newLocation = new Point((pnlBack.Width - btnExe.Width) / 2, btnExe.Location.Y);
             btnExe.Location = newLocation;
         }
+        void OnSizeChanged(object sender, EventArgs e)
+        {
+            AlignControl();
+        }
 
-        void btn_MouseEnter(object sender, EventArgs e)
+        void OnClick(object sender, EventArgs e)
+        {
+            if (Click.IsNull()) { return; }
+            Click(sender, e);
+        }
+
+        void OnMouseEnter(object sender, EventArgs e)
         {
             Cursor = Cursors.Hand;
         }
 
-        void btn_MouseLeave(object sender, EventArgs e)
+        void OnMouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
         }

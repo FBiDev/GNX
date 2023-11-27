@@ -121,9 +121,9 @@
             this.tabControl.Controls.Add(this.tabSQLSistema);
             this.tabControl.Controls.Add(this.tabSQLBase);
             this.tabControl.Location = new System.Drawing.Point(3, 3);
-            this.tabControl.myBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.tabControl.myBackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(200)))));
-            this.tabControl.myBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
+            this.tabControl.MyBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.tabControl.MyBackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(200)))));
+            this.tabControl.MyBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(160)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(435, 238);
@@ -350,7 +350,7 @@
             this.btnGarbageCollect.Size = new System.Drawing.Size(100, 24);
             this.btnGarbageCollect.TabIndex = 3;
             this.btnGarbageCollect.Text = "Garbage Collect";
-            this.btnGarbageCollect.Click += new System.EventHandler(this.btnGarbageCollect_Click);
+            this.btnGarbageCollect.Click += new System.EventHandler(this.GarbageCollectOnClick);
             // 
             // DebugForm
             // 

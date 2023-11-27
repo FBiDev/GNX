@@ -33,7 +33,7 @@ namespace GNX.Desktop
             }
         }
 
-        public static Icon ico { get; set; }
+        public static Icon Ico { get; set; }
         public bool isDesignMode = true;
         public static bool DebugMode;
 
@@ -83,15 +83,15 @@ namespace GNX.Desktop
         {
             if (DebugMode && keyData == (Keys.F1))
             {
-                cDebug.Open();
+                DebugManager.Open();
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
         void Init()
         {
-            if (ico is Icon)
-                Icon = ico;
+            if (Ico is Icon)
+                Icon = Ico;
         }
 
         public void SetMainFormContent(Form frm)
@@ -111,15 +111,6 @@ namespace GNX.Desktop
             if (AutoCenterWindow == false) return;
 
             this.InvokeIfRequired(CenterToScreen);
-        }
-
-        Point CenterOfMenuPanel<T>(T control, int height = 0) where T : Control
-        {
-            var center = new Point(
-                (pnlBody.Size.Width / 2) - (control.Width / 2),
-                height != 0 ? height : pnlBody.Size.Height / 2 - control.Height / 2);
-
-            return center;
         }
     }
 }

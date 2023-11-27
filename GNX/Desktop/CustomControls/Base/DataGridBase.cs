@@ -135,7 +135,6 @@ namespace GNX.Desktop
         List<string> ColumnsBooleanNames = new List<string>();
 
         string LastSortedColumn;
-        ListSortDirection LastSortedColumnDirection;
 
         [Browsable(false)]
         public Color ColorBackground { get { return BackgroundColor; } set { BackgroundColor = value; } }
@@ -280,19 +279,16 @@ namespace GNX.Desktop
             switch (_Type.Name)
             {
                 case "String":
-                    c = new DataGridViewTextBoxColumn();
-                    c.CellTemplate = new DataGridViewTextBoxCell();
+                    c = new DataGridViewTextBoxColumn { CellTemplate = new DataGridViewTextBoxCell() };
                     //c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
                     if (ColumnWidth != 0) { c.Width = ColumnWidth; }
                     //c.AutoSizeMode = ColumnAutoSizeMode;
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
                     c.DefaultCellStyle.Alignment = ColumnAlignment == 0 ? DataGridViewContentAlignment.MiddleLeft : ColumnAlignment;
                     c.DefaultCellStyle.Format = string.IsNullOrEmpty(ColumnFormat) ? "" : ColumnFormat;
                     break;
                 case "Int32":
-                    c = new DataGridViewTextBoxColumn();
-                    c.CellTemplate = new DataGridViewTextBoxCell();
+                    c = new DataGridViewTextBoxColumn { CellTemplate = new DataGridViewTextBoxCell() };
                     //c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
                     if (ColumnWidth != 0) { c.Width = ColumnWidth; }
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -301,32 +297,31 @@ namespace GNX.Desktop
                     c.DefaultCellStyle.NullValue = null;
                     break;
                 case "Single":
-                    c = new DataGridViewTextBoxColumn();
-                    c.CellTemplate = new DataGridViewTextBoxCell();
+                    c = new DataGridViewTextBoxColumn { CellTemplate = new DataGridViewTextBoxCell() };
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                     c.DefaultCellStyle.Format = string.IsNullOrEmpty(ColumnFormat) ? "N0" : ColumnFormat;
                     c.DefaultCellStyle.NullValue = null;
                     break;
                 case "TimeSpan":
-                    c = new DataGridViewTextBoxColumn();
-                    c.CellTemplate = new DataGridViewTextBoxCell();
+                    c = new DataGridViewTextBoxColumn { CellTemplate = new DataGridViewTextBoxCell() };
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     c.DefaultCellStyle.Format = "hh\\:mm";
                     c.DefaultCellStyle.NullValue = null;
                     break;
                 case "Boolean":
-                    c = new DataGridViewCheckBoxColumn();
-                    c.CellTemplate = new DataGridViewCheckBoxCell();
-                    c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                    c = new DataGridViewCheckBoxColumn
+                    {
+                        CellTemplate = new DataGridViewCheckBoxCell(),
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                    };
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     c.DefaultCellStyle.NullValue = false;
                     break;
                 case "DateTime":
-                    c = new DataGridViewTextBoxColumn();
-                    c.CellTemplate = new DataGridViewTextBoxCell();
+                    c = new DataGridViewTextBoxColumn { CellTemplate = new DataGridViewTextBoxCell() };
                     //c.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
                     if (ColumnWidth != 100) { c.Width = ColumnWidth; } else { c.Width = 110; }
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -335,10 +330,12 @@ namespace GNX.Desktop
                     c.DefaultCellStyle.NullValue = null;
                     break;
                 case "Bitmap":
-                    c = new DataGridViewImageColumn();
-                    c.CellTemplate = new DataGridViewImageCell();
-                    c.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    c.Resizable = DataGridViewTriState.False;
+                    c = new DataGridViewImageColumn
+                    {
+                        CellTemplate = new DataGridViewImageCell(),
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+                        Resizable = DataGridViewTriState.False
+                    };
                     c.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     break;
@@ -386,15 +383,18 @@ namespace GNX.Desktop
 
         protected override void OnScroll(ScrollEventArgs e)
         {
-            base.OnScroll(e); Invalidate();
+            base.OnScroll(e);
+            Invalidate();
         }
         protected override void OnMouseEnter(EventArgs e)
         {
-            base.OnMouseEnter(e); Invalidate();
+            base.OnMouseEnter(e);
+            Invalidate();
         }
         protected override void OnMouseLeave(EventArgs e)
         {
-            base.OnMouseLeave(e); Invalidate();
+            base.OnMouseLeave(e);
+            Invalidate();
         }
 
         #region Paint
@@ -427,9 +427,32 @@ namespace GNX.Desktop
             }
         }
 
+        bool InColumnResize
+        {
+            get { return (MouseButtons == MouseButtons.Left) && (Cursor == Cursors.SizeWE); }
+        }
+
+        readonly Pen resizePen = new Pen(Colors.RGB(86, 86, 86), 1) { DashStyle = DashStyle.Dot };
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            if (InColumnResize)
+            {
+                var xPoint = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)).X;
+                var yStart = ColumnHeadersHeight;
+                var yEnd = Size.Height;
+
+                e.Graphics.DrawLine(resizePen, xPoint - 1, yStart, xPoint - 1, yEnd);
+                e.Graphics.DrawLine(resizePen, xPoint, yStart + 1, xPoint, yEnd - 1);
+                e.Graphics.DrawLine(resizePen, xPoint + 1, yStart, xPoint + 1, yEnd);
+            }
+        }
+
         //MouseMoveChangeRowColor
         protected override void OnMouseMove(MouseEventArgs e)
         {
+            if (InColumnResize) { Invalidate(); }
+
             base.OnMouseMove(e);
 
             int index = HitTest(e.X, e.Y).RowIndex;
@@ -526,15 +549,6 @@ namespace GNX.Desktop
         {
             LastSortedColumn = Columns[e.ColumnIndex].Name;
 
-            if (SortOrder == SortOrder.Descending)
-            {
-                LastSortedColumnDirection = ListSortDirection.Ascending;
-            }
-            else
-            {
-                LastSortedColumnDirection = ListSortDirection.Descending;
-            }
-
             SortImageColumns(sender, e);
         }
 
@@ -544,7 +558,6 @@ namespace GNX.Desktop
             DefaultColumnDirection = ascending ? ListSortDirection.Ascending : ListSortDirection.Descending;
 
             LastSortedColumn = DefaultColumn;
-            LastSortedColumnDirection = DefaultColumnDirection;
         }
 
         public void SortDefaultColumn(bool lastSortedDirection = false)
@@ -624,7 +637,7 @@ namespace GNX.Desktop
             SortDefaultColumn();
         }
 
-        string boolColumnSufix = "Bol";
+        readonly string boolColumnSufix = "Bol";
         public void SetBooleanColumns(List<string> ColumnsBoolean)
         {
             ColumnsBooleanNames = ColumnsBoolean;
@@ -652,8 +665,8 @@ namespace GNX.Desktop
             return ColumnsBooleanNames;
         }
 
-        Bitmap imgtrue = Properties.Resources.img_true_ico;
-        Bitmap imgfalse = Properties.Resources.img_false_ico;
+        readonly Bitmap imgtrue = Properties.Resources.img_true_ico;
+        readonly Bitmap imgfalse = Properties.Resources.img_false_ico;
 
         public void LoadBooleanImages()
         {

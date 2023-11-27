@@ -49,8 +49,8 @@
     <Compile Include="Any\Config\AppEnums.cs" />
     <Compile Include="Any\Config\DB.cs" />
     <Compile Include="Any\Database\DatabaseManager.cs" />
-    <Compile Include="Any\Database\cSqlParameter.cs" />
-    <Compile Include="Any\Database\cSqlResult.cs" />
+    <Compile Include="Any\Database\SqlParameter.cs" />
+    <Compile Include="Any\Database\SqlResult.cs" />
     <Compile Include="Any\Database\DataRowExtension.cs" />
     <Compile Include="Any\Extensions\BitmapExtension.cs" />
     <Compile Include="Any\Extensions\BoolExtension.cs" />
@@ -238,7 +238,7 @@
     <Compile Include="Desktop\Config\ThemeColorDark.cs" />
     <Compile Include="Desktop\Config\ThemeColorLight.cs" />
     <Compile Include="Desktop\Config\ThemeBase.cs" />
-    <Compile Include="Any\Database\cLogSQL.cs" />
+    <Compile Include="Any\Database\SqlLog.cs" />
     <Compile Include="Desktop\Extensions\BindingListExtension.cs" />
     <Compile Include="Desktop\Generics\ClipboardSafe.cs" />
     <Compile Include="Desktop\Extensions\PictureBoxExtension.cs" />
@@ -280,7 +280,7 @@
     <Compile Include="Any\Config\LanguageManager.cs" />
     <Compile Include="Desktop\Config\ExceptionManager.cs" />
     <Compile Include="Web\Config\ExceptionManager.cs" />
-    <Compile Include="Desktop\DebugLayer\cDebug.cs" />
+    <Compile Include="Desktop\DebugLayer\DebugManager.cs" />
     <Compile Include="Desktop\DebugLayer\DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -288,7 +288,7 @@
       <DependentUpon>DebugForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Desktop\DebugLayer\Messages.cs" />
-    <Compile Include="Any\Config\cExceptionSQLite.cs" />
+    <Compile Include="Any\Config\ExceptionSQLite.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Any\Resources\ICO\ico_debug.ico" />

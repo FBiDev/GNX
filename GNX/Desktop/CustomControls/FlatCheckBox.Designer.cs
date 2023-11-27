@@ -48,11 +48,11 @@
             this.pnlBgWhite.Name = "pnlBgWhite";
             this.pnlBgWhite.Size = new System.Drawing.Size(98, 32);
             this.pnlBgWhite.TabIndex = 0;
-            this.pnlBgWhite.Click += new System.EventHandler(this.pnlBgWhite_Click);
-            this.pnlBgWhite.DoubleClick += new System.EventHandler(this.pnlBgWhite_DoubleClick);
-            this.pnlBgWhite.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlBgWhite_MouseDown);
-            this.pnlBgWhite.MouseEnter += new System.EventHandler(this.pnlBgWhite_MouseEnter);
-            this.pnlBgWhite.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlBgWhite_MouseUp);
+            this.pnlBgWhite.Click += new System.EventHandler(this.PnlBgWhite_Click);
+            this.pnlBgWhite.DoubleClick += new System.EventHandler(this.PnlBgWhite_DoubleClick);
+            this.pnlBgWhite.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PnlBgWhite_MouseDown);
+            this.pnlBgWhite.MouseEnter += new System.EventHandler(this.PnlBgWhite_MouseEnter);
+            this.pnlBgWhite.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PnlBgWhite_MouseUp);
             // 
             // lblLegend
             // 
@@ -65,10 +65,10 @@
             this.lblLegend.Size = new System.Drawing.Size(45, 13);
             this.lblLegend.TabIndex = 2;
             this.lblLegend.Text = "Legend";
-            this.lblLegend.Click += new System.EventHandler(this.lblLegend_Click);
-            this.lblLegend.DoubleClick += new System.EventHandler(this.lblLegend_DoubleClick);
-            this.lblLegend.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblLegend_MouseDown);
-            this.lblLegend.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lblLegend_MouseUp);
+            this.lblLegend.Click += new System.EventHandler(this.LblLegend_Click);
+            this.lblLegend.DoubleClick += new System.EventHandler(this.LblLegend_DoubleClick);
+            this.lblLegend.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LblLegend_MouseDown);
+            this.lblLegend.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LblLegend_MouseUp);
             // 
             // chkBox
             // 
@@ -81,7 +81,7 @@
             this.chkBox.Size = new System.Drawing.Size(11, 11);
             this.chkBox.TabIndex = 1;
             this.chkBox.UseVisualStyleBackColor = false;
-            this.chkBox.Enter += new System.EventHandler(this.chkBox_Enter);
+            this.chkBox.Enter += new System.EventHandler(this.ChkBox_Enter);
             // 
             // FlatCheckBox
             // 

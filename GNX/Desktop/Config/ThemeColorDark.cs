@@ -74,7 +74,7 @@ namespace GNX.Desktop
             c.BorderColor = Colors.RGB(86, 86, 86);
             c.PlaceholderColor = Colors.RGB(108, 108, 108);
         }
-        
+
         public override void FlatComboBox(FlatComboBox c)
         {
             c.BackgroundColor = Colors.RGB(30, 30, 30);
@@ -91,9 +91,9 @@ namespace GNX.Desktop
 
         public override void FlatTabControl(FlatTabControl c)
         {
-            c.myBackColor = Colors.RGB(53, 53, 53);
-            c.myBackColor2 = Colors.RGB(30, 30, 30);
-            c.myBorderColor = Colors.RGB(86, 86, 86);
+            c.MyBackColor = Colors.RGB(53, 53, 53);
+            c.MyBackColor2 = Colors.RGB(30, 30, 30);
+            c.MyBorderColor = Colors.RGB(86, 86, 86);
 
             foreach (TabPage page in c.TabPages)
             {

@@ -8,13 +8,13 @@ namespace GNX
 {
     public class DatabaseManager
     {
-        public ListSynced<cLogSQL> Log = new ListSynced<cLogSQL>();
+        public ListSynced<SqlLog> Log = new ListSynced<SqlLog>();
 
-        public DbSystem DatabaseSystem;
+        public DatabaseType DatabaseType;
 
         public string ServerAddress { get; set; }
         public string DatabaseName { get; set; }
-        public string DataBaseFile { get; set; }
+        public string DatabaseFile { get; set; }
 
         public string Username { get; set; }
         public string Password { get; set; }
@@ -30,18 +30,18 @@ namespace GNX
 
         string DefaultConnectionString()
         {
-            switch (DatabaseSystem)
+            switch (DatabaseType)
             {
-                case DbSystem.SQLServer: return "User ID=" + Username + ";Password=" + Password + ";Data Source=" + ServerAddress + ";Initial Catalog=" + DatabaseName + ";Connection Timeout=" + ConnectionTimeout + ";Persist Security Info=False;Packet Size=4096";
-                case DbSystem.SQLite: return "Data Source=" + DataBaseFile + ";Version=3;";
-                case DbSystem.SQLiteODBC: return "Driver=SQLite3 ODBC Driver; Datasource=" + DataBaseFile + ";Version=3;New=True;Compress=True;";
+                case DatabaseType.SQLServer: return "User ID=" + Username + ";Password=" + Password + ";Data Source=" + ServerAddress + ";Initial Catalog=" + DatabaseName + ";Connection Timeout=" + ConnectionTimeout + ";Persist Security Info=False;Packet Size=4096";
+                case DatabaseType.SQLite: return "Data Source=" + DatabaseFile + ";Version=3;";
+                case DatabaseType.SQLiteODBC: return "Driver=SQLite3 ODBC Driver; Datasource=" + DatabaseFile + ";Version=3;New=True;Compress=True;";
             }
             return null;
         }
 
-        public void AddLog(IDbCommand cmd, DbAction action = DbAction.Null)
+        public void AddLog(IDbCommand cmd, DatabaseAction action = DatabaseAction.Null)
         {
-            Log.Insert(0, new cLogSQL(Log.Count, cmd, action, ObjectManager.GetDaoClassAndMethod(13)));
+            Log.Insert(0, new SqlLog(Log.Count, cmd, action, ObjectManager.GetDaoClassAndMethod(13)));
         }
 
         public string LastCall
@@ -49,19 +49,19 @@ namespace GNX
             get
             {
                 if (Log.Count == 0) return string.Empty;
-                return Environment.NewLine + "Log: " + Environment.NewLine + Log[0].Method;
+                return Environment.NewLine + "[Log]" + Environment.NewLine + Log[0].Method;
             }
         }
 
         public async Task<DateTime> DateTimeServer()
         {
             string sql = "SELECT GETDATE() AS DataServ;";
-            if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
+            if (DatabaseType == DatabaseType.SQLite || DatabaseType == DatabaseType.SQLiteODBC)
             {
                 sql = "SELECT strftime('%Y-%m-%d %H:%M:%f','now', 'localtime') AS DataServ;";
             }
 
-            List<cSqlParameter> parameters = null;
+            List<SqlParameter> parameters = null;
             var cmd = NewConnection(parameters);
 
             string select = await ExecuteScalar(cmd, sql);
@@ -74,7 +74,7 @@ namespace GNX
         public async Task<int> GetLastID(IDbCommand cmd)
         {
             string sql = "SELECT SCOPE_IDENTITY() AS LastID;";
-            if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
+            if (DatabaseType == DatabaseType.SQLite || DatabaseType == DatabaseType.SQLiteODBC)
             {
                 sql = "SELECT LAST_INSERT_ROWID() AS LastID;";
             }
@@ -88,7 +88,7 @@ namespace GNX
             return 0;
         }
 
-        IDbCommand NewConnection(List<cSqlParameter> parameters)
+        IDbCommand NewConnection(List<SqlParameter> parameters)
         {
             var conn = (IDbConnection)Connection.Clone();
 
@@ -102,8 +102,10 @@ namespace GNX
 
             OpenConnection(cmd);
 
-            if (parameters != null)
-                parameters.ForEach(x => AddSQLParameter(cmd, x));
+            if (parameters == null)
+                return cmd;
+
+            AddSQLParameters(cmd, parameters);
 
             return cmd;
         }
@@ -164,28 +166,11 @@ namespace GNX
             }
         }
 
-        //private IDbDataParameter AddSQLParameter(string parameterName, DbType dbType, object value, int size = 0, byte precision = 0, byte scale = 0)
-        //{
-        //    if (cmd != null)
-        //    {
-        //        IDbDataParameter p = cmd.CreateParameter();
-        //        p.ParameterName = parameterName;
-        //        p.DbType = dbType;
-        //        p.Value = value;
-        //        p.Size = size;
-        //        p.Precision = precision;
-        //        p.Scale = scale;
-        //        cmd.Parameters.Add(p);
-
-        //        return p;
-        //    }
-
-        //    return null;
-        //}
-
-        IDbDataParameter AddSQLParameter(IDbCommand cmd, cSqlParameter parameter)
+        void AddSQLParameters(IDbCommand cmd, List<SqlParameter> parameters)
         {
-            if (cmd != null)
+            if (cmd == null) return;
+
+            foreach (var parameter in parameters)
             {
                 var p = cmd.CreateParameter();
                 p.ParameterName = parameter.ParameterName;
@@ -195,16 +180,12 @@ namespace GNX
                 p.Precision = parameter.Precision;
                 p.Scale = parameter.Scale;
                 cmd.Parameters.Add(p);
-
-                return p;
             }
-
-            return null;
         }
 
         string ReplaceSQLCommands(string sql)
         {
-            if (DatabaseSystem == DbSystem.SQLite || DatabaseSystem == DbSystem.SQLiteODBC)
+            if (DatabaseType == DatabaseType.SQLite || DatabaseType == DatabaseType.SQLiteODBC)
             {
                 //Concat in SQLite = ||
                 sql = sql.Replace("'%'+", "'%'||");
@@ -233,7 +214,7 @@ namespace GNX
 
             cmd.CommandText = sql;
 
-            if (!string.IsNullOrWhiteSpace(storedProcedure))
+            if (string.IsNullOrWhiteSpace(storedProcedure) == false)
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = storedProcedure;
@@ -243,7 +224,7 @@ namespace GNX
                 cmd.CommandText = ReplaceSQLCommands(cmd.CommandText);
             }
 
-            AddLog(cmd, DbAction.Select);
+            AddLog(cmd, DatabaseAction.Select);
 
             if (cmd.Parameters.Count > 0)
                 cmd.Prepare();
@@ -258,12 +239,14 @@ namespace GNX
 
                         foreach (DataRow dataRow in schemaTabela.Rows)
                         {
-                            var dataColumn = new DataColumn();
-                            dataColumn.ColumnName = dataRow["ColumnName"].ToString();
-                            dataColumn.DataType = Type.GetType(dataRow["DataType"].ToString());
-                            dataColumn.ReadOnly = (bool)dataRow["IsReadOnly"];
-                            dataColumn.AutoIncrement = (bool)dataRow["IsAutoIncrement"];
-                            dataColumn.Unique = (bool)dataRow["IsUnique"];
+                            var dataColumn = new DataColumn
+                            {
+                                ColumnName = dataRow["ColumnName"].ToString(),
+                                DataType = Type.GetType(dataRow["DataType"].ToString()),
+                                ReadOnly = (bool)dataRow["IsReadOnly"],
+                                AutoIncrement = (bool)dataRow["IsAutoIncrement"],
+                                Unique = (bool)dataRow["IsUnique"]
+                            };
                             data.Columns.Add(dataColumn);
                         }
 
@@ -285,7 +268,7 @@ namespace GNX
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
-        async Task<int> ExecuteNonQuery(IDbCommand cmd, string sql, DbAction action = DbAction.Null)
+        async Task<int> ExecuteNonQuery(IDbCommand cmd, string sql, DatabaseAction action = DatabaseAction.Null)
         {
             int affectedRows = 0;
 
@@ -336,7 +319,7 @@ namespace GNX
             });
         }
 
-        public async Task<DataTable> ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
+        public async Task<DataTable> ExecuteSelect(string sql, List<SqlParameter> parameters = null, string storedProcedure = null)
         {
             var cmd = NewConnection(parameters);
 
@@ -347,7 +330,7 @@ namespace GNX
             return table;
         }
 
-        public async Task<string> ExecuteSelectString(string sql, List<cSqlParameter> parameters = null)
+        public async Task<string> ExecuteSelectString(string sql, List<SqlParameter> parameters = null)
         {
             var cmd = NewConnection(parameters);
 
@@ -358,14 +341,16 @@ namespace GNX
             return select;
         }
 
-        public async Task<cSqlResult> Execute(string sql, DbAction action, List<cSqlParameter> parameters)
+        public async Task<SqlResult> Execute(string sql, DatabaseAction action, List<SqlParameter> parameters)
         {
             var cmd = NewConnection(parameters);
 
-            var result = new cSqlResult();
-            result.AffectedRows = await ExecuteNonQuery(cmd, sql, action);
+            var result = new SqlResult
+            {
+                AffectedRows = await ExecuteNonQuery(cmd, sql, action)
+            };
 
-            if (action == DbAction.Insert && result.AffectedRows > 0)
+            if (action == DatabaseAction.Insert && result.AffectedRows > 0)
                 result.LastId = await GetLastID(cmd);
 
             CloseConnection(cmd);

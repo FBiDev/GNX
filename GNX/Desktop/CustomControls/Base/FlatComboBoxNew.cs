@@ -15,7 +15,6 @@ namespace GNX.Desktop
                 previousIndex = SelectedIndex;
             }
         }
-
         public FlatComboBoxNew()
         {
             Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom);
@@ -42,12 +41,6 @@ namespace GNX.Desktop
         {
             SelectedIndex = -1;
             SelectedIndex = -1;
-        }
-
-        void InitializeComponent()
-        {
-            SuspendLayout();
-            ResumeLayout(false);
         }
 
         #region Border color when disabled

@@ -11,9 +11,9 @@ namespace GNX.Desktop
     /// </summary>
     public class FlatPictureBox : PictureBox
     {
-        IContainer components;
-        ContextMenuStrip mnuPicture;
-        ToolStripMenuItem mniCopyImage;
+        readonly IContainer components;
+        readonly ContextMenuStrip mnuPicture;
+        readonly ToolStripMenuItem mniCopyImage;
 
         [DefaultValue(false)]
         public bool AutoScale { get; set; }
@@ -38,15 +38,15 @@ namespace GNX.Desktop
             }
         }
 
-        Align _align { get; set; }
+        Align AlignValue { get; set; }
 
         [DefaultValue(typeof(Align), "None")]
         public Align Align
         {
-            get { return _align; }
+            get { return AlignValue; }
             set
             {
-                _align = value;
+                AlignValue = value;
 
                 if (Parent is Control)
                     this.AlignBox();
@@ -58,24 +58,29 @@ namespace GNX.Desktop
             //SubMenu
             components = new Container();
 
-            mniCopyImage = new ToolStripMenuItem();
-            mniCopyImage.Name = "mniCopyImage";
-            mniCopyImage.Size = new Size(227, 22);
-            mniCopyImage.Text = "Copy image";
+            mniCopyImage = new ToolStripMenuItem
+            {
+                Name = "mniCopyImage",
+                Size = new Size(227, 22),
+                Text = "Copy image"
+            };
 
-            mnuPicture = new ContextMenuStrip(components);
+            mnuPicture = new ContextMenuStrip(components)
+            {
+                Name = "mnuPicture",
+                Size = new Size(228, 48)
+            };
+
             mnuPicture.SuspendLayout();
-            mnuPicture.Name = "mnuPicture";
-            mnuPicture.Size = new Size(228, 48);
             mnuPicture.Items.AddRange(new ToolStripItem[]{
                 mniCopyImage
             });
             mnuPicture.ResumeLayout(false);
 
-            mniCopyImage.MouseDown += mniCopyImage_MouseDown;
+            mniCopyImage.MouseDown += MniCopyImage_MouseDown;
         }
 
-        void mniCopyImage_MouseDown(object sender, MouseEventArgs e)
+        void MniCopyImage_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
             ClipboardSafe.SetImage(Image);

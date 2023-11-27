@@ -1,6 +1,6 @@
 ﻿namespace GNX
 {
-    public static class cExceptionSQLite
+    public static class ExceptionSQLite
     {
         public static bool ShowBox()
         {

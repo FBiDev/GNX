@@ -41,8 +41,8 @@ namespace GNX.Desktop
         {
             InitializeComponent();
 
-            pnlContent.MouseEnter += pnlBg_MouseEnter;
-            lblSubtitle.MouseEnter += lblSubtitle_MouseEnter;
+            pnlContent.MouseEnter += PnlBg_MouseEnter;
+            lblSubtitle.MouseEnter += LblSubtitle_MouseEnter;
 
             Margin = new Padding(2);
         }
@@ -84,12 +84,12 @@ namespace GNX.Desktop
             }
         }
 
-        protected void pnlBg_MouseEnter(object sender, EventArgs e)
+        protected void PnlBg_MouseEnter(object sender, EventArgs e)
         {
             ChangeCursor();
         }
 
-        protected void lblSubtitle_MouseEnter(object sender, EventArgs e)
+        protected void LblSubtitle_MouseEnter(object sender, EventArgs e)
         {
             ChangeCursor2();
         }

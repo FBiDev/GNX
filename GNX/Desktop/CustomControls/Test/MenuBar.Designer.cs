@@ -54,7 +54,7 @@
             this.pnlMenuBar.Name = "pnlMenuBar";
             this.pnlMenuBar.Size = new System.Drawing.Size(497, 48);
             this.pnlMenuBar.TabIndex = 0;
-            this.pnlMenuBar.SizeChanged += new System.EventHandler(this.pnlMenuBar_SizeChanged);
+            this.pnlMenuBar.SizeChanged += new System.EventHandler(this.MenuBarOnSizeChanged);
             // 
             // btnSearch
             // 
@@ -68,7 +68,7 @@
             this.btnSearch.TabStop = false;
             this.toolTip.SetToolTip(this.btnSearch, "Pesquisar");
             this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            this.btnSearch.Click += new System.EventHandler(this.SearchOnClick);
             // 
             // btnNew
             // 
@@ -82,7 +82,7 @@
             this.btnNew.TabStop = false;
             this.toolTip.SetToolTip(this.btnNew, "Novo");
             this.btnNew.UseVisualStyleBackColor = false;
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            this.btnNew.Click += new System.EventHandler(this.NewOnClick);
             // 
             // btnSave
             // 
@@ -97,7 +97,7 @@
             this.toolTip.SetToolTip(this.btnSave, "Salvar");
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Visible = false;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnSave.Click += new System.EventHandler(this.SaveOnClick);
             // 
             // btnDelete
             // 

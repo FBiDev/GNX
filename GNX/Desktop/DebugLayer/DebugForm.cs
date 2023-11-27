@@ -15,21 +15,21 @@ namespace GNX.Desktop
 
             Load += Form_Load;
             Shown += Form_Shown;
-            tabControl.SelectedIndexChanged += tabControl_SelectedIndexChanged;
+            tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
 
             dgvSQLSistema.Visible = false;
-            dgvSQLSistema.RowsAdded += dgv_RowsAdded;
+            dgvSQLSistema.RowsAdded += DataGridView_RowsAdded;
             dgvSQLSistema.MouseDown += (sender, e) => dgvSQLSistema.ShowContextMenu(e, mnuSqlSystem);
 
-            mniSqlSystemCopyCommand.MouseDown += mniSqlSystemCopyCommand_MouseDown;
-            mniSqlSystemCopyLog.MouseDown += mniSqlSystemCopyLog_MouseDown;
+            mniSqlSystemCopyCommand.MouseDown += MniSqlSystemCopyCommand_MouseDown;
+            mniSqlSystemCopyLog.MouseDown += MniSqlSystemCopyLog_MouseDown;
 
             dgvSQLBase.Visible = false;
-            dgvSQLBase.RowsAdded += dgv_RowsAdded;
+            dgvSQLBase.RowsAdded += DataGridView_RowsAdded;
             dgvSQLBase.MouseDown += (sender, e) => dgvSQLBase.ShowContextMenu(e, mnuSqlBase);
 
-            mniSqlBaseCopyCommand.MouseDown += mniSqlBaseCopyCommand_MouseDown;
-            mniSqlBaseCopyLog.MouseDown += mniSqlBaseCopyLog_MouseDown;
+            mniSqlBaseCopyCommand.MouseDown += MniSqlBaseCopyCommand_MouseDown;
+            mniSqlBaseCopyLog.MouseDown += MniSqlBaseCopyLog_MouseDown;
         }
 
         void Form_Load(object sender, EventArgs e)
@@ -45,7 +45,7 @@ namespace GNX.Desktop
             dgvSQLSistema.AddColumn<string>("Action", "Ação", "", "", 0, null, true, 60);
             dgvSQLSistema.AddColumn<string>("Command", "Comando");
             dgvSQLSistema.Columns["Command"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvSQLSistema.DataSource = cDebug.LogSQLSistema;
+            dgvSQLSistema.DataSource = DebugManager.LogSQLSistema;
 
             dgvSQLBase.AutoGenerateColumns = false;
             dgvSQLBase.AddColumn<int>("Line", "Linha", "", "", DataGridViewContentAlignment.MiddleCenter, null, true, 64);
@@ -54,7 +54,7 @@ namespace GNX.Desktop
             dgvSQLBase.AddColumn<string>("Action", "Ação", "", "", 0, null, true, 60);
             dgvSQLBase.AddColumn<string>("Command", "Comando");
             dgvSQLBase.Columns["Command"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvSQLBase.DataSource = cDebug.LogSQLBase;
+            dgvSQLBase.DataSource = DebugManager.LogSQLBase;
 
             UpdateErrors();
             UpdateMessages();
@@ -62,7 +62,7 @@ namespace GNX.Desktop
 
         void Form_Shown(object sender, EventArgs e) { }
 
-        void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabControl.SelectedTab == tabSQLSistema)
             {
@@ -79,7 +79,7 @@ namespace GNX.Desktop
             tabControl.SelectedIndex = index;
         }
 
-        void dgv_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        void DataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             ((DataGridView)sender).Visible = true;
             if (((DataGridView)sender) == dgvSQLSistema)
@@ -97,23 +97,23 @@ namespace GNX.Desktop
             }
         }
 
-        void mniSqlSystemCopyCommand_MouseDown(object sender, MouseEventArgs e)
+        void MniSqlSystemCopyCommand_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
 
-            var log = dgvSQLSistema.GetCurrentRowObject<cLogSQL>();
+            var log = dgvSQLSistema.GetCurrentRowObject<SqlLog>();
             ClipboardSafe.SetText(log.Command + Environment.NewLine);
         }
 
-        void mniSqlBaseCopyCommand_MouseDown(object sender, MouseEventArgs e)
+        void MniSqlBaseCopyCommand_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
 
-            var log = dgvSQLBase.GetCurrentRowObject<cLogSQL>();
+            var log = dgvSQLBase.GetCurrentRowObject<SqlLog>();
             ClipboardSafe.SetText(log.Command + Environment.NewLine);
         }
 
-        void mniSqlSystemCopyLog_MouseDown(object sender, MouseEventArgs e)
+        void MniSqlSystemCopyLog_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
 
@@ -121,7 +121,7 @@ namespace GNX.Desktop
             ClipboardSafe.SetText(log);
         }
 
-        void mniSqlBaseCopyLog_MouseDown(object sender, MouseEventArgs e)
+        void MniSqlBaseCopyLog_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
 
@@ -132,7 +132,7 @@ namespace GNX.Desktop
         public void UpdateErrors()
         {
             UpdateErrorTitle();
-            var errors = cDebug.GetErrors();
+            var errors = DebugManager.GetErrors();
 
             txtErrors.Text = string.Empty;
             foreach (KeyValuePair<string, int> item in errors)
@@ -143,7 +143,7 @@ namespace GNX.Desktop
 
         public void UpdateErrorTitle()
         {
-            var errors = cDebug.GetErrors();
+            var errors = DebugManager.GetErrors();
             string title = errors.Count + " Error";
 
             if (errors.Count == 0 || errors.Count > 1) { title += "s"; }
@@ -153,12 +153,12 @@ namespace GNX.Desktop
         public void UpdateMessages()
         {
             UpdateMessageTitle();
-            txtMessages.Text = cDebug.GetMessages();
+            txtMessages.Text = DebugManager.GetMessages();
         }
 
         public void UpdateMessageTitle()
         {
-            var messages = cDebug.GetMessages();
+            var messages = DebugManager.GetMessages();
             int total = (messages.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)).Length - 1;
             string title = total + " Message";
 
@@ -166,9 +166,9 @@ namespace GNX.Desktop
             tabMessage.Text = title;
         }
 
-        void btnGarbageCollect_Click(object sender, EventArgs e)
+        void GarbageCollectOnClick(object sender, EventArgs e)
         {
-            AppManager.CollectGarbage(sender, e);
+            AppManager.CollectGarbage();
         }
     }
 }

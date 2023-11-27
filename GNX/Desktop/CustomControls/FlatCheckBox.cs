@@ -59,8 +59,8 @@ namespace GNX.Desktop
         {
             InitializeComponent();
 
-            CheckBox.CheckedChanged += chkBox_CheckedChanged;
-            Click += (sender, e) => pnlBgWhite_Click(null, null);
+            CheckBox.CheckedChanged += ChkBox_CheckedChanged;
+            Click += (sender, e) => PnlBgWhite_Click(null, null);
 
             AlignControl();
         }
@@ -93,33 +93,33 @@ namespace GNX.Desktop
             AlignControl();
         }
 
-        void pnlBgWhite_Click(object sender, EventArgs e)
+        void PnlBgWhite_Click(object sender, EventArgs e)
         {
             CheckBox.Focus();
             Checked = !CheckBox.Checked;
         }
 
-        void pnlBgWhite_DoubleClick(object sender, EventArgs e)
+        void PnlBgWhite_DoubleClick(object sender, EventArgs e)
         {
-            pnlBgWhite_Click(null, null);
+            PnlBgWhite_Click(null, null);
         }
 
-        void lblLegend_Click(object sender, EventArgs e)
+        void LblLegend_Click(object sender, EventArgs e)
         {
-            pnlBgWhite_Click(null, null);
+            PnlBgWhite_Click(null, null);
         }
 
-        void lblLegend_DoubleClick(object sender, EventArgs e)
+        void LblLegend_DoubleClick(object sender, EventArgs e)
         {
-            pnlBgWhite_Click(null, null);
+            PnlBgWhite_Click(null, null);
         }
 
-        void pnlBgWhite_MouseEnter(object sender, EventArgs e)
+        void PnlBgWhite_MouseEnter(object sender, EventArgs e)
         {
             Cursor = Cursors.Hand;
         }
 
-        void chkBox_CheckedChanged(object sender, EventArgs e)
+        void ChkBox_CheckedChanged(object sender, EventArgs e)
         {
             if (CheckedChanged.NotNull())
             {
@@ -136,7 +136,7 @@ namespace GNX.Desktop
             }
         }
 
-        void chkBox_Enter(object sender, EventArgs e)
+        void ChkBox_Enter(object sender, EventArgs e)
         {
             base.BackColor = BorderColorFocus;
         }
@@ -146,22 +146,22 @@ namespace GNX.Desktop
             base.BackColor = BorderColorLeave;
         }
 
-        void pnlBgWhite_MouseDown(object sender, MouseEventArgs e)
+        void PnlBgWhite_MouseDown(object sender, MouseEventArgs e)
         {
-            chkBox_Enter(null, null);
+            ChkBox_Enter(null, null);
         }
 
-        void pnlBgWhite_MouseUp(object sender, MouseEventArgs e)
+        void PnlBgWhite_MouseUp(object sender, MouseEventArgs e)
         {
             CheckBoxBlue_Leave(null, null);
         }
 
-        void lblLegend_MouseDown(object sender, MouseEventArgs e)
+        void LblLegend_MouseDown(object sender, MouseEventArgs e)
         {
-            chkBox_Enter(null, null);
+            ChkBox_Enter(null, null);
         }
 
-        void lblLegend_MouseUp(object sender, MouseEventArgs e)
+        void LblLegend_MouseUp(object sender, MouseEventArgs e)
         {
             CheckBoxBlue_Leave(null, null);
         }

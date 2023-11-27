@@ -60,7 +60,7 @@ namespace GNX.Desktop
                 const int VER_NT_WORKSTATION = 1;
                 const int VER_NT_SERVER = 3;
 
-                int EditionID = osVersionInfo.wSuiteMask;
+                //int editionID = osVersionInfo.wSuiteMask;
 
                 switch (ProductType)
                 {
@@ -157,16 +157,7 @@ namespace GNX.Desktop
         [DllImport("psapi.dll")]
         static extern int EmptyWorkingSet(IntPtr hwProc);
 
-        static System.Windows.Forms.Timer tmrGarbage = new System.Windows.Forms.Timer();
-
-        static void StartGarbageCollect()
-        {
-            tmrGarbage.Interval = 50;
-            tmrGarbage.Tick += CollectGarbage;
-            tmrGarbage.Start();
-        }
-
-        public static void CollectGarbage(object source, EventArgs e)
+        public static void CollectGarbage()
         {
             GC.Collect();
             EmptyWorkingSet(Process.GetCurrentProcess().Handle);

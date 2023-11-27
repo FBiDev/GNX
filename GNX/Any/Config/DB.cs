@@ -9,7 +9,7 @@ namespace GNX.Desktop
     public static class DB
     {
         static DatabaseManager Database { get; set; }
-        public static ListSynced<cLogSQL> Log { get { return Database.Log; } }
+        public static ListSynced<SqlLog> Log { get { return Database.Log; } }
         public static bool Loaded { get; set; }
 
         public static void Load(string server, string database)
@@ -21,17 +21,17 @@ namespace GNX.Desktop
 
         public static void Reload(string server, string database)
         {
-            Database.DatabaseSystem = DbSystem.SQLServer;
-            Database.Connection = new SqlConnection();
             Database.ServerAddress = server;
+            Database.DatabaseType = DatabaseType.SQLServer;
+            Database.Connection = new SqlConnection();
             Database.DatabaseName = database;
-            Database.DataBaseFile = "";
+            Database.DatabaseFile = "";
             Database.Username = "";
             Database.Password = "";
             Database.ConnectionString = "";
         }
 
-        public async static Task<DataTable> ExecuteSelect(string sql, List<cSqlParameter> parameters = null, string storedProcedure = default(string))
+        public async static Task<DataTable> ExecuteSelect(string sql, List<SqlParameter> parameters = null, string storedProcedure = null)
         {
             if (Loaded)
             {
@@ -41,7 +41,7 @@ namespace GNX.Desktop
             return new DataTable();
         }
 
-        public async static Task<string> ExecuteSelectString(string sql, List<cSqlParameter> parameters = null)
+        public async static Task<string> ExecuteSelectString(string sql, List<SqlParameter> parameters = null)
         {
             if (Loaded)
             {
@@ -51,14 +51,14 @@ namespace GNX.Desktop
             return string.Empty;
         }
 
-        public async static Task<cSqlResult> Execute(string sql, DbAction action, List<cSqlParameter> parameters)
+        public async static Task<SqlResult> Execute(string sql, DatabaseAction action, List<SqlParameter> parameters)
         {
             if (Loaded)
             {
                 try { return await Database.Execute(sql, action, parameters); }
                 catch (Exception ex) { ExceptionManager.Resolve(ex, Database.LastCall); }
             }
-            return new cSqlResult();
+            return new SqlResult();
         }
 
         public async static Task<DateTime> DateTimeServer()

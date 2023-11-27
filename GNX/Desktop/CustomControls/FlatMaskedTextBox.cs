@@ -78,7 +78,7 @@ namespace GNX.Desktop
 
         [Category("_Properties")]
         [DefaultValue(typeof(string), "")]
-        public TextMask _Mask
+        public TextMask Mask
         {
             get { return _Mask_; }
             set
@@ -143,9 +143,9 @@ namespace GNX.Desktop
             set { TextBox.SelectionStart = value; }
         }
 
-        public enum eTextAlign { Left, Right, Center }
-        eTextAlign _TextAlign;
-        public eTextAlign TextAlign
+        public enum TextAlignTypes { Left, Right, Center }
+        TextAlignTypes _TextAlign;
+        public TextAlignTypes TextAlign
         {
             get { return _TextAlign; }
             set
@@ -153,15 +153,15 @@ namespace GNX.Desktop
                 _TextAlign = value;
                 switch (_TextAlign)
                 {
-                    case eTextAlign.Left:
+                    case TextAlignTypes.Left:
                         lblPlaceholder.TextAlign = ContentAlignment.MiddleLeft;
                         txtMain.TextAlign = HorizontalAlignment.Left;
                         break;
-                    case eTextAlign.Right:
+                    case TextAlignTypes.Right:
                         lblPlaceholder.TextAlign = ContentAlignment.MiddleRight;
                         txtMain.TextAlign = HorizontalAlignment.Right;
                         break;
-                    case eTextAlign.Center:
+                    case TextAlignTypes.Center:
                         lblPlaceholder.TextAlign = ContentAlignment.MiddleCenter;
                         txtMain.TextAlign = HorizontalAlignment.Center;
                         break;
@@ -177,11 +177,11 @@ namespace GNX.Desktop
 
             TextBox.Culture = System.Globalization.CultureInfo.InvariantCulture;
 
-            lblPlaceholder.MouseEnter += lblPlaceholder_MouseEnter;
+            lblPlaceholder.MouseEnter += LblPlaceholder_MouseEnter;
 
-            pnlContent.Click += pnlBg_Click;
-            lblSubtitle.Click += lblSubtitle_Click;
-            lblPlaceholder.Click += lblPlaceholder_Click;
+            pnlContent.Click += PnlBg_Click;
+            lblSubtitle.Click += LblSubtitle_Click;
+            lblPlaceholder.Click += LblPlaceholder_Click;
 
             TextBox.KeyPress += TextBox_KeyPress;
             TextBox.KeyDown += TextBox_KeyDown;
@@ -212,7 +212,7 @@ namespace GNX.Desktop
             lblPlaceholder.BackColor = BackgroundColor;
             lblPlaceholder.ForeColor = PlaceholderColor;
 
-            if (_Mask == TextMask.DINHEIRO && Text.Length > 0)
+            if (Mask == TextMask.DINHEIRO && Text.Length > 0)
                 lblPlaceholder.ForeColor = TextColor;
         }
 
@@ -222,29 +222,28 @@ namespace GNX.Desktop
 
             ResetColors();
 
-            if (_Mask == TextMask.DINHEIRO)
+            if (Mask == TextMask.DINHEIRO)
             {
                 lblPlaceholder.Text = LanguageManager.CurrencySymbol + " 000" + LanguageManager.CurrencyDecimalSeparator + "00";
                 lblPlaceholder.Location = new Point(lblPlaceholder.Location.X - 1, lblPlaceholder.Location.Y);
             }
         }
 
-        protected void lblPlaceholder_MouseEnter(object sender, EventArgs e)
+        protected void LblPlaceholder_MouseEnter(object sender, EventArgs e)
         {
             ChangeCursor();
         }
 
-        protected void pnlBg_Click(object sender, EventArgs e)
+        protected void PnlBg_Click(object sender, EventArgs e)
         {
             TextBox.Focus();
         }
 
-        protected void lblSubtitle_Click(object sender, EventArgs e)
+        protected void LblSubtitle_Click(object sender, EventArgs e)
         {
             TextBox.Focus();
         }
-
-        protected void lblPlaceholder_Click(object sender, EventArgs e)
+        protected void LblPlaceholder_Click(object sender, EventArgs e)
         {
             TextBox.Focus();
         }
@@ -282,7 +281,7 @@ namespace GNX.Desktop
 
             TextBox_TextChanged(null, null);
 
-            if (_Mask == TextMask.DINHEIRO)
+            if (Mask == TextMask.DINHEIRO)
             {
                 lblPlaceholder.BackColor = Color.Transparent;
 
@@ -305,11 +304,11 @@ namespace GNX.Desktop
         {
             string txt = txtMain.Text;
 
-            if (_Mask == TextMask.DATA)
+            if (Mask == TextMask.DATA)
             {
                 txt = txt.Replace("/", "").Trim();
             }
-            else if (_Mask_ == TextMask.NUMERO || _Mask == TextMask.DINHEIRO)
+            else if (_Mask_ == TextMask.NUMERO || Mask == TextMask.DINHEIRO)
             {
                 string TextNew = "";
                 int SelStart = txtMain.SelectionStart;
@@ -323,7 +322,7 @@ namespace GNX.Desktop
 
                     int result;
                     if (int.TryParse(c.ToString(), out result)
-                        || _Mask == TextMask.DINHEIRO
+                        || Mask == TextMask.DINHEIRO
                         && c.ToString() == LanguageManager.CurrencyDecimalSeparator && decimalSeparator)
                     {
                         if (c.ToString() == LanguageManager.CurrencyDecimalSeparator)
@@ -349,7 +348,7 @@ namespace GNX.Desktop
             var isEmpty = !TextBox.Focused && (TextBox.Text.Length == 0 || txt.Length == 0);
             lblPlaceholder.Visible = isEmpty;
 
-            if (_Mask == TextMask.DINHEIRO)
+            if (Mask == TextMask.DINHEIRO)
             {
                 lblPlaceholder.Visible = true;
                 lblPlaceholder.BackColor = Color.Transparent;

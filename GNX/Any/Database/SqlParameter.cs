@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace GNX
 {
-    public class cSqlParameter
+    public class SqlParameter
     {
         public string ParameterName { get; set; }
         public DbType DbType { get; set; }
@@ -14,7 +14,7 @@ namespace GNX
         public byte Precision { get; set; }
         public byte Scale { get; set; }
 
-        public cSqlParameter(string ParameterName, object Value, DbType dbType = DbType.AnsiString, int Size = 0)
+        public SqlParameter(string ParameterName, object Value, DbType dbType = DbType.AnsiString, int Size = 0)
         {
             this.ParameterName = ParameterName;
 
@@ -70,7 +70,7 @@ namespace GNX
             if (Size > 0 || Size == -1) this.Size = Size;
         }
 
-        public cSqlParameter(string ParameterName, DbType DbType, object Value, int Size = 0, byte Precision = 0, byte Scale = 0)
+        public SqlParameter(string ParameterName, DbType DbType, object Value, int Size = 0, byte Precision = 0, byte Scale = 0)
         {
             if (DbType == DbType.String && Size == 0) Size = -1;
 
@@ -82,9 +82,9 @@ namespace GNX
             this.Scale = Scale;
         }
 
-        public static string Replace(string query, List<cSqlParameter> lParamsReplace)
+        public static string Replace(string query, List<SqlParameter> lParamsReplace)
         {
-            foreach (cSqlParameter p in lParamsReplace)
+            foreach (SqlParameter p in lParamsReplace)
             {
                 query = ReplaceItem(query, p.Value, p.DbType, p.ParameterName);
             }
@@ -102,24 +102,17 @@ namespace GNX
 
         static string ReplaceItem(string query, object value, DbType DbType, string ParameterName)
         {
-            string val = null;
+            string val;
 
             if (value == null || value == DBNull.Value)
-            {
-                val = null;
-            }
-            else
-            {
-                val = value.ToString();
-                val = val.Replace("'", "''");
-            }
-
-            if (val == null)
             {
                 val = "NULL";
             }
             else
             {
+                val = value.ToString();
+                val = val.Replace("'", "''");
+
                 switch (DbType)
                 {
                     case DbType.String: val = "'" + val + "'"; break;

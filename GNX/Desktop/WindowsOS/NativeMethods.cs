@@ -12,18 +12,13 @@ namespace GNX.Desktop
         [DllImport("user32.dll")]
         static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
-        public static IntPtr _SendMessage(IntPtr Handle)
+        public static IntPtr SendMessageInternal(IntPtr Handle)
         {
             return SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, new IntPtr(0));
         }
 
         [DllImport("user32.dll")]
-        static extern bool ReleaseCapture();
-
-        public static bool _ReleaseCapture()
-        {
-            return ReleaseCapture();
-        }
+        public static extern bool ReleaseCapture();
 
         [DllImport("user32.dll")]
         static extern void SetWindowPos(uint Hwnd, uint Level, int X, int Y, int W, int H, uint Flags);
@@ -63,8 +58,10 @@ namespace GNX.Desktop
 
         internal static OSVERSIONINFOEX GetOSVersionInfo()
         {
-            var osVersionInfo = new OSVERSIONINFOEX();
-            osVersionInfo.dwOSVersionInfoSize = Marshal.SizeOf(typeof(OSVERSIONINFOEX));
+            var osVersionInfo = new OSVERSIONINFOEX
+            {
+                dwOSVersionInfoSize = Marshal.SizeOf(typeof(OSVERSIONINFOEX))
+            };
             GetVersionEx(ref osVersionInfo);
             return osVersionInfo;
         }

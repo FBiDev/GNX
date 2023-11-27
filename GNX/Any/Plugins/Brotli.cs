@@ -9,8 +9,8 @@ namespace GNX
     {
         static Assembly assembly;
 
-        static string DllName = "Brotli.Core";
-        static string DllPath = "Plugins/" + DllName + ".dll";
+        static readonly string DllName = "Brotli.Core";
+        static readonly string DllPath = "Plugins/" + DllName + ".dll";
 
         static Type BrotliClass;
 

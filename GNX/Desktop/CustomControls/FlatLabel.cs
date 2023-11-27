@@ -99,7 +99,7 @@ namespace GNX.Desktop
             Padding = new Padding(0, 0, 0, 1);
         }
 
-        int WM_LBUTTONDBLCLK = 0x203;
+        readonly int WM_LBUTTONDBLCLK = 0x203;
         string sSaved;
 
         protected override void WndProc(ref Message m)

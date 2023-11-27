@@ -11,16 +11,16 @@ namespace GNX.Desktop
         {
             for (int i = 0; i < controls.Length; i++)
             {
-                if (controls[i] is FlatLabel) ((FlatLabel)controls[i]).Text = string.Empty;
-                else if (controls[i] is FlatTextBox) ((FlatTextBox)controls[i]).Text = string.Empty;
+                if (controls[i] is FlatLabel) (controls[i] as FlatLabel).Text = string.Empty;
+                else if (controls[i] is FlatTextBox) (controls[i] as FlatTextBox).Text = string.Empty;
                 else if (controls[i] is FlatMaskedTextBox)
                 {
-                    ((FlatMaskedTextBox)controls[i]).Text = string.Empty;
-                    ((FlatMaskedTextBox)controls[i]).TextBox_LostFocus(null, null);
+                    (controls[i] as FlatMaskedTextBox).Text = string.Empty;
+                    (controls[i] as FlatMaskedTextBox).TextBox_LostFocus(null, null);
                 }
-                else if (controls[i] is FlatComboBox) ((FlatComboBox)controls[i]).ResetIndex();
-                else if (controls[i] is FlatDataGrid) ((FlatDataGrid)controls[i]).DataSource = null;
-                else if (controls[i] is FlatTableLayoutPanel) ResetPanelForm((FlatTableLayoutPanel)controls[i]);
+                else if (controls[i] is FlatComboBox) (controls[i] as FlatComboBox).ResetIndex();
+                else if (controls[i] is FlatDataGrid) (controls[i] as FlatDataGrid).DataSource = null;
+                else if (controls[i] is FlatTableLayoutPanel) ResetPanelForm(controls[i] as FlatTableLayoutPanel);
                 else if (controls[i] is object) controls[i] = null;
             }
         }
@@ -95,7 +95,7 @@ namespace GNX.Desktop
 
                 if (value is string)
                 {
-                    if (string.IsNullOrWhiteSpace((string)value))
+                    if (string.IsNullOrWhiteSpace(value as string))
                         return true;
                     continue;
                 }
@@ -111,7 +111,7 @@ namespace GNX.Desktop
 
                 if (value is FlatTextBox)
                 {
-                    if (string.IsNullOrWhiteSpace(((FlatTextBox)value).Text))
+                    if (string.IsNullOrWhiteSpace((value as FlatTextBox).Text))
                         return true;
                     continue;
                 }

@@ -17,7 +17,7 @@ namespace GNX.Web
                 return result;
             }
 
-            return DataRowExtension.ConvertFieldValue(row, column, type, result);
+            return DataRowExtension.CastFieldValue(row, column, type, result);
         }
 
         public static T Value<T>(this DataRow row, string column)

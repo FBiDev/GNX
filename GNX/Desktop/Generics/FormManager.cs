@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Windows.Forms;
 
 namespace GNX.Desktop
 {
     public static class FormManager
     {
-        public static void ResetControls(params object[] controls)
+        public static void ResetControls(params Control[] controls)
         {
             for (int i = 0; i < controls.Length; i++)
             {
@@ -20,12 +21,24 @@ namespace GNX.Desktop
                 }
                 else if (controls[i] is FlatComboBox) (controls[i] as FlatComboBox).ResetIndex();
                 else if (controls[i] is FlatDataGrid) (controls[i] as FlatDataGrid).DataSource = null;
-                else if (controls[i] is FlatTableLayoutPanel) ResetPanelForm(controls[i] as FlatTableLayoutPanel);
+                else if (controls[i] is FlatTableLayoutPanel) ResetFormTable(controls[i] as FlatTableLayoutPanel);
                 else if (controls[i] is object) controls[i] = null;
             }
         }
 
-        public static void ResetPanelForm(FlatPanel pnlForm)
+        public static void EnableControls(bool enable, params Control[] controls)
+        {
+            for (int i = 0; i < controls.Length; i++)
+            {
+                if (controls[i] is FlatTextBox) (controls[i] as FlatTextBox).Enabled = enable;
+                else if (controls[i] is FlatMaskedTextBox) (controls[i] as FlatMaskedTextBox).Enabled = enable;
+                else if (controls[i] is FlatComboBox) (controls[i] as FlatComboBox).Enabled = enable;
+                else if (controls[i] is FlatDataGrid) (controls[i] as FlatDataGrid).Enabled = enable;
+                else if (controls[i] is FlatButton) (controls[i] as FlatButton).Enabled = enable;
+            }
+        }
+
+        public static void ResetFormPanel(FlatPanel pnlForm)
         {
             var txtBoxes = pnlForm.GetControls<FlatTextBox>();
             var maskBoxes = pnlForm.GetControls<FlatMaskedTextBox>();
@@ -37,23 +50,35 @@ namespace GNX.Desktop
                 ResetControls(item);
         }
 
-        public static void ResetPanelForm(FlatTableLayoutPanel table)
+        public static void ResetFormTable(FlatTableLayoutPanel table)
         {
             var txtBoxes = table.GetControls<FlatTextBox>();
             var maskBoxes = table.GetControls<FlatMaskedTextBox>();
-            var ComboBoxes = table.GetControls<FlatComboBox>();
+            var comboBoxes = table.GetControls<FlatComboBox>();
+            var dataGrids = table.GetControls<FlatDataGrid>();
 
-            foreach (var item in txtBoxes)
-                ResetControls(item);
-
-            foreach (var item in maskBoxes)
-                ResetControls(item);
-
-            foreach (var item in ComboBoxes)
-                ResetControls(item);
+            foreach (var item in txtBoxes) ResetControls(item);
+            foreach (var item in maskBoxes) ResetControls(item);
+            foreach (var item in comboBoxes) ResetControls(item);
+            foreach (var item in dataGrids) ResetControls(item);
         }
 
-        public static bool IsInvalidObject<T>(T obj) where T : class, new()
+        public static void EnableFormControls(bool enable, FlatTableLayoutPanel table)
+        {
+            var txtBoxes = table.GetControls<FlatTextBox>();
+            var maskBoxes = table.GetControls<FlatMaskedTextBox>();
+            var comboBoxes = table.GetControls<FlatComboBox>();
+            var dataGrids = table.GetControls<FlatDataGrid>();
+            var buttons = table.GetControls<FlatButton>();
+
+            foreach (var item in txtBoxes) EnableControls(enable, item);
+            foreach (var item in maskBoxes) EnableControls(enable, item);
+            foreach (var item in comboBoxes) EnableControls(enable, item);
+            foreach (var item in dataGrids) EnableControls(enable, item);
+            foreach (var item in buttons) EnableControls(enable, item);
+        }
+
+        public static bool HasInvalidObject<T>(T obj) where T : class, new()
         {
             if (obj.IsNull())
                 return true;
@@ -82,9 +107,9 @@ namespace GNX.Desktop
             return o is IList && type.IsGenericType && type.GetGenericTypeDefinition().IsAssignableFrom(typeof(ListBind<>));
         }
 
-        public static bool IsInvalidValues(params object[] values)
+        public static bool HasInvalidFields(params object[] fieldsValue)
         {
-            foreach (var value in values)
+            foreach (var value in fieldsValue)
             {
                 if (value is int)
                 {

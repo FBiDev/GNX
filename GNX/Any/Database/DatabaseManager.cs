@@ -41,7 +41,7 @@ namespace GNX
 
         public void AddLog(IDbCommand cmd, DatabaseAction action = DatabaseAction.Null)
         {
-            Log.Insert(0, new SqlLog(Log.Count, cmd, action, ObjectManager.GetDaoClassAndMethod(13)));
+            Log.Insert(0, new SqlLog(Log.Count, cmd, action, ObjectManager.GetDaoClassAndMethod(13), ObjectManager.GetDaoClassAndMethod(16)));
         }
 
         public string LastCall
@@ -49,7 +49,7 @@ namespace GNX
             get
             {
                 if (Log.Count == 0) return string.Empty;
-                return Environment.NewLine + "[Log]" + Environment.NewLine + Log[0].Method;
+                return Environment.NewLine + "[Log]" + Environment.NewLine + Log[0].Method2 + Environment.NewLine + Log[0].Method;
             }
         }
 
@@ -350,7 +350,9 @@ namespace GNX
                 AffectedRows = await ExecuteNonQuery(cmd, sql, action)
             };
 
-            if (action == DatabaseAction.Insert && result.AffectedRows > 0)
+            result.Success = result.AffectedRows > 0;
+
+            if (action == DatabaseAction.Insert && result.Success)
                 result.LastId = await GetLastID(cmd);
 
             CloseConnection(cmd);

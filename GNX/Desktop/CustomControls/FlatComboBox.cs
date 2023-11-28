@@ -203,6 +203,11 @@ namespace GNX.Desktop
             Combo.Sorted = false;
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         public void ResetColors()
         {
             pnlBorder.BackColor = BorderColor;

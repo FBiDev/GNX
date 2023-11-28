@@ -27,9 +27,12 @@ namespace GNX
         public static string GetDaoClassAndMethod(int frameIndex = 0)
         {
             var st = new StackTrace();
-            var sf = st.GetFrame(frameIndex);
+            if (st.FrameCount < frameIndex) return string.Empty;
 
-            return sf.GetMethod().DeclaringType.Name + "." + sf.GetMethod().Name;
+            var sf = st.GetFrame(frameIndex);
+            var method = sf.GetMethod().DeclaringType.Name + "." + sf.GetMethod().Name;
+
+            return method;
         }
 
         public static string GetStackTrace(Exception ex)

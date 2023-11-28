@@ -128,6 +128,11 @@ namespace GNX.Desktop
             MinimumSize = new Size(64, 34);
         }
 
+        public override string ToString()
+        {
+            return Name + ": \"" + txtMain.Text + "\"";
+        }
+
         public void ResetColors()
         {
             BackColor = BorderColor;

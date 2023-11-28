@@ -15,6 +15,14 @@ namespace GNX.Desktop
 
             Load += Form_Load;
             Shown += Form_Shown;
+            HandleCreated += (sender, e) =>
+            {
+                if (DesignMode) return;
+
+                ResizeBegin += (s, ev) => { TurnOffFormLevelDoubleBuffering(); };
+                ResizeEnd += (s, ev) => { TurnOnFormLevelDoubleBuffering(); };
+            };
+
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
 
             dgvSQLSistema.Visible = false;
@@ -170,5 +178,39 @@ namespace GNX.Desktop
         {
             AppManager.CollectGarbage();
         }
+
+        #region Fix_Flickering_Controls
+        bool enableFormLevelDoubleBuffering = true;
+        int originalExStyle = -1;
+
+        void TurnOnFormLevelDoubleBuffering()
+        {
+            enableFormLevelDoubleBuffering = true;
+            UpdateStyles();
+        }
+
+        void TurnOffFormLevelDoubleBuffering()
+        {
+            enableFormLevelDoubleBuffering = false;
+            UpdateStyles();
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                if (originalExStyle == -1)
+                    originalExStyle = base.CreateParams.ExStyle;
+
+                CreateParams cp = base.CreateParams;
+                if (enableFormLevelDoubleBuffering && DesignMode == false)
+                    cp.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED
+                else
+                    cp.ExStyle = originalExStyle;
+
+                return cp;
+            }
+        }
+        #endregion
     }
 }

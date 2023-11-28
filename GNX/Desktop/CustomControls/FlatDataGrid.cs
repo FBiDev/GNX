@@ -42,6 +42,11 @@ namespace GNX.Desktop
             DataSourceChanged += Dg_DataSourceChanged;
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         protected new void Dg_DataSourceChanged(object sender, EventArgs e)
         {
             base.Dg_DataSourceChanged(null, null);

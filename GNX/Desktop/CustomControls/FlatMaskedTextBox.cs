@@ -198,6 +198,11 @@ namespace GNX.Desktop
             DecimalPlaces = 2;
         }
 
+        public override string ToString()
+        {
+            return Name + ": \"" + txtMain.Text + "\"";
+        }
+
         public void ResetColors()
         {
             BackColor = BorderColor;

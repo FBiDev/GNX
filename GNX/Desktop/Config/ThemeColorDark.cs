@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using GNX.Properties;
 
 namespace GNX.Desktop
 {
@@ -73,6 +74,8 @@ namespace GNX.Desktop
             c.TextColorFocus = Colors.RGB(210, 210, 210);
             c.BorderColor = Colors.RGB(86, 86, 86);
             c.PlaceholderColor = Colors.RGB(108, 108, 108);
+
+            c.btnAction_SetImage(Resources.img_calendar_white);
         }
 
         public override void FlatComboBox(FlatComboBox c)

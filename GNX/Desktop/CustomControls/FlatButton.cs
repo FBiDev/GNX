@@ -220,7 +220,7 @@ namespace GNX.Desktop
 
         void OnClick(object sender, EventArgs e)
         {
-            if (!Enabled) return;
+            if (!Enabled || Click == null) return;
             Click(sender, e);
         }
 

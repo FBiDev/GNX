@@ -63,6 +63,7 @@ namespace GNX.Desktop
             set
             {
                 TextBox.Enabled = value;
+                btnAction.Enabled = value;
                 TabStop = value;
                 ChangeCursor();
             }
@@ -108,6 +109,7 @@ namespace GNX.Desktop
                         txtMain.Mask = "00/00/0000";
                         lblPlaceholder.Text = "00/00/0000";
                         txtMain.TextMaskFormat = MaskFormat.IncludeLiterals;
+                        btnAction.Visible = true;
                         break;
                     case TextMask.HORA:
                         txtMain.Mask = "00:00";
@@ -169,6 +171,8 @@ namespace GNX.Desktop
             }
         }
 
+        DateTimePicker dtPicker { get; set; }
+        public event EventHandler ClickButton;
         public new event EventHandler TextChanged;
 
         public FlatMaskedTextBox()
@@ -189,6 +193,20 @@ namespace GNX.Desktop
             TextBox.GotFocus += TextBox_GotFocus;
             TextBox.LostFocus += TextBox_LostFocus;
             TextBox.TextChanged += TextBox_TextChanged;
+
+            btnAction.Click += btnAction_Click;
+            btnAction.MouseEnter += btnAction_MouseEnter;
+            btnAction.MouseLeave += btnAction_MouseLeave;
+
+            dtPicker = new DateTimePicker
+            {
+                Visible = false,
+                Size = new Size(0, 0),
+                Location = new Point(9, 8),
+                Format = DateTimePickerFormat.Short
+            };
+            dtPicker.ValueChanged += dtPicker_ValueChanged;
+            pnlContent.Controls.Add(dtPicker);
 
             Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
             Size = new Size(206, 34);
@@ -217,6 +235,8 @@ namespace GNX.Desktop
             lblPlaceholder.BackColor = BackgroundColor;
             lblPlaceholder.ForeColor = PlaceholderColor;
 
+            btnAction.ForeColor = BackgroundColor;
+
             if (Mask == TextMask.DINHEIRO && Text.Length > 0)
                 lblPlaceholder.ForeColor = TextColor;
         }
@@ -232,6 +252,42 @@ namespace GNX.Desktop
                 lblPlaceholder.Text = LanguageManager.CurrencySymbol + " 000" + LanguageManager.CurrencyDecimalSeparator + "00";
                 lblPlaceholder.Location = new Point(lblPlaceholder.Location.X - 1, lblPlaceholder.Location.Y);
             }
+        }
+
+        void dtPicker_ValueChanged(object sender, EventArgs e)
+        {
+            var date = Cast.ToDateTimeNull(dtPicker.Text);
+            if (date is DateTime)
+                txtMain.Text = dtPicker.Text;
+        }
+
+        public void btnAction_SetImage(Image img)
+        {
+            btnAction.BackgroundImage = img;
+        }
+
+        void btnAction_Click(object sender, EventArgs e)
+        {
+            if (Mask == TextMask.DATA)
+            {
+                var date = Cast.ToDateTimeNull(txtMain.Text);
+                if (date is DateTime)
+                    dtPicker.Value = date.Value;
+                dtPicker.Show();
+                dtPicker.Open();
+            }
+            if (ClickButton == null || btnAction.Visible == false) return;
+            ClickButton(sender, e);
+        }
+
+        void btnAction_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Default;
+        }
+
+        void btnAction_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Hand;
         }
 
         protected void LblPlaceholder_MouseEnter(object sender, EventArgs e)
@@ -272,7 +328,10 @@ namespace GNX.Desktop
             TextBox.BackColor = BackgroundColorFocus;
             TextBox.ForeColor = TextColorFocus;
 
+            btnAction.ForeColor = BackgroundColorFocus;
+
             TextBox_TextChanged(null, null);
+            OnGotFocus(e);
         }
 
         public void TextBox_LostFocus(object sender, EventArgs e)
@@ -283,6 +342,8 @@ namespace GNX.Desktop
 
             TextBox.BackColor = BackgroundColor;
             TextBox.ForeColor = TextColor;
+
+            btnAction.ForeColor = BackgroundColor;
 
             TextBox_TextChanged(null, null);
 

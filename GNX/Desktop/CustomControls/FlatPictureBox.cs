@@ -25,16 +25,15 @@ namespace GNX.Desktop
             {
                 base.Image = value;
 
-                if (AutoScale && value is Image)
+                if (value is Image)
                 {
-                    //this.ScaleTo((Bitmap)value);
+                    ContextMenuStrip = mnuPicture;
                 }
 
-                if (Parent is Control)
-                    this.AlignBox();
-
-                if (value is Image)
-                    ContextMenuStrip = mnuPicture;
+                if (value is Image && AutoScale)
+                {
+                    this.ScaleTo(value);
+                }
             }
         }
 
@@ -57,6 +56,8 @@ namespace GNX.Desktop
         {
             //SubMenu
             components = new Container();
+            SizeChanged += OnSizeChanged;
+            ParentChanged += OnParentChanged;
 
             mniCopyImage = new ToolStripMenuItem
             {
@@ -78,6 +79,23 @@ namespace GNX.Desktop
             mnuPicture.ResumeLayout(false);
 
             mniCopyImage.MouseDown += MniCopyImage_MouseDown;
+        }
+
+        void OnParentChanged(object sender, EventArgs e)
+        {
+            if (Parent is Control)
+            {
+                this.AlignBox();
+                Parent.SizeChanged += OnSizeChanged;
+            }
+        }
+
+        void OnSizeChanged(object sender, EventArgs e)
+        {
+            if (Parent is Control)
+            {
+                this.AlignBox();
+            }
         }
 
         void MniCopyImage_MouseDown(object sender, MouseEventArgs e)

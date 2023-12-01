@@ -8,13 +8,11 @@ namespace GNX.Desktop
         public static void ScaleTo(this PictureBox picBox, Bitmap bit)
         {
             picBox.Size = bit.MaxSize(picBox.MaximumSize);
-            //picBox.Image = bit;
         }
 
-        public static void ScaleTo(this FlatPictureBox picBox, Bitmap bit)
+        public static void ScaleTo(this PictureBox picBox, Image img)
         {
-            picBox.Size = bit.MaxSize(picBox.MaximumSize);
-            //picBox.Image = bit;
+            picBox.Size = ((Bitmap)img).MaxSize(picBox.MaximumSize);
         }
 
         public static void AlignBox(this FlatPictureBox picBox)

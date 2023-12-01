@@ -15,18 +15,21 @@ namespace GNX
 
             if (maxSize.Width == 0 && maxSize.Height == 0) { return new Size(width, height); }
 
-            float factor = bitmap.Width >= bitmap.Height ? bitmap.Height / (float)bitmap.Width : bitmap.Width / (float)bitmap.Height;
+            float factorW = height / (float)width;
+            float factorH = width / (float)height;
 
-            if (width >= height)
+            if (width > maxSize.Width)
             {
-                if (width > maxSize.Width) { width = maxSize.Width; }
-                height = (int)Math.Round(width * factor);
+                width = maxSize.Width;
+                height = (int)Math.Round(width * factorW);
             }
-            else if (width < height)
+
+            if (height > maxSize.Height)
             {
-                if (height > maxSize.Height) { height = maxSize.Height; }
-                width = (int)Math.Round(height * factor);
+                height = maxSize.Height;
+                width = (int)Math.Round(height * factorH);
             }
+
             return new Size(width, height);
         }
 

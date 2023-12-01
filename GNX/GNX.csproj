@@ -240,6 +240,7 @@
     <Compile Include="Desktop\Config\ThemeBase.cs" />
     <Compile Include="Any\Database\SqlLog.cs" />
     <Compile Include="Desktop\Extensions\BindingListExtension.cs" />
+    <Compile Include="Desktop\Extensions\DateTimePickerExtension.cs" />
     <Compile Include="Desktop\Generics\ClipboardSafe.cs" />
     <Compile Include="Desktop\Extensions\PictureBoxExtension.cs" />
     <Compile Include="Desktop\Extensions\DataGridViewExtension.cs" />
@@ -292,6 +293,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Any\Resources\ICO\ico_debug.ico" />
+    <Content Include="Any\Resources\IMG\img_calendar_dark.png" />
+    <Content Include="Any\Resources\IMG\img_calendar_white.png" />
     <Content Include="Any\Resources\IMG\img_drop_arrow.png" />
     <Content Include="Any\Resources\IMG\img_drop_arrow_focus.png" />
     <None Include="Any\Resources\IMG\img_false_ico.png" />

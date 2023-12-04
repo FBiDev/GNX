@@ -271,10 +271,13 @@ namespace GNX.Desktop
             if (Mask == TextMask.DATA)
             {
                 var date = Cast.ToDateTimeNull(txtMain.Text);
-                if (date is DateTime)
-                    dtPicker.Value = date.Value;
-                dtPicker.Show();
-                dtPicker.Open();
+                if (txtMain.MaskCompleted)
+                {
+                    if (dtPicker.TryParse(date))
+                        dtPicker.Open();
+                }
+                else
+                    dtPicker.Open();
             }
             if (ClickButton == null || btnAction.Visible == false) return;
             ClickButton(sender, e);

@@ -4,6 +4,10 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="GNX\Desktop\Extensions\DateTimePickerExtension.cs">
+    <Files>
+      <File FileName="GNX\Desktop\Extensions\DateTimePickerExtension.cs" Line="14" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MultiItemStartupConfigurations />
 </Properties>

@@ -157,9 +157,9 @@ namespace GNX.Desktop
             PreviousTextBackup = TextBox.Text;
 
             if (TextBox.ScrollBars == ScrollBars.None)
-                TextBox.Height += 15;
+                TextBox.Height += 14;
             else
-                TextBox.Height -= 15;
+                TextBox.Height -= 14;
         }
 
         protected void LblPlaceholder_MouseEnter(object sender, EventArgs e)

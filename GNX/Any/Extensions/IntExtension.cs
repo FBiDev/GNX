@@ -38,7 +38,7 @@ namespace GNX
 
         public static string ToNumber(this float value, bool customLanguage = false)
         {
-            return ToNumber((decimal)value, 0, customLanguage);
+            return ToNumber(Cast.ToDecimal(value.ToString()), 2, customLanguage);
         }
     }
 }

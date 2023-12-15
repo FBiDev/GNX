@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using GNX.Properties;
 
 namespace GNX
 {
@@ -38,19 +39,23 @@ namespace GNX
             return bitmap.Clone(new Rectangle(Point.Empty, bitmap.Size), PixelFormat.Format32bppPArgb);
         }
 
-        public static Bitmap SuperFastLoad(string path, Bitmap errorBitmap)
+        public static Bitmap SuperFastLoad(string path, Bitmap errorBitmap = null)
         {
             if (File.Exists(path) == false || new FileInfo(path).Length == 0)
+            {
+                if (errorBitmap == null)
+                    return Resources.img_notfound;
                 return errorBitmap;
+            }
 
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(path)))
             using (Bitmap bitmapFile = ((Bitmap)Image.FromStream(ms, false, false)))
                 return bitmapFile.Clone32bpp();
         }
 
-        public static Bitmap FromFile(string filePath, Size newSize, Bitmap errorBitmap)
+        public static Bitmap FromFile(string filePath, Size newSize, Bitmap errorBitmap = null)
         {
-            using (var srcImage = SuperFastLoad(filePath, null))
+            using (var srcImage = SuperFastLoad(filePath))
             {
                 if (srcImage == null) return errorBitmap;
 

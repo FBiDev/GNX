@@ -18,7 +18,7 @@ namespace GNX.Desktop
 
         static void Create()
         {
-            if (output.IsNull())
+            if (output.IsNull() || output.IsDisposed)
                 output = new DebugForm();
         }
 

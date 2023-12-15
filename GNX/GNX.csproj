@@ -70,6 +70,12 @@
     <Compile Include="Any\Generics\ListSynced.cs" />
     <Compile Include="Any\Generics\ObjectManager.cs" />
     <Compile Include="Any\Generics\Colors.cs" />
+    <Compile Include="Desktop\FileManager\Archive.cs" />
+    <Compile Include="Desktop\Http\Browser.cs" />
+    <Compile Include="Desktop\Http\Download.cs" />
+    <Compile Include="Desktop\Http\DownloadBase.cs" />
+    <Compile Include="Desktop\Http\DownloadFile.cs" />
+    <Compile Include="Desktop\FileManager\Picture.cs" />
     <Compile Include="Any\Generics\StopwatchTimer.cs" />
     <Compile Include="Any\Generics\TaskController.cs" />
     <Compile Include="Any\Plugins\Brotli.cs" />
@@ -241,6 +247,9 @@
     <Compile Include="Any\Database\SqlLog.cs" />
     <Compile Include="Desktop\Extensions\BindingListExtension.cs" />
     <Compile Include="Desktop\Extensions\DateTimePickerExtension.cs" />
+    <Compile Include="Desktop\Http\WebClientExtend.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Desktop\Generics\ClipboardSafe.cs" />
     <Compile Include="Desktop\Extensions\PictureBoxExtension.cs" />
     <Compile Include="Desktop\Extensions\DataGridViewExtension.cs" />
@@ -297,6 +306,7 @@
     <Content Include="Any\Resources\IMG\img_calendar_white.png" />
     <Content Include="Any\Resources\IMG\img_drop_arrow.png" />
     <Content Include="Any\Resources\IMG\img_drop_arrow_focus.png" />
+    <Content Include="Any\Resources\IMG\img_notfound.png" />
     <None Include="Any\Resources\IMG\img_false_ico.png" />
     <None Include="Any\Resources\IMG\img_true_ico.png" />
     <Content Include="Desktop\Resources\DLL\DLL.txt" />

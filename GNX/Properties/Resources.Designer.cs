@@ -123,6 +123,16 @@ namespace GNX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap img_notfound {
+            get {
+                object obj = ResourceManager.GetObject("img_notfound", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap img_true_ico {
             get {
                 object obj = ResourceManager.GetObject("img_true_ico", resourceCulture);

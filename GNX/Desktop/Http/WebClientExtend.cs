@@ -83,7 +83,7 @@ namespace GNX.Desktop
             GZipEnable = true;
 
             Encoding = Encoding.UTF8;
-            Proxy = Browser.DefaultProxy;
+            Proxy = Browser.Proxy;
 
             CookieContainer = new CookieContainer();
         }

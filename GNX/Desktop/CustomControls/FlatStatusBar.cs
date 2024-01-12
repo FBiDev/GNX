@@ -25,7 +25,7 @@ namespace GNX.Desktop
             {
                 _registros = value;
 
-                if (value == null || value <= 0)
+                if (value == null || value < 0)
                 {
                     lblStatus1.Text = string.Empty;
                 }
@@ -33,7 +33,7 @@ namespace GNX.Desktop
                 {
                     lblStatus1.Text = value.ToString() + " registro";
 
-                    if (Cast.ToInt(value) > 1)
+                    if (Cast.ToInt(value) > 1 || value == 0)
                     {
                         lblStatus1.Text += "s";
                     }

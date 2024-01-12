@@ -1,25 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace GNX.Desktop
 {
-    public enum CellStyle
-    {
-        NotSet,
-        StringCenter,
-        Number,
-        NumberCenter,
-        Date,
-        DateCenter,
-        Image
-    }
-
     public static class DataGridViewExtension
     {
         //Columns
-        static void Format(this DataGridViewColumnCollection source, int colIndex, CellStyle format)
+        static void Format(this DataGridViewColumnCollection source, int colIndex, ColumnFormat format)
         {
             DataGridViewColumn col = source[colIndex];
 
@@ -31,31 +21,31 @@ namespace GNX.Desktop
 
             switch (format)
             {
-                case CellStyle.NotSet:
+                case ColumnFormat.NotSet:
                     break;
-                case CellStyle.StringCenter:
+                case ColumnFormat.StringCenter:
                     style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     break;
-                case CellStyle.Number:
-                case CellStyle.NumberCenter:
-                    if (format == CellStyle.Number)
+                case ColumnFormat.Number:
+                case ColumnFormat.NumberCenter:
+                    if (format == ColumnFormat.Number)
                         style.Alignment = DataGridViewContentAlignment.MiddleRight;
                     else
                         style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                     style.Format = "N0";
                     break;
-                case CellStyle.Date:
+                case ColumnFormat.Date:
                     style.FormatProvider = LanguageManager.CultureBrazil;
                     style.Format = "d";
                     break;
-                case CellStyle.DateCenter:
+                case ColumnFormat.DateCenter:
                     style.FormatProvider = LanguageManager.CultureBrazil;
                     style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     style.Font = new Font("Courier New", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
                     style.Format = "dd MMM, yyyy";
                     break;
-                case CellStyle.Image:
+                case ColumnFormat.Image:
                     if (col is DataGridViewImageColumn)
                     {
                         style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -71,19 +61,19 @@ namespace GNX.Desktop
             col.DefaultCellStyle = style;
         }
 
-        public static void Format(this DataGridViewColumnCollection source, CellStyle format, params int[] cols)
+        public static void Format(this DataGridViewColumnCollection source, ColumnFormat format, params int[] cols)
         {
             foreach (var colIndex in cols)
                 Format(source, colIndex, format);
         }
 
-        public static void Format(this DataGridViewColumnCollection source, Dictionary<int, CellStyle> formats)
+        public static void Format(this DataGridViewColumnCollection source, Dictionary<int, ColumnFormat> formats)
         {
             foreach (var f in formats)
                 Format(source, f.Key, f.Value);
         }
 
-        public static void Format(this DataGridViewColumnCollection source, params CellStyle[] formats)
+        public static void Format(this DataGridViewColumnCollection source, params ColumnFormat[] formats)
         {
             for (var i = 0; i < formats.Count(); i++)
                 Format(source, i, formats[i]);

@@ -24,6 +24,13 @@ namespace GNX.Desktop
             set { base.AllowUserToDeleteRows = value; }
         }
 
+        [DefaultValue(true)]
+        public new bool AllowUserToOrderColumns
+        {
+            get { return base.AllowUserToOrderColumns; }
+            set { base.AllowUserToOrderColumns = value; }
+        }
+
         [DefaultValue(typeof(AnchorStyles), "Top, Bottom, Left, Right")]
         public new AnchorStyles Anchor
         {
@@ -158,13 +165,19 @@ namespace GNX.Desktop
         protected Color ColorFontRowHeader { get { return RowHeadersDefaultCellStyle.ForeColor; } set { RowHeadersDefaultCellStyle.ForeColor = value; } }
         protected Color ColorFontRowHeaderSelection { get { return RowHeadersDefaultCellStyle.SelectionForeColor; } set { RowHeadersDefaultCellStyle.SelectionForeColor = value; } }
 
-        [Browsable(false)]
         public Color ColorColumnHeader { get { return ColumnHeadersDefaultCellStyle.BackColor; } set { ColumnHeadersDefaultCellStyle.BackColor = value; } }
         [Browsable(false)]
         public Color ColorColumnSelection { get { return ColumnHeadersDefaultCellStyle.SelectionBackColor; } set { ColumnHeadersDefaultCellStyle.SelectionBackColor = value; } }
 
         protected Color ColorFontColumnHeader { get { return ColumnHeadersDefaultCellStyle.ForeColor; } set { ColumnHeadersDefaultCellStyle.ForeColor = value; } }
         protected Color ColorFontColumnSelection { get { return ColumnHeadersDefaultCellStyle.SelectionForeColor; } set { ColumnHeadersDefaultCellStyle.SelectionForeColor = value; } }
+
+        [Browsable(false)]
+        public Color ColorColumnHeaderMouseHover { get; set; }
+        [Browsable(false)]
+        public Color ColorColumnHeaderReorderRec { get; set; }
+        [Browsable(false)]
+        public Color ColorColumnHeaderReorderDiv { get; set; }
 
         public DataGridBase()
         {
@@ -177,7 +190,36 @@ namespace GNX.Desktop
             Sorted += Dg_OnSorted;
             DataSourceChanged += Dg_DataSourceChanged;
 
+            CellMouseDown += DataGridBase_CellMouseDown;
+            CellMouseUp += DataGridBase_CellMouseUp;
+
             DoubleBuffered = true;
+        }
+
+        void DataGridBase_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex != -1) return;
+
+            SelectedColumnIndex = -1;
+            SelectedColumnPos = default(Rectangle);
+            SelectedColumnClickPos = default(Point);
+            Divider = false;
+        }
+
+        int SelectedColumnIndex = -1;
+        Rectangle SelectedColumnPos;
+        Point SelectedColumnClickPos;
+        bool Divider;
+
+        void DataGridBase_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex != -1) return;
+
+            SelectedColumnIndex = e.ColumnIndex;
+            SelectedColumnPos = GetCellDisplayRectangle(SelectedColumnIndex, -1, false);
+            SelectedColumnClickPos = PointToClient(Cursor.Position);
+
+            Divider = e.X <= 5 || e.X >= (SelectedColumnPos.Width - 5);
         }
 
         protected void SetStyles()
@@ -189,6 +231,7 @@ namespace GNX.Desktop
 
             AllowUserToAddRows = false;
             AllowUserToDeleteRows = false;
+            AllowUserToOrderColumns = true;
 
             BackgroundColor = ColorBackground;
             BorderStyle = BorderStyle.None;
@@ -197,7 +240,8 @@ namespace GNX.Desktop
             MultiSelect = false;
             SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ReadOnly = true;
-            TabStop = false;
+            TabStop = true;
+            StandardTab = true;
             EnableHeadersVisualStyles = false;
 
             AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
@@ -386,27 +430,61 @@ namespace GNX.Desktop
             base.OnScroll(e);
             Invalidate();
         }
+
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
             Invalidate();
         }
+
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
+            ResetColumnHeaderColor();
             Invalidate();
         }
 
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            Invalidate();
+        }
+
+        void ResetColumnHeaderColor()
+        {
+            foreach (DataGridViewColumn column in Columns)
+            {
+                if (column.HeaderCell.Style.BackColor != ColorColumnHeader)
+                {
+                    column.HeaderCell.Style.BackColor = Color.Empty;
+                    column.HeaderCell.Style.SelectionBackColor = Color.Empty;
+                }
+            }
+        }
+
         #region Paint
+        readonly Pen resizePen = new Pen(Colors.RGB(86, 86, 86), 1) { DashStyle = DashStyle.Dot };
+        readonly Pen reorderPenRec = new Pen(Colors.RGB(172, 172, 172), 1) { DashStyle = DashStyle.Dot };
+        readonly Pen reorderPenDiv = new Pen(SystemColors.ControlDark, 3) { DashStyle = DashStyle.Solid };
+
+        bool InColumnResize { get { return (MouseButtons == MouseButtons.Left) && (Cursor == Cursors.SizeWE); } }
+        bool InColumnReorder { get { return (MouseButtons == MouseButtons.Left) && (Cursor == Cursors.Default); } }
+
         //AdjustImageQuality
         protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
         {
             base.OnCellPainting(e);
 
+            reorderPenRec.Color = ColorColumnHeaderReorderRec;
+            reorderPenDiv.Color = ColorColumnHeaderReorderDiv;
+
             e.Graphics.InterpolationMode = InterpolationMode.Bilinear;
             e.Graphics.PixelOffsetMode = PixelOffsetMode.Default;
 
-            if (e.RowHeader()) { return; }
+            if (e.RowHeader())
+            {
+                return;
+            }
 
             if (e.Value is Bitmap)
             {
@@ -427,16 +505,12 @@ namespace GNX.Desktop
             }
         }
 
-        bool InColumnResize
-        {
-            get { return (MouseButtons == MouseButtons.Left) && (Cursor == Cursors.SizeWE); }
-        }
-
-        readonly Pen resizePen = new Pen(Colors.RGB(86, 86, 86), 1) { DashStyle = DashStyle.Dot };
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            if (InColumnResize)
+
+            //Vertical Line Resize Column
+            if (InColumnResize && Divider)
             {
                 var xPoint = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)).X;
                 var yStart = ColumnHeadersHeight;
@@ -446,22 +520,79 @@ namespace GNX.Desktop
                 e.Graphics.DrawLine(resizePen, xPoint, yStart + 1, xPoint, yEnd - 1);
                 e.Graphics.DrawLine(resizePen, xPoint + 1, yStart, xPoint + 1, yEnd);
             }
+
+            else if (AllowUserToOrderColumns && InColumnReorder && SelectedColumnIndex > -1)
+            {
+                var mousePos = PointToClient(Cursor.Position);
+                var mousePos2 = PointToClient(MousePosition);
+                if (mousePos != SelectedColumnClickPos)
+                {
+                    int columnHoverIndex = HitTest(mousePos.X, mousePos.Y).ColumnIndex;
+                    int rowHoverIndex = HitTest(mousePos.X, mousePos.Y).RowIndex;
+
+                    if (columnHoverIndex <= 0 || rowHoverIndex > -1)
+                        return;
+
+                    //Rectangle Reorder Column
+                    var mousePosDiference = mousePos.X - SelectedColumnClickPos.X;
+                    e.Graphics.DrawRectangle(reorderPenRec, SelectedColumnPos.X + mousePosDiference, SelectedColumnPos.Y, SelectedColumnPos.Width - 1, SelectedColumnPos.Height - 1);
+                    e.Graphics.DrawRectangle(reorderPenRec, SelectedColumnPos.X + mousePosDiference + 1, SelectedColumnPos.Y + 1, SelectedColumnPos.Width - 3, SelectedColumnPos.Height - 3);
+                    e.Graphics.DrawRectangle(reorderPenRec, SelectedColumnPos.X + mousePosDiference + 2, SelectedColumnPos.Y + 2, SelectedColumnPos.Width - 5, SelectedColumnPos.Height - 5);
+
+                    //Column Divider Draw
+                    var hoverColumn = Columns[columnHoverIndex];
+                    var hoverColumnPos = GetCellDisplayRectangle(columnHoverIndex, -1, false);
+                    var hoverColumnPosFinal = new Point(hoverColumnPos.X + hoverColumnPos.Width - 1, hoverColumnPos.Y + hoverColumnPos.Height - 1);
+
+                    if (SelectedColumnIndex == columnHoverIndex) return;
+
+                    if (mousePos.X - hoverColumnPos.X > (hoverColumn.Width / 2))
+                    {
+                        if (hoverColumnPosFinal.X == SelectedColumnPos.X - 1) return;
+
+                        if (hoverColumnPosFinal.X + 1 == Width)
+                            e.Graphics.DrawLine(reorderPenDiv, new Point(hoverColumnPosFinal.X - 1, hoverColumnPos.Y), new Point(hoverColumnPosFinal.X - 1, hoverColumnPos.Height));
+                        else
+                            e.Graphics.DrawLine(reorderPenDiv, new Point(hoverColumnPosFinal.X, hoverColumnPos.Y), new Point(hoverColumnPosFinal.X, hoverColumnPos.Height));
+                    }
+                    else if (mousePos.X - hoverColumnPos.X < (hoverColumn.Width / 2))
+                    {
+                        if (hoverColumnPos.X == SelectedColumnPos.X + SelectedColumnPos.Width) return;
+
+                        if (hoverColumnPos.X == 0)
+                            e.Graphics.DrawLine(reorderPenDiv, new Point(hoverColumnPos.X + 1, hoverColumnPos.Y), new Point(hoverColumnPos.X + 1, hoverColumnPos.Height));
+                        else
+                            e.Graphics.DrawLine(reorderPenDiv, new Point(hoverColumnPos.X - 1, hoverColumnPos.Y), new Point(hoverColumnPos.X - 1, hoverColumnPos.Height));
+                    }
+                }
+            }
         }
 
-        //MouseMoveChangeRowColor
+        //MouseMove ChangeColor
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (InColumnResize) { Invalidate(); }
 
             base.OnMouseMove(e);
 
-            int index = HitTest(e.X, e.Y).RowIndex;
+            int rIndex = HitTest(e.X, e.Y).RowIndex;
 
-            if (index > -1)
+            if (rIndex > -1)
             {
-                var row = Rows[index];
+                var row = Rows[rIndex];
                 row.DefaultCellStyle.BackColor = ColorRowMouseHover;
                 row.DefaultCellStyle.SelectionBackColor = ColorRowMouseHover;
+            }
+
+            ResetColumnHeaderColor();
+
+            int cIndex = HitTest(e.X, e.Y).ColumnIndex;
+
+            if (rIndex == -1 && cIndex > -1)
+            {
+                var column = Columns[cIndex];
+                column.HeaderCell.Style.BackColor = ColorColumnHeaderMouseHover;
+                column.HeaderCell.Style.SelectionBackColor = ColorColumnHeaderMouseHover;
             }
         }
 
@@ -469,8 +600,6 @@ namespace GNX.Desktop
         protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
         {
             base.OnRowPostPaint(e);
-
-            var row = Rows[e.RowIndex];
 
             if (RectangleToScreen(e.RowBounds).Contains(MousePosition))
             {
@@ -490,6 +619,7 @@ namespace GNX.Desktop
             }
             else
             {
+                var row = Rows[e.RowIndex];
                 row.DefaultCellStyle.SelectionBackColor = ColorRowSelection;
 
                 if (e.RowIndex % 2 == 0)

@@ -51,6 +51,49 @@ namespace GNX.Desktop
         {
             base.Dg_DataSourceChanged(null, null);
             RefreshRows();
+
+            if (AutoGenerateColumns)
+            {
+                //Visible = false;
+                
+                var type = ListBindingHelper.GetListItemType(DataSource);
+                var properties = TypeDescriptor.GetProperties(type);
+
+                foreach (DataGridViewColumn column in Columns)
+                {
+                    var p = properties[column.DataPropertyName];
+                    if (p != null)
+                    {
+                        //DisplayStyle
+                        var displayStyle = (DisplayStyleAttribute)p.Attributes[typeof(DisplayStyleAttribute)];
+                        column.Width = displayStyle != null && displayStyle.ColumnWidth >= 0 ? displayStyle.ColumnWidth : column.Width;
+                        column.MinimumWidth = 32;
+
+                        column.AutoSizeMode = displayStyle != null ? (DataGridViewAutoSizeColumnMode)displayStyle.AutoSizeMode : column.AutoSizeMode;
+
+                        if (displayStyle != null && displayStyle.FormatStyle != ColumnFormat.NotSet)
+                            Columns.Format(displayStyle.FormatStyle, column.Index);
+
+                        column.DefaultCellStyle.Alignment = displayStyle != null && displayStyle.Align != ColumnAlign.NotSet ? (DataGridViewContentAlignment)displayStyle.Align : column.DefaultCellStyle.Alignment;
+
+                        //Display
+                        column.ToolTipText = p.Description;
+
+                        var display = (DisplayAttribute)p.Attributes[typeof(DisplayAttribute)];
+                        column.HeaderText = display != null && display.Name != null ? display.Name : column.HeaderText;
+                        column.ToolTipText = display != null && display.Description != null ? display.Description : column.ToolTipText;
+
+                        column.Visible = display == null || display.AutoGenerateField;
+
+                        if (display != null && display.Order > Columns.Count - 1) display.Order = Columns.Count - 1;
+                        column.DisplayIndex = display != null && display.Order >= 0 ? display.Order : column.Index;
+
+                        column.DefaultCellStyle.Format = display != null && display.Format != null ? display.Format : null;
+                    }
+                }
+                
+                //Visible = true;
+            }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -109,6 +152,15 @@ namespace GNX.Desktop
         public void RefreshStatusBar()
         {
             Statusbar.Registros = Rows.Count;
+        }
+
+        public void Clear()
+        {
+            if (DataSource == null) return;
+
+            var gridType = DataSource.GetType();
+            var bindlist = Activator.CreateInstance(gridType);
+            DataSource = bindlist;
         }
 
         bool HandleRightClick(MouseEventArgs e)

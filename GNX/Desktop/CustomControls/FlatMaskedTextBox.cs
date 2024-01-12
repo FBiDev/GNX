@@ -197,15 +197,18 @@ namespace GNX.Desktop
             btnAction.Click += btnAction_Click;
             btnAction.MouseEnter += btnAction_MouseEnter;
             btnAction.MouseLeave += btnAction_MouseLeave;
+            btnAction.TabStop = true;
 
             dtPicker = new DateTimePicker
             {
                 Visible = false,
                 Size = new Size(0, 0),
                 Location = new Point(9, 8),
-                Format = DateTimePickerFormat.Short
+                Format = DateTimePickerFormat.Short,
+                TabStop = false
             };
             dtPicker.ValueChanged += dtPicker_ValueChanged;
+            dtPicker.CloseUp += dtPicker_CloseUp;
             pnlContent.Controls.Add(dtPicker);
 
             Anchor = (AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
@@ -258,7 +261,18 @@ namespace GNX.Desktop
         {
             var date = Cast.ToDateTimeNull(dtPicker.Text);
             if (date is DateTime)
+            {
                 txtMain.Text = dtPicker.Text;
+            }
+        }
+
+        void dtPicker_CloseUp(object sender, EventArgs e)
+        {
+            if (txtMain.MaskCompleted == false)
+            {
+                txtMain.Text = dtPicker.Text;
+            }
+            btnAction.Focus();
         }
 
         public void btnAction_SetImage(Image img)

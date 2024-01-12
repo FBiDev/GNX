@@ -138,6 +138,10 @@ namespace GNX.Desktop
 
             c.ColorColumnHeader = ColorTranslator.FromHtml("#3F3F3F");
             c.ColorColumnSelection = c.ColorColumnHeader;
+
+            c.ColorColumnHeaderMouseHover = Colors.RGB(50, 50, 60);
+            c.ColorColumnHeaderReorderRec = Colors.RGB(172, 172, 172);
+            c.ColorColumnHeaderReorderDiv = SystemColors.ControlDark;
         }
 
         public override void ButtonExe(ButtonExe c)

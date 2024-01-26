@@ -3,7 +3,7 @@ using System.Data;
 
 namespace GNX
 {
-    public static class DataRowExtension
+    static class DataRowExtension
     {
         internal static object CastFieldValue(DataRow row, string column, TypeCode type, object result)
         {

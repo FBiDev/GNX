@@ -3,7 +3,7 @@ using System.Data;
 
 namespace GNX.Web
 {
-    public static class DataRowExtensionWeb
+    public static class DataRowExtension
     {
         static object ConvertFieldValue<T>(this DataRow row, string column)
         {
@@ -17,7 +17,7 @@ namespace GNX.Web
                 return result;
             }
 
-            return DataRowExtension.CastFieldValue(row, column, type, result);
+            return GNX.DataRowExtension.CastFieldValue(row, column, type, result);
         }
 
         public static T Value<T>(this DataRow row, string column)

@@ -65,16 +65,16 @@ namespace GNX.Desktop
                     if (p != null)
                     {
                         //DisplayStyle
-                        var displayStyle = (DisplayStyleAttribute)p.Attributes[typeof(DisplayStyleAttribute)];
-                        column.Width = displayStyle != null && displayStyle.ColumnWidth >= 0 ? displayStyle.ColumnWidth : column.Width;
+                        var style = (StyleAttribute)p.Attributes[typeof(StyleAttribute)];
+                        column.Width = style != null && style.Width >= 0 ? style.Width : column.Width;
                         column.MinimumWidth = 32;
 
-                        column.AutoSizeMode = displayStyle != null ? (DataGridViewAutoSizeColumnMode)displayStyle.AutoSizeMode : column.AutoSizeMode;
+                        column.AutoSizeMode = style != null ? (DataGridViewAutoSizeColumnMode)style.AutoSizeMode : column.AutoSizeMode;
 
-                        if (displayStyle != null && displayStyle.FormatStyle != ColumnFormat.NotSet)
-                            Columns.Format(displayStyle.FormatStyle, column.Index);
+                        if (style != null && style.Format != ColumnFormat.NotSet)
+                            Columns.Format(style.Format, column.Index);
 
-                        column.DefaultCellStyle.Alignment = displayStyle != null && displayStyle.Align != ColumnAlign.NotSet ? (DataGridViewContentAlignment)displayStyle.Align : column.DefaultCellStyle.Alignment;
+                        column.DefaultCellStyle.Alignment = style != null && style.Align != ColumnAlign.NotSet ? (DataGridViewContentAlignment)style.Align : column.DefaultCellStyle.Alignment;
 
                         //Display
                         column.ToolTipText = p.Description;

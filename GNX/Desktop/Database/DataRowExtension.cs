@@ -3,7 +3,7 @@ using System.Data;
 
 namespace GNX.Desktop
 {
-    public static class DataRowExtensionDesktop
+    public static class DataRowExtension
     {
         static object CastFieldValue<T>(this DataRow row, string column)
         {
@@ -18,7 +18,7 @@ namespace GNX.Desktop
                 return result;
             }
 
-            return DataRowExtension.CastFieldValue(row, column, type, result);
+            return GNX.DataRowExtension.CastFieldValue(row, column, type, result);
         }
 
         public static T Value<T>(this DataRow row, string column)

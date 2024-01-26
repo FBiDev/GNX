@@ -530,7 +530,7 @@ namespace GNX.Desktop
                     int columnHoverIndex = HitTest(mousePos.X, mousePos.Y).ColumnIndex;
                     int rowHoverIndex = HitTest(mousePos.X, mousePos.Y).RowIndex;
 
-                    if (columnHoverIndex <= 0 || rowHoverIndex > -1)
+                    if (columnHoverIndex < 0 || rowHoverIndex > -1)
                         return;
 
                     //Rectangle Reorder Column

@@ -22,6 +22,22 @@ namespace GNX
             return code;
         }
 
+        public static Type GetNullableType(this Type type)
+        {
+            type = Nullable.GetUnderlyingType(type) ?? type;
+            if (type.IsValueType)
+                return typeof(Nullable<>).MakeGenericType(type);
+            return type;
+        }
+
+        public static Type GetNotNullableType(this Type type)
+        {
+            type = Nullable.GetUnderlyingType(type) ?? type;
+            if (type.IsValueType)
+                return type;
+            return typeof(Nullable<>).MakeGenericType(type);
+        }
+
         public static bool IsEqual<T>(this T objA, T objB)
         {
             foreach (var item in objA.GetType().GetProperties())
@@ -38,16 +54,15 @@ namespace GNX
 
         public static void Clone(this object origin, object from)
         {
-            if (from.NotNull())
-            {
-                foreach (PropertyInfo property in from.GetType().GetProperties())
-                {
-                    if (property.CanWrite && !property.Name.Equals("Cloned"))
-                    {
-                        var value = property.GetValue(from, null);
+            if (from.IsNull()) return;
 
-                        property.SetValue(origin, value, null);
-                    }
+            foreach (PropertyInfo property in from.GetType().GetProperties())
+            {
+                if (property.CanWrite && !property.Name.Equals("Cloned"))
+                {
+                    var value = property.GetValue(from, null);
+
+                    property.SetValue(origin, value, null);
                 }
             }
         }

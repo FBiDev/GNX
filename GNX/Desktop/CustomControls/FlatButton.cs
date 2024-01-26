@@ -47,6 +47,7 @@ namespace GNX.Desktop
         public new bool UseVisualStyleBackColor
         {
             get { return base.UseVisualStyleBackColor; }
+            set { base.UseVisualStyleBackColor = value; }
         }
 
         [DefaultValue(typeof(ContentAlignment), "MiddleLeft")]

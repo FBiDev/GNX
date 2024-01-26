@@ -1,6 +1,6 @@
 ﻿namespace System.ComponentModel
 {
-    public enum AutoSizeColumnMode
+    public enum ColumnAutoSizeMode
     {
         NotSet = 0,
         None = 1,
@@ -47,16 +47,26 @@
         }
     }
 
-    public class DisplayStyleAttribute : Attribute
+    public class StyleAttribute : Attribute
     {
+        public ColumnAutoSizeMode AutoSizeMode { get; set; }
         public ColumnAlign Align { get; set; }
-        public ColumnFormat FormatStyle { get; set; }
-        public int ColumnWidth { get; set; }
-        public AutoSizeColumnMode AutoSizeMode { get; set; }
+        public ColumnFormat Format { get; set; }
+        public int Width { get; set; }
 
-        public DisplayStyleAttribute()
+        public StyleAttribute()
         {
-            ColumnWidth = -1;
+            Width = -1;
+        }
+    }
+
+    public class FieldAttribute : Attribute
+    {
+        public string Name { get; set; }
+
+        public FieldAttribute(string name)
+        {
+            Name = name;
         }
     }
 }

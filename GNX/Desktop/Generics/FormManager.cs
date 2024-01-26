@@ -20,7 +20,11 @@ namespace GNX.Desktop
                     (controls[i] as FlatMaskedTextBox).TextBox_LostFocus(null, null);
                 }
                 else if (controls[i] is FlatComboBox) (controls[i] as FlatComboBox).ResetIndex();
-                else if (controls[i] is FlatDataGrid) (controls[i] as FlatDataGrid).Rows.Clear();
+                else if (controls[i] is FlatDataGrid)
+                {
+                    (controls[i] as FlatDataGrid).Rows.Clear();
+                    (controls[i] as FlatDataGrid).RefreshRows();
+                }
                 else if (controls[i] is FlatTableLayoutPanel) ResetFormTable(controls[i] as FlatTableLayoutPanel);
                 else if (controls[i] is object) controls[i] = null;
             }

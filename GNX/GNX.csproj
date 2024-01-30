@@ -76,6 +76,7 @@
     <Compile Include="Desktop\Controller\ControllerResult.cs" />
     <Compile Include="Desktop\Database\DatabaseDao.cs" />
     <Compile Include="Desktop\FileManager\Archive.cs" />
+    <Compile Include="Desktop\FileManager\FolderPicker.cs" />
     <Compile Include="Desktop\Generics\ShowBox.cs" />
     <Compile Include="Desktop\Http\Browser.cs" />
     <Compile Include="Desktop\Http\Download.cs" />

@@ -317,7 +317,6 @@
     <Content Include="Any\Resources\IMG\img_notfound.png" />
     <None Include="Any\Resources\IMG\img_false_ico.png" />
     <None Include="Any\Resources\IMG\img_true_ico.png" />
-    <Content Include="Desktop\Resources\DLL\DLL.txt" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -392,7 +391,9 @@
       <DependentUpon>DebugForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Desktop\Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>:: Move all assemblies and related files to lib folder

@@ -9,8 +9,8 @@ namespace GNX.Desktop
 {
     public enum PictureFormat
     {
-        Jpg = 0x2E6A7067,//.png
-        Png = 0x2E706E67,//.jpg
+        Jpg = 0x2E6A7067,//.jpg
+        Png = 0x2E706E67,//.png
     }
 
     public class Picture

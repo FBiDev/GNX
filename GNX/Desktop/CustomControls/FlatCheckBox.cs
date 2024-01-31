@@ -53,7 +53,7 @@ namespace GNX.Desktop
 
         [DefaultValue(false)]
         public bool Checked { get { return CheckBox.Checked; } set { CheckBox.Checked = value; } }
-        public event EventHandler CheckedChanged;
+        public event EventHandler CheckedChanged = delegate { };
 
         public FlatCheckBox()
         {
@@ -123,7 +123,7 @@ namespace GNX.Desktop
         {
             if (CheckedChanged.NotNull())
             {
-                CheckedChanged(null, null);
+                CheckedChanged(sender, e);
             }
 
             if (CheckBox.Checked)

@@ -49,6 +49,7 @@ namespace GNX.Desktop
         }
 
         public new event EventHandler Click;
+        public new bool Focused { get { return btnExe.Focused; } }
 
         public ButtonExe()
         {
@@ -63,6 +64,12 @@ namespace GNX.Desktop
             BackColor = Colors.RGB(151, 184, 243);
             BorderColor = Color.WhiteSmoke;
             TextColor = _TextColor;
+        }
+
+        public new bool Focus()
+        {
+            btnExe.Focus();
+            return btnExe.Focused;
         }
 
         void AlignControl()

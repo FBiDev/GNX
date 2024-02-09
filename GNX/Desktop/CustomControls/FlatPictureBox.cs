@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace GNX.Desktop
@@ -14,9 +17,13 @@ namespace GNX.Desktop
         readonly IContainer components;
         readonly ContextMenuStrip mnuPicture;
         readonly ToolStripMenuItem mniCopyImage;
+        readonly ToolStripMenuItem mniRemoveImage;
 
         [DefaultValue(false)]
         public bool AutoScale { get; set; }
+
+        [Browsable(true)]
+        public override bool AllowDrop { get { return base.AllowDrop; } set { base.AllowDrop = value; } }
 
         public new Image Image
         {
@@ -27,12 +34,15 @@ namespace GNX.Desktop
 
                 if (value is Image)
                 {
-                    ContextMenuStrip = mnuPicture;
-                }
+                    if (AutoScale)
+                        this.ScaleTo(value);
 
-                if (value is Image && AutoScale)
+                    ContextMenuStrip = mnuPicture;
+                    mniRemoveImage.Visible = AllowDrop;
+                }
+                else
                 {
-                    this.ScaleTo(value);
+                    ContextMenuStrip = null;
                 }
             }
         }
@@ -52,12 +62,52 @@ namespace GNX.Desktop
             }
         }
 
+        //DragDrop
+        bool IsValidDropFile;
+        public string DropFilePath;
+        Image NewImage;
+        Thread getDropImageThread;
+
+        bool IsValidDragImage;
+        Thread getDragImageThread;
+
+        bool MovedImage;
+
+        Dictionary<ImageFormats, string> filterMap = new Dictionary<ImageFormats, string>
+        {
+            { ImageFormats.Jpg, ".jpg" },
+            { ImageFormats.Jpeg, ".jpeg" },
+            { ImageFormats.Png, ".png" },
+            { ImageFormats.Bmp, ".bmp" },
+            { ImageFormats.Gif, ".gif" }
+        };
+
+        [Browsable(false)]
+        public ImageFormats Filter { get; set; }
+
+        bool GetFilter(ImageFormats value, string ext)
+        {
+            foreach (var kvp in filterMap)
+            {
+                if ((value & kvp.Key) == kvp.Key && ext == kvp.Value)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public FlatPictureBox()
         {
             //SubMenu
             components = new Container();
             SizeChanged += OnSizeChanged;
             ParentChanged += OnParentChanged;
+            DragEnter += OnDragEnter;
+            DragDrop += OnDragDrop;
+            MouseDown += OnMouseDown;
+
+            Filter = (ImageFormats.Jpg | ImageFormats.Jpeg | ImageFormats.Png);
 
             mniCopyImage = new ToolStripMenuItem
             {
@@ -66,19 +116,29 @@ namespace GNX.Desktop
                 Text = "Copy image"
             };
 
+            mniRemoveImage = new ToolStripMenuItem
+            {
+                Name = "mniRemoveImage",
+                Size = new Size(227, 22),
+                Text = "Remove image"
+            };
+
             mnuPicture = new ContextMenuStrip(components)
             {
                 Name = "mnuPicture",
-                Size = new Size(228, 48)
+                Size = new Size(228, 48),
+                ShowImageMargin = false
             };
 
             mnuPicture.SuspendLayout();
             mnuPicture.Items.AddRange(new ToolStripItem[]{
-                mniCopyImage
+                mniCopyImage,
+                mniRemoveImage
             });
             mnuPicture.ResumeLayout(false);
 
             mniCopyImage.MouseDown += MniCopyImage_MouseDown;
+            mniRemoveImage.MouseDown += mniRemoveImage_MouseDown;
         }
 
         void OnParentChanged(object sender, EventArgs e)
@@ -98,10 +158,26 @@ namespace GNX.Desktop
             }
         }
 
+        void OnMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left || Image == null) return;
+
+            var effect = DoDragDrop(Image, DragDropEffects.Move);
+
+            if (effect != DragDropEffects.None && MovedImage)
+                Image = null;
+        }
+
         void MniCopyImage_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
             ClipboardSafe.SetImage(Image);
+        }
+
+        void mniRemoveImage_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            Image = null;
         }
 
         #region Interpolation Property
@@ -147,6 +223,109 @@ namespace GNX.Desktop
 
             // Allow the PictureBox to draw.
             base.OnPaint(pe);
+        }
+
+        void OnDragEnter(object sender, DragEventArgs e)
+        {
+            string filename;
+            IsValidDropFile = GetDropFilename(out filename, e);
+
+            if (IsValidDropFile)
+            {
+                MovedImage = true;
+                DropFilePath = filename;
+                getDropImageThread = new Thread(new ThreadStart(LoadDroppedImage));
+                getDropImageThread.Start();
+                e.Effect = DragDropEffects.Copy;
+                return;
+            }
+
+            IsValidDragImage = GetDragImage(out NewImage, e);
+
+            if (IsValidDragImage)
+            {
+                MovedImage = true;
+                getDragImageThread = new Thread(new ThreadStart(LoadDragImage));
+                getDragImageThread.Start();
+                e.Effect = DragDropEffects.Move;
+                return;
+            }
+
+            e.Effect = DragDropEffects.None;
+        }
+
+        void OnDragDrop(object sender, DragEventArgs e)
+        {
+            if (!IsValidDropFile && !IsValidDragImage) return;
+
+            if (IsValidDropFile)
+            {
+                while (getDropImageThread.IsAlive)
+                {
+                    Application.DoEvents();
+                    Thread.Sleep(0);
+                }
+            }
+
+            if (IsValidDragImage)
+            {
+                while (getDragImageThread.IsAlive)
+                {
+                    Application.DoEvents();
+                    Thread.Sleep(0);
+                }
+            }
+
+            if (NewImage.Size.Width <= Width || NewImage.Size.Height <= Height)
+                Interpolation = InterpolationMode.NearestNeighbor;
+            else
+                Interpolation = InterpolationMode.HighQualityBicubic;
+
+            MovedImage = false;
+            Image = NewImage;
+        }
+
+        bool GetDragImage(out Image dragImage, DragEventArgs e)
+        {
+            dragImage = default(Bitmap);
+            if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move)
+            {
+                var dataDrag = ((IDataObject)e.Data).GetData(DataFormats.Bitmap) as Bitmap;
+                if (dataDrag == null) return false;
+
+                dragImage = dataDrag;
+                return true;
+            }
+            return false;
+        }
+
+        bool GetDropFilename(out string filename, DragEventArgs e)
+        {
+            filename = string.Empty;
+            if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy)
+            {
+                var dataDrop = ((IDataObject)e.Data).GetData(DataFormats.FileDrop) as Array;
+
+                if (dataDrop == null) return false;
+
+                if ((dataDrop.Length == 1) && (dataDrop.GetValue(0) is string))
+                {
+                    filename = ((string[])dataDrop)[0];
+                    string ext = Path.GetExtension(filename).ToLower();
+                    if (GetFilter(Filter, ext))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        void LoadDroppedImage()
+        {
+            NewImage = BitmapExtension.SuperFastLoad(DropFilePath);
+        }
+
+        void LoadDragImage()
+        {
         }
     }
 }

@@ -45,7 +45,7 @@ namespace GNX.Desktop
                 isDesignMode = DesignMode;
                 if (isDesignMode) return;
 
-                ThemeBase.CheckTheme(this);
+                //ThemeBase.CheckTheme(this);
             };
 
             Resize += OnResize;
@@ -81,6 +81,7 @@ namespace GNX.Desktop
                 x.TabIndex = tabIndex;
                 tabIndex++;
             });
+            //KeyPreview = true;
         }
 
         void Control_Enter(object sender, EventArgs e)

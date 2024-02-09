@@ -145,6 +145,13 @@ namespace GNX.Desktop
             set { TextBox.SelectionStart = value; }
         }
 
+        [DefaultValue(0)]
+        public int SelectionLength
+        {
+            get { return TextBox.SelectionLength; }
+            set { TextBox.SelectionLength = value; }
+        }
+
         public enum TextAlignTypes { Left, Right, Center }
         TextAlignTypes _TextAlign;
         public TextAlignTypes TextAlign
@@ -174,6 +181,7 @@ namespace GNX.Desktop
         DateTimePicker dtPicker { get; set; }
         public event EventHandler ClickButton;
         public new event EventHandler TextChanged;
+        public override bool Focused { get { return txtMain.Focused; } }
 
         public FlatMaskedTextBox()
         {
@@ -217,6 +225,12 @@ namespace GNX.Desktop
             MinimumSize = new Size(64, 34);
 
             DecimalPlaces = 2;
+        }
+
+        public new bool Focus()
+        {
+            txtMain.Focus();
+            return txtMain.Focused;
         }
 
         public override string ToString()

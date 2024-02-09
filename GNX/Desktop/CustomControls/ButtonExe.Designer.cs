@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.pnlBack = new System.Windows.Forms.Panel();
+            this.btnExe = new ButtonExeInner();
             this.lblExe = new System.Windows.Forms.Label();
-            this.btnExe = new System.Windows.Forms.Button();
             this.pnlBack.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,18 +48,6 @@
             this.pnlBack.Size = new System.Drawing.Size(74, 67);
             this.pnlBack.TabIndex = 0;
             // 
-            // lblExe
-            // 
-            this.lblExe.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.lblExe.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblExe.ForeColor = System.Drawing.Color.White;
-            this.lblExe.Location = new System.Drawing.Point(2, 51);
-            this.lblExe.Name = "lblExe";
-            this.lblExe.Size = new System.Drawing.Size(70, 12);
-            this.lblExe.TabIndex = 1;
-            this.lblExe.Text = "Exe";
-            this.lblExe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // btnExe
             // 
             this.btnExe.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -71,6 +59,18 @@
             this.btnExe.Size = new System.Drawing.Size(48, 48);
             this.btnExe.TabIndex = 0;
             this.btnExe.UseVisualStyleBackColor = true;
+            // 
+            // lblExe
+            // 
+            this.lblExe.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblExe.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblExe.ForeColor = System.Drawing.Color.White;
+            this.lblExe.Location = new System.Drawing.Point(2, 51);
+            this.lblExe.Name = "lblExe";
+            this.lblExe.Size = new System.Drawing.Size(70, 12);
+            this.lblExe.TabIndex = 1;
+            this.lblExe.Text = "Exe";
+            this.lblExe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ButtonExe
             // 
@@ -90,7 +90,7 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlBack;
-        private System.Windows.Forms.Button btnExe;
+        private ButtonExeInner btnExe;
         private System.Windows.Forms.Label lblExe;
     }
 }

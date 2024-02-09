@@ -92,12 +92,11 @@ namespace GNX.Desktop
         string PreviousTextBackup { get; set; }
         bool PreviousTextChanged { get; set; }
 
-        public new bool Focused { get; set; }
-
         public new event EventHandler TextChanged;
         public new EventHandler Enter;
         public new EventHandler Leave;
         public new KeyPressEventHandler KeyPress;
+        public override bool Focused { get { return txtMain.Focused; } }
         #endregion
 
         public FlatTextBox()
@@ -126,6 +125,12 @@ namespace GNX.Desktop
             Size = new Size(206, 34);
             MaximumSize = new Size(1500, 34);
             MinimumSize = new Size(64, 34);
+        }
+
+        public new bool Focus()
+        {
+            txtMain.Focus();
+            return txtMain.Focused;
         }
 
         public override string ToString()
@@ -223,7 +228,6 @@ namespace GNX.Desktop
             TextBox.ForeColor = TextColorFocus;
 
             lblPlaceholder.Visible = false;
-            Focused = true;
         }
 
         void TextBox_LostFocus(object sender, EventArgs e)
@@ -236,7 +240,6 @@ namespace GNX.Desktop
             TextBox.ForeColor = TextColor;
 
             lblPlaceholder.Visible = TextBox.Text.Length == 0;
-            Focused = false;
         }
 
         protected void TextBox_TextChanged(object sender, EventArgs e)

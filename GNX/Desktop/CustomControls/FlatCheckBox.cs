@@ -54,6 +54,7 @@ namespace GNX.Desktop
         [DefaultValue(false)]
         public bool Checked { get { return CheckBox.Checked; } set { CheckBox.Checked = value; } }
         public event EventHandler CheckedChanged = delegate { };
+        public new bool Focused { get { return chkBox.Focused; } }
 
         public FlatCheckBox()
         {
@@ -65,9 +66,19 @@ namespace GNX.Desktop
             AlignControl();
         }
 
+        public new bool Focus()
+        {
+            chkBox.Focus();
+            return chkBox.Focused;
+        }
+
         public void ResetColors()
         {
-            base.BackColor = BorderColor;
+            if (Focused)
+                base.BackColor = BorderColorFocus;
+            else
+                base.BackColor = BorderColor;
+
             BackColor = BackgroundColor;
             BorderColorFocus = _BorderColorFocus;
             BorderColorLeave = BorderColor;

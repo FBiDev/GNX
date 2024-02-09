@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace GNX.Desktop
 {
@@ -120,5 +122,58 @@ namespace GNX.Desktop
         //[DllImport("user32.dll")]
         //static extern IntPtr GetWindowDC(IntPtr hWnd);
         #endregion
+    }
+
+    public static class Window
+    {
+        public static void SendKey(Keys key)
+        {
+            switch (key)
+            {
+                case Keys.Enter: SendKeys.Send("{ENTER}"); break;
+                case Keys.Tab: SendKeys.Send("{TAB}"); break;
+                case Keys.Escape: SendKeys.Send("{ESCAPE}"); break;
+            }
+        }
+
+        static void SuppressAltKey(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == (Keys.RButton | Keys.ShiftKey | Keys.Alt))
+                e.SuppressKeyPress = true;
+        }
+
+        public static void AltMenuDisable(Form f)
+        {
+            f.KeyDown -= SuppressAltKey;
+            f.KeyDown += SuppressAltKey;
+        }
+    }
+
+    public static class Mouse
+    {
+        [DllImport("user32.dll")]
+        static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
+
+        [Flags]
+        enum MouseEventFlags
+        {
+            LEFTDOWN = 0x00000002,
+            LEFTUP = 0x00000004,
+            MIDDLEDOWN = 0x00000020,
+            MIDDLEUP = 0x00000040,
+            MOVE = 0x00000001,
+            ABSOLUTE = 0x00008000,
+            RIGHTDOWN = 0x00000008,
+            RIGHTUP = 0x00000010
+        }
+
+        public static void LeftClick(Point location)
+        {
+            var prevLocation = Cursor.Position;
+            Cursor.Position = new Point(location.X, location.Y);
+            mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
+            mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
+            Cursor.Position = prevLocation;
+        }
     }
 }

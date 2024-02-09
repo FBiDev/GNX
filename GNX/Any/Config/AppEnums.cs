@@ -1,4 +1,5 @@
-﻿namespace GNX
+﻿using System;
+namespace GNX
 {
     public enum CultureID
     {
@@ -50,5 +51,15 @@
         Impressão = 3,
         Inclusão = 4,
         Todos = 5,
+    }
+
+    [Flags]
+    public enum ImageFormats
+    {
+        Jpg = 1,
+        Jpeg = 2,
+        Png = 4,
+        Bmp = 8,
+        Gif = 16
     }
 }

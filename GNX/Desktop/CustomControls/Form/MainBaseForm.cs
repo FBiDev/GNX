@@ -79,9 +79,18 @@ namespace GNX.Desktop
             AutoScaleMode = AutoScaleMode.None;
         }
 
+        public event Action TabPressed = delegate { };
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (DebugMode && keyData == (Keys.F1))
+            if (keyData == Keys.Tab)
+            {
+                if (TabPressed.NotNull())
+                {
+                    TabPressed();
+                }
+            }
+            else if (DebugMode && keyData == (Keys.F1))
             {
                 DebugManager.Open();
             }

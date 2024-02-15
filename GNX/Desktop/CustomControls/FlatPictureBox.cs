@@ -290,7 +290,7 @@ namespace GNX.Desktop
             dragImage = default(Bitmap);
             if ((e.AllowedEffect & DragDropEffects.Move) == DragDropEffects.Move)
             {
-                var dataDrag = ((IDataObject)e.Data).GetData(DataFormats.Bitmap) as Bitmap;
+                var dataDrag = e.Data.GetData(DataFormats.Bitmap) as Bitmap;
                 if (dataDrag == null) return false;
 
                 dragImage = dataDrag;
@@ -304,14 +304,14 @@ namespace GNX.Desktop
             filename = string.Empty;
             if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy)
             {
-                var dataDrop = ((IDataObject)e.Data).GetData(DataFormats.FileDrop) as Array;
+                var dataDrop = e.Data.GetData(DataFormats.FileDrop) as Array;
 
                 if (dataDrop == null) return false;
 
                 if ((dataDrop.Length == 1) && (dataDrop.GetValue(0) is string))
                 {
                     filename = ((string[])dataDrop)[0];
-                    string ext = Path.GetExtension(filename).ToLower();
+                    var ext = Path.GetExtension(filename).ToLower();
                     if (GetFilter(Filter, ext))
                         return true;
                 }

@@ -34,6 +34,12 @@ namespace GNX
             return new Size(width, height);
         }
 
+        public static bool IsAnimatedGif(Bitmap bitmap)
+        {
+            var dimensions = new FrameDimension(bitmap.FrameDimensionsList[0]);
+            return bitmap.GetFrameCount(dimensions) > 1;
+        }
+
         public static Bitmap Clone32bpp(this Bitmap bitmap)
         {
             return bitmap.Clone(new Rectangle(Point.Empty, bitmap.Size), PixelFormat.Format32bppPArgb);
@@ -50,7 +56,12 @@ namespace GNX
 
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(path)))
             using (Bitmap bitmapFile = ((Bitmap)Image.FromStream(ms, false, false)))
+            {
+                if (IsAnimatedGif(bitmapFile))
+                    return Bitmap.FromFile(path) as Bitmap;
+
                 return bitmapFile.Clone32bpp();
+            }
         }
 
         public static Bitmap FromFile(string filePath, Size newSize, Bitmap errorBitmap = null)

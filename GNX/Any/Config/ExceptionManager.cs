@@ -199,7 +199,7 @@ namespace GNX
             {
                 //Error = ((DllNotFoundException)ex);
 
-                CustomMessage = "Arquivo DLL não encontrado";
+                CustomMessage = "Arquivo DLL não encontrado\r\n" + ex.Message;
             }
             else if (ExType == typeof(OleDbException))
             {

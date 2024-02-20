@@ -58,7 +58,7 @@ namespace GNX
             using (Bitmap bitmapFile = ((Bitmap)Image.FromStream(ms, false, false)))
             {
                 if (IsAnimatedGif(bitmapFile))
-                    return Bitmap.FromFile(path) as Bitmap;
+                    return Image.FromFile(path) as Bitmap;
 
                 return bitmapFile.Clone32bpp();
             }

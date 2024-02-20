@@ -10,7 +10,7 @@ namespace GNX
         static Assembly assembly;
 
         static readonly string DllName = "Brotli.Core";
-        static readonly string DllPath = "Plugins/" + DllName + ".dll";
+        static readonly string DllFile = "" + DllName + ".dll";
 
         static Type BrotliClass;
 
@@ -20,12 +20,15 @@ namespace GNX
             {
                 try
                 {
-                    assembly = Assembly.LoadFrom(DllPath);
+                    var assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    var dllPath = Path.Combine(assemblyFolder, DllFile);
+
+                    assembly = Assembly.LoadFrom(dllPath);
                     BrotliClass = assembly.GetType("Brotli.BrotliStream");
                 }
                 catch (Exception)
                 {
-                    throw new DllNotFoundException("DLL not found:\r\n" + DllPath);
+                    throw new DllNotFoundException("DLL not found:\r\n" + DllFile);
                 }
             }
 

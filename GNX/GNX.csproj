@@ -401,7 +401,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>:: Move all assemblies and related files to lib folder
-ROBOCOPY "$(TargetDir) " "$(SolutionDir)..\_DLL\_DLL\Plugins" "GNX.*" /XO
+ROBOCOPY "$(TargetDir) " "$(SolutionDir)..\_DLL\_DLL\Plugins\Core" "GNX.*" /XO
 if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel%25</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

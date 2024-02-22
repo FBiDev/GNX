@@ -276,7 +276,7 @@ namespace GNX.Desktop
                 }
             }
 
-            if (NewImage.Size.Width <= Width || NewImage.Size.Height <= Height)
+            if (NewImage.Size.Width <= Width && NewImage.Size.Height <= Height)
                 Interpolation = InterpolationMode.NearestNeighbor;
             else
                 Interpolation = InterpolationMode.HighQualityBicubic;

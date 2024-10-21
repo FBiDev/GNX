@@ -9,7 +9,7 @@ namespace GNX.Desktop
     public static class DataGridViewExtension
     {
         //Columns
-        static void Format(this DataGridViewColumnCollection source, int colIndex, ColumnFormat format)
+        static void Format(this DataGridViewColumnCollection source, int colIndex, ColumnFormat format, CultureID cultureID = CultureID.None)
         {
             DataGridViewColumn col = source[colIndex];
 
@@ -18,6 +18,11 @@ namespace GNX.Desktop
                 //FormatProvider = LanguageManager.CultureBrazil,
                 NullValue = null
             };
+
+            if (cultureID != CultureID.None)
+            {
+                style.FormatProvider = LanguageManager.SetLanguageNames(cultureID);
+            }
 
             switch (format)
             {
@@ -36,11 +41,11 @@ namespace GNX.Desktop
                     style.Format = "N0";
                     break;
                 case ColumnFormat.Date:
-                    style.FormatProvider = LanguageManager.CultureBrazil;
+                    //style.FormatProvider = LanguageManager.CultureBrazil;
                     style.Format = "d";
                     break;
                 case ColumnFormat.DateCenter:
-                    style.FormatProvider = LanguageManager.CultureBrazil;
+                    //style.FormatProvider = LanguageManager.CultureBrazil;
                     style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     style.Font = new Font("Courier New", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
                     style.Format = "dd MMM, yyyy";
@@ -61,10 +66,10 @@ namespace GNX.Desktop
             col.DefaultCellStyle = style;
         }
 
-        public static void Format(this DataGridViewColumnCollection source, ColumnFormat format, params int[] cols)
+        public static void Format(this DataGridViewColumnCollection source, ColumnFormat format, CultureID cultureID = CultureID.None, params int[] cols)
         {
             foreach (var colIndex in cols)
-                Format(source, colIndex, format);
+                Format(source, colIndex, format, cultureID);
         }
 
         public static void Format(this DataGridViewColumnCollection source, Dictionary<int, ColumnFormat> formats)

@@ -55,7 +55,7 @@ namespace GNX.Desktop
             if (AutoGenerateColumns)
             {
                 //Visible = false;
-                
+
                 var type = ListBindingHelper.GetListItemType(DataSource);
                 var properties = TypeDescriptor.GetProperties(type);
 
@@ -72,7 +72,7 @@ namespace GNX.Desktop
                         column.AutoSizeMode = style != null ? (DataGridViewAutoSizeColumnMode)style.AutoSizeMode : column.AutoSizeMode;
 
                         if (style != null && style.Format != ColumnFormat.NotSet)
-                            Columns.Format(style.Format, column.Index);
+                            Columns.Format(style.Format, CultureID.None, column.Index);
 
                         column.DefaultCellStyle.Alignment = style != null && style.Align != ColumnAlign.NotSet ? (DataGridViewContentAlignment)style.Align : column.DefaultCellStyle.Alignment;
 
@@ -91,7 +91,7 @@ namespace GNX.Desktop
                         column.DefaultCellStyle.Format = display != null && display.Format != null ? display.Format : null;
                     }
                 }
-                
+
                 //Visible = true;
             }
         }
